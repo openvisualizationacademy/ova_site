@@ -1,0 +1,14 @@
+[project]
+name = "pythonproject"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "channels[daphne]>=4.2.2",
+    "daphne>=4.1.2",
+    "django>=5.2,<5.3",
+    "django-debug-toolbar>=5.2.0",
+    "ipython>=9.2.0",
+    "python-dotenv>=1.1.0",
+    "wagtail==7.0",
+]

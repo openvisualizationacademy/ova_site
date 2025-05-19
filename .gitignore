@@ -1,0 +1,120 @@
+# Django & Wagtail #
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+/media/
+*.env
+ova/settings/*.env
+
+# temp files
+temp/
+
+# Static/media collection outputs
+/staticfiles/
+collected_static/
+
+# VS Code #
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
+# PyCharm #
+.idea/
+*.iws
+
+# Virtual environments #
+.venv/
+.env/
+env/
+ENV/
+venv/
+env.bak/
+venv.bak/
+.python-version
+
+# Build artifacts #
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
+
+# Unit test / coverage reports #
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Installer logs #
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter #
+.ipynb_checkpoints
+
+# Celery #
+celerybeat-schedule.*
+
+# mypy #
+.mypy_cache/
+
+# Backup files #
+*.bak
+
+# Sublime #
+*.sublime-workspace
+*.sublime-project
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# JetBrains (optional: keep project config, ignore user stuff) #
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# SFTP / plugin junk #
+sftp-config.json
+Package Control.last-run
+Control.ca-list
+Control.ca-bundle
+Control.system-ca-bundle
+GitHub.sublime-settings

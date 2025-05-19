@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ page.title }}</h1>
+
+    {% if page.get_children.live %}
+      <ul class="listing">
+        {% for course in page.get_children.live.specific %}
+          <li class="listing__item">
+            <h2>
+              <a href="{{ course.url }}">{{ course.title }}</a>
+            </h2>
+
+            {% if course.instructors.exists %}
+              <p><strong>Instructor{{ course.instructors.count|pluralize }}:</strong>
+              {{ course.instructors.all|join:", " }}</p>
+            {% endif %}
+
+            {% if course.intro %}
+              <p>{{ course.intro|richtext }}</p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No courses available yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

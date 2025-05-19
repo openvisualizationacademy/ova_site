@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ page.title }}</h1>
+
+    {% if page.instructors.exists %}
+      <p><strong>Instructor{{ page.instructors.count|pluralize }}:</strong>
+      {{ page.instructors.all|join:", " }}</p>
+    {% endif %}
+
+    {% if page.content %}
+      <section>
+        {% for block in page.content %}
+          {{ block.value|richtext }}
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% if page.materials.exists %}
+      <h2>Course Materials</h2>
+      <ul>
+        {% for material in page.materials.all %}
+          {% if material.file %}
+            <li><a href="{{ material.file.url }}" download>{{ material.title }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <h2>Chapters</h2>
+    {% if page.get_children.live %}
+      <ol>
+        {% for chapter in page.get_children.live.specific %}
+          <li><a href="{{ chapter.url }}">{{ chapter.title }}</a></li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+  </div>
+{% endblock %}
