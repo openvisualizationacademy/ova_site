@@ -12,18 +12,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 
 load_dotenv()
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
-
+PROJECT_DIR = Path(__file__).resolve().parent.parent     # e.g., <project>/ova
+BASE_DIR = PROJECT_DIR.parent                            # e.g., <project>
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
 
 # Application definition
 
@@ -96,11 +95,15 @@ WSGI_APPLICATION = "ova.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+if os.getenv("SQLITE_PATH", "default") == "default":
+    DB_PATH = BASE_DIR / "db.sqlite3"
+else:
+    DB_PATH = Path(os.getenv("SQLITE_PATH"))
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": str(DB_PATH),
     }
 }
 
@@ -177,7 +180,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "ova"
+WAGTAIL_SITE_NAME = "Open Visualization Academy"
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
