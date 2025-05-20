@@ -10,9 +10,6 @@ from modelcluster.models import ClusterableModel
 
 User = get_user_model()
 
-
-
-
 @register_snippet
 class Role(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -50,10 +47,11 @@ class CoursesIndexPage(Page):
 
 
 class CoursePage(Page):
-    instructors = models.ManyToManyField(User, related_name="courses")
+    instructors = models.ManyToManyField(Instructor, related_name="courses")
     content = StreamField([
         ("rich_text", RichTextBlock()),
     ], use_json_field=True)
+    # picture for course
 
     content_panels = Page.content_panels + [
         FieldPanel("instructors"),

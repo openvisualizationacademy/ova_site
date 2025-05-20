@@ -20,6 +20,7 @@ INSTALLED_APPS += [
     'debug_toolbar',
 ]
 
+# This is for debug toolbar - no need to use in prod
 INTERNAL_IPS = ["127.0.0.1"]
 
 try:
