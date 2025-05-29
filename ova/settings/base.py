@@ -91,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "ova.wsgi.application"
+# WSGI_APPLICATION = "ova.wsgi.application"
 
 
 # Database
