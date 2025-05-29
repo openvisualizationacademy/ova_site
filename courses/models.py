@@ -1,14 +1,26 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from wagtail.models import Page
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase, Tag
+from wagtail.models import Page, Orderable
 from wagtail.fields import StreamField
 from wagtail.blocks import RichTextBlock
 from wagtail.snippets.models import register_snippet
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.images import get_image_model
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
 User = get_user_model()
+
+
+@register_snippet
+class TagSnippet(Tag):
+    class Meta:
+        proxy = True
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+
 
 @register_snippet
 class Role(models.Model):
@@ -18,22 +30,68 @@ class Role(models.Model):
         return self.name
 
 
+class InstructorsOrderable(Orderable):
+    """This allows selection of one or more instructors for a course."""
+    page = ParentalKey("courses.CoursePage", related_name="course_instructors")
+    instructor = models.ForeignKey(
+        "courses.Instructor",
+        on_delete=models.CASCADE
+    )
+
+    panels = [
+        FieldPanel("instructor"),
+    ]
+
+
+@register_snippet
 class Instructor(models.Model):
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     bio = models.TextField()
-    photo_url = models.URLField(blank=True)
+    image = models.ForeignKey(
+        get_image_model(),
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
     social_links = models.JSONField(default=list, blank=True)
     active = models.BooleanField(default=False)
     role = models.ForeignKey('Role', on_delete=models.SET_NULL, null=True, blank=True)
 
     panels = [
-        FieldPanel("name"),
-        FieldPanel("role"),
+        MultiFieldPanel(
+            [
+                FieldPanel("name"),
+                FieldPanel("role"),
+                FieldPanel("image"),
+            ],
+            heading="Name and Role",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("tagline"),
+                FieldPanel("bio"),
+            ]
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("social_links"),
+            ],
+            heading="Links",
+        )
     ]
 
     def __str__(self):
         return self.name
+
+
+class CourseCategoryTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "courses.CoursePage",
+        related_name="course_categories",
+        on_delete=models.CASCADE,
+    )
 
 
 class CoursesIndexPage(Page):
@@ -47,16 +105,38 @@ class CoursesIndexPage(Page):
 
 
 class CoursePage(Page):
-    instructors = models.ManyToManyField(Instructor, related_name="courses")
-    content = StreamField([
+    """Instructors are linked via InstructorsOrderable model to implement many to one."""
+    content = StreamField(
+        [
         ("rich_text", RichTextBlock()),
-    ], use_json_field=True)
-    # picture for course
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
+    image = models.ForeignKey(
+        get_image_model(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+    tags = ClusterTaggableManager(through=CourseCategoryTag, blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel("instructors"),
         FieldPanel("content"),
-        InlinePanel("materials", label="Course Materials"),
+        MultiFieldPanel(
+            [
+                InlinePanel("materials", label="Materials", max_num=5),
+            ],
+            heading="Downloadable Materials",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel("course_instructors", label="Instructors", min_num=1, max_num=5),
+            ],
+            heading="Instructors",
+        ),
+        FieldPanel("tags"),
     ]
 
     parent_page_types = ['CoursesIndexPage']
