@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 
 load_dotenv()
@@ -95,16 +96,16 @@ TEMPLATES = [
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-if os.getenv("SQLITE_PATH", "default") == "default":
-    DB_PATH = BASE_DIR / "db.sqlite3"
-else:
-    DB_PATH = Path(os.getenv("SQLITE_PATH"))
+pg_conf = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": str(DB_PATH),
+    'default': {
+        'ENGINE': os.getenv("DB_ENGINE"),
+        'NAME': pg_conf.path.replace('/', ''),
+        'USER': pg_conf.username,
+        'PASSWORD': pg_conf.password,
+        'HOST': pg_conf.hostname,
+        'PORT': 5432,
     }
 }
 
