@@ -2,10 +2,11 @@
 FROM python:3.13-slim-bookworm
 
 # Create a non-root user for running the app
-RUN useradd wagtail
+#RUN useradd wagtail
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     PORT=8000 \
     DJANGO_SETTINGS_MODULE=ova.settings.dev \
     DEBUG=1
@@ -14,7 +15,6 @@ ENV PYTHONUNBUFFERED=1 \
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
     libpq-dev \
-    libmariadb-dev \
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
@@ -30,18 +30,21 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies with uv
-RUN uv pip install -r <(uv pip compile --generate-hashes pyproject.toml)
+#RUN uv pip install -r <(uv pip compile --generate-hashes pyproject.toml)
+RUN uv pip compile --generate-hashes pyproject.toml > requirements.txt && \
+    uv pip install --system -r requirements.txt
 
 # Copy app source and set ownership
-COPY --chown=wagtail:wagtail . .
+#COPY --chown=wagtail:wagtail . .
+#
+## Set correct user and permissions
+#RUN chown -R wagtail:wagtail /app
 
-# Set correct user and permissions
-RUN chown -R wagtail:wagtail /app
-
-USER wagtail
+#USER wagtail
 
 # Port for development server
 EXPOSE 8000
 
 # Command to run migrations (optional) and start Daphne
-CMD set -xe; python manage.py migrate --noinput; daphne -b 0.0.0.0 -p 8000 ova.asgi:application
+#CMD set -xe; python manage.py migrate --noinput; daphne -b 0.0.0.0 -p 8000 ova.asgi:application
+CMD set -xe; daphne -b 0.0.0.0 -p 8000 ova.asgi:application
