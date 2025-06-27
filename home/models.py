@@ -5,6 +5,7 @@ from wagtail.fields import RichTextField, StreamField
 
 
 class HomePage(Page):
+    max_count = 1
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
