@@ -12,17 +12,22 @@ class HomePage(Page):
     ]
 
 
-class AboutPage(Page):
+class NonCoursePage(Page):
     max_count = 1
+    parent_page_types = ["home.HomePage"]
 
 
-class SponsorsPage(Page):
-    max_count = 1
+class AboutPage(NonCoursePage):
+    template = "home/about.html"
 
 
-class ContactPage(Page):
-    max_count = 1
+class SponsorsPage(NonCoursePage):
+    template = "home/sponsors.html"
 
 
-class NewsPage(Page):
-    max_count = 1
+class ContactPage(NonCoursePage):
+    template = "home/contact.html"
+
+
+class NewsPage(NonCoursePage):
+    template = "home/news.html"
