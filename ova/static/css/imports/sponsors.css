@@ -1,0 +1,30 @@
+.sponsors {
+  display: grid;
+  gap: 2.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+  margin-block-end: 9.6rem;
+}
+
+.sponsors a {
+  color: inherit;
+  font-size: 1.4rem;
+  max-width: 32rem;
+  padding: 1.6rem;
+  text-decoration: none;
+  text-wrap: pretty;
+}
+
+.sponsors a.button {
+  align-self: center;
+  justify-self: start;
+}
+
+.sponsors img {
+  max-width: 100%;
+}
+
+.sponsors img + p,
+.sponsors picture + p {
+  margin: 0;
+  margin-block-start: 1.6rem;
+}

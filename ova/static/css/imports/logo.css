@@ -1,0 +1,17 @@
+.logo {
+  width: fit-content;
+}
+
+/* Placeholder to prevent layout shift while loading */
+.logo:empty::before {
+  aspect-ratio: 1;
+  content: "";
+  display: block;
+  width: 4.8rem;
+}
+
+.logo canvas {
+  display: block;
+  user-select: none;
+  width: 4.8rem !important;
+}

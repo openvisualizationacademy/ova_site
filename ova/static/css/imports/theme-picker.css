@@ -1,0 +1,67 @@
+:root:has(.theme-picker [value="light"]:checked) {
+  color-scheme: light;
+}
+
+:root:has(.theme-picker [value="dark"]:checked) {
+  color-scheme: dark;
+}
+
+.theme-picker {
+  border-radius: 999px;
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  box-shadow: inset 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
+  color: inherit;
+  display: none;
+  font-weight: 500;
+  gap: 0.4rem;
+  outline-offset: 0.4rem;
+  overflow: hidden;
+  padding: 0.4rem 0.4rem;
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.theme-picker input {
+  appearance: none;
+  position: absolute;
+  width: 0;
+}
+
+.theme-picker label {
+  align-items: center;
+  background: transparent;
+  border-radius: 999px;
+  color: light-dark(var(--neutral-300), var(--neutral-700));
+  cursor: pointer;
+  display: flex;
+  gap: 0;
+  padding: 0.4rem 0.4rem;
+}
+
+.theme-picker .icon {
+  height: 2rem;
+  width: 2rem;
+}
+
+.theme-picker label:has(input:focus-visible) {
+  outline: 5px auto Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+.theme-picker label:has(input:checked) {
+  color: light-dark(var(--neutral-800), var(--neutral-100));
+}
+
+@media (hover: hover) {
+  .theme-picker label:hover {
+    color: light-dark(var(--neutral-800), var(--neutral-100));
+  }
+}
+
+@media (min-width: 640px) {
+  .theme-picker {
+    display: flex;
+  }
+}

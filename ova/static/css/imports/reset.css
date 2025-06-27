@@ -1,0 +1,14 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* https://css-tricks.com/the-hidden-attribute-is-visibly-weak/ */
+*[hidden] {
+  display: none !important;
+}

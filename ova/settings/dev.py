@@ -23,6 +23,9 @@ INSTALLED_APPS += [
 # This is for debug toolbar - no need to use in prod
 INTERNAL_IPS = ["127.0.0.1"]
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 try:
     from .local import *
 except ImportError:

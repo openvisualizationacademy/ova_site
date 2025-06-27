@@ -1,20 +1,73 @@
-{% extends "base.html" %}
-{% load static %}
-{% load wagtailcore_tags  %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block body_class %}template-homepage{% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Visualization Academy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" type="module"></script>
 
-{% block extra_css %}
+  <!-- https://realfavicongenerator.net/ -->
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Academy" />
+  <link rel="manifest" href="site.webmanifest" />
+</head>
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-
-{% endblock extra_css %}
-
-{% block content %}
-
-<main>
+<body>
+  <div class="background"></div>
+  <header class="grid">
+    <nav>
+      <div class="links">
+        <a href="#">
+          <div class="logo" aria-hidden="true"></div>
+          <span class="screen-reader">Home</span>
+        </a>
+        <a href="#courses">Courses</i>
+        </a>
+        <a href="#about">About</a>
+        <a href="#news">News</a>
+      </div>
+      <div class="account">
+        <div class="theme-picker">
+          <label title="Light theme">
+            <input type="radio" name="theme" value="light">
+            <svg class="icon" data-iconoir="sun-light" viewBox="0 0 24 24" width="24px" height="24px"
+              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              aria-hidden="true">
+              <path
+                d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z">
+              </path>
+              <path d="M22 12L23 12">
+              </path>
+              <path d="M12 2V1"></path>
+              <path d="M12 23V22"></path>
+              <path d="M20 20L19 19"></path>
+              <path d="M20 4L19 5"></path>
+              <path d="M4 20L5 19"></path>
+              <path d="M4 4L5 5"></path>
+              <path d="M1 12L2 12"></path>
+            </svg>
+          </label>
+          <label title="Dark theme">
+            <input type="radio" name="theme" value="dark">
+            <svg class="icon" data-iconoir="half-moon" viewBox="0 0 24 24" width="24px" height="24px"
+              stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path
+                d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z">
+              </path>
+            </svg>
+          </label>
+        </div>
+        <a href="./sign.html" class="button secondary">Sign in</a>
+      </div>
+    </nav>
+  </header>
+  <main>
     <section class="cover grid">
       <div class="info">
         <div class="wave"></div>
@@ -111,13 +164,14 @@ Delete the line below if you're just getting started and want to remove the welc
 
         <p class="description">
           A free and open source repository of knowledge about
-          information design and data visualization<span class="screen-reader">.</span>
+          information&nbsp;design and data&nbsp;visualization<span class="screen-reader">.</span>
         </p>
 
+        <a href="#courses" class="button primary">Start course</a>
       </div>
       <figure class="preview">
         <div class="video-wrapper">
-          <video src="{% static 'media/preview-720.mp4' %}" oncanplaythrough="this.classList.add('loaded')" muted loop autoplay
+          <video src="media/preview-720.mp4?avasda" oncanplaythrough="this.classList.add('loaded')" muted loop autoplay
             playsinline alt="Welcome video"></video>
 
           <button class="button tertiary" data-control="playWithAudio">
@@ -202,6 +256,59 @@ Delete the line below if you're just getting started and want to remove the welc
         </div>
       </figure>
     </section>
-  </main>
+    <section id="courses" class="courses grid">
+      <h2>Courses</h2>
+      <div class="widget">
+        <form class="filters" onsumit="return false"></form>
+        <div class="cards"></div>
+      </div>
+    </section>
+    <section id="about" class="about grid">
+      <h2>About</h2>
 
-{% endblock content %}
+      <h3>Instructors</h3>
+
+      <div class="people instructors grid"></div>
+
+      <h3>Contributors</h3>
+
+      <div class="people contributors grid"></div>
+
+      <h3>Sponsors</h3>
+
+      <div class="sponsors grid">
+        <a href="https://miami.edu/" target="_blank">
+          <picture>
+            <source srcset="./media/logos/um-light.svg" media="(prefers-color-scheme: light)" />
+            <source srcset="./media/logos/um-dark.svg" media="(prefers-color-scheme: dark)" />
+            <img src="./media/logos/um-light.svg" alt="University of Miami" />
+          </picture>
+          <p>
+            Frost Institute for Data Science & Computing<span class="screen-reader">.</span><br>
+            School of Communication
+          </p>
+        </a>
+        <a href="https://knightfoundation.org/" target="_blank">
+          <picture>
+            <source srcset="./media/logos/kf-light.svg" media="(prefers-color-scheme: light)" />
+            <source srcset="./media/logos/kf-dark.svg" media="(prefers-color-scheme: dark)" />
+            <img src="./media/logos/kf-light.svg" alt="Knight Foundation" />
+          </picture>
+        </a>
+        <div class="spacer"></div>
+        <!--
+        <a href="mailto:hi@openvisualizationacademy.org?subject=Sponsor" class="button tertiary">
+          Become a sponsor
+        </a>
+        -->
+    </section>
+    <section id="news" class="news grid">
+      <h2>News</h2>
+    </section>
+  </main>
+  <footer class="grid">
+    <div style="grid-column: span 12">Footer</div>
+  </footer>
+</body>
+
+</html>

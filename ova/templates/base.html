@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,22 +24,88 @@
         {% endif %}
 
         {# Global stylesheets #}
-        <link rel="stylesheet" href="https://raw.githubusercontent.com/openvisualizationacademy/drafts/refs/heads/main/css/style.css">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+      <!-- https://realfavicongenerator.net/ -->
+      <link rel="icon" type="image/png" href="{% static 'favicon-96x96.png' %}" sizes="96x96" />
+      <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}" />
+      <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}" />
+      <meta name="apple-mobile-web-app-title" content="Academy" />
+      <link rel="manifest" href="{% static 'site.webmanifest' %}" />
+
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+  <header class="grid">
+    <nav>
+      <div class="links">
+        <a href="/">
+          <div class="logo" aria-hidden="true"></div>
+          <span class="screen-reader">Home</span>
+        </a>
+        <a href="/courses">Courses</a>
+        <a href="/about">About</a>
+        <a href="/news">News</a>
 
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/ova.js' %}"></script>
+      </div>
+      <div class="account">
+        <div class="theme-picker">
+          <label title="Light theme">
+            <input type="radio" name="theme" value="light">
+            <svg class="icon" data-iconoir="sun-light" viewBox="0 0 24 24" width="24px" height="24px"
+              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              aria-hidden="true">
+              <path
+                d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z">
+              </path>
+              <path d="M22 12L23 12">
+              </path>
+              <path d="M12 2V1"></path>
+              <path d="M12 23V22"></path>
+              <path d="M20 20L19 19"></path>
+              <path d="M20 4L19 5"></path>
+              <path d="M4 20L5 19"></path>
+              <path d="M4 4L5 5"></path>
+              <path d="M1 12L2 12"></path>
+            </svg>
+          </label>
+          <label title="Dark theme">
+            <input type="radio" name="theme" value="dark">
+            <svg class="icon" data-iconoir="half-moon" viewBox="0 0 24 24" width="24px" height="24px"
+              stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path
+                d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21C16.2209 21 19.4466 18.8518 21 15.7259C12.4934 15.7259 8.27411 11.5066 8.27411 3C5.14821 4.55344 3 7.77915 3 11.5066Z">
+              </path>
+            </svg>
+          </label>
+        </div>
+        <a href="./sign.html" class="button secondary">Sign in</a>
+      </div>
+    </nav>
+  </header>
 
-        {% block extra_js %}
-        {# Override this in templates to add extra javascript #}
-        {% endblock %}
+
+  {% block content %}{% endblock %}
+  {# Global javascript #}
+  <script type="module" src="{% static 'js/script.js' %}"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+  {% block extra_js %}
+  {# Override this in templates to add extra javascript #}
+  {% endblock %}
+
+  <footer class="grid">
+    <div style="grid-column: span 12">
+      Footer
+{#      <a href="/sponsors">Sponsors</a>#}
+{#      <a href="/contact">Contact</a>#}
+    </div>
+  </footer>
     </body>
 </html>

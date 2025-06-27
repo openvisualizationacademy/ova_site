@@ -98,9 +98,20 @@ class CoursesIndexPage(Page):
     subpage_types = ['CoursePage']
     max_count = 1  # optional
 
+    # def get_context(self, request, *args, **kwargs):
+    #     context = super().get_context(request, *args, **kwargs)
+    #     context["courses"] = self.get_children().live().specific()
+    #     return context
+
     def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["courses"] = self.get_children().live().specific()
+        context = super().get_context(request)
+        courses = self.get_children().live().specific()
+        tags = set()
+        for course in courses:
+            for tag in course.tags.all():
+                tags.add(str(tag))
+        context['courses'] = courses
+        context['all_tags'] = sorted(tags)
         return context
 
 

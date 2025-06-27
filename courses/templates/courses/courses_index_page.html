@@ -2,30 +2,61 @@
 {% load static wagtailcore_tags %}
 
 {% block content %}
-  <div class="container">
-    <h1>{{ page.title }}</h1>
 
-    {% if page.get_children.live %}
-      <ul class="listing">
-        {% for course in page.get_children.live.specific %}
-          <li class="listing__item">
-            <h2>
-              <a href="{{ course.url }}">{{ course.title }}</a>
-            </h2>
+  <section id="courses" class="courses grid">
+    <h2>Courses</h2>
+    <div class="widget">
+<form class="filters">
+  <label>
+    <input type="radio" name="tag" value="all" checked> Show all
+  </label>
+  {% for tag in all_tags %}
+    <label>
+      <input type="radio" name="tag" value="{{ tag }}">
+      <span class="tag">{{ tag }}</span>
+    </label>
+  {% endfor %}
+</form>
 
-            {% if course.instructors.exists %}
-              <p><strong>Instructor{{ course.instructors.count|pluralize }}:</strong>
-              {{ course.instructors.all|join:", " }}</p>
-            {% endif %}
 
-            {% if course.intro %}
-              <p>{{ course.intro|richtext }}</p>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No courses available yet.</p>
-    {% endif %}
-  </div>
+
+<div class="cards">
+  {% for course in courses %}
+    <a href="{{ course.url }}" class="course"
+       data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+      <div class="primary">
+        <div class="media"></div>
+        <h3>{{ course.title }}</h3>
+        <p class="authors">
+          {% for instructor in course.instructors.all %}
+            <span class="author">{{ instructor }}</span>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+      <div class="secondary">
+        <p class="tags">
+          {% for tag in course.tags.all %}
+            <span class="tag">{{ tag }}</span>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        <p class="duration">
+          {{ course.duration|default:"??" }}h
+        </p>
+      </div>
+    </a>
+  {% empty %}
+    <p>No courses available yet.</p>
+  {% endfor %}
+</div>
+
+
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/imports/Courses.js' %}" type="module"></script>
 {% endblock %}
