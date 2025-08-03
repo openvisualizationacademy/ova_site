@@ -1,23 +1,21 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags%}
+{% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
 
 {% block content %}
   <div class="container">
     <h1>{{ page.title }}</h1>
 
-{#    {% if page.instructors.exists %}#}
-{#      <p><strong>Instructor{{ page.instructors.count|pluralize }}:</strong>#}
-{#      {{ page.instructors.all|join:", " }}</p>#}
-{#    {% endif %}#}
-<h2>Instructors:</h2>
-  <ul>
+<br><br><br><br><br>
+
+<h2>Instructor{{ self.course_instructors.count|pluralize }}:</h2>
+  <ul style="list-style-type: none;">
     {% for iteration in self.course_instructors.all %}
       <li>
       {% if iteration.instructor.image %}
         {% image iteration.instructor.image fill-50x50 as img%}
         <img src="{{ img.url }}" alt="{{ iteration.author.name }}">
       {% else %}
-        <img src="{% static 'images/default_instructor_image.jpg' %}">
+        <img src="{{ MEDIA_URL }}images/default_instructor_image.11b91630.fill-50x50.jpg">
       {% endif %}
       {{ iteration.instructor.name }}
       </li>
@@ -27,7 +25,11 @@
     {% if page.content %}
       <section>
         {% for block in page.content %}
-          {{ block.value|richtext }}
+          {% if block.block_type == "markdown" %}
+            {{ block.value|markdown }}
+          {% elif block.block_type == "rich_text" %}
+            {{ block.value|richtext }}
+          {% endif %}
         {% endfor %}
       </section>
     {% endif %}
@@ -40,7 +42,7 @@
         {% endfor %}
       </ul>
     {% endif %}
-
+<br><br><br><br><br>
     <h2>Chapters</h2>
     {% if page.get_children.live %}
       <ol>
@@ -50,4 +52,5 @@
       </ol>
     {% endif %}
   </div>
+  <br><br><br><br><br>
 {% endblock %}

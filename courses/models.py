@@ -10,6 +10,8 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.images import get_image_model
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from wagtailmarkdown.blocks import MarkdownBlock
+
 
 User = get_user_model()
 
@@ -119,7 +121,8 @@ class CoursePage(Page):
     """Instructors are linked via InstructorsOrderable model to implement many to one."""
     content = StreamField(
         [
-        ("rich_text", RichTextBlock()),
+            ("rich_text", RichTextBlock()),
+            ("markdown", MarkdownBlock()),
         ],
         use_json_field=True,
         blank=True,

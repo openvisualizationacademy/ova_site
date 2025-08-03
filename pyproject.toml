@@ -14,4 +14,5 @@ dependencies = [
     "psycopg[binary]>=3.2.9",
     "python-dotenv>=1.1.0",
     "wagtail==7.0",
+    "wagtail-markdown>=0.12.1",
 ]
