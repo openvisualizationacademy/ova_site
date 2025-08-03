@@ -94,6 +94,7 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = "ova.wsgi.application"
 
+CSRF_TRUSTED_ORIGINS = os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split()
 
 # Database
 pg_conf = urlparse(os.getenv("DATABASE_URL"))
