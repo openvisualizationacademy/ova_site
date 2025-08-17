@@ -35,9 +35,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BDC97554AC094F1EB94183678407C66A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_91EFA6252ED845F8A9783C096779C5F0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_64663A89DC7B4C2B9AABCA17D2608949 }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Deploy source code (not venv) to Azure; Oryx will handle requirements.txt
       - name: Deploy to Azure Web App
@@ -46,3 +44,4 @@ jobs:
           app-name: 'ova'
           slot-name: 'Production'
           package: .
+
