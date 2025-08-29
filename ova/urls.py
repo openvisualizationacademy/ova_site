@@ -7,12 +7,15 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
+from .views import chrome_devtools_dummy
+
 
 urlpatterns = [
     path("django-ova-admin/", admin.site.urls),
     path("ova-admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    path(".well-known/appspecific/com.chrome.devtools.json", chrome_devtools_dummy),
 ]
 
 

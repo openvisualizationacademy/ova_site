@@ -70,6 +70,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
@@ -157,45 +158,31 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-#
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-# MEDIA_URL = "/media/"
+
+# Local filesystem path where collectstatic will place files for WhiteNoise to serve
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# Media remains on Azure Blob Storage
 AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME")
-AZURE_CONTAINER_STATIC = os.getenv("AZURE_CONTAINER_STATIC")
 AZURE_CONTAINER_MEDIA = os.getenv("AZURE_CONTAINER_MEDIA")
 AZURE_STORAGE_CONNECTION = os.getenv("AZURE_STORAGE_CONNECTION")
 AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
 
-STATIC_ROOT = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER_STATIC}/"
-MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER_MEDIA}/"
+MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{os.getenv('AZURE_CONTAINER_MEDIA')}/"
 
-# Default storage settings, with the staticfiles storage updated.
-# See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
+# Default storage settings: keep media on Azure; use WhiteNoise for staticfiles
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.azure_storage.AzureStorage",
         "OPTIONS": {
-            # "custom_domain": ...,
             "azure_container": AZURE_CONTAINER_MEDIA,
             "connection_string": AZURE_STORAGE_CONNECTION,
             "account_key": AZURE_ACCOUNT_KEY,
-
         }
     },
-    # ManifestStaticFilesStorage is recommended in production, to prevent
-    # outdated JavaScript / CSS assets being served from cache
-    # (e.g. after a Wagtail upgrade).
-    # See https://docs.djangoproject.com/en/5.2/ref/contrib/staticfiles/#manifeststaticfilesstorage
     "staticfiles": {
-        "BACKEND": "storages.backends.azure_storage.AzureStorage",
-        "OPTIONS": {
-            # "custom_domain": ...,
-            "azure_container": AZURE_CONTAINER_STATIC,
-            "connection_string": AZURE_STORAGE_CONNECTION,
-            "account_key": AZURE_ACCOUNT_KEY,
-        }
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 # https://ovastorageacct.blob.core.windows.net/ovablob

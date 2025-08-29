@@ -117,7 +117,7 @@ Delete the line below if you're just getting started and want to remove the welc
       </div>
       <figure class="preview">
         <div class="video-wrapper">
-          <video src="{% static 'media/preview-720.mp4' %}" oncanplaythrough="this.classList.add('loaded')" muted loop autoplay
+          <video src="{{ MEDIA_URL }}preview-720.mp4" oncanplaythrough="this.classList.add('loaded')" muted loop autoplay
             playsinline alt="Welcome video"></video>
 
           <button class="button tertiary" data-control="playWithAudio">
