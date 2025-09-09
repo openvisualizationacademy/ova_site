@@ -118,3 +118,12 @@ Control.ca-list
 Control.ca-bundle
 Control.system-ca-bundle
 GitHub.sublime-settings
+
+# asdf (runtime version manager)
+.tool-versions
+
+# MacOS
+.DS_Store
+
+# Internal
+/ova/static/media/people/original
