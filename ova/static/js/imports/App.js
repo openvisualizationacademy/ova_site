@@ -1,10 +1,11 @@
+import Utils from "./Utils.js";
 import Accessibility from "./Accessibility.js";
 import Logo from "./Logo.js";
-// import Courses from "./Courses.js";
-// import Instructors from "./Instructors.js";
-// import Contributors from "./Contributors.js";
 import ThemePicker from "./ThemePicker.js";
 import PreviewVideo from "./PreviewVideo.js";
+import Icons from "./Icons.js";
+import Instructors from "./Instructors.js";
+import Contributors from "./Contributors.js";
 
 export default class App {
   constructor(selector) {
@@ -13,6 +14,8 @@ export default class App {
   }
 
   setup() {
+    this.utils = new Utils(this);
+    this.icons = new Icons(this);
     this.accessibility = new Accessibility(this);
 
     this.logo = new Logo(this, {
@@ -28,11 +31,11 @@ export default class App {
       wave: true,
     });
 
-    // this.courses = new Courses(".courses .widget");
-    // this.instructors = new Instructors(".instructors");
-    // this.contributors = new Contributors(".contributors");
-    this.themePicker = new ThemePicker(".theme-picker");
     this.previewVideo = new PreviewVideo(this, ".preview");
+    this.instructors = new Instructors(this, ".instructors");
+    this.contributors = new Contributors(this, ".contributors");
+    
+    this.themePicker = new ThemePicker(".theme-picker");
 
     // Allow anchor navigation, but don’t change url
     document.querySelectorAll('a[href^="#"]').forEach((a) => {

@@ -14,6 +14,7 @@
   --neutral-700: #525252;
   --neutral-800: #252525;
   --neutral-900: #000000;
+
   --primary-100: #ffffcc;
   --primary-200: #ffeda0;
   --primary-300: #fed976;
@@ -23,6 +24,8 @@
   --primary-700: #e31a1c;
   --primary-800: #bd0026;
   --primary-900: #800026;
+
+  --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
 }
 
 html {

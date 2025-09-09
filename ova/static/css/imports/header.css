@@ -10,6 +10,27 @@ header nav {
   justify-content: space-between;
 }
 
+/* Same as .screen-reader */
+.skip-to-main {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.skip-to-main:focus {
+  clip-path: none;
+  height: unset;
+  left: 1.6rem;
+  overflow: initial;
+  position: fixed;
+  top: 1.6rem;
+  width: unset;
+  z-index: 1;
+}
+
 header nav .links {
   align-items: center;
   display: flex;

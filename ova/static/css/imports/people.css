@@ -3,18 +3,23 @@
   margin-block-end: 9.6rem;
 }
 
-.people a {
-  border-radius: 1.6rem;
-  color: inherit;
-  text-decoration: none;
-  transition: border 0.2s;
+.people.grid {
+  row-gap: 0;
+}
+
+.people > * {
+  grid-column: unset;
 }
 
 .person {
+  border-radius: 1.6rem;
+  color: inherit;
   display: flex;
   flex-direction: column;
   padding: 1.6rem;
   position: relative;
+  text-decoration: none;
+  transition: border 0.2s;
 }
 
 .person figure {
@@ -44,6 +49,7 @@
   flex-shrink: 0;
   max-width: 100%;
   object-fit: cover;
+  object-position: center top;
   opacity: 0.5;
   text-align: center;
   width: 12rem;
@@ -54,42 +60,232 @@
 }
 
 .person[data-former="true"] strong::after {
+  background: light-dark(var(--neutral-200), var(--neutral-800));
+  border-radius: 0.4rem;
   content: " Former";
+  display: inline-block;
   font-size: 1.4rem;
   font-weight: normal;
-  /* border: 1px solid currentColor; */
-  background: light-dark(var(--neutral-200), var(--neutral-800));
-  display: inline-block;
-  margin-inline: 0.5em;
-  padding-inline: 0.5em;
-  padding-block-start: 0.125em;
-  border-radius: 0.4rem;
   line-height: 1.5;
+  margin-inline: 0.5em;
+  padding-block-start: 0.125em;
+  padding-inline: 0.5em;
+
+  /* border: 1px solid currentColor; */
   /* opacity: 0.5; */
 }
 
-.person[data-role="contributor"] .icon {
-  position: absolute;
-  top: 1.6rem;
-  right: 1.6rem;
+/* .person[data-role="contributor"] strong {
+  align-items: center;
+  display: flex;
+}
+
+.person[data-role="contributor"] [data-icon] {
   opacity: 0;
+  position: absolute;
+  right: 1.6rem;
+  top: 1.6rem;
   transition: opacity 0.2s;
 }
 
-a.person[data-role="contributor"]:focus-visible .icon {
+a.person[data-role="contributor"]:focus-visible [data-icon] {
   opacity: 1;
+} */
+
+.people dialog[open] {
+  border: 1px solid currentColor;
+  border-radius: 1.6rem;
+  margin-inline: auto;
+  max-width: var(--max-width);
+  padding: 1.6rem;
+  width: calc(100% - calc(var(--margin) * 1));
+}
+
+body:has(.people dialog[open]) {
+  filter: blur(8px);
+}
+
+.people dialog::backdrop {
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  opacity: .75;
+}
+
+.people dialog .details {
+  grid-column: span 12;
+}
+
+.people dialog .links svg {
+  flex-shrink: 0;
+  height: 2rem;
+  width: 2rem;
+}
+
+.people dialog > .button {
+  aspect-ratio: 1;
+  margin-block-end: 1.6rem;
+  margin-inline: auto;
+  padding: .6rem;
+  position: fixed;
+  z-index: 1;
+}
+
+.people dialog .person {
+  display: grid;
+  gap: var(--gutter);
+  grid-template-columns: repeat(1, 1fr);
+  margin-inline: auto;
+  max-width: var(--max-width);
+  padding: 0;
+  place-self: center;
+  width: 100%;
+}
+
+.people dialog .person .media {
+  align-self: start;
+  border-radius: .8rem;
+  justify-self: center;
+  max-width: 24rem;
+  width: 100%;
+}
+
+.people dialog .person .info {
+  padding-block: 1.6rem;
+}
+
+.people dialog .person h2 {
+  margin-block-end: .8rem;
+}
+
+.people dialog .person h3 {
+  font-variant: all-small-caps;
+  letter-spacing: .025em;
+  margin-block-end: .25em;
+}
+
+.people dialog .person .tagline {
+  font-size: unset;
+}
+
+.people dialog .person .bio {
+  font-size: 1.6rem;
+  opacity: .75;
+  padding-block-start: .8rem;
+
+  /* margin-block-end: 0; */
+}
+
+.people dialog .courses {
+  font-size: 1.6rem;
+  list-style-type: square;
+  margin: 0;
+  padding: 0;
+  padding-inline-start: 1em;
+  text-wrap: balance;
+}
+
+.people dialog .links {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+  gap: .8rem;
+  grid-column: 1/-1;
+  justify-self: start;
+  list-style: none;
+  margin: 0;
+  max-width: 100%;
+  padding: 0;
+}
+
+.people dialog .links li {
+  margin: 0;
+  padding: 0;
+}
+
+.people dialog .links li a {
+  align-items: center;
+  display: flex;
+  gap: .8rem;
+  text-decoration: none;
+  text-underline-position: under;
+  width: fit-content;
+  word-break: break-all;
 }
 
 @media (hover: hover) {
-  .people a {
+  .person:is(a,button,[role=button]) {
     border: 1px solid transparent;
+    cursor: pointer;
   }
 
-  .people a:hover {
+  .person:is(a,button,[role=button]):hover {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
 
-  a.person[data-role="contributor"]:hover .icon {
+  /* .person[data-role="contributor"]:is(a,button,[role=button]):hover [data-icon] {
     opacity: 1;
+  } */
+
+  .people dialog .links li a:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: 640px) {
+  .people.grid {
+    row-gap: inherit;
+  }
+
+  .people dialog[open] {
+    width: calc(100% - calc(var(--margin) * 2));
+  }
+
+  .people dialog .person {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .people dialog .person .media {
+    border-radius: .4rem;;
+    justify-self: start;
+    max-width: initial;
+  }
+
+  .people dialog > .button {
+    position: relative;
+  }
+}
+
+@media (min-width: 1152px) {
+  .people dialog {
+    overflow: visible;
+  }
+
+  .people dialog .person {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1.6rem;
+  }
+
+  .people dialog .links {
+    font-size: unset;
+    gap: 1.6rem;
+    grid-column: auto;
+    justify-self: end;
+    padding: 1.6rem;
+  }
+
+  .people dialog .links li a {
+    gap: 1.6rem;
+  }
+
+  .people dialog .person .bio {
+    font-size: unset;
+    padding-block-start: 1.6rem;
+  }
+
+  .people dialog > .button {
+    left: 1.6rem;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    translate: 0 -50%;
   }
 }

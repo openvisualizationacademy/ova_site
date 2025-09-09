@@ -1,0 +1,294 @@
+[
+  {
+    "name": "Alberto Cairo",
+    "tagline": "Journalist, Designer, Art Director, and Educator",
+    "photo": "alberto-cairo.jpg",
+    "alt": "",
+    "bio": "He’s the Knight Chair in Infographics and Data Visualization at the University of Miami, and director of the Visualization program at UM’s Frost Institute for Data Science and Computing. Cairo has been a graphics director at news publications in Spain and Brazil, and works as a visualization consultant for numerous companies and international organizations. He’s the author of four books, the most recent ones being ‘How Charts Lie’ (2019) and ‘The Art of Insight’ (2023)",
+    "role": "instructor",
+    "courses": [
+      "Core Course"
+    ],
+    "links": [
+      "https://www.albertocairo.com/",
+      "https://www.linkedin.com/in/albertocairo/",
+      "https://bsky.app/profile/albertocairo.com"
+    ]
+  },
+  {
+    "name": "Lauren Klein",
+    "tagline": "Professor at Emory University and Director of the Emory Digital Humanities Lab",
+    "photo": "lauren-klein.jpg",
+    "alt": "",
+    "bio": "Lauren Klein is Professor of Quantitative Theory & Methods and English at Emory University, where she also directs the Emory Digital Humanities Lab and the Atlanta Interdisciplinary AI Network. Her research brings together computational and critical methods to explore questions of gender, race, and justice. Klein is author (with Catherine D’Ignazio) of the award-winning Data Feminism (MIT Press, 2020), and is currently completing Data by Design: An Interactive History of Data Visualization.",
+    "role": "instructor",
+    "courses": [
+      "Feminist Data Visualization"
+    ],
+    "links": [
+      "https://lklein.com"
+    ]
+  },
+  {
+    "name": "Rodolfo Almeida",
+    "tagline": "Independent Information Designer and Visual Journalist",
+    "photo": "rodolfo-almeida.jpg",
+    "alt": "A white 32-year old man wearing a bright yellow shirt and thick-rimmed glasses against a white background. He has a shaved head and wears a silver nose piercing and earrings.",
+    "bio": "Rodolfo Almeida is a freelance visual journalist, information designer, and researcher from São Paulo. He holds a degree in journalism from PUC-SP and a master’s in design from the Federal University of Rio de Janeiro, where he studied how the climate crisis is portrayed in dataviz. He has created dozens of infographics for outlets like Nexo Jornal, Núcleo, The Intercept, Greenpeace, the European Commission and more. His work has been recognized by awards like Malofiej, SND, Sigma, ÑH, and IIB.",
+    "role": "instructor",
+    "courses": [
+      "Figma for Visualization"
+    ],
+    "links": [
+      "https://rodolfoalmeida.info/",
+      "https://linkedin.com/in/rodolfo-almeida/",
+      "https://bsky.app/profile/rodolfoalmd.nucleo.jor.br"
+    ]
+  },
+  {
+    "name": "Frank Elavsky",
+    "tagline": "Researcher in Human-Computer Interaction",
+    "photo": "frank-elavsky.jpg",
+    "alt": "",
+    "bio": "Frank is a PhD candidate and researcher at the Human-Computer Interaction Institute at Carnegie Mellon University. His work explores the intersection of interactive data visualization and accessibility. Frank has collaborated with companies such as Apple's Human-Centered Machine Intelligence research group, Adobe, Microsoft, Visa, and Highcharts. Frank’s contributions focus on enabling people with and without disabilities find insights, make decisions, and live better lives using data.",
+    "role": "instructor",
+    "courses": [
+      "Accessibility in Visualization"
+    ],
+    "links": [
+      "https://frank.computer",
+      "https://bsky.app/profile/frank.computer",
+      "https://linkedin.com/in/elavsky/"
+    ]
+  },
+  {
+    "name": "Catherine D'Ignazio",
+    "tagline": "Associate Professor of Urban Science & Planning, Director of the Data + Feminism Lab",
+    "photo": "catherine-d-ignazio.jpg",
+    "alt": "A white woman with green-blue hair and a pink jacket smiles for the camera.",
+    "bio": "Catherine D’Ignazio is an Associate Professor of Urban Science and Planning and Director of the Data + Feminism Lab in the Department of Urban Studies and Planning at MIT. She is the co-author of Data Feminism (2020) and author of Counting Feminicide: Data Feminism in Action (2024), both award-winning books that describe more liberatory and empowering approaches to data science and visualization.",
+    "role": "instructor",
+    "courses": [
+      "Feminist Data Visualization"
+    ],
+    "links": [
+      "https://bsky.app/profile/kanarinka.bsky.social"
+    ]
+  },
+  {
+    "name": "Joy Victor",
+    "tagline": "Data Analyst & Tableau Ambassador",
+    "photo": "joy-victor.jpg",
+    "alt": "",
+    "bio": "Joy Victor is a Data Analyst and AI Ethics Wingwoman. She leads the data analysis and visualization efforts for the AIAI Network's Public Interest AI project under DataedX. In her most recent report, she examined the intersection of Georgia’s cybercrime activity and the influence of AI. Joy is also a Tableau Ambassador, co-lead of the Tableau + AI User Group, and a contributor to the Rebel Tech Newsletter.",
+    "role": "instructor",
+    "courses": [
+      "Generative AI for Visualization"
+    ],
+    "links": [
+      "https://www.linkedin.com/in/jhoie",
+      "https://x.com/Jhoie__",
+      "https://medium.com/@victoriousjvictor"
+    ]
+  },
+  {
+    "name": "Luis Melgar",
+    "tagline": "Graphics Reporter at The Washington Post",
+    "photo": "luis-melgar.jpg",
+    "alt": "",
+    "bio": "Luis Melgar is a graphics reporter with more than a decade of experience making data visualizations, both static and interactive. Since 2022, he has worked for the graphics team at The Washington Post, where he mostly covers economic issues. Before joining the Post, he worked for Univision, The Wall Street Journal and Guns & America, a public media reporting collaborative that covered gun violence and gun culture in the U.S.",
+    "role": "instructor",
+    "courses": [
+      "Visualization with Datawrapper"
+    ],
+    "links": [
+      "https://www.lmelgar.me/"
+    ]
+  },
+  {
+    "name": "Raymond Balise",
+    "tagline": "Associate Professor of Biostatistics at the University of Miami",
+    "photo": "raymond-balise.jpg",
+    "alt": "",
+    "bio": "Ray earned his PhD in Experimental Psychology from the University of Texas in 1996. He taught award-winning courses at Stanford in what’s now called data science until joining the University of Miami in 2014. There, he’s continued to earn teaching awards for courses in statistical computing, biostatistics, data science, and reproducible research. His current work explores the intersection of HIV, mental health, substance use, and health disparities.",
+    "role": "instructor",
+    "courses": [
+      "Visualization with R, ggplot2, and AI"
+    ],
+    "links": [
+      "https://derailment.netlify.app/",
+      "https://github.com/RaymondBalise"
+    ]
+  },
+  {
+    "name": "Hannah Dormido",
+    "tagline": "Graphics Reporter and Cartographer at the Washington Post",
+    "photo": "hannah-dormido.jpg",
+    "alt": "A woman smiling with medium-length dark hair, red eyeglasses, and wearing a black dress.",
+    "bio": "Hannah Dormido is an award-winning visual journalist and cartographer at The Washington Post, where she focuses on national news and politics. With more than a decade of experience at The Post, Bloomberg News, and the Financial Times, she has shaped stories that turn complex data into compelling visuals. She is the president of the North American Cartographic Information Society and creator of Dormidots, a distinctive hand-drawn mapping style.",
+    "role": "instructor",
+    "courses": [
+      "Cartography and Map Design with QGIS",
+      "Rawgraphs for Visualization"
+    ],
+    "links": [
+      "https://hannahdormido.com",
+      "https://instagram.com/byhannahdormido"
+    ]
+  },
+  {
+    "name": "Gurman Bhatia",
+    "tagline": "Founder at Revisual Labs",
+    "photo": "gurman-bhatia.jpg",
+    "alt": "A woman smiling at the camera, wearing a black high-neck blouse paired with a red and black sari.",
+    "bio": "Gurman Bhatia is the Founder & Director of Revisual Labs, India’s foremost information design studio. An award-winning practice, Revisual Labs works at the intersection of data, design, and storytelling. A former data journalist with over a decade of experience, Gurman has trained 1,500+ professionals worldwide in data storytelling, helping organizations transform complex information into clarity, creativity, and impact.",
+    "role": "instructor",
+    "courses": [
+      "The Craft of Building Stories with Data"
+    ],
+    "links": [
+      "https://www.gurmanbhatia.com",
+      "https://www.linkedin.com/in/gurmanbhatia/",
+      "https://www.instagram.com/chartwaali/"
+    ]
+  },
+  {
+    "name": "Bridget Winds Cogley",
+    "tagline": "Independant Consultant",
+    "photo": "bridget-winds-cogley.jpg",
+    "alt": "A woman with curly brown and grey hair against a wood wall smiles slightly at the camera.",
+    "bio": "Bridget Cogley is the co-author of Functional Aesthetics for Data Visualization and brings an interdisciplinary approach to her work. She trains, consults, and presents on a number of topics including data visualization, ethics, and product development.",
+    "role": "instructor",
+    "courses": [
+      "Applied Data Ethics",
+      "Designing Dashboards"
+    ],
+    "links": [
+      "https://bridgetcogley.com",
+      "https://tableaufit.com",
+      "https://www.linkedin.com/in/bridgetcogley",
+      "https://bsky.app/profile/cogley.bsky.social"
+    ]
+  },
+  {
+    "name": "Enrico Bertini",
+    "tagline": "Associate Professor at Northeastern University",
+    "photo": "enrico-bertini.jpg",
+    "alt": "",
+    "bio": "Dr. Bertini serves as an Associate Professor at Northeastern University, focusing on research and teaching in the fields of data visualization and visual analytics. His work covers a broad spectrum within data science and visualization, including both empirical studies and practical applications. Dr. Bertini also authors a newsletter titled FILWD, where he shares insights on data, AI, and visualization. Additionally, he offers public and private workshops on data thinking and visualization.",
+    "role": "instructor",
+    "courses": [
+      "The Art of Reading Charts (Coming in the Spring of 2026)"
+    ],
+    "links": [
+      "https://enrico.bertini.io/",
+      "https://filwd.substack.com/",
+      "https://www.linkedin.com/in/ebertini/"
+    ]
+  },
+  {
+    "name": "Hiram Henriquez",
+    "tagline": "Founder and Creative Director of H2H Graphics & Design Inc.",
+    "photo": "hiram-Henriquez.jpg",
+    "alt": "A white man with short hair wearing a blue cress shirt and smiling in a leaf-covered background.",
+    "bio": "Hiram Henriquez’s career spans over 30 years working at The Miami Herald (graphics editor), the South Florida Sun Sentinel (sr. graphics reporter), and National Geographic (graphics editor). Hiram runs his own design studio, H2H Graphics & Design Inc., specializing in illustration, informational graphics, and visual design. He is also a senior lecturer at UM’s School of Communication teaching Visual Design and Informational Graphics.",
+    "role": "instructor",
+    "courses": [
+      "Adobe Illustrator for Visualization Design"
+    ],
+    "links": [
+      "https://com.miami.edu/profile/hiram-henriquez",
+      "https://www.h2hgraphics.com"
+    ]
+  },
+  {
+    "name": "James McKenney",
+    "tagline": "Data Analyst at Kaseya and Adjunct Faculty at the University of Miami",
+    "photo": "james-mckenney.jpg",
+    "alt": "",
+    "bio": "I am Lead Data Analyst in FP&A at Kaseya and Adjunct Faculty in the University of Miami’s School of Communication. My work centers on making code and data visualization accessible, bridging business analytics with teaching. I enjoy helping others use Python and data storytelling to bring clarity to complex ideas.",
+    "role": "instructor",
+    "courses": [
+      "Python for Data Visualization"
+    ],
+    "links": []
+  },
+  {
+    "name": "Vinicius Sueiro",
+    "tagline": "Designer and Front-end Developer",
+    "photo": "vinicius-sueiro.jpg",
+    "alt": "A white man with short brown hair, wearing green glasses and a navy blue t-shirt faces the camera with a subtle friendly smile.",
+    "bio": "Vinicius (Vini) Sueiro is a Brazilian designer using technology to inform & delight humans. With over 12 years of experience, he has led award-winning data visualization projects for organizations like Google, The Washington Post, Estadão, and the World Health Organization. With a bachelor’s in Design by the University of São Paulo and a master’s in Interaction Design by Malmö University, Vinicius also has experience as an educator, both in Brazil and at the University of Miami.",
+    "role": "contributor",
+    "links": [
+      "https://vsueiro.com/",
+      "https://www.linkedin.com/in/vsueiro/"
+    ]
+  },
+  {
+    "name": "Melissa Strong",
+    "tagline": "Back-end Developer and Newsletter Contributor",
+    "photo": "melissa-strong.jpg",
+    "alt": "",
+    "bio": "Melissa is a systems administrator and Python developer with eight years of experience managing enterprise Linux environments and building automation solutions. She is currently pursuing a Master of Science in Data Science at the University of Miami, specializing in data visualization. Melissa is passionate about making complex ideas more accessible through clear and engaging visuals that bridge the gap between technical detail and human understanding.",
+    "role": "contributor",
+    "links": ["https://www.linkedin.com/in/melissaashliestrong/"]
+  },
+  {
+    "name": "Larry Flores",
+    "tagline": "Video Production and Editing",
+    "photo": "",
+    "alt": "",
+    "bio": "",
+    "role": "contributor",
+    "links": ["https://www.linkedin.com/in/larry-flores-ii-5617351bb/"]
+  },
+  {
+    "name": "Rosaura Echegaray",
+    "tagline": "Logistics and Finance",
+    "photo": "rosaura-echegaray.jpg",
+    "alt": "A smiling woman with blonde hair stands outdoors in front of palm trees, wearing a light-colored blouse and crossing her arms.",
+    "bio": "Rosaura Echegaray is the Program Coordinator at the School of Communication, where she partners with the Knight Chairs in Data Visualization and Interactive Media to bring innovative programs and events to life. She manages logistics and strategic coordination for externally funded initiatives, working closely with faculty, students, and community stakeholders. Her role centers on creating impactful experiences that advance the school’s mission to promote media literacy and strengthen communication in today’s fast-changing landscape.",
+    "role": "contributor",
+    "links": ["https://com.miami.edu/profile/rosaura-echegaray/"]
+  },
+  {
+    "name": "Michela Tjan",
+    "tagline": "Newsletter Contributor and Developer",
+    "photo": "michela-tjan.jpg",
+    "alt": "An asian woman in formal black outfit and a stole with “Indonesia” written on it.",
+    "bio": "Michela Tjan is an AI Engineer at Detect, where she develops scalable AI solutions for utility asset management using drone and smartphone imagery. A former competitive golfer for Indonesia’s National Team turned data scientist, she holds a master’s in data science from the University of Miami, where she conducted research in machine learning, computer vision, and model explainability. Michela is also part of the founding freelancers at Data Freelancers, blending technical expertise with storytelling to create impactful, interdisciplinary solutions.",
+    "role": "contributor",
+    "links": ["https://www.tjanmichela.com"]
+  },
+  {
+    "name": "Yestin Arvin Gochuico",
+    "tagline": "Newsletter Contributor",
+    "photo": "yestin-arvin-gochuico.jpg",
+    "alt": "",
+    "bio": "Yestin Arvin Gochuico is a Senior student at the University of Miami with a major in Data Science & AI. He is a creative technologist with a keen interest in intentional data visualization for data journalism and graphics reporting. Bringing a breadth of experience, he previously worked at Yonsei University as a Research Intern, exploring the use of AI for architectural visualizations; he also worked at Snap Inc. under Snap Lens Academy, building AR experiences for social media.",
+    "role": "contributor",
+    "links": ["https://www.linkedin.com/in/gochuico/"]
+  },
+  {
+    "name": "Jay Wilkins",
+    "tagline": "Music and Sound Effects",
+    "photo": "jay-wilkins.jpg",
+    "alt": "Young adult with medium brown skin, glasses, and a fade with jaw length locs on the top, all pushed over to their right side. The tip of each loc is dyed a bright maroon. They also have a mustache and a beard that only covers the chin. They're sat at a piano, fingers resting on the keys, and turned to look at the camera with a pleasant expression.",
+    "bio": "Jay Wilkins is a musician from Atlanta. With a degree in media scoring from the University of Miami, they are a composer influenced by a wide variety of genres from early video game chiptune to punk, from jazz to classical.",
+    "role": "contributor",
+    "links": [
+      "https://www.youtube.com/@jayphonic9244",
+      "https://www.instagram.com/jayphonic/"
+    ]
+  },
+  {
+    "name": "Wendy (Pending)",
+    "tagline": "",
+    "photo": "",
+    "alt": "",
+    "bio": "",
+    "role": "contributor",
+    "links": []
+  }
+]

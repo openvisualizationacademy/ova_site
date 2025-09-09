@@ -20,23 +20,11 @@
   white-space: nowrap;
 }
 
-/* Fallback for browser that don’t support light-dark */
-/* .button::before {
-  background: currentColor;
-  content: "";
-  display: block;
-  inset: 0;
-  opacity: 0.125;
-  pointer-events: none;
-  position: absolute;
-  z-index: -1;
-} */
-
 .button.primary {
   background-color: light-dark(var(--primary-600), var(--primary-600));
   color: light-dark(var(--neutral-100), var(--neutral-100));
   padding: 1.2rem 1.6rem;
-  text-shadow: 0 0 0.5em light-dark(var(--primary-800), var(--primary-800));
+  text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
 }
 
 .button.secondary {
@@ -59,6 +47,10 @@
 }
 
 @media (hover: hover) {
+  .button.primary:hover {
+    background-color: light-dark(var(--primary-700), var(--primary-700));
+  }
+
   .button.tertiary:hover {
     border: 1px solid currentColor;
   }

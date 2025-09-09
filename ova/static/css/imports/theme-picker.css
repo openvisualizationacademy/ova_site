@@ -40,7 +40,7 @@
   padding: 0.4rem 0.4rem;
 }
 
-.theme-picker .icon {
+.theme-picker [data-icon] {
   height: 2rem;
   width: 2rem;
 }

@@ -8,13 +8,20 @@
   top: 0;
   width: fit-content;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 
 .wave canvas {
   display: block;
-  pointer-events: none;
   translate: 12.5% -25%;
   user-select: none;
   width: 100% !important;
+  clip-path: ellipse(60% 30%); /* Clips so only middle region reacts to hover */
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .wave {
+    visibility: hidden;
+  }
 }

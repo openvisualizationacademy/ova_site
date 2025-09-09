@@ -1,0 +1,4 @@
+.news .description {
+  max-width: 36ch;
+  text-wrap: balance;
+}

@@ -8,6 +8,7 @@ export default class ThemePicker {
     this.inputs = [this.light, this.dark];
     this.system = "light";
     this.tempClass = "theme-adjusted";
+
     this.setup();
   }
 
@@ -23,32 +24,55 @@ export default class ThemePicker {
     return this.system === this.user;
   }
 
+  get overriden() {
+    return ["light","dark"].includes(localStorage.getItem("theme"));
+  }
+
+  storeUserPreference() {
+    localStorage.setItem("theme", this.user);
+  }
+
+  forgetUserPreference() {
+    localStorage.removeItem("theme");
+  }
+
+  rememberUserPreference() {
+    if (this.overriden) {
+      const theme = localStorage.getItem("theme");
+      this[ theme ].checked = true;
+      this.update();
+    }
+  }
+
   setup() {
     this.mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
     this.system = this.mediaQuery.matches ? "dark" : "light";
     this.dark.checked = this.mediaQuery.matches;
     this.light.checked = !this.mediaQuery.matches;
+
     this.mediaQuery.addEventListener("change", (event) => {
       this.system = this.mediaQuery.matches ? "dark" : "light";
       this.dark.checked = event.matches;
       this.light.checked = !event.matches;
+
+      this.forgetUserPreference();
       this.update();
     });
+
     this.inputs.forEach((input) => {
       input.addEventListener("change", (event) => {
+        this.storeUserPreference();
         this.update();
       });
     });
+
+    this.rememberUserPreference();
   }
 
   addTemporaryImage(picture) {
-    console.log("user theme is", this.user);
-
     const themeSrc = picture.querySelector(`source[media*="${this.user}"`)?.srcset;
     const pictureImg = picture.querySelector("img");
-
-    console.log(themeSrc, pictureImg);
 
     if (!themeSrc || !pictureImg) return;
 

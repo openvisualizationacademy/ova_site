@@ -1,43 +1,36 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import People from "./People.js";
 
-export default class Instructors {
-  constructor(selector, role) {
-    this.element = document.querySelector(selector) || document.body;
-    if (!this.element) return;
-
-    this.role = "instructor";
-
-    this.setup();
+export default class Instructors extends People {
+  constructor(app, selector) {
+    super(app, selector, "instructor", "instructors");
   }
 
-  setupCards() {
-    this.data.forEach((person) => {
-      const card = `
-      <a href="#" class="person" data-role="${this.role}">
-        <figure>
-          ${
-            person.photo
-              ? `<img class="media" src="media/people/${person.photo}" loading="lazy" alt="Profile photo">`
-              : `<div class="media"></div>`
-          }
-          <figcaption>
-            <strong>${person.name}<span class="screen-reader"/>.</span></strong>
-            <span class="tagline">${person.tagline}</span>  
-          </figcaption>
-        </figure>
-      </a>
-      `;
-      this.element.innerHTML += card;
-    });
+  getDetails(person) {
+    const alt = person.alt ? person.alt : "Profile";
+
+    return `
+    <div class="details">
+      <div class="person" data-role="${this.role}">
+        ${
+          person.photo
+            ? `<img class="media" src="/static/media/people/small/${person.photo}" loading="lazy" alt="${alt}">`
+            : `<div class="media"></div>`
+        }
+        <div class="info">
+          <h2><strong>${person.name}</strong></h2>
+          <span class="tagline">${person.tagline}</span>  
+          <p class="bio">${person.bio}</p>          
+
+          <h3>${ person.courses.length > 1 ? "Courses" : "Course" }</h3>
+          <ul class="courses">
+            ${ person.courses.map(course => `<li>${course}</li>`).join("") }
+          </ul>
+        </div>
+        <ul class="links">
+          ${ this.list(person.links) }
+        </ul>
+      </div>
+    </div>
+    `;
   }
-
-  async setup() {
-    this.data = await d3.json("./data/people.json");
-    this.data.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-    this.data = this.data.filter((person) => person.role === this.role);
-
-    this.setupCards();
-  }
-
-  update() {}
 }

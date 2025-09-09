@@ -4,18 +4,34 @@
   position: relative;
 }
 
+.cover .heading {
+  grid-column: span 12;
+  order: 1;
+}
+
 .cover .info {
   grid-column: span 12;
+  order: 2;
 }
 
 .cover .preview {
   grid-column: span 12;
   margin: 0;
+  order: 4;
+}
+
+.cover .newsletter-cta {
+  grid-column: span 12;
+  margin: 0;
+  order: 3;
 }
 
 .cover h1 {
   line-height: 0;
-  margin-block-end: 4.8rem;
+  margin-block-end: 2.4rem;
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 
 .cover h1 svg {
@@ -28,8 +44,10 @@
   text-wrap: balance;
 }
 
+.cover .newsletter-cta
+
 .cover .button.primary {
-  margin-top: 24px;
+  margin-top: 2.4rem;
 }
 
 .cover .preview video {
@@ -38,15 +56,11 @@
   box-shadow: 0 0 0 1px light-dark(var(--neutral-200), var(--neutral-800));
   display: block;
   margin-block: 3.2rem 1.2rem;
-  opacity: 0;
+  opacity: 1;
   outline: none;
   transition: opacity 0.4s;
   transition-delay: 0.4s;
   width: 100%;
-}
-
-.cover .preview video.loaded {
-  opacity: 1;
 }
 
 .cover .preview .controls {
@@ -65,7 +79,7 @@
 
 .cover .preview .video-wrapper [data-control] {
   left: 50%;
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   top: 50%;
   transition: opacity 0.4s;
@@ -73,27 +87,25 @@
   translate: -50% -50%;
 }
 
-.cover .preview:has(video.loaded) .video-wrapper [data-control] {
-  opacity: 1;
-}
-
 .cover .preview .secondary {
   display: flex;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   gap: 2.4rem;
   justify-content: space-between;
   letter-spacing: 0.025em;
-  padding: 0.6rem 1.2rem;
   margin: 0;
+  padding: 0.6rem 1.2rem;
 }
 
 .cover .preview .duration {
   align-items: baseline;
   color: light-dark(var(--neutral-600), var(--neutral-400));
   display: flex;
+  text-align: end;
+  white-space: nowrap;
 }
 
-.cover .preview .duration .icon {
+.cover .preview .duration [data-icon] {
   height: 1em;
   margin-inline: 0.25em;
   translate: 0 0.05em;
@@ -101,15 +113,29 @@
 }
 
 @media (min-width: 960px) {
+
+  .cover .heading,
+  .cover .info,
+  .cover .preview,
+  .cover .newsletter-cta {
+    order: unset;
+  }
+
+  .cover .heading,
   .cover .info {
     grid-column: span 6;
   }
 
-  .cover .preview {
+  .cover .preview,
+  .cover .newsletter-cta {
     grid-column: span 4 / -1;
   }
 
   .cover .preview video {
     margin-block: 2.4rem 1.2rem;
+  }
+
+  .cover .newsletter-cta {
+    text-align: end;
   }
 }

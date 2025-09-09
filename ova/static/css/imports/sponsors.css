@@ -5,6 +5,10 @@
   margin-block-end: 9.6rem;
 }
 
+.sponsors > * {
+  grid-column: unset;
+}
+
 .sponsors a {
   color: inherit;
   font-size: 1.4rem;
