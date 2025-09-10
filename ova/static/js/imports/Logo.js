@@ -101,6 +101,9 @@ export default class Logo {
     // Handle parents provided as CSS selector strings
     if (typeof this.parent === "string") {
       this.parent = document.querySelector(this.parent);
+
+      // Stop executing if provided selector doesn’t exist
+      if (!this.parent) return;
     }
 
     // Create properties to keep track of time elapsed

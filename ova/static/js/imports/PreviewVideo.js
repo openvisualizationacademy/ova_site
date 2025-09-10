@@ -2,6 +2,10 @@ export default class PreviewVideos {
   constructor(app, selector) {
     this.app = app;
     this.element = document.querySelector(selector);
+
+    // Stop executing if provided selector doesn’t exist
+    if (!this.element) return;
+
     this.video = this.element.querySelector("video");
     this.controls = this.element.querySelectorAll("[data-control]");
 
