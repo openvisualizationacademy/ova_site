@@ -4,10 +4,20 @@
       Skip to main
     </a>
     <div class="links">
+      {% if minimal|default:False %}
       <a href="/">
-        <div class="logo" aria-hidden="true" style="height: 7.2rem"></div>
+        <div class="logo" aria-hidden="true" style="width: 7.2rem; height: 7.2rem"></div>
         <span class="screen-reader">Home</span>
       </a>
+      {% else %}
+      <a href="/">
+        <div class="logo" aria-hidden="true"></div>
+        <span class="screen-reader">Home</span>
+      </a>
+      <a href="#courses">Courses</i></a>
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      {% endif %}
     </div>
     <div class="account">
       <div class="theme-picker">
@@ -22,6 +32,7 @@
           <svg width="24" height="24" data-icon="half-moon" aria-hidden="true"></svg>
         </label>
       </div>
+      <a href="/sign" class="button secondary">Sign in</a>
     </div>
   </nav>
 </header>

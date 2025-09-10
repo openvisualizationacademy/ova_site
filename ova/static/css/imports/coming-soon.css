@@ -1,7 +1,3 @@
-.logo canvas {
-  width: 7.2rem !important;
-}
-
 main {
   display: flex;
   flex-direction: column;
