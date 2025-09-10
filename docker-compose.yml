@@ -1,0 +1,15 @@
+services:
+  ova_dev:
+    build:
+      context: .           # location of your Dockerfile
+      dockerfile: Dockerfile
+    container_name: ova_dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      DJANGO_SETTINGS_MODULE: ova.settings.dev
+      DEBUG: 1
+    stdin_open: true   # same as -i
+    tty: true          # same as -t
