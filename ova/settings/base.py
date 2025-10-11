@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "taggit",
     "storages",
     "wagtailmarkdown",
+    'allauth',
+    'allauth.account',
 
     "django_filters",
     "django.contrib.admin",
@@ -72,6 +74,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "ova.urls"
@@ -229,3 +232,28 @@ WAGTAILMARKDOWN = {
     "extensions_settings_mode": "extend",  # optional. Possible values: "extend" or "override". Defaults to "extend".
     "tab_length": 4,  # optional. Sets the length of tabs used by python-markdown to render the output. This is the number of spaces used to replace with a tab character. Defaults to 4.
 }
+
+# Djgnao allauth
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+# 💡 enables the one-time code login flow
+ACCOUNT_LOGIN_BY_CODE_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"  # no need to confirm before code login
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_EMAIL_FIELD = "email"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*"]
+ACCOUNT_ALLOW_SIGNUPS = True  # will autocreate users
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGIN_BY_CODE_EXPIRATION = 600  # 10 min

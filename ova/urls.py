@@ -15,6 +15,7 @@ urlpatterns = [
     path("ova-admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    path('accounts/', include('allauth.urls')),
     path(".well-known/appspecific/com.chrome.devtools.json", chrome_devtools_dummy),
 ]
 

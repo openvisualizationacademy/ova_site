@@ -86,4 +86,5 @@ dependencies = [
     "bleach==4.1.0",
     "markdown==3.8.2",
     "webencodings==0.5.1",
+    "django-allauth>=65.12.0",
 ]
