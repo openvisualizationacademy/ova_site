@@ -16,9 +16,9 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS",["*"]).split(",")
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INSTALLED_APPS += [
-    'debug_toolbar',
-]
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 # This is for debug toolbar - no need to use in prod
 INTERNAL_IPS = ["127.0.0.1"]
