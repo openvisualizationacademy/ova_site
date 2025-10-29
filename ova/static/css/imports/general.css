@@ -57,6 +57,10 @@ small {
   font-size: 1.6rem;
 }
 
+sup {
+  line-height: 0;
+}
+
 main {
   overflow-x: hidden;
 }
