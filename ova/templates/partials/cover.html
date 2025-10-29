@@ -58,9 +58,9 @@
 
   <figure class="preview">
     <div class="video-wrapper">
-      <video playsinline alt="Welcome video" poster="{% static 'media/videos/intro-stinger-end.jpg' %}">
-        <source src="{% static 'media/videos/intro-stinger-end.mp4' %}" type="video/mp4" />
-        <track kind="captions" src="{% static 'media/videos/intro-stinger-end-en.vtt' %}" srclang="en" label="English" default />
+      <video playsinline alt="Welcome video" poster="{% static 'media/videos/intro.jpg' %}">
+        <source src="{% static 'media/videos/intro.mp4' %}" type="video/mp4" />
+        <track kind="captions" src="{% static 'media/videos/intro-en.vtt' %}" srclang="en" label="English" default />
       </video>
       <button class="button tertiary" data-control="playWithAudio">
         <svg width="24" height="24" data-icon="play-solid" fill="currentColor" aria-hidden="true"></svg>
@@ -72,7 +72,7 @@
       <span class="duration">
         <span class="screen-reader">Video duration: </span>
         <svg width="24" height="24" data-icon="timer"aria-hidden="true"></svg>
-        2 min
+        <span class="minutes"></span>
       </span>
     </figcaption>
   </figure>
