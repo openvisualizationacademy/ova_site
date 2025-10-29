@@ -29,6 +29,7 @@ export default class App {
       margin: 168 / 2,
       side: 168,
       wave: true,
+      interactive: false,
     });
 
     this.previewVideo = new PreviewVideo(this, ".preview");

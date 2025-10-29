@@ -18,6 +18,7 @@ export default class Logo {
       ],
 
       wave: false,
+      interactive: true,
       background: false, // color string or false
       needsUpdate: true, // will be toggled to prevent redrawing same logo
       firstTime: true, // enable initial logo to be drawn
@@ -101,9 +102,6 @@ export default class Logo {
     // Handle parents provided as CSS selector strings
     if (typeof this.parent === "string") {
       this.parent = document.querySelector(this.parent);
-
-      // Stop executing if provided selector doesn’t exist
-      if (!this.parent) return;
     }
 
     // Create properties to keep track of time elapsed
@@ -160,12 +158,16 @@ export default class Logo {
     // Add hover events, but prevent triggering it immediatly when page loads
     setTimeout(() => {
       this.parent.addEventListener("mouseenter", () => {
-        this.hover = true;
-        this.resetTarget("flat");
+        if (this.interactive) {
+          this.hover = true;
+          this.resetTarget("flat");
+        }
       });
       this.parent.addEventListener("mouseleave", () => {
-        this.hover = false;
-        this.resetTarget("original");
+        if (this.interactive) {
+          this.hover = false;
+          this.resetTarget("original");
+        }
       });
     }, 100);
   }
@@ -205,8 +207,10 @@ export default class Logo {
     this.current.steps = 64 - 1;
 
     // TODO: Improve animation on hover
-    const targetThickness = this.hover ? this.defaults.thickness * 2 : this.defaults.thickness;
-    this.thickness = this.expDecay(this.thickness, targetThickness, this.decays[0]);
+    if (this.interactive) {
+      const targetThickness = this.hover ? this.defaults.thickness * 4 : this.defaults.thickness;
+      this.thickness = this.expDecay(this.thickness, targetThickness, this.decays[0]);
+    }
 
     // Apply transparency
     this.context.globalAlpha = .5;
