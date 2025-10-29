@@ -49,7 +49,7 @@ export default class People {
   async setup() {
     this.data = await d3.json("/static/data/people.json");
     this.data.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-    this.data = this.data.filter((person) => person.role === this.role);
+    this.data = this.data.filter((person) => person.role === this.role || person.role.includes(this.role));
     this.setupCards();
   }
 
@@ -60,6 +60,18 @@ export default class People {
   getDetails(person) {
     // Overridden by classes that extend People, like Contributors and Instructors 
     return `${person.name}`;
+  }
+
+  getCourses(person) {
+    let courses = "";
+
+    if (person?.courses && person.courses.length > 0) {
+      const heading = `<h3>${ person.courses.length > 1 ? "Courses" : "Course" }</h3>`;
+      const list = `<ul class="courses">${ person.courses.map(course => `<li>${course}</li>`).join("") }</ul>`
+      courses = heading + list;
+    }
+
+    return courses;
   }
 
   open(index) {

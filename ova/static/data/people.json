@@ -7,7 +7,7 @@
     "bio": "He’s the Knight Chair in Infographics and Data Visualization at the University of Miami, and director of the Visualization program at UM’s Frost Institute for Data Science and Computing. Cairo has been a graphics director at news publications in Spain and Brazil, and works as a visualization consultant for numerous companies and international organizations. He’s the author of four books, the most recent ones being ‘How Charts Lie’ (2019) and ‘The Art of Insight’ (2023)",
     "role": "instructor",
     "courses": [
-      "Core Course"
+      "Introduction to Information Design and Data Visualization"
     ],
     "links": [
       "https://www.albertocairo.com/",
@@ -109,7 +109,7 @@
     "name": "Raymond Balise",
     "tagline": "Associate Professor of Biostatistics at the University of Miami",
     "photo": "raymond-balise.jpg",
-    "alt": "",
+    "alt": "A middle-aged man with short disheveled gray hair, wearing a dark suit jacket, white dress shirt, and blue patterned tie, smiling in front of a light gray background.",
     "bio": "Ray earned his PhD in Experimental Psychology from the University of Texas in 1996. He taught award-winning courses at Stanford in what’s now called data science until joining the University of Miami in 2014. There, he’s continued to earn teaching awards for courses in statistical computing, biostatistics, data science, and reproducible research. His current work explores the intersection of HIV, mental health, substance use, and health disparities.",
     "role": "instructor",
     "courses": [
@@ -178,7 +178,7 @@
     "bio": "Dr. Bertini serves as an Associate Professor at Northeastern University, focusing on research and teaching in the fields of data visualization and visual analytics. His work covers a broad spectrum within data science and visualization, including both empirical studies and practical applications. Dr. Bertini also authors a newsletter titled FILWD, where he shares insights on data, AI, and visualization. Additionally, he offers public and private workshops on data thinking and visualization.",
     "role": "instructor",
     "courses": [
-      "The Art of Reading Charts (Coming in the Spring of 2026)"
+      "The Art of Reading Charts (Coming&nbsp;in the second half of 2026)"
     ],
     "links": [
       "https://enrico.bertini.io/",
@@ -219,7 +219,10 @@
     "photo": "vinicius-sueiro.jpg",
     "alt": "A white man with short brown hair, wearing green glasses and a navy blue t-shirt faces the camera with a subtle friendly smile.",
     "bio": "Vinicius (Vini) Sueiro is a Brazilian designer using technology to inform & delight humans. With over 12 years of experience, he has led award-winning data visualization projects for organizations like Google, The Washington Post, Estadão, and the World Health Organization. With a bachelor’s in Design by the University of São Paulo and a master’s in Interaction Design by Malmö University, Vinicius also has experience as an educator, both in Brazil and at the University of Miami.",
-    "role": "contributor",
+    "role": ["contributor", "instructor"],
+    "courses": [
+      "Crafting Graphics with JavaScript"
+    ],
     "links": [
       "https://vsueiro.com/",
       "https://www.linkedin.com/in/vsueiro/"
@@ -235,13 +238,16 @@
     "links": ["https://www.linkedin.com/in/melissaashliestrong/"]
   },
   {
-    "name": "Larry Flores",
+    "name": "Larry Flores II",
     "tagline": "Video Production and Editing",
-    "photo": "",
+    "photo": "larry-flores-ii.jpg",
     "alt": "",
-    "bio": "",
+    "bio": "Larry began his filmmaking journey at Texas Christian University, where he discovered his creative voice, and later continued his studies at the University of Miami, with an M.F.A. in Motion Pictures. His films have been screened at Miami Film Festival, Sunscreen Film Festival and Tampa Bay Underground Film Festival. He is a winner of the Best Student Film at the Coconut Grove Film Festival for his directorial work on Purple Grooves: a Funky Tragedy.",
     "role": "contributor",
-    "links": ["https://www.linkedin.com/in/larry-flores-ii-5617351bb/"]
+    "links": [
+      "https://larry-floresii.myportfolio.com",
+      "https://www.instagram.com/smhlorenzo_/"
+    ]
   },
   {
     "name": "Rosaura Echegaray",
@@ -283,12 +289,14 @@
     ]
   },
   {
-    "name": "Wendy (Pending)",
-    "tagline": "",
-    "photo": "",
+    "name": "Xiaoqian Dong",
+    "tagline": "Course Documentation",
+    "photo": "xiaoqian-dong.jpg",
     "alt": "",
-    "bio": "",
+    "bio": "Xiaoqian Dong is a first-year PhD student at the University of Miami, majoring in communication with a focus on data visualization and visual communication. She is a graphic designer and a journalist who spent several years in China working as a journalist and video editor. Xiaoqian earned her master's degree from Syracuse University, where she studied Multimedia, Photography, and Design.",
     "role": "contributor",
-    "links": []
+    "links": [
+      "https://xiaoqiandong.com"
+    ]
   }
 ]

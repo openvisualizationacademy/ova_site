@@ -21,10 +21,7 @@ export default class Instructors extends People {
           <span class="tagline">${person.tagline}</span>  
           <p class="bio">${person.bio}</p>          
 
-          <h3>${ person.courses.length > 1 ? "Courses" : "Course" }</h3>
-          <ul class="courses">
-            ${ person.courses.map(course => `<li>${course}</li>`).join("") }
-          </ul>
+          ${ this.getCourses(person) }
         </div>
         <ul class="links">
           ${ this.list(person.links) }

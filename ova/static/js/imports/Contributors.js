@@ -20,6 +20,8 @@ export default class Contributors extends People {
           <h2><strong>${person.name}</strong></h2>
           <span class="tagline">${person.tagline}</span>
           <p class="bio">${person.bio}</p>
+
+          ${ this.getCourses(person) }
         </div>
         <ul class="links">
           ${ this.list(person.links) }
