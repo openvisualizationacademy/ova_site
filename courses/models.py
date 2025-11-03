@@ -113,6 +113,8 @@ class CoursesIndexPage(Page):
             for tag in course.tags.all():
                 tags.add(str(tag))
         context['courses'] = courses
+
+        # TODO: Consider sorting in order of importance
         context['all_tags'] = sorted(tags)
         return context
 
