@@ -104,6 +104,9 @@ export default class Logo {
       this.parent = document.querySelector(this.parent);
     }
 
+    // Abort if no parent
+    if (!this.parent) return;
+
     // Create properties to keep track of time elapsed
     this.lastTime = 0;
     this.deltaTime = 0;

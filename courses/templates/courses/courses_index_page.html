@@ -3,60 +3,61 @@
 
 {% block content %}
 
-  <section id="courses" class="courses grid">
-    <h2>Courses</h2>
-    <div class="widget">
-<form class="filters">
-  <label>
-    <input type="radio" name="tag" value="all" checked> Show all
-  </label>
-  {% for tag in all_tags %}
-    <label>
-      <input type="radio" name="tag" value="{{ tag }}">
-      <span class="tag">{{ tag }}</span>
-    </label>
-  {% endfor %}
-</form>
+<section id="courses" class="courses grid">
 
+  <h2>Courses</h2>
 
+  <div class="widget">
 
-<div class="cards">
-  {% for course in courses %}
-    <a href="{{ course.url }}" class="course"
-       data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-      <div class="primary">
-        <div class="media"></div>
-        <h3>{{ course.title }}</h3>
-        <p class="authors">
-          {% for instructor in course.instructors.all %}
-            <span class="author">{{ instructor }}</span>
-            {% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </p>
-      </div>
-      <div class="secondary">
-        <p class="tags">
-          {% for tag in course.tags.all %}
-            <span class="tag">{{ tag }}</span>
-            {% if not forloop.last %}, {% endif %}
-          {% endfor %}
-        </p>
-        <p class="duration">
-          {{ course.duration|default:"??" }}h
-        </p>
-      </div>
-    </a>
-  {% empty %}
-    <p>No courses available yet.</p>
-  {% endfor %}
-</div>
+    <form class="filters" onsubmit="return false">
+      <label>
+        <input type="radio" name="tag" value="all" checked/>
+        <span class="tag" data-tag="all">Show all<span class="screen-reader">&nbsp;courses</span></span>
+      </label>
 
+      {% for tag in all_tags %}
+        <label>
+          <input type="radio" name="tag" value="{{ tag }}">
+          <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+        </label>
+      {% endfor %}
+    </form>
 
-    </div>
-  </section>
+    <ul class="cards">
+      {% for course in courses %}
+        <li class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+          <a href="{{ course.url }}">
+            <div class="primary">
+              <div class="media"></div>
+              <h3>{{ course.title }}</h3>
+              <p class="authors">
+                <span class="screen-reader">>Author{{ course.instructors.all|pluralize }}:</span>
+                {% for instructor in course.instructors.all %}
+                  <span class="author">{{ instructor }}</span>
+                {% endfor %}
+              </p>
+            </div>
+            <div class="secondary">
+              <p class="tags">
+                {% for tag in course.tags.all %}
+                  <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+                {% endfor %}
+              </p>
+              <p class="duration">
+                <span class="screen-reader">Duration: </span>
+                {% with rounded=course.duration|default:0|floatformat:0 %}
+                  {{ rounded }}<span aria-hidden="true">h</span>
+                  <span class="screen-reader">hour{{ rounded|pluralize }}</span>
+                {% endwith %}
+              </p>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
 
-{% endblock %}
+  </div>
 
-{% block extra_js %}
-  <script src="{% static 'js/imports/Courses.js' %}" type="module"></script>
+</section>
+
 {% endblock %}

@@ -1,7 +1,10 @@
 export default class ThemePicker {
-  constructor(selector) {
+  constructor(app, selector) {
+    this.app = app;
+
     this.pictures = document.querySelectorAll('picture:has(source[media*="prefers-color-scheme"]') || [];
     this.element = document.querySelector(selector);
+    if (!this.element) return;
 
     this.light = this.element.querySelector('input[value="light"]');
     this.dark = this.element.querySelector('input[value="dark"]');

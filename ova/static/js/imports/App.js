@@ -4,6 +4,7 @@ import Logo from "./Logo.js";
 import ThemePicker from "./ThemePicker.js";
 import PreviewVideo from "./PreviewVideo.js";
 import Icons from "./Icons.js";
+import Courses from "./Courses.js";
 import Instructors from "./Instructors.js";
 import Contributors from "./Contributors.js";
 
@@ -33,10 +34,10 @@ export default class App {
     });
 
     this.previewVideo = new PreviewVideo(this, ".preview");
+    this.courses = new Courses(this, ".courses .widget");
     this.instructors = new Instructors(this, ".instructors");
     this.contributors = new Contributors(this, ".contributors");
-    
-    this.themePicker = new ThemePicker(".theme-picker");
+    this.themePicker = new ThemePicker(this, ".theme-picker");
 
     // Allow anchor navigation, but don’t change url
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
