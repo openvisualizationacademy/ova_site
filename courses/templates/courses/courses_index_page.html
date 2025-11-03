@@ -34,6 +34,8 @@
                 <span class="screen-reader">>Author{{ course.instructors.all|pluralize }}:</span>
                 {% for instructor in course.instructors.all %}
                   <span class="author">{{ instructor }}</span>
+                {% empty %}
+                  <span class="author">Unknown Author</span>
                 {% endfor %}
               </p>
             </div>

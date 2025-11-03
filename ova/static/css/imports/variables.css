@@ -25,6 +25,14 @@
   --primary-800: #bd0026;
   --primary-900: #800026;
 
+  --tag-all: currentColor;
+  --tag-essential: #e15759; /* red from `d3.schemeTableau10[2]` */
+  --tag-conceptual: #f28e2c; /* orange from `d3.schemeTableau10[1]` */
+  --tag-technical: #4e79a7; /* blue from `d3.schemeTableau10[0]` */
+  --tag-personal: #59a14f; /* green from `d3.schemeTableau10[4]` */
+  --tag-yet-to-exist-1: #af7aa1; /* purple from `d3.schemeTableau10[6]` */
+  --tag-yet-to-exist-2: #ff9da7; /* pink from `d3.schemeTableau10[7]` */
+
   --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
 }
 
