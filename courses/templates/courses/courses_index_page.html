@@ -31,7 +31,7 @@
               <div class="media"></div>
               <h3>{{ course.title }}</h3>
               <p class="authors">
-                <span class="screen-reader">>Author{{ course.instructors.all|pluralize }}:</span>
+                <span class="screen-reader">Author{{ course.instructors.all|pluralize }}:</span>
                 {% for instructor in course.instructors.all %}
                   <span class="author">{{ instructor }}</span>
                 {% empty %}
