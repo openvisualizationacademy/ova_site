@@ -47,6 +47,50 @@
     To get a <strong>certificate</strong> of completion, sign in to track your progress
   </p>
 
+  <section class="chapters">
+    <h2>Chapters</h2>
+
+    <div class="arrows">
+      <a href="#">
+        <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
+        Previous
+      </a>
+      <a href="#">
+        <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
+        Next
+      </a>
+    </div>
+
+    {% if page.get_children.live %}
+      <ol>
+        {% for chapter in page.get_children.live.specific %}
+          <li>
+            <a href="{{ chapter.url }}">{{ chapter.title }}</a>
+            {% if chapter.get_children.live %}
+              <ol>
+                {% for segment in chapter.get_children.live.specific %}
+                <li>
+                  <a href="{{ segment.url }}">{{ segment.title }}</a>
+                </li>
+                {% endfor %}
+              </ol>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+  </section>
+
+  {% if page.materials.exists %}
+    <h2>Course Materials</h2>
+    <ul>
+      {% for material in page.materials.all %}
+        <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+
   {% comment %}
   {% if page.content %}
     <section>
@@ -60,24 +104,6 @@
     </section>
   {% endif %}
   {% endcomment %}
-
-  {% if page.materials.exists %}
-    <h2>Course Materials</h2>
-    <ul>
-      {% for material in page.materials.all %}
-        <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
-  <h2>Chapters</h2>
-  {% if page.get_children.live %}
-    <ol>
-      {% for chapter in page.get_children.live.specific %}
-        <li><a href="{{ chapter.url }}">{{ chapter.title }}</a></li>
-      {% endfor %}
-    </ol>
-  {% endif %}
 
 </section>
   

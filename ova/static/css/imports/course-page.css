@@ -30,6 +30,56 @@ section.course-page {
   text-wrap: balance;
 }
 
+.course-page .chapters {
+  grid-column: span 3;
+  width: 100%;
+}
+
+.course-page .chapters a {
+  text-decoration: none;
+}
+
+.course-page .chapters ol {
+  list-style: none;
+  padding: 0;
+}
+
+.course-page .chapters li:last-child {
+  margin-block-end: 1.6rem;
+}
+
+.course-page .chapters ol ol {
+  padding-inline-start: 2.4rem;
+}
+
+/* Adapted from https://mark.ie/blog/nested-lists-in-css-with-a-numbered-hierarchy */
+.course-page .chapters {  
+  ol {
+    counter-reset: section;
+  }
+  ol > li {
+    counter-increment: section;
+  }
+  ol > li::before {
+    content: counter(section) ". ";
+  }
+  ol > li > ol {
+    counter-reset: subsection;
+  }
+  ol > li > ol > li {
+    counter-increment: subsection;
+  }
+  ol > li > ol > li::before {
+    content: counter(section) "." counter(subsection) " ";
+  }
+  /* Reset the counter on the main ordered list */
+  /* Style for the main list items */
+  /* Before each list item in the main list, insert the counter */
+  /* For nested lists (2nd level), add a new counter and reset */
+  /* For nested list items, increment the subsection counter */
+  /* Format the second-level list items with main section and subsection */
+}
+
 #sign-in-description {
   background: light-dark(var(--primary-200), var(--primary-800));
   border-radius: 1.6rem;
