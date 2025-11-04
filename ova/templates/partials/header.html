@@ -5,18 +5,24 @@
     </a>
     <div class="links">
       {% if minimal|default:False %}
-      <a href="/">
-        <div class="logo" aria-hidden="true" style="width: 7.2rem; height: 7.2rem"></div>
-        <span class="screen-reader">Home</span>
-      </a>
+        <a href="/">
+          <div class="logo" aria-hidden="true" style="width: 7.2rem; height: 7.2rem"></div>
+          <span class="screen-reader">Home</span>
+        </a>
       {% else %}
-      <a href="/">
-        <div class="logo" aria-hidden="true"></div>
-        <span class="screen-reader">Home</span>
-      </a>
-      <a href="#courses">Courses</a>
-      <a href="#about">About</a>
-      <a href="#news">News</a>
+        <a href="/">
+          <div class="logo" aria-hidden="true"></div>
+          <span class="screen-reader">Home</span>
+        </a>
+        {% if '/courses/' in request.path %}
+          <a href="/#courses" aria-describedby="current">Courses</a>
+        {% else %}
+          <a href="/#courses">Courses</a>
+        {% endif %}
+          <a href="/#about">About</a>
+          <a href="/#news">News</a>
+
+          <div id="current" hidden>Você está aqui</div>
       {% endif %}
     </div>
     <div class="account">

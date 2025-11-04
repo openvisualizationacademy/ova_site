@@ -63,6 +63,15 @@ sup {
   line-height: 0;
 }
 
+.kicker {
+  font-size: small;
+  letter-spacing: .1em;
+  line-height: 1;
+  padding-inline: 1.6rem;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
 header {
   position: relative;
   z-index: 2;

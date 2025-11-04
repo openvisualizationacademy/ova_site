@@ -8,8 +8,9 @@
   <div class="media"></div>
 
   <div class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-    <a href="{{ course.url }}">
+    <div class="card">
       <div class="primary">
+        <span class="kicker">Course<span class="screen-reader">:</span></span>
         <h1>{{ page.title }}</h1>
         <p class="authors">
           <span class="screen-reader">Author{{ self.course_instructors.all|pluralize }}:</span>
@@ -39,11 +40,11 @@
           {% endwith %}
         </p>
       </div>
-    </a>
+    </div>
   </div>
 
   <p id="sign-in-description">
-    To get a certificate after completing a course, sign in to track your progress</p>
+    To get a <strong>certificate</strong> of completion, sign in to track your progress
   </p>
 
   {% comment %}

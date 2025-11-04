@@ -80,6 +80,10 @@ header .account {
   gap: 1.6rem;
 }
 
+header nav .links a[aria-describedby="current"]::after {
+  opacity: 1;
+}
+
 @media (hover: hover) {
   header nav .links a:hover::after {
     opacity: 1;

@@ -23,7 +23,7 @@
     <ul class="cards">
       {% for course in courses %}
         <li class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-          <a href="{{ course.url }}">
+          <a href="{{ course.url }}" class="card">
             <div class="primary">
               <div class="media"></div>
               <h3>{{ course.title }}</h3>
