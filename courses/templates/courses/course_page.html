@@ -2,55 +2,77 @@
 {% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
 
 {% block content %}
-  <div class="container">
-    <h1>{{ page.title }}</h1>
 
-<br><br><br><br><br>
+<section class="course-page grid">
 
-<h2>Instructor{{ self.course_instructors.count|pluralize }}:</h2>
-  <ul style="list-style-type: none;">
-    {% for iteration in self.course_instructors.all %}
-      <li>
-      {% if iteration.instructor.image %}
-        {% image iteration.instructor.image fill-50x50 as img%}
-        <img src="{{ img.url }}" alt="{{ iteration.author.name }}">
-      {% else %}
-        <img src="{{ MEDIA_URL }}images/default_instructor_image.11b91630.fill-50x50.jpg">
-      {% endif %}
-      {{ iteration.instructor.name }}
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+    <a href="{{ course.url }}">
+      <div class="primary">
+        <div class="media"></div>
+        <h1>{{ page.title }}</h1>
+        <p class="authors">
+          <span class="screen-reader">Author{{ self.course_instructors.all|pluralize }}:</span>
 
-    {% if page.content %}
-      <section>
-        {% for block in page.content %}
-          {% if block.block_type == "markdown" %}
-            {{ block.value|markdown }}
-          {% elif block.block_type == "rich_text" %}
-            {{ block.value|richtext }}
-          {% endif %}
-        {% endfor %}
-      </section>
-    {% endif %}
-
-    {% if page.materials.exists %}
-      <h2>Course Materials</h2>
-      <ul>
-        {% for material in page.materials.all %}
-            <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-<br><br><br><br><br>
-    <h2>Chapters</h2>
-    {% if page.get_children.live %}
-      <ol>
-        {% for chapter in page.get_children.live.specific %}
-          <li><a href="{{ chapter.url }}">{{ chapter.title }}</a></li>
-        {% endfor %}
-      </ol>
-    {% endif %}
+          {% for iteration in self.course_instructors.all %}
+            <span class="author">
+              {% if iteration.instructor.image %}
+                {% image iteration.instructor.image fill-48x48 as img %}
+                <img src="{{ img.url }}" alt="">
+              {% endif %}
+              {{ iteration.instructor.name }}
+            </span>
+          {% endfor %}
+        </p>
+      </div>
+      <div class="secondary">
+        <p class="tags">
+          {% for tag in self.tags.all %}
+            <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+          {% endfor %}
+        </p>
+        <p class="duration">
+          <span class="screen-reader">Duration: </span>
+          {% with rounded=self.duration|default:0|floatformat:0 %}
+            {{ rounded }}<span aria-hidden="true">h</span>
+            <span class="screen-reader">hour{{ rounded|pluralize }}</span>
+          {% endwith %}
+        </p>
+      </div>
+    </a>
   </div>
-  <br><br><br><br><br>
+
+  {% comment %}
+  {% if page.content %}
+    <section>
+      {% for block in page.content %}
+        {% if block.block_type == "markdown" %}
+          {{ block.value|markdown }}
+        {% elif block.block_type == "rich_text" %}
+          {{ block.value|richtext }}
+        {% endif %}
+      {% endfor %}
+    </section>
+  {% endif %}
+  {% endcomment %}
+
+  {% if page.materials.exists %}
+    <h2>Course Materials</h2>
+    <ul>
+      {% for material in page.materials.all %}
+        <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h2>Chapters</h2>
+  {% if page.get_children.live %}
+    <ol>
+      {% for chapter in page.get_children.live.specific %}
+        <li><a href="{{ chapter.url }}">{{ chapter.title }}</a></li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+
+</section>
+  
 {% endblock %}
