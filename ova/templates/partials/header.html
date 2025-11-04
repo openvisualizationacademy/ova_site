@@ -33,9 +33,13 @@
         </label>
       </div>
       {% if user.is_authenticated %}
-      <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
+        <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
       {% else %}
-      <a href="{% url 'account_login' %}" class="button secondary">Sign in</a>
+        {% if '/courses/' in request.path %}
+          <a href="{% url 'account_login' %}" class="button secondary" aria-describedby="sign-in-description">Sign in</a>  
+        {% else %}
+          <a href="{% url 'account_login' %}" class="button secondary">Sign in</a>
+        {% endif %}
       {% endif %}
     </div>
   </nav>

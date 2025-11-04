@@ -5,10 +5,11 @@
 
 <section class="course-page grid">
 
+  <div class="media"></div>
+
   <div class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
     <a href="{{ course.url }}">
       <div class="primary">
-        <div class="media"></div>
         <h1>{{ page.title }}</h1>
         <p class="authors">
           <span class="screen-reader">Author{{ self.course_instructors.all|pluralize }}:</span>
@@ -40,6 +41,10 @@
       </div>
     </a>
   </div>
+
+  <p id="sign-in-description">
+    To get a certificate after completing a course, sign in to track your progress</p>
+  </p>
 
   {% comment %}
   {% if page.content %}

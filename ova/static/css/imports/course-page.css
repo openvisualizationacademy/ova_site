@@ -1,0 +1,45 @@
+section.course-page {
+  margin-block-start: 0;
+}
+
+.course-page .media {
+  aspect-ratio: 16/9;
+  background: light-dark(var(--neutral-200), var(--neutral-800));
+  border-radius: 1.6rem;
+  grid-column: span 3;
+  opacity: 0.5;
+  width: 100%;
+}
+
+.course-page .course {
+  grid-column: span 6;
+  max-width: 100%;
+}
+
+.course-page .course h1 {
+  padding: 1.6rem;
+  text-wrap: balance;
+}
+
+#sign-in-description {
+  background: var(--primary-200);
+  border-radius: 1.6rem;
+  grid-column: span 3;
+  height: min-content;
+  margin: 0;
+  padding: 2.4rem;
+  position: relative;
+}
+
+#sign-in-description::before {
+  background-color: var(--primary-200);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  content: "";
+  display: block;
+  height: 1.6rem;
+  position: absolute;
+  right: 2.4rem;
+  top: 0;
+  translate: 0 -100%;
+  width: 3.2rem;
+}
