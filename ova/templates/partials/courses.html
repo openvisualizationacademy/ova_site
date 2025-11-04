@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 <section id="courses" class="courses grid">
 
@@ -28,11 +28,16 @@
               <div class="media"></div>
               <h3>{{ course.title }}</h3>
               <p class="authors">
-                <span class="screen-reader">Author{{ course.instructors.all|pluralize }}:</span>
-                {% for instructor in course.instructors.all %}
-                  <span class="author">{{ instructor }}</span>
-                {% empty %}
-                  <span class="author">Unknown Author</span>
+                <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
+
+                {% for iteration in course.course_instructors.all %}
+                  <span class="author">
+                    {% if iteration.instructor.image %}
+                      {% image iteration.instructor.image fill-48x48 as img %}
+                      <img src="{{ img.url }}" alt="">
+                    {% endif %}
+                    {{ iteration.instructor.name }}
+                  </span>
                 {% endfor %}
               </p>
             </div>

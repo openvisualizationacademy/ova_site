@@ -127,12 +127,22 @@
   white-space: nowrap;
 }
 
-.author::before {
+.author img {
   align-self: center;
   aspect-ratio: 1;
   background: light-dark(var(--neutral-200), var(--neutral-800));
-  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 50%;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 2.4rem;
+}
+
+.author:not(:has(img))::before {
+  align-self: center;
+  aspect-ratio: 1;
+  background: light-dark(var(--neutral-200), var(--neutral-800));
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));  border-radius: 50%;
   content: "";
   display: inline-flex;
   flex-shrink: 0;
