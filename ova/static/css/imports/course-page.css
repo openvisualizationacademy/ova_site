@@ -63,9 +63,11 @@ section.course-page {
 .course-page .chapters .arrows {
   display: flex;
   gap: 0;
+  margin-top: -.6rem;
 }
 
 .course-page .chapters .arrows a {
+  padding-block: calc(.6rem - .1rem);
   padding-inline: .8rem;
   position: relative;
 }
@@ -109,7 +111,7 @@ section.course-page {
 }
 
 .course-page .chapters ol a::before {
-  background: light-dark(var(--neutral-300), var(--neutral-800));
+  background: light-dark(var(--neutral-300), var(--neutral-700));
   bottom: 0;
   content: "";
   display: block;
@@ -129,7 +131,7 @@ section.course-page {
 
 .course-page .chapters > ol > li > a::after {
   aspect-ratio: 1;
-  background: light-dark(var(--neutral-300), var(--neutral-800));
+  background: light-dark(var(--neutral-300), var(--neutral-700));
   border-radius: 50%;
   content: "";
   display: block;
@@ -150,6 +152,7 @@ section.course-page {
 
 .course-page .chapters ol li a.completed::before,
 .course-page .chapters ol li a.completed::after {
+
   background: light-dark(var(--success-600), var(--success-500))
 }
 

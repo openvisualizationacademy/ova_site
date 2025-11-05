@@ -98,11 +98,6 @@ section h2 {
   margin-block-end: 3.2rem;
 }
 
-footer {
-  border-block-start: 1px solid light-dark(var(--neutral-400), var(--neutral-600));
-  padding-block: var(--gutter);
-}
-
 .grid {
   display: grid;
   gap: var(--gutter);

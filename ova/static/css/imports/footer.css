@@ -1,0 +1,13 @@
+footer {
+  border-block-start: 1px solid light-dark(var(--neutral-400), var(--neutral-600));
+  padding-block: var(--gutter);
+}
+
+footer.grid .info {
+  grid-column: span 9;
+  padding-block: 2.4rem;
+}
+
+footer.grid a:has(picture) {
+  grid-column: span 3;
+}
