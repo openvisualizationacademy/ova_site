@@ -10,7 +10,7 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: 500;
-  gap: 0.8rem;
+  gap: 0rem;
   letter-spacing: 0.025em;
   outline-offset: 0.4rem;
   overflow: hidden;
@@ -44,6 +44,10 @@
   &:active {
     border: 1px solid currentColor;
   }
+}
+
+.button span {
+  padding-inline: .8rem;
 }
 
 @media (hover: hover) {

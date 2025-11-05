@@ -94,6 +94,7 @@ section.course-page {
 
 .course-page .chapters ol {
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
@@ -182,6 +183,11 @@ section.course-page {
   grid-column: span 9;
   padding-inline-start: 1.6rem;
   width: 100%;
+}
+
+.course-page .content .arrows {
+  display: flex;
+  gap: .8rem;
 }
 
 #sign-in-description {
