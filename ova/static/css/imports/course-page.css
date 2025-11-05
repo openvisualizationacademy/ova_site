@@ -188,6 +188,7 @@ section.course-page {
 .course-page .content .arrows {
   display: flex;
   gap: .8rem;
+  margin-block-start: 4.8rem;
 }
 
 #sign-in-description {
