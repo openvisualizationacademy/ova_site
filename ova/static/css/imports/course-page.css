@@ -35,6 +35,45 @@ section.course-page {
   width: 100%;
 }
 
+.course-page .chapters header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-block-end: 2.4rem;
+  padding: 0;
+  width: 100%;
+}
+
+.course-page .chapters header h2 {
+  margin: 0;
+}
+
+.course-page .chapters .arrows {
+  display: flex;
+  gap: 0;
+}
+
+.course-page .chapters .arrows a {
+  padding-inline: .8rem;
+  position: relative;
+}
+
+.course-page .chapters .arrows a:focus-visible,
+.course-page .chapters .arrows a:hover {
+  z-index: 1;
+}
+
+.course-page .chapters .arrows a:first-child {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+  translate: 1px;
+}
+
+.course-page .chapters .arrows a:last-child {
+  border-end-start-radius: 0;
+  border-start-start-radius: 0;
+}
+
 .course-page .chapters a {
   text-decoration: none;
 }
@@ -44,16 +83,53 @@ section.course-page {
   padding: 0;
 }
 
-.course-page .chapters li:last-child {
-  margin-block-end: 1.6rem;
+.course-page .chapters ol a {
+  border-radius: 1.6rem;
+  display: flex;
+  padding-block: .6rem;
+  padding-inline: 1.6rem 1.6rem;
+  position: relative;
+  text-decoration: none;
 }
 
 .course-page .chapters ol ol {
   padding-inline-start: 2.4rem;
 }
 
+.course-page .chapters ol a::before {
+  background: light-dark(var(--neutral-400), var(--neutral-600));
+  bottom: 0;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 1.6rem;
+  top: 0;
+  width: .4rem;
+}
+
+.course-page .chapters > ol > li:first-child > a::before {
+  top: 50%;
+}
+
+.course-page .chapters > ol > li:last-child > a::before {
+  bottom: 50%;
+}
+
+.course-page .chapters > ol > li > a::after {
+  aspect-ratio: 1;
+  background: light-dark(var(--neutral-400), var(--neutral-600));
+  border-radius: 50%;
+  content: "";
+  display: block;
+  position: absolute;
+  right: calc(1.6rem + .2rem);
+  top: 50%;
+  translate: 50% -50%;
+  width: 1.2rem;
+}
+
 /* Adapted from https://mark.ie/blog/nested-lists-in-css-with-a-numbered-hierarchy */
-.course-page .chapters {  
+/* .course-page .chapters {  
   ol {
     counter-reset: section;
   }
@@ -72,12 +148,12 @@ section.course-page {
   ol > li > ol > li::before {
     content: counter(section) "." counter(subsection) " ";
   }
-  /* Reset the counter on the main ordered list */
-  /* Style for the main list items */
-  /* Before each list item in the main list, insert the counter */
-  /* For nested lists (2nd level), add a new counter and reset */
-  /* For nested list items, increment the subsection counter */
-  /* Format the second-level list items with main section and subsection */
+   } */
+
+.course-page .content {
+  grid-column: span 9;
+  padding-inline-start: 1.6rem;
+  width: 100%;
 }
 
 #sign-in-description {
@@ -102,4 +178,19 @@ section.course-page {
   top: 0;
   translate: 0 -100%;
   width: 2.4rem;
+}
+
+@media (hover: hover) {
+  .course-page .chapters ol a:hover {
+    background: light-dark(var(--neutral-200), var(--neutral-800));
+    border-color: currentColor;
+  }
+
+  .course-page .chapters ol a:hover::before {
+    background: currentColor;
+  }
+
+  .course-page .chapters > ol > li > a:hover::after {
+    background: currentColor;
+  }
 }
