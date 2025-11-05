@@ -74,6 +74,8 @@ section.course-page {
       light-dark(var(--success-600), var(--success-500)) var(--percentage),
       light-dark(var(--neutral-300), var(--neutral-700)) 0
     );
+  /* TODO: Replace radial-gradient by mask when it has better support */
+  /* mask: radial-gradient(circle, transparent 50%, black 50%); */
 }
 
 .course-page .progress.completed .donut {
