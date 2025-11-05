@@ -47,79 +47,80 @@
     To get a <strong>certificate</strong> of completion, sign in to track your progress
   </p>
 
-  <section class="chapters">
-    <header>
-      <h2>Chapters</h2>
-      <div class="arrows">
-        <a href="#" class="button tertiary">
-          <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
-          <span class="screen-reader">Previous</span>
-        </a>
-        <a href="#" class="button tertiary">
-          <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
-          <span class="screen-reader">Next</span>
-        </a>
-      </div>
-    </header>
+  <div class="sticky-wrapper grid">
 
-    {% if page.get_children.live %}
-      <ol>
-        {% for chapter in page.get_children.live.specific %}
-          <li>
-            <a href="{{ chapter.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
-              {{ chapter.title }}
-            </a>
-            {% if chapter.get_children.live %}
-              <ol>
-                {% for segment in chapter.get_children.live.specific %}
-                <li>
-                  <a href="{{ segment.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
-                    {{ segment.title }}
-                  </a>
-                </li>
-                {% endfor %}
-              </ol>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ol>
-    {% endif %}
-  </section>
+    <section class="chapters">
+      <header>
+        <h2>Chapters</h2>
+        <div class="arrows">
+          <a href="#" class="button tertiary">
+            <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
+            <span class="screen-reader">Previous</span>
+          </a>
+          <a href="#" class="button tertiary">
+            <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
+            <span class="screen-reader">Next</span>
+          </a>
+        </div>
+      </header>
 
-  <section class="content">
-    <h2>Lorem ipsum dolor sit amet</h2>
-
-    <!-- TEMP: Vimeo embed -->
-    <div style="padding:56.25% 0 0 0;position:relative;">
-      <iframe src="https://player.vimeo.com/video/171945580?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="An introduction to data visualization"></iframe>
-    </div>
-    <script src="https://player.vimeo.com/api/player.js"></script>
-
-  </section>
-
-  {% if page.materials.exists %}
-    <h2>Course Materials</h2>
-    <ul>
-      {% for material in page.materials.all %}
-        <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
-
-  {% comment %}
-  {% if page.content %}
-    <section>
-      {% for block in page.content %}
-        {% if block.block_type == "markdown" %}
-          {{ block.value|markdown }}
-        {% elif block.block_type == "rich_text" %}
-          {{ block.value|richtext }}
-        {% endif %}
-      {% endfor %}
+      {% if page.get_children.live %}
+        <ol>
+          {% for chapter in page.get_children.live.specific %}
+            <li>
+              <a href="{{ chapter.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
+                {{ chapter.title }}
+              </a>
+              {% if chapter.get_children.live %}
+                <ol>
+                  {% for segment in chapter.get_children.live.specific %}
+                  <li>
+                    <a href="{{ segment.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
+                      {{ segment.title }}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ol>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
     </section>
-  {% endif %}
-  {% endcomment %}
+
+    <section class="content">
+      <h2>Lorem ipsum dolor sit amet</h2>
+
+      <!-- TEMP: Vimeo embed -->
+      <div style="padding:56.25% 0 0 0;position:relative;">
+        <iframe src="https://player.vimeo.com/video/171945580?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="An introduction to data visualization"></iframe>
+      </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
+
+      {% if page.content %}
+        <section>
+          {% for block in page.content %}
+            {% if block.block_type == "markdown" %}
+              {{ block.value|markdown }}
+            {% elif block.block_type == "rich_text" %}
+              {{ block.value|richtext }}
+            {% endif %}
+          {% endfor %}
+        </section>
+      {% endif %}
+
+      {% if page.materials.exists %}
+        <h2>Course Materials</h2>
+        <ul>
+          {% for material in page.materials.all %}
+            <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+    </section>
+
+  </div>
 
 </section>
   

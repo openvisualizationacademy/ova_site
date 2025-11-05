@@ -30,8 +30,20 @@ section.course-page {
   text-wrap: balance;
 }
 
+.course-page .sticky-wrapper {
+  align-items: start;
+  grid-column: span 12;
+}
+
+.course-page  .sticky-wrapper section {
+  margin-block: 4.8rem;
+  padding-block: 2.4rem;
+}
+
 .course-page .chapters {
   grid-column: span 3;
+  position: sticky;
+  top: 0;
   width: 100%;
 }
 
