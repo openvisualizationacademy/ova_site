@@ -43,7 +43,8 @@
     </div>
   </div>
 
-  <p id="sign-in-description">
+  <!-- TODO: Remember if whether deactivated warning or not (and add class conditionally) -->
+  <p id="sign-in-description" class="warning" onclick="this.classList.remove('warning')">
     To get a <strong>certificate</strong> of completion, sign in to track your progress
   </p>
 
@@ -86,6 +87,19 @@
           {% endfor %}
         </ol>
       {% endif %}
+
+      <!-- TEMP: Randomly set chapters or segments as completed to test style -->
+      <script>
+        (function() {
+          const courseParts = document.querySelectorAll(".chapters ol a");
+          courseParts.forEach((part, index) => {
+            const chance = index === 0 || Math.random() < .3;
+            part.classList.toggle("completed", chance);
+          });
+
+        })();
+      </script>
+
     </section>
 
     <section class="content">

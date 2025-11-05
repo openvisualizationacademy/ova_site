@@ -109,14 +109,14 @@ section.course-page {
 }
 
 .course-page .chapters ol a::before {
-  background: light-dark(var(--neutral-400), var(--neutral-600));
+  background: light-dark(var(--neutral-300), var(--neutral-800));
   bottom: 0;
   content: "";
   display: block;
   position: absolute;
-  right: 1.6rem;
+  right: calc(1.6rem + .1rem);
   top: 0;
-  width: .4rem;
+  width: .2rem;
 }
 
 .course-page .chapters > ol > li:first-child > a::before {
@@ -129,7 +129,7 @@ section.course-page {
 
 .course-page .chapters > ol > li > a::after {
   aspect-ratio: 1;
-  background: light-dark(var(--neutral-400), var(--neutral-600));
+  background: light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 50%;
   content: "";
   display: block;
@@ -138,6 +138,19 @@ section.course-page {
   top: 50%;
   translate: 50% -50%;
   width: 1.2rem;
+}
+
+.course-page .chapters ol li a.completed::before {
+  right: calc(1.6rem - .1rem);
+  width: .6rem;
+
+  /* right: calc(1.6rem + 0rem);
+  width: .4rem; */
+}
+
+.course-page .chapters ol li a.completed::before,
+.course-page .chapters ol li a.completed::after {
+  background: light-dark(var(--success-600), var(--success-500))
 }
 
 /* Adapted from https://mark.ie/blog/nested-lists-in-css-with-a-numbered-hierarchy */
@@ -169,7 +182,7 @@ section.course-page {
 }
 
 #sign-in-description {
-  background: light-dark(var(--primary-200), var(--primary-800));
+  background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 1.6rem;
   grid-column: span 3;
   height: min-content;
@@ -177,10 +190,11 @@ section.course-page {
   padding: 1.6rem;
   position: relative;
   text-wrap: balance;
+  transition: background-color .2s, color .2s;
 }
 
 #sign-in-description::before {
-  background-color: light-dark(var(--primary-200), var(--primary-800));
+  background: light-dark(var(--neutral-200), var(--neutral-800));
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   content: "";
   display: block;
@@ -188,21 +202,28 @@ section.course-page {
   position: absolute;
   right: 2.4rem;
   top: 0;
+  transition: background-color .2s;
   translate: 0 -100%;
   width: 2.4rem;
+}
+
+#sign-in-description.warning,
+#sign-in-description.warning::before {
+  background: light-dark(var(--primary-200), var(--primary-300));
+  color: light-dark(var(--neutral-800), var(--neutral-800));
 }
 
 @media (hover: hover) {
   .course-page .chapters ol a:hover {
     background: light-dark(var(--neutral-200), var(--neutral-800));
-    border-color: currentColor;
-  }
 
-  .course-page .chapters ol a:hover::before {
+    /* border-color: currentColor; */
+  }
+  /* .course-page .chapters ol a:hover::before {
     background: currentColor;
   }
 
   .course-page .chapters > ol > li > a:hover::after {
     background: currentColor;
-  }
+  } */
 }

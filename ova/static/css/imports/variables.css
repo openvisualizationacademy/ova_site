@@ -5,6 +5,18 @@
   --margin: 2.4rem;
   --max-width: 134.4rem;
 
+  /* YlOrRd scheme from d3 or https://colorbrewer2.org */
+  --primary-100: #ffffcc;
+  --primary-200: #ffeda0;
+  --primary-300: #fed976;
+  --primary-400: #feb24c;
+  --primary-500: #fd8d3c;
+  --primary-600: #fc4e2a;
+  --primary-700: #e31a1c;
+  --primary-800: #bd0026;
+  --primary-900: #800026;
+
+  /* Greys scheme from d3 or https://colorbrewer2.org */
   --neutral-100: #ffffff;
   --neutral-200: #f0f0f0;
   --neutral-300: #d9d9d9;
@@ -15,15 +27,16 @@
   --neutral-800: #252525;
   --neutral-900: #000000;
 
-  --primary-100: #ffffcc;
-  --primary-200: #ffeda0;
-  --primary-300: #fed976;
-  --primary-400: #feb24c;
-  --primary-500: #fd8d3c;
-  --primary-600: #fc4e2a;
-  --primary-700: #e31a1c;
-  --primary-800: #bd0026;
-  --primary-900: #800026;
+  /* YlGn scheme from d3 or https://colorbrewer2.org */
+  --success-100: #ffffe5;
+  --success-200: #f7fcb9;
+  --success-300: #d9f0a3;
+  --success-400: #addd8e;
+  --success-500: #78c679;
+  --success-600: #41ab5d;
+  --success-700: #238443;
+  --success-800: #006837;
+  --success-900: #004529;
 
   --tag-all: currentColor;
   --tag-essential: #e15759; /* red from `d3.schemeTableau10[2]` */
