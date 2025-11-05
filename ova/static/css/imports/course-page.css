@@ -30,6 +30,75 @@ section.course-page {
   text-wrap: balance;
 }
 
+.course-page .tracker {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  grid-column: span 3;
+}
+
+.course-page .progress {
+  align-items: center;
+  background: light-dark(var(--neutral-200), var(--neutral-800));
+  border-radius: 1.6rem;
+  display: flex;
+  gap: 1.6rem;
+  height: min-content;
+  padding: 1.6rem;
+  width: 100%;
+}
+
+.course-page .progress.completed {
+  background: light-dark(var(--success-300), var(--success-900));
+}
+
+.course-page .progress .donut {
+  --inner-color: light-dark(var(--neutral-200), var(--neutral-800));
+  --percentage: 0%;
+  align-items: center;
+  border-radius: 50%;
+  color: light-dark(var(--success-600), var(--success-500));
+  display: flex;
+  height: 4.8rem;
+  justify-content: center;
+  position: relative;
+  width: 4.8rem;
+
+  background:
+    radial-gradient(
+      closest-side,
+      var(--inner-color) 75%,
+      transparent 75% 100%
+    ),
+    conic-gradient(
+      light-dark(var(--success-600), var(--success-500)) var(--percentage),
+      light-dark(var(--neutral-300), var(--neutral-700)) 0
+    );
+}
+
+.course-page .progress.completed .donut {
+  --inner-color: light-dark(var(--success-300), var(--success-900));
+}
+
+.course-page .progress p {
+  margin: 0;
+}
+
+.course-page .progress:not(.completed) .percentage {
+  color: light-dark(var(--success-600), var(--success-500));
+}
+
+.course-page .certificate {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.course-page .certificate small {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+  padding-inline: 1.6rem;
+}
+
 .course-page .sticky-wrapper {
   align-items: start;
   grid-column: span 12;
