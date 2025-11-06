@@ -62,6 +62,22 @@
     ]
   },
   {
+    "name": "Frank Elavsky",
+    "tagline": "Accessibility Consultant",
+    "photo": "frank-elavsky.jpg",
+    "alt": "",
+    "bio": "Frank is a PhD candidate and researcher at the Human-Computer Interaction Institute at Carnegie Mellon University. His work explores the intersection of interactive data visualization and accessibility. Frank has collaborated with companies such as Apple's Human-Centered Machine Intelligence research group, Adobe, Microsoft, Visa, and Highcharts. Frank’s contributions focus on enabling people with and without disabilities find insights, make decisions, and live better lives using data.",
+    "role": "contributor",
+    "courses": [
+      "Accessibility in Visualization"
+    ],
+    "links": [
+      "https://frank.computer",
+      "https://bsky.app/profile/frank.computer",
+      "https://linkedin.com/in/elavsky/"
+    ]
+  },
+  {
     "name": "Catherine D'Ignazio",
     "tagline": "Associate Professor of Urban Science & Planning, Director of the Data + Feminism Lab",
     "photo": "catherine-d-ignazio.jpg",
