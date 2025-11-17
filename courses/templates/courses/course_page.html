@@ -92,6 +92,26 @@
 
   {% endif %}
 
+  <section class="overview">
+    {% if page.content %}
+    <!-- TODO: Remember whether user collapsed overview for course (and add open attribute conditionally) -->
+    <details open>
+      <summary class="kicker">
+        <span>Overview</span>
+      </summary>
+      <div>
+        {% for block in page.content %}
+          {% if block.block_type == "markdown" %}
+            {{ block.value|markdown }}
+          {% elif block.block_type == "rich_text" %}
+            {{ block.value|richtext }}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </details>
+    {% endif %}
+  </section>
+
   <div class="sticky-wrapper grid">
 
     <section class="chapters">
@@ -154,18 +174,6 @@
         <iframe src="https://player.vimeo.com/video/171945580?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="An introduction to data visualization"></iframe>
       </div>
       <script src="https://player.vimeo.com/api/player.js"></script>
-
-      {% if page.content %}
-        <section>
-          {% for block in page.content %}
-            {% if block.block_type == "markdown" %}
-              {{ block.value|markdown }}
-            {% elif block.block_type == "rich_text" %}
-              {{ block.value|richtext }}
-            {% endif %}
-          {% endfor %}
-        </section>
-      {% endif %}
 
       {% if page.materials.exists %}
         <h2>Course Materials</h2>
