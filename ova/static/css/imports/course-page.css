@@ -253,6 +253,8 @@ section.course-page {
 .course-page .content {
   grid-column: span 9;
   padding-inline-start: 1.6rem;
+  position: sticky;
+  top: 0;
   width: 100%;
 }
 
