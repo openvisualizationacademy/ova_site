@@ -6,6 +6,15 @@ footer {
 footer.grid .info {
   grid-column: span 9;
   padding-block: 2.4rem;
+  text-wrap: balance;
+}
+
+footer.grid .info p {
+  margin-block: .5em;
+}
+
+footer.grid .info small {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
 }
 
 footer.grid a:has(picture) {
