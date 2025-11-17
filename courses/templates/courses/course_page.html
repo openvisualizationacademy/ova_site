@@ -27,11 +27,15 @@
         </p>
       </div>
       <div class="secondary">
-        <p class="tags">
-          {% for tag in self.tags.all %}
-            <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
-          {% endfor %}
-        </p>
+        {% with tags=self.tags.all %}
+          {% if tags %}
+            <p class="tags">
+              {% for tag in tags %}
+                <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+              {% endfor %}
+            </p>
+          {% endif %}
+        {% endwith %}
         <p class="duration">
           <span class="screen-reader">Duration: </span>
           {% with rounded=self.duration|default:0|floatformat:0 %}
