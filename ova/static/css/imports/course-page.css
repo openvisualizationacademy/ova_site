@@ -173,7 +173,7 @@ section.course-page {
   border-radius: 1.6rem;
   display: flex;
   padding-block: .6rem;
-  padding-inline: 1.6rem 1.6rem;
+  padding-inline: 1.6rem 3.2rem;
   position: relative;
   text-decoration: none;
 }
