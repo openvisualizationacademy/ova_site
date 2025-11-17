@@ -103,6 +103,7 @@ background:
 
 .course-page .sticky-wrapper {
   align-items: start;
+  border-block-start: 1px solid light-dark(var(--neutral-400), var(--neutral-600));
   grid-column: span 12;
 }
 
@@ -112,7 +113,7 @@ background:
 }
 
 .course-page .chapters {
-  grid-column: span 3;
+  grid-column: span 4;
   position: sticky;
   top: 0;
   width: 100%;
@@ -176,9 +177,11 @@ background:
   padding-inline: 1.2rem 3.2rem;
   position: relative;
   text-decoration: none;
+  text-wrap: pretty;
 }
 
 .course-page .chapters ol ol {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
   padding-inline-start: 1.6rem;
 }
 
@@ -251,7 +254,7 @@ background:
    } */
 
 .course-page .content {
-  grid-column: span 9;
+  grid-column: span 8;
   padding-inline-start: 1.6rem;
   position: sticky;
   top: 0;
@@ -298,13 +301,19 @@ background:
 
 .course-page .overview {
   align-items: baseline;
-  grid-column: 4 / span 9;
-  margin-block: 0rem;
+  margin-block: 0;
   margin-inline: auto;
   width: 100%;
 }
 
+.course-page .overview .content-updated {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+  grid-column: span 3;
+  margin: 0;
+}
+
 .course-page .overview details {
+  grid-column: span 9;
   width: 100%;
 }
 

@@ -92,7 +92,12 @@
 
   {% endif %}
 
-  <section class="overview">
+  <section class="overview grid">
+    <p class="content-updated">
+      <!-- TODO: Make this field dynamic -->
+      <small>Content updated in <time datetime="2025-08">August 2025</time></small>
+    </p>
+
     {% if page.content %}
     <!-- TODO: Remember whether user collapsed overview for course (and add open attribute conditionally) -->
     <details open>
@@ -152,7 +157,7 @@
                   <!-- TEMP: Add a fake quiz at the end of each chapter -->
                   <li>
                     <a href="javascript:void(0)">
-                      <span class="quiz-badge kicker">Exam</span>
+                      <span class="quiz-badge kicker">Quiz</span>
                       Test your knowledge
                     </a>
                   </li>
