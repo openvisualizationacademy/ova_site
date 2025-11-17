@@ -173,13 +173,13 @@ background:
   border-radius: 1.6rem;
   display: flex;
   padding-block: .6rem;
-  padding-inline: 1.6rem 3.2rem;
+  padding-inline: 1.2rem 3.2rem;
   position: relative;
   text-decoration: none;
 }
 
 .course-page .chapters ol ol {
-  padding-inline-start: 2.4rem;
+  padding-inline-start: 1.6rem;
 }
 
 .course-page .chapters ol a::before {
@@ -336,6 +336,21 @@ background:
 
 .course-page .overview details > div *:last-child {
   margin-block-end: 0;
+}
+
+.course-page .quiz-badge {
+  align-items: baseline;
+  background: light-dark(var(--neutral-300), var(--neutral-700));
+  border-radius: .4rem;
+  display: flex;
+  margin-inline-end: .6rem;
+  padding-block: .6rem .4rem;
+  padding-inline: .6rem;
+}
+
+.course-page .completed .quiz-badge {
+  background: light-dark(var(--success-600), var(--success-500));
+  color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
 @media (hover: hover) {

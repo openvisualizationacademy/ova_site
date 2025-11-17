@@ -68,6 +68,7 @@ sup {
 
 .kicker {
   font-size: small;
+  font-weight: 500;
   letter-spacing: .1em;
   line-height: 1;
   padding-inline: 1.6rem;
