@@ -117,6 +117,8 @@
     <section class="chapters">
       <header>
         <h2>Chapters</h2>
+
+        {% comment %}
         <div class="arrows">
           <a href="#" class="button tertiary">
             <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
@@ -127,6 +129,7 @@
             <span class="screen-reader">Next</span>
           </a>
         </div>
+        {% endcomment %}
       </header>
 
       {% if page.get_children.live %}
