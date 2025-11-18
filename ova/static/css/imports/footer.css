@@ -1,5 +1,5 @@
 footer {
-  border-block-start: 1px solid light-dark(var(--neutral-400), var(--neutral-600));
+  border-block-start: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   padding-block: var(--gutter);
 }
 
