@@ -27,6 +27,10 @@
   --neutral-800: #252525;
   --neutral-900: #000000;
 
+  /* Additional greys (midpoints) */
+  --neutral-150: #f8f8f8;
+  --neutral-850: #131313;
+
   /* YlGn scheme from d3 or https://colorbrewer2.org */
   --success-100: #ffffe5;
   --success-200: #f7fcb9;
