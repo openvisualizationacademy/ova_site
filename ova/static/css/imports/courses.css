@@ -97,8 +97,7 @@
 
 .course .media {
   aspect-ratio: 16/9;
-  background: light-dark(var(--neutral-200), var(--neutral-800));
-  opacity: 0.5;
+  background: light-dark(var(--neutral-150), var(--neutral-850));
   width: 100%;
 }
 

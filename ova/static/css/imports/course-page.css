@@ -4,10 +4,9 @@ section.course-page {
 
 .course-page .media {
   aspect-ratio: 16/9;
-  background: light-dark(var(--neutral-200), var(--neutral-800));
+  background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: 1.6rem;
   grid-column: span 3;
-  opacity: 0.5;
   width: 100%;
 }
 
@@ -39,7 +38,7 @@ section.course-page {
 
 .course-page .progress {
   align-items: center;
-  background: light-dark(var(--neutral-200), var(--neutral-800));
+  background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: 1.6rem;
   display: flex;
   gap: 1.6rem;
@@ -53,7 +52,7 @@ section.course-page {
 }
 
 .course-page .progress .donut {
-  --inner-color: light-dark(var(--neutral-200), var(--neutral-800));
+  --inner-color: light-dark(var(--neutral-150), var(--neutral-850));
   --percentage: 0%;
   align-items: center;
   border-radius: 50%;
