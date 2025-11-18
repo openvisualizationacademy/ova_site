@@ -31,7 +31,7 @@
           {% if tags %}
             <p class="tags">
               {% for tag in tags %}
-                <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+                <span class="tag" data-tag="{{ tag }}">{% comment %}{{ tag }}{% endcomment %}</span>
               {% endfor %}
             </p>
           {% endif %}
