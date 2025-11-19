@@ -115,9 +115,7 @@ class CoursesIndexPage(Page):
         context['courses'] = courses
 
         # TODO: Consider sorting in order of importance
-        # context['all_tags'] = sorted(tags)
-        # TEMP: Add fixed list of tags
-        context['all_tags'] = ["Essential", "Conceptual", "Technical"]
+        context['all_tags'] = sorted(tags)
         return context
 
 

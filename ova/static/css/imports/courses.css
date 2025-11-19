@@ -176,36 +176,16 @@
   color: var(--tag-all);
 }
 
-.tag[data-tag="Conceptual"] {
-  color: var(--tag-conceptual);
-
-  &::before {
-    content: "Lecture"
-  }
+.tag[data-tag="Fundamentals"] {
+  color: var(--tag-fundamentals);
 }
 
-.tag[data-tag="Essential"] {
-  color: var(--tag-essential);
-
-  &::before {
-    content: "Essential"
-  }
+.tag[data-tag="Lecture"] {
+  color: var(--tag-lecture);
 }
 
-.tag[data-tag="Personal"] {
-  color: var(--tag-personal);
-
-  &::before {
-    content: "Personal"
-  }
-}
-
-.tag[data-tag="Technical"] {
-  color: var(--tag-technical);
-
-  &::before {
-    content: "Tutorial"
-  }
+.tag[data-tag="Tutorial"] {
+  color: var(--tag-tutorial);
 }
 
 /* .course .tag::before {
