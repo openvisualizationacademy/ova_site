@@ -11,7 +11,7 @@ from wagtail.images import get_image_model
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
-
+import re
 
 User = get_user_model()
 
@@ -199,6 +199,16 @@ class SegmentPage(Page):
 
     parent_page_types = ["ChapterPage"]
     subpage_types = []
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        # Extract Vimeo id
+        if self.video_url:
+            match = re.search(r'vimeo\.com/(\d+)', self.video_url)
+            context["vimeo_id"] = match.group(1) if match else None
+
+        return context
 
 
 class Quiz(models.Model):
