@@ -2,15 +2,17 @@
 {% load static wagtailcore_tags %}
 
 {% block content %}
-  <div class="container">
+  <div class="container grid">
     <h1>{{ page.title }}</h1>
 
     {% if page.video_url %}
-      <div class="video-container">
-        <video controls width="100%" src="{{ page.video_url }}"></video>
-      </div>
 
-      <code>{{ vimeo_id }}</code>
+    <div class="vimeo-embed">
+      <div style="padding:56.25% 0 0 0;position:relative;">
+        <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Video"></iframe>
+      </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
+    </div>
 
     {% endif %}
 

@@ -1,3 +1,8 @@
+.vimeo-embed iframe {
+  border-radius: .4rem;
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
+}
+
 section.course-page {
   margin-block-start: 0;
 }
