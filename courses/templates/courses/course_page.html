@@ -50,7 +50,7 @@
   {% if user.is_authenticated %}
 
     <!-- TODO: Calculate and display course progress -->
-    {% with percentage=37 %}
+    {% with percentage=0 %}
       <div class="tracker">
         <div class="progress {% if percentage == 100 %}completed{% endif %}">
           <label>
@@ -176,7 +176,7 @@
                       Test your knowledge
 
                       <!-- TODO: Make completed status dynamic -->
-                      {% with completed=True %}
+                      {% with completed=False %}
                         {% if completed %}
                           <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                         {% else %}
