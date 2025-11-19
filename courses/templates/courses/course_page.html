@@ -7,15 +7,15 @@
 
   <div class="media"></div>
 
-  <div class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+  <div class="course" data-tags="{% for tag in page.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
     <div class="card">
       <div class="primary">
-        <span class="kicker">Course<span class="screen-reader">:</span></span>
+        <span class="kicker">Course <span class="screen-reader">:</span></span>
         <h1>{{ page.title }}</h1>
         <p class="authors">
-          <span class="screen-reader">Author{{ self.course_instructors.all|pluralize }}:</span>
+          <span class="screen-reader">Author{{ page.course_instructors.all|pluralize }}:</span>
 
-          {% for iteration in self.course_instructors.all %}
+          {% for iteration in page.course_instructors.all %}
             <span class="author">
               {% if iteration.instructor.image %}
                 {% image iteration.instructor.image fill-48x48 as img %}
@@ -27,7 +27,7 @@
         </p>
       </div>
       <div class="secondary">
-        {% with tags=self.tags.all %}
+        {% with tags=page.tags.all %}
           {% if tags %}
             <p class="tags">
               {% for tag in tags %}
@@ -38,7 +38,7 @@
         {% endwith %}
         <p class="duration">
           <span class="screen-reader">Duration: </span>
-          {% with rounded=self.duration|default:3|floatformat:0 %}
+          {% with rounded=page.duration|default:3|floatformat:0 %}
             {{ rounded }}<span aria-hidden="true">h</span>
             <span class="screen-reader">hour{{ rounded|pluralize }}</span>
           {% endwith %}
