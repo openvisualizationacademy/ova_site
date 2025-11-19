@@ -141,26 +141,52 @@
         <ol>
           {% for chapter in page.get_children.live.specific %}
             <li>
+              <p class="chapter kicker">
+                Chapter {{ forloop.counter }}{% if chapter.get_children.live.count > 1 %}: {{ chapter.title }} {% endif %}
+              </p>
+              {% comment %}
               <a href="{{ chapter.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
                 {{ chapter.title }}
               </a>
+              {% endcomment %}
               {% if chapter.get_children.live %}
                 <ol>
                   {% for segment in chapter.get_children.live.specific %}
                   <li>
                     <a href="{{ segment.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
                       {{ segment.title }}
+                      
+                      <!-- TODO: Make completed status dynamic -->
+                      {% with completed=False %}
+                        {% if completed %}
+                          <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+                        {% else %}
+                          <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                        {% endif %}
+                      {% endwith %}
                     </a>
                   </li>
                   {% endfor %}
 
-                  <!-- TEMP: Add a fake quiz at the end of each chapter -->
+                  <!-- TEMP: Add a fake quiz at the end of each chapter, except for first of last chapters -->
+                  {% if not forloop.first and not forloop.last %}
                   <li>
                     <a href="javascript:void(0)">
                       <span class="quiz-badge kicker">Quiz</span>
                       Test your knowledge
+
+                      <!-- TODO: Make completed status dynamic -->
+                      {% with completed=True %}
+                        {% if completed %}
+                          <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+                        {% else %}
+                          <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                        {% endif %}
+                      {% endwith %}
                     </a>
                   </li>
+                  {% endif %}
+
                 </ol>
               {% endif %}
             </li>
@@ -168,17 +194,21 @@
         </ol>
       {% endif %}
 
-      <!-- TEMP: Randomly set chapters or segments as completed to test style -->
+      <!-- TEMP: Randomly set segments as completed to test style
       <script>
         (function() {
-          const courseParts = document.querySelectorAll(".chapters ol a");
+          const courseParts = document.querySelectorAll(".chapters ol ol a");
           courseParts.forEach((part, index) => {
-            const chance = index === 0 || Math.random() < .3;
+            // const chance = index === 0 || Math.random() < .3;
+            
+            // Roughly first 37%
+            const chance = (index / courseParts.length ) < .37;
             part.classList.toggle("completed", chance);
           });
 
         })();
       </script>
+      -->
 
     </section>
 

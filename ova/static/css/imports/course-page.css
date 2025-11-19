@@ -174,10 +174,17 @@ background:
   padding: 0;
 }
 
+.course-page .chapters > ol {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
 .course-page .chapters ol a {
   border-radius: 1.6rem;
   display: flex;
-  padding-block: .6rem;
+  margin-block: .2rem;
+  padding-block: .4rem;
   padding-inline: 1.2rem 3.2rem;
   position: relative;
   text-decoration: none;
@@ -185,54 +192,46 @@ background:
 }
 
 .course-page .chapters ol ol {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
-  padding-inline-start: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-block-end: 1.6rem;
+  padding-inline-start: 2px;
 }
 
-.course-page .chapters ol a::before {
-  background: light-dark(var(--neutral-300), var(--neutral-700));
-  bottom: 0;
-  content: "";
-  display: block;
-  position: absolute;
-  right: calc(1.6rem + .1rem);
-  top: 0;
-  width: .2rem;
-}
-
-.course-page .chapters > ol > li:first-child > a::before {
-  top: 50%;
-}
-
-.course-page .chapters > ol > li:last-child > a::before {
-  bottom: 50%;
-}
-
-.course-page .chapters > ol > li > a::after {
-  aspect-ratio: 1;
-  background: light-dark(var(--neutral-300), var(--neutral-700));
+.course-page .chapters ol li a svg[data-icon] {
   border-radius: 50%;
-  content: "";
-  display: block;
+  pointer-events: none;
   position: absolute;
-  right: calc(1.6rem + .2rem);
-  top: 50%;
-  translate: 50% -50%;
-  width: 1.2rem;
+  right: .4rem;
+  top: .4rem;
 }
 
-.course-page .chapters ol li a.completed::before {
-  right: calc(1.6rem - .1rem);
-  width: .6rem;
-
-  /* right: calc(1.6rem + 0rem);
-  width: .4rem; */
+.course-page .chapters ol li a svg[data-icon="check-circle"] path {
+  color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
-.course-page .chapters ol li a.completed::before,
-.course-page .chapters ol li a.completed::after {
+.course-page .chapters ol li a svg[data-icon="check-circle"] circle {
+  fill: light-dark(var(--success-600), var(--success-500));
+  color: light-dark(var(--success-600), var(--success-500));
+}
 
-  background: light-dark(var(--success-600), var(--success-500))
+.course-page .chapters ol li a svg[data-icon="circle"] {
+  color: light-dark(var(--neutral-300), var(--neutral-700));
+}
+
+.course-page .chapters .chapter.kicker {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+  line-height: 1.25;
+  margin: 0;
+  margin-block-end: .4rem;
+  padding-inline: 0;
+}
+
+/* TEMP: Apply active style to first segment */
+.course-page .chapters ol a.active,
+.course-page .chapters ol > li:first-child ol > li:first-child a {
+  box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
 /* Adapted from https://mark.ie/blog/nested-lists-in-css-with-a-numbered-hierarchy */
@@ -353,6 +352,7 @@ background:
 
 .course-page .quiz-badge {
   align-items: baseline;
+  align-self: start;
   background: light-dark(var(--neutral-300), var(--neutral-700));
   border-radius: .4rem;
   color: light-dark(var(--neutral-900), var(--neutral-100));
@@ -368,9 +368,10 @@ background:
 }
 
 @media (hover: hover) {
-  .course-page .chapters ol a:hover {
-    background: light-dark(var(--neutral-200), var(--neutral-800));
+  .course-page .chapters ol a:not(.active):hover {
+    box-shadow: 0 0 0 1px light-dark(var(--neutral-900), var(--neutral-100));
 
+    /* background: light-dark(var(--neutral-200), var(--neutral-800)); */
     /* border-color: currentColor; */
   }
   /* .course-page .chapters ol a:hover::before {
