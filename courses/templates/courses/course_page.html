@@ -38,7 +38,7 @@
         {% endwith %}
         <p class="duration">
           <span class="screen-reader">Duration: </span>
-          {% with rounded=self.duration|default:0|floatformat:0 %}
+          {% with rounded=self.duration|default:3|floatformat:0 %}
             {{ rounded }}<span aria-hidden="true">h</span>
             <span class="screen-reader">hour{{ rounded|pluralize }}</span>
           {% endwith %}
@@ -95,7 +95,7 @@
   <section class="overview grid">
     <p class="content-updated">
       <!-- TODO: Make this field dynamic -->
-      <small>Content updated in <time datetime="2025-08">August 2025</time></small>
+      <small>Content updated in <time datetime="2025-09">September 2025</time></small>
     </p>
 
     {% if page.content %}
@@ -183,13 +183,22 @@
     </section>
 
     <section class="content">
-      <h2>Lorem ipsum dolor sit amet</h2>
+      <h2>
+        <!-- TODO: Make segment title dynamic -->
+        Introduction
+      </h2>
 
-      <!-- TEMP: Vimeo embed -->
-      <div style="padding:56.25% 0 0 0;position:relative;">
+      <!-- TODO: Make Vimeo embed dynamic -->
+      <div class="vimeo-embed">
+        <div style="padding:56.25% 0 0 0;position:relative;">
+          <iframe src="https://player.vimeo.com/video/1138278637?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="1. Introduction"></iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+      </div>
+      <!-- <div style="padding:56.25% 0 0 0;position:relative;">
         <iframe src="https://player.vimeo.com/video/171945580?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="An introduction to data visualization"></iframe>
       </div>
-      <script src="https://player.vimeo.com/api/player.js"></script>
+      <script src="https://player.vimeo.com/api/player.js"></script> -->
 
       {% if page.materials.exists %}
         <h2>Course Materials</h2>
