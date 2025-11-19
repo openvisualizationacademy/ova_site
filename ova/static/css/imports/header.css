@@ -85,7 +85,8 @@ header nav .links a[aria-describedby="current"]::after {
 }
 
 @media (hover: hover) {
-  header nav .links a:hover::after {
+  header nav .links a:not([aria-describedby="current"]):hover::after {
+    background: light-dark(var(--neutral-300), var(--neutral-700));
     opacity: 1;
   }
 

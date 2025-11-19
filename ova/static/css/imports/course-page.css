@@ -369,7 +369,7 @@ background:
 
 @media (hover: hover) {
   .course-page .chapters ol a:not(.active):hover {
-    box-shadow: 0 0 0 1px light-dark(var(--neutral-900), var(--neutral-100));
+    box-shadow: 0 0 0 2px light-dark(var(--neutral-300), var(--neutral-700));
 
     /* background: light-dark(var(--neutral-200), var(--neutral-800)); */
     /* border-color: currentColor; */
