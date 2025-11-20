@@ -1,7 +1,7 @@
 .vimeo-embed iframe {
+  background: #000000;
   border-radius: .4rem;
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
-  background: #000000;
 }
 
 section.course-page {
@@ -202,10 +202,10 @@ background:
 
 .course-page .chapters ol li a svg[data-icon] {
   border-radius: 50%;
+  inset-block-start: .4rem;
+  inset-inline-end: .4rem;
   pointer-events: none;
   position: absolute;
-  inset-inline-end: .4rem;
-  inset-block-start: .4rem;
 }
 
 .course-page .chapters ol li a svg[data-icon="check-circle"] path {
@@ -213,8 +213,8 @@ background:
 }
 
 .course-page .chapters ol li a svg[data-icon="check-circle"] circle {
-  fill: light-dark(var(--success-600), var(--success-500));
   color: light-dark(var(--success-600), var(--success-500));
+  fill: light-dark(var(--success-600), var(--success-500));
 }
 
 .course-page .chapters ol li a svg[data-icon="circle"] {
@@ -257,10 +257,16 @@ background:
 
 .course-page .content {
   grid-column: span 8;
+  inset-block-start: 0;
   padding-inline-start: 1.6rem;
   position: sticky;
-  inset-block-start: 0;
   width: 100%;
+}
+
+.course-page .content .number.kicker {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+  font-size: large;
+  padding-inline: 0;
 }
 
 .course-page .content .arrows {
@@ -287,9 +293,9 @@ background:
   content: "";
   display: block;
   height: 1.2rem;
-  position: absolute;
-  inset-inline-end: 2.4rem;
   inset-block-start: 0;
+  inset-inline-end: 2.4rem;
+  position: absolute;
   transition: background-color .2s;
   translate: 0 -100%;
   width: 2.4rem;
