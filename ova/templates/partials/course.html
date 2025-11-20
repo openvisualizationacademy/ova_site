@@ -243,24 +243,33 @@
       {% endif %}
 
       {% if segment %}
-        <!-- TODO: Make arrows href dynamic -->
+    
         <div class="arrows">
-          <a href="#" class="button secondary">
-            <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
-            <span>Back</span>
-          </a>
-          <a href="#" class="button secondary">
-            <span>Next</span>
-            <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
-          </a>
+          {% with previous=segment.get_previous_segment next=segment.get_next_segment %}
+            {% if previous %}
+              <a href="{% pageurl previous %}" class="button secondary" title="{{ previous.title }}">
+                <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
+                <span>Back</span>
+              </a>
+            {% endif %}
+            {% if next %}
+              <a href="{% pageurl next %}" class="button secondary" title="{{ next.title }}">
+                <span>Next</span>
+                <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
+              </a>
+            {% endif %}
+          {% endwith %}
         </div>
+
       {% else %}
+
         <!-- TODO: Add general welcome message and start course button -->
         <div class="arrows">
           <a href="#" class="button secondary">
             Start here
           </a>
         </div>
+
       {% endif %}
 
     </section>

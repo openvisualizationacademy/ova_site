@@ -230,6 +230,36 @@ class SegmentPage(Page):
     parent_page_types = ["ChapterPage"]
     subpage_types = []
 
+    def get_previous_segment(self):
+        chapter = self.get_parent().specific
+
+        previous = self.get_prev_siblings().live().first()
+      
+        if previous:
+            return previous
+        
+        previous_chapter = chapter.get_prev_siblings().type(ChapterPage).live().first()
+        
+        if previous_chapter:
+            return previous_chapter.specific.get_children().type(SegmentPage).live().last()
+        
+        return None
+    
+    def get_next_segment(self):
+        chapter = self.get_parent().specific
+        
+        next_seg = self.get_next_siblings().live().first()
+        
+        if next_seg:
+            return next_seg
+        
+        next_chapter = chapter.get_next_siblings().type(ChapterPage).live().first()
+        
+        if next_chapter:
+            return next_chapter.specific.get_children().type(SegmentPage).live().first()
+        
+        return None
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
