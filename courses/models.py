@@ -155,8 +155,20 @@ class CoursePage(Page):
         FieldPanel("tags"),
     ]
 
+    # TODO: Add fields for:
+    # duration (hours of video as int or float)
+    # percentage (of completion, int or float from 0 to 100)
+    # content_updated (manually updated, as date or string YYYY-MM or YYYY-MM-DD)
+
     parent_page_types = ['CoursesIndexPage']
     subpage_types = ["ChapterPage"]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        # Create alias, so the same template include can be used for course & segments pages
+        context['course'] = self
+        return context
 
 
 class CourseMaterial(models.Model):
@@ -191,11 +203,15 @@ class SegmentPage(Page):
     content = StreamField([
         ("rich_text", RichTextBlock()),
     ], use_json_field=True)
+    
+    # TODO: Allow empty content
 
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
         FieldPanel("content"),
     ]
+
+    # TODO: Add fields for completion, materials, video aspect ratio, and video duration
 
     parent_page_types = ["ChapterPage"]
     subpage_types = []
@@ -207,6 +223,16 @@ class SegmentPage(Page):
         if self.video_url:
             match = re.search(r'vimeo\.com/(\d+)', self.video_url)
             context["vimeo_id"] = match.group(1) if match else None
+        
+        # Get the respective CoursePage
+        chapter = self.get_parent()
+        if chapter:
+            course = chapter.get_parent()  # This is the CoursePage
+            if course and isinstance(course.specific, CoursePage):
+                context["course"] = course.specific
+
+        # Create alias, so we can check if segment details exists in course include
+        context['segment'] = self
 
         return context
 
