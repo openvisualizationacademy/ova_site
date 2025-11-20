@@ -142,16 +142,11 @@
               <p class="chapter kicker">
                 Chapter {{ forloop.counter }}{% if chapter.get_children.live.count > 1 %}: {{ chapter.title }} {% endif %}
               </p>
-              {% comment %}
-              <a href="{{ chapter.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
-                {{ chapter.title }}
-              </a>
-              {% endcomment %}
               {% if chapter.get_children.live %}
                 <ol>
                   {% for segment in chapter.get_children.live.specific %}
                   <li>
-                    <a href="{{ segment.url }}" {% if request.path == chapter.url %}class="active"{% endif %}>
+                    <a href="{{ segment.url }}" {% if request.path == segment.url %}class="active"{% endif %}>
                       {{ segment.title }}
                       
                       <!-- TODO: Make completed status dynamic -->

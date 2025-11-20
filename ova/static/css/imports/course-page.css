@@ -229,9 +229,7 @@ background:
   padding-inline: 0;
 }
 
-/* TEMP: Apply active style to first segment */
-.course-page .chapters ol a.active,
-.course-page .chapters ol > li:first-child ol > li:first-child a {
+.course-page .chapters ol a.active {
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
