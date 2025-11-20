@@ -1,0 +1,13 @@
+.vimeo-embed {
+  padding: 56.25% 0 0 0;
+  position: relative;
+}
+
+.vimeo-embed iframe {
+  border: 0;
+  height:100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
