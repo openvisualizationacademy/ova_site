@@ -263,6 +263,11 @@ background:
   width: 100%;
 }
 
+/* Hide outline, like when /#main links */
+.course-page .content #main:target {
+  outline: none;
+}
+
 .course-page .content .number.kicker {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   font-size: large;
