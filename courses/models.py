@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 from wagtail.models import Page, Orderable
@@ -12,6 +13,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
 import re
+
 
 User = get_user_model()
 
@@ -162,6 +164,18 @@ class CoursePage(Page):
 
     parent_page_types = ['CoursesIndexPage']
     subpage_types = ["ChapterPage"]
+
+    # Redirect to first segment of first chapter
+    def serve(self, request):
+        first_chapter = self.get_children().type(ChapterPage).live().first()
+        
+        if first_chapter:
+            first_segment = first_chapter.specific.get_children().type(SegmentPage).live().first()
+            
+            if first_segment:
+                return redirect(first_segment.specific.url)
+
+        return super().serve(request)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
