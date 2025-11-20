@@ -209,6 +209,9 @@
       
       <h2>
         {% if segment.title %}
+          <span class="number">
+            {{ chapter_number }}.{{segment_number}}
+          </span>
           {{ segment.title }}
         {% else %}
           Welcome to the Course

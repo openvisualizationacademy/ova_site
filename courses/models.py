@@ -268,12 +268,24 @@ class SegmentPage(Page):
             match = re.search(r'vimeo\.com/(\d+)', self.video_url)
             context["vimeo_id"] = match.group(1) if match else None
         
-        # Get the respective CoursePage
+        # Get respective chapter
         chapter = self.get_parent()
         if chapter:
-            course = chapter.get_parent()  # This is the CoursePage
+
+            # Get respective course
+            course = chapter.get_parent()
             if course and isinstance(course.specific, CoursePage):
                 context["course"] = course.specific
+
+            # Get chapter number
+            context["chapter_number"] = chapter.get_siblings(inclusive=True).live().filter(
+                path__lt=chapter.path
+            ).count() + 1
+            
+            # Get segment number
+            context["segment_number"] = self.get_siblings(inclusive=True).live().filter(
+                path__lt=self.path
+            ).count() + 1
 
         # Create alias, so we can check if segment details exists in course include
         context['segment'] = self
