@@ -230,6 +230,10 @@ background:
   padding-inline: 0;
 }
 
+.course-page .chapters .chapter.kicker .single-segment {
+  display: none;
+}
+
 .course-page .chapters ol a.active {
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
@@ -276,6 +280,10 @@ background:
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.course-page .chapters.chart .chapter.kicker .single-segment {
+  display: inline;
 }
 
 .course-page .content {

@@ -149,7 +149,7 @@
           {% for chapter in course.get_children.live.specific %}
             <li>
               <p class="chapter kicker">
-                Chapter {{ forloop.counter }}{% if chapter.get_children.live.count > 1 %}: {{ chapter.title }} {% endif %}
+                Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
               </p>
               {% if chapter.get_children.live %}
                 <ol>
