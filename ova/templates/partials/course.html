@@ -116,7 +116,8 @@
 
   <div class="sticky-wrapper grid">
 
-    <section class="chapters">
+    <!-- TODO: Create a proper button to toggle the mini view -->
+    <section class="chapters" onclick="this.classList.toggle('mini')">
       <h2>Chapters</h2>
       
       {% comment %}
@@ -147,7 +148,7 @@
                   {% for segment in chapter.get_children.live.specific %}
                   <li>
                     <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-                      {{ segment.title }}
+                      <span>{{ segment.title }}</span>
                       
                       <!-- TODO: Make completed status dynamic -->
                       {% with completed=False %}
@@ -166,10 +167,10 @@
                   <li>
                     <a href="javascript:void(0)">
                       <span class="quiz-badge kicker">Quiz</span>
-                      Test your knowledge
+                      <span>Test your knowledge</span>
 
                       <!-- TODO: Make completed status dynamic -->
-                      {% with completed=False %}
+                      {% with completed=True %}
                         {% if completed %}
                           <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                         {% else %}

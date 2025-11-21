@@ -255,6 +255,27 @@ background:
   }
    } */
 
+.course-page .chapters.mini ol ol {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.course-page .chapters.mini ol ol a {
+  width: 3.2rem;
+  height: 3.2rem;
+  padding-inline: 0rem;
+  overflow: hidden;
+}
+
+.course-page .chapters.mini ol ol a span {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 .course-page .content {
   grid-column: span 8;
   inset-block-start: 0;
