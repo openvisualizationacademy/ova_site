@@ -205,6 +205,18 @@
   width: 1em;
 }
 
+.course .completed-badge {
+  align-items: baseline;
+  align-self: start;
+  background: light-dark(var(--success-600), var(--success-500));
+  border-radius: .4rem;
+  color: light-dark(var(--neutral-100), var(--neutral-900));
+  display: flex;
+  margin-inline-end: .6rem;
+  padding-block: .6rem .4rem;
+  padding-inline: .6rem;
+}
+
 @media (hover: hover) {
   .courses .filters label:hover {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));

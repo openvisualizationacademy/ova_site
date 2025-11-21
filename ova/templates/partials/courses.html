@@ -43,6 +43,11 @@
             </div>
             <div class="secondary">
               <p class="tags">
+                {% if user.is_authenticated %}
+                  <!-- TODO: Check if user is signed in and has completed the course -->
+                  <span class="completed-badge kicker">Completed</span>
+                {% endif %}
+
                 {% for tag in course.tags.all %}
                   <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
                 {% endfor %}
