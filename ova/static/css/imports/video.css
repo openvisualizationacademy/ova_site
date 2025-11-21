@@ -4,7 +4,10 @@
 }
 
 .vimeo-embed iframe {
+  background: #000000;
   border: 0;
+  border-radius: .4rem;
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   height:100%;
   left: 0;
   position: absolute;

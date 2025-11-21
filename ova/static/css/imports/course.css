@@ -1,14 +1,10 @@
-.vimeo-embed iframe {
-  background: #000000;
-  border-radius: .4rem;
-  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
 }
 
 section.course-page {
   margin-block-start: 0;
 }
 
-.course-page .media {
+[data-page="course"] .media {
   aspect-ratio: 16/9;
   background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: 1.6rem;
@@ -16,33 +12,33 @@ section.course-page {
   width: 100%;
 }
 
-.course-page .course {
+[data-page="course"] .course {
   grid-column: span 6;
   max-width: 100%;
 }
 
-.course-page .course .card {
+[data-page="course"] .course .card {
   border: 1px solid light-dark(transparent, transparent);
   border-radius: 0;
 }
 
-.course-page .course .secondary {
+[data-page="course"] .course .secondary {
   justify-content: start;
 }
 
-.course-page .course h1 {
+[data-page="course"] .course h1 {
   padding: .8rem 1.6rem 1.6rem;
   text-wrap: balance;
 }
 
-.course-page .tracker {
+.tracker {
   display: flex;
   flex-direction: column;
   gap: .8rem;
   grid-column: span 3;
 }
 
-.course-page .progress {
+.progress {
   align-items: center;
   background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: 1.6rem;
@@ -53,11 +49,11 @@ section.course-page {
   width: 100%;
 }
 
-.course-page .progress.completed {
+.progress.completed {
   background: light-dark(var(--success-300), var(--success-900));
 }
 
-.course-page .progress .donut {
+.progress .donut {
   --inner-color: light-dark(var(--neutral-150), var(--neutral-850));
   --percentage: 0%;
   align-items: center;
@@ -83,48 +79,48 @@ background:
   /* mask: radial-gradient(circle, transparent 50%, black 50%); */
 }
 
-.course-page .progress.completed .donut {
+.progress.completed .donut {
   --inner-color: light-dark(var(--success-300), var(--success-900));
 }
 
-.course-page .progress p {
+.progress p {
   margin: 0;
 }
 
-.course-page .progress:not(.completed) .percentage {
+.progress:not(.completed) .percentage {
   color: light-dark(var(--success-600), var(--success-500));
 }
 
-.course-page .certificate {
+.certificate {
   display: flex;
   justify-content: end;
   width: 100%;
 }
 
-.course-page .certificate small {
+.certificate small {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   padding-inline: 1.6rem;
 }
 
-.course-page .sticky-wrapper {
+.sticky-wrapper {
   align-items: start;
   border-block-start: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   grid-column: span 12;
 }
 
-.course-page  .sticky-wrapper section {
+ .sticky-wrapper section {
   margin-block: 4.8rem;
   padding-block: 2.4rem;
 }
 
-.course-page .chapters {
+.chapters {
   grid-column: span 4;
   position: sticky;
   top: 0;
   width: 100%;
 }
 
-.course-page .chapters header {
+.chapters header {
   align-items: center;
   display: flex;
   gap: 2.4rem;
@@ -134,7 +130,7 @@ background:
   width: 100%;
 }
 
-.course-page .chapters header h2 {
+.chapters header h2 {
   margin: 0;
 }
 
@@ -166,23 +162,23 @@ background:
   border-start-start-radius: 0;
 } */
 
-.course-page .chapters a {
+.chapters a {
   text-decoration: none;
 }
 
-.course-page .chapters ol {
+.chapters ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.course-page .chapters > ol {
+.chapters > ol {
   display: flex;
   flex-direction: column;
   gap: .4rem;
 }
 
-.course-page .chapters ol a {
+.chapters ol a {
   border-radius: 1.6rem;
   display: flex;
   margin-block: .2rem;
@@ -193,7 +189,7 @@ background:
   text-wrap: pretty;
 }
 
-.course-page .chapters ol ol {
+.chapters ol ol {
   display: flex;
   flex-direction: column;
   gap: .4rem;
@@ -201,7 +197,7 @@ background:
   padding-inline-start: 2px;
 }
 
-.course-page .chapters ol li a svg[data-icon] {
+.chapters ol li a svg[data-icon] {
   border-radius: 50%;
   inset-block-start: .4rem;
   inset-inline-end: .4rem;
@@ -209,20 +205,20 @@ background:
   position: absolute;
 }
 
-.course-page .chapters ol li a svg[data-icon="check-circle"] path {
+.chapters ol li a svg[data-icon="check-circle"] path {
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
-.course-page .chapters ol li a svg[data-icon="check-circle"] circle {
+.chapters ol li a svg[data-icon="check-circle"] circle {
   color: light-dark(var(--success-600), var(--success-500));
   fill: light-dark(var(--success-600), var(--success-500));
 }
 
-.course-page .chapters ol li a svg[data-icon="circle"] {
+.chapters ol li a svg[data-icon="circle"] {
   color: light-dark(var(--neutral-300), var(--neutral-700));
 }
 
-.course-page .chapters .chapter.kicker {
+.chapters .chapter.kicker {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   line-height: 1.25;
   margin: 0;
@@ -230,11 +226,11 @@ background:
   padding-inline: 0;
 }
 
-.course-page .chapters .chapter.kicker .single-segment {
+.chapters .chapter.kicker .single-segment {
   display: none;
 }
 
-.course-page .chapters ol a.active {
+.chapters ol a.active {
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
@@ -260,12 +256,12 @@ background:
   }
    } */
 
-.course-page .chapters.chart ol ol {
+.chapters.chart ol ol {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.course-page .chapters.chart ol ol a {
+.chapters.chart ol ol a {
   height: 3.2rem;
   overflow: hidden;
   padding-inline: 0rem;
@@ -273,7 +269,7 @@ background:
 }
 
 /* TODO: Turn spans into tooltip when chart dots are hovered  */
-.course-page .chapters.chart ol ol a span {
+.chapters.chart ol ol a span {
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
@@ -282,11 +278,11 @@ background:
   width: 1px;
 }
 
-.course-page .chapters.chart .chapter.kicker .single-segment {
+.chapters.chart .chapter.kicker .single-segment {
   display: inline;
 }
 
-.course-page .content {
+.chapters + .content {
   grid-column: span 8;
   inset-block-start: 0;
   padding-inline-start: 1.6rem;
@@ -295,17 +291,17 @@ background:
 }
 
 /* Hide outline, like when /#main links */
-.course-page .content #main:target {
+.chapters + .content #main:target {
   outline: none;
 }
 
-.course-page .content .number.kicker {
+.chapters + .content .number.kicker {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   font-size: large;
   padding-inline: 0;
 }
 
-.course-page .content .arrows {
+.chapters + .content .arrows {
   display: flex;
   gap: .8rem;
   margin-block-start: 4.8rem;
@@ -343,25 +339,25 @@ background:
   color: light-dark(var(--neutral-800), var(--neutral-800));
 }
 
-.course-page .overview {
+section.overview {
   align-items: baseline;
   margin-block: 0;
   margin-inline: auto;
   width: 100%;
 }
 
-.course-page .overview .content-updated {
+.overview .content-updated {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   grid-column: span 3;
   margin: 0;
 }
 
-.course-page .overview details {
+.overview details {
   grid-column: span 9;
   width: 100%;
 }
 
-.course-page .overview summary {
+.overview summary {
   border-radius: 1.6rem;
   cursor: pointer;
   padding-block: .8rem;
@@ -370,28 +366,28 @@ background:
   width: fit-content;
 }
 
-.course-page .overview summary span {
+.overview summary span {
   padding-inline: .5em;
 }
 
-.course-page .overview details > div {
+.overview details > div {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   padding-inline: 1.6rem;
 }
 
-.course-page .overview details > div p {
+.overview details > div p {
   text-wrap: pretty;
 }
 
-.course-page .overview details > div p:first-child {
+.overview details > div p:first-child {
   margin-block-start: .5em;
 }
 
-.course-page .overview details > div *:last-child {
+.overview details > div *:last-child {
   margin-block-end: 0;
 }
 
-.course-page .quiz-badge {
+.quiz-badge {
   align-items: baseline;
   align-self: start;
   background: light-dark(var(--neutral-300), var(--neutral-700));
@@ -403,13 +399,13 @@ background:
   padding-inline: .6rem;
 }
 
-.course-page .completed .quiz-badge {
+.completed .quiz-badge {
   background: light-dark(var(--success-600), var(--success-500));
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
 @media (hover: hover) {
-  .course-page .chapters ol a:not(.active):hover {
+  .chapters ol a:not(.active):hover {
     box-shadow: 0 0 0 2px light-dark(var(--neutral-300), var(--neutral-700));
 
     /* background: light-dark(var(--neutral-200), var(--neutral-800)); */
