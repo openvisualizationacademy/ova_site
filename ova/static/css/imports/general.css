@@ -119,3 +119,9 @@ section h2 {
 .grid > * {
   grid-column: span 12;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,7 +1,3 @@
-html:has([data-page="course"]) {
-  scroll-behavior: auto;
-}
-
 section.course-page {
   margin-block-start: 0;
 }
