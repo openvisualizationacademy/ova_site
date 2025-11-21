@@ -115,11 +115,17 @@
   </section>
 
   <div class="sticky-wrapper grid">
+    <section class="chapters">
+      <header>
+        <h2>Chapters</h2>
 
-    <!-- TODO: Create a proper button to toggle the mini view -->
-    <section class="chapters" onclick="this.classList.toggle('mini')">
-      <h2>Chapters</h2>
-      
+        <!-- TODO: Only show “view as chart” option if completion percentage is > 0 -->
+        <label>
+          <input type="checkbox" name="chart-view" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
+          <span>View as chart</span>
+        </label>
+      </header>
+
       {% comment %}
         <header>
           <h2>Chapters</h2>
@@ -170,7 +176,7 @@
                       <span>Test your knowledge</span>
 
                       <!-- TODO: Make completed status dynamic -->
-                      {% with completed=True %}
+                      {% with completed=False %}
                         {% if completed %}
                           <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                         {% else %}

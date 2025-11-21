@@ -127,7 +127,8 @@ background:
 .course-page .chapters header {
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  gap: 2.4rem;
+  justify-content: flex-start;
   margin-block-end: 2.4rem;
   padding: 0;
   width: 100%;
@@ -255,19 +256,20 @@ background:
   }
    } */
 
-.course-page .chapters.mini ol ol {
+.course-page .chapters.chart ol ol {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.course-page .chapters.mini ol ol a {
-  width: 3.2rem;
+.course-page .chapters.chart ol ol a {
   height: 3.2rem;
-  padding-inline: 0rem;
   overflow: hidden;
+  padding-inline: 0rem;
+  width: 3.2rem;
 }
 
-.course-page .chapters.mini ol ol a span {
+/* TODO: Turn spans into tooltip when chart dots are hovered  */
+.course-page .chapters.chart ol ol a span {
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
