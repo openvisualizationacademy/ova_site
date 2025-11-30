@@ -239,8 +239,19 @@
         </section>
       {% endif %}
 
+      <!-- TODO: Display chapter content (if any) -->
+
+      <!-- TODO: Display course content (if any) -->
+
+      <hr>
+
+      <!-- TODO: Display segment materials (if any), by checking if course materials start with numbers like 2.3 -->
+
+      <!-- TODO: Display chapter materials (if any), by checking if course materias start with numbers like 2 -->
+
+      <!-- TODO: Display course materials (if any), by checking if course materias don’t start with numbers like 2.3 or 2 -->
       {% if course.materials.exists %}
-        <h2>Course Materials</h2>
+        <h3>Course Materials</h3>
         <ul>
           {% for material in course.materials.all %}
             <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
