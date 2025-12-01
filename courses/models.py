@@ -272,6 +272,9 @@ class SegmentPage(Page):
         chapter = self.get_parent()
         if chapter:
 
+            # Get chapter properties (like chapter-wide content)
+            context["chapter"] = chapter
+
             # Get respective course
             course = chapter.get_parent()
             if course and isinstance(course.specific, CoursePage):

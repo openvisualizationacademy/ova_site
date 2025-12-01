@@ -231,17 +231,23 @@
         {% include 'partials/video.html' with id=vimeo_id %}
       {% endif %}
 
-      {% if segment.content %}
-        <section>
+      <section>
+        {% comment %}Quick fix while content is still a required field {% endcomment %}
+        {% if segment.content and segment.content.0.value|striptags != "-" %}
+          <h3>Content of Segment</h3>
           {% for block in segment.content %}
             {{ block.value|richtext }}
           {% endfor %}
-        </section>
-      {% endif %}
+        {% endif %}
 
-      <!-- TODO: Display chapter content (if any) -->
-
-      <!-- TODO: Display course content (if any) -->
+        {% comment %}Quick fix while content is still a required field {% endcomment %}
+        {% if chapter.content and chapter.content.0.value|striptags != "-" %}
+          <h3>Content of Chapter</h3>
+          {% for block in chapter.content %}
+            {{ block.value|richtext }}
+          {% endfor %}
+        {% endif %}
+      </section>
 
       <hr>
 
