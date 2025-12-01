@@ -113,7 +113,7 @@ background:
 
 .chapters {
   grid-column: span 4;
-  position: sticky;
+  position: sticky !important;
   top: 0;
   width: 100%;
 }
