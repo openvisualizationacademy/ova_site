@@ -281,14 +281,16 @@ class SegmentPage(Page):
                 context["course"] = course.specific
 
             # Get chapter number
-            context["chapter_number"] = chapter.get_siblings(inclusive=True).live().filter(
+            chapter_number = chapter.get_siblings(inclusive=True).live().filter(
                 path__lt=chapter.path
             ).count() + 1
+            context["chapter_number"] = chapter_number
             
             # Get segment number
-            context["segment_number"] = self.get_siblings(inclusive=True).live().filter(
+            segment_number = self.get_siblings(inclusive=True).live().filter(
                 path__lt=self.path
             ).count() + 1
+            context["segment_number"] = segment_number
 
             # Get materials relative to each segment, chapter, or whole course
             segment_materials = []
@@ -310,7 +312,26 @@ class SegmentPage(Page):
                 else:
                     course_materials.append(material)
 
-            # TODO: Filter list to match only current chapter or segment
+            # Filter list to match only current chapter or segment
+            
+            def belongs_to_current_chapter(material, chapter_number):
+                title = material.title.strip()
+                pattern_1 = f'{chapter_number}. '
+                pattern_2 = f'{chapter_number} '
+                return title.startswith(pattern_1) or title.startswith(pattern_2)
+
+            def belongs_to_current_segment(material, chapter_number, segment_number):
+                title = material.title.strip()
+                pattern_1 = f'{chapter_number}.{segment_number}. '
+                pattern_2 = f'{chapter_number}.{segment_number} '
+                return title.startswith(pattern_1) or title.startswith(pattern_2)
+
+            # Filter segment materials for current segment
+            segment_materials = [ m for m in segment_materials if belongs_to_current_segment(m, chapter_number, segment_number) ]
+
+            # Filter chapter materials for current chapter
+            chapter_materials = [ m for m in chapter_materials if belongs_to_current_chapter(m, chapter_number) ]
+
             context["segment_materials"] = segment_materials
             context["chapter_materials"] = chapter_materials
             context["course_materials"] = course_materials
