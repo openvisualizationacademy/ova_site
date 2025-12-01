@@ -299,11 +299,11 @@ class SegmentPage(Page):
                 title = material.title.strip()
                 
                 # Segment materials are like "2.1 file.csv" or "3.2. file.csv"
-                if re.match(r'^\d+\.\.?\s+', title):
+                if re.match(r'^\d+\.\d+\.?\s', title):
                     segment_materials.append(material)
 
                 # Chapter materials are like "2 file.csv" or "3. file.csv"
-                elif re.match(r'^\d+\.?\s+', title):
+                elif re.match(r'^\d+\.?\s', title):
                     chapter_materials.append(material)
 
                 # Course materials are everything else, like "dataset.csv" or "3x2.csv"
