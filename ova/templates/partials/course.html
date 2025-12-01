@@ -237,55 +237,73 @@
         {% include 'partials/video.html' with id=vimeo_id %}
       {% endif %}
 
-      <section>
-        {% comment %}Quick fix while content is still a required field {% endcomment %}
-        {% if segment.content and segment.content.0.value|striptags != "-" %}
-          <h3>Content of Segment</h3>
-          {% for block in segment.content %}
-            {{ block.value|richtext }}
-          {% endfor %}
-        {% endif %}
+      {% if segment.content or chapter.content %}
+        <section class="content-written">
+          <h3 class="screen-reader">Content</h3>
 
-        {% comment %}Quick fix while content is still a required field {% endcomment %}
-        {% if chapter.content and chapter.content.0.value|striptags != "-" %}
-          <h3>Content of Chapter</h3>
-          {% for block in chapter.content %}
-            {{ block.value|richtext }}
-          {% endfor %}
-        {% endif %}
-      </section>
+          <div class="content-written-segment">
+            <!-- Quick fix while content is still a required field -->
+            {% if segment.content and segment.content.0.value|striptags != "-" %}
+              {% for block in segment.content %}
+                {{ block.value|richtext }}
+              {% endfor %}
+            {% endif %}
+          </div>
 
-      {% if course.materials.exists %}
-      <section>
+          <div class="content-written-chapter">
+            <!-- Quick fix while content is still a required field -->
+            {% if chapter.content and chapter.content.0.value|striptags != "-" %}
+              {% for block in chapter.content %}
+                {{ block.value|richtext }}
+              {% endfor %}
+            {% endif %}
+          </div>
+        </section>
+      {% endif %}
 
-        {% if segment_materials %}
-          <h3>segment_materials</h3>
+      {% if segment_materials or chapter_materials or course_materials %}
+        <section class="content-materials">
+          <h3>Materials</h3>
+
           <ul>
+          {% if segment_materials %}
+            <!-- <h4>Materials of Segment</h4> -->
             {% for material in segment_materials %}
-              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+              <li>
+                <a href="{{ material.file }}" download class="button tertiary material-segment">
+                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+                  <span>{{ material.title }}</span>
+                </a>
+              </li>
             {% endfor %}
-          </ul>
-        {% endif %}
+          {% endif %}
 
-        {% if chapter_materials %}
-          <h3>chapter_materials</h3>
-          <ul>
+          {% if chapter_materials %}
+            <!-- <h4>Materials of Chapter</h4> -->
             {% for material in chapter_materials %}
-              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+              <li>
+                <a href="{{ material.file }}" download class="button tertiary material-chapter">
+                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+                  <span>{{ material.title }}</span>
+                </a>
+              </li>
             {% endfor %}
-          </ul>
-        {% endif %}
+          {% endif %}
 
-        {% if course_materials %}
-          <h3>course_materials</h3>
-          <ul>
+          {% if course_materials %}
+            <!-- <h4>Materials of Course</h4> -->
             {% for material in course_materials %}
-              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+              <li>
+                <a href="{{ material.file }}" download class="button tertiary material-course">
+                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+                  <span>{{ material.title }}</span>
+                </a>
+              </li>
             {% endfor %}
+          {% endif %}
           </ul>
-        {% endif %}
 
-      </section>
+        </section>
       {% endif %}
 
       {% if segment %}

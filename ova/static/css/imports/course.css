@@ -402,6 +402,10 @@ section.overview {
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
+.content .content-written {
+  margin-block: 0;
+}
+
 @media (hover: hover) {
   .chapters ol a:not(.active):hover {
     box-shadow: 0 0 0 2px light-dark(var(--neutral-300), var(--neutral-700));
