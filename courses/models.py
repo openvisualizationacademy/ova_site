@@ -290,6 +290,31 @@ class SegmentPage(Page):
                 path__lt=self.path
             ).count() + 1
 
+            # Get materials relative to each segment, chapter, or whole course
+            segment_materials = []
+            chapter_materials = []
+            course_materials = []
+            
+            for material in course.specific.materials.all():
+                title = material.title.strip()
+                
+                # Segment materials are like "2.1 file.csv" or "3.2. file.csv"
+                if re.match(r'^\d+\.\.?\s+', title):
+                    segment_materials.append(material)
+
+                # Chapter materials are like "2 file.csv" or "3. file.csv"
+                elif re.match(r'^\d+\.?\s+', title):
+                    chapter_materials.append(material)
+
+                # Course materials are everything else, like "dataset.csv" or "3x2.csv"
+                else:
+                    course_materials.append(material)
+
+            # TODO: Filter list to match only current chapter or segment
+            context["segment_materials"] = segment_materials
+            context["chapter_materials"] = chapter_materials
+            context["course_materials"] = course_materials
+
         # Create alias, so we can check if segment details exists in course include
         context['segment'] = self
 

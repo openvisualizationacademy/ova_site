@@ -219,7 +219,7 @@
       <h2 id="main" tabindex="-1">
         {% if segment.title %}
           <span class="number kicker">
-            {{ chapter_number }}.{{segment_number}}
+            {{ chapter_number }}.{{ segment_number }}
           </span>
           {{ segment.title }}
         {% else %}
@@ -249,20 +249,37 @@
         {% endif %}
       </section>
 
-      <hr>
-
-      <!-- TODO: Display segment materials (if any), by checking if course materials start with numbers like 2.3 -->
-
-      <!-- TODO: Display chapter materials (if any), by checking if course materias start with numbers like 2 -->
-
-      <!-- TODO: Display course materials (if any), by checking if course materias don’t start with numbers like 2.3 or 2 -->
       {% if course.materials.exists %}
-        <h3>Course Materials</h3>
-        <ul>
-          {% for material in course.materials.all %}
-            <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
-          {% endfor %}
-        </ul>
+      <section>
+
+        {% if segment_materials %}
+          <h3>segment_materials</h3>
+          <ul>
+            {% for material in segment_materials %}
+              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if chapter_materials %}
+          <h3>chapter_materials</h3>
+          <ul>
+            {% for material in chapter_materials %}
+              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if course_materials %}
+          <h3>course_materials</h3>
+          <ul>
+            {% for material in course_materials %}
+              <li><a href="{{ material.file }}" download>{{ material.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+      </section>
       {% endif %}
 
       {% if segment %}
