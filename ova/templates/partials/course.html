@@ -96,7 +96,6 @@
     </p>
 
     {% if course.content %}
-    <!-- TODO: Remember whether user collapsed overview for course (and add open attribute conditionally) -->
     <details open>
       <summary class="kicker">
         <span>Overview</span>
@@ -111,6 +110,13 @@
         {% endfor %}
       </div>
     </details>
+    <script>
+      // Close details element if user has last closed it in another page (redundant with Accessibility.js class)
+      if (localStorage.getItem("overviewState") === "closed") {
+        const details = document.querySelector(".overview details");
+        if (details) details.open = false;
+      }
+    </script>
     {% endif %}
   </section>
 
