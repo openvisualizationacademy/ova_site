@@ -159,7 +159,7 @@
               </p>
               {% if chapter.get_children.live %}
                 <ol>
-                  
+
                   {% for segment in chapter.get_children.live.specific %}
                   <li>
                     <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
@@ -216,7 +216,14 @@
           <span class="number kicker">
             {{ chapter_number }}.{{ segment_number }}
           </span>
-          {{ segment.title }}
+
+          <!-- TEMP: change title if current segment is a “quiz” (temporary fix) -->
+          {% if segment.title|slice:":6" == "[Quiz]" %}
+            <span class="quiz-badge kicker">Quiz</span>
+            <span>Test your knowledge</span>
+          {% else %}
+            {{ segment.title }}
+          {% endif %}
         {% else %}
           Welcome to the Course
         {% endif %}
@@ -239,6 +246,8 @@
             {% endif %}
           </div>
 
+          <!-- TEMP: Hide materials and chapter content if current segment is a “quiz” (temporary fix) -->
+          {% if segment.title|slice:":6" != "[Quiz]" %}
           <div class="content-written-chapter">
             <!-- Quick fix while content is still a required field -->
             {% if chapter.content and chapter.content.0.value|striptags != "-" %}
@@ -247,10 +256,13 @@
               {% endfor %}
             {% endif %}
           </div>
+          {% endif %}
+
         </section>
       {% endif %}
 
-      {% if segment_materials or chapter_materials or course_materials %}
+      <!-- TEMP: Hide materials and chapter content if current segment is a “quiz” (temporary fix) -->
+      {% if segment_materials or chapter_materials or course_materials and segment.title|slice:":6" != "[Quiz]" %}
         <section class="content-materials">
           <h3>Materials</h3>
 

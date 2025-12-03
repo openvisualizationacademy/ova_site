@@ -297,12 +297,19 @@ background:
   color: light-dark(var(--neutral-600), var(--neutral-400));
   font-size: large;
   padding-inline: 0;
+  margin-inline-end: .5em;
 }
 
 .chapters + .content .arrows {
   display: flex;
   gap: .8rem;
   margin-block-start: 4.8rem;
+}
+
+.content h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 #sign-in-description {
