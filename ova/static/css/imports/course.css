@@ -2,12 +2,67 @@ section.course-page {
   margin-block-start: 0;
 }
 
-[data-page="course"] .media {
+.media[data-tags] {
   aspect-ratio: 16/9;
-  background: light-dark(var(--neutral-150), var(--neutral-850));
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  /* background-image: url(https://placecats.com/480/270); */
+}
+
+/* .media[data-tags]::before {
+  --radius: 1px;
+  background-image: radial-gradient(circle, light-dark(var(--neutral-900), var(--neutral-100)) var(--radius), transparent 1px);
+  background-position: center;
+  background-size: 4px 4px;
+  content: "";
+  display: block;
+  inset: 0;
+  opacity: .05;
+  position: absolute;
+} */
+
+.media[data-tags]::after {
+  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .5));
+  content: "";
+  display: block;
+  inset: 0;
+  mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .5));
+  pointer-events: none;
+  position: absolute;
+}
+
+/* TEMP: Thumbnail overlays based on tags */
+.media[data-tags="Fundamentals"]::after {
+  background: var(--tag-fundamentals);
+}
+
+.media[data-tags="Lecture"]::after {
+  background: var(--tag-lecture);
+}
+
+.media[data-tags="Tutorial"]::after {
+  background: var(--tag-tutorial);
+}
+
+.media[data-tags="Fundamentals,Lecture"]::after {
+  background-image: linear-gradient(to right in oklab, var(--tag-fundamentals), var(--tag-lecture));
+}
+
+.media[data-tags="Fundamentals,Tutorial"]::after {
+  background-image: linear-gradient(to right in oklab, var(--tag-fundamentals), var(--tag-tutorial));
+}
+
+.media[data-tags="Lecture,Tutorial"]::after {
+  background-image: linear-gradient(to right in oklab, var(--tag-lecture), var(--tag-tutorial));
+}
+
+[data-page="course"] .media {
   border-radius: 1.6rem;
   grid-column: span 3;
-  width: 100%;
 }
 
 [data-page="course"] .course {
@@ -296,8 +351,8 @@ background:
 .chapters + .content .number.kicker {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   font-size: large;
-  padding-inline: 0;
   margin-inline-end: .5em;
+  padding-inline: 0;
 }
 
 .chapters + .content .arrows {
@@ -307,9 +362,9 @@ background:
 }
 
 .content h2 {
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
 }
 
 #sign-in-description {

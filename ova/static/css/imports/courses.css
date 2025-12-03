@@ -95,12 +95,6 @@
   width: 100%;
 }
 
-.course .media {
-  aspect-ratio: 16/9;
-  background: light-dark(var(--neutral-150), var(--neutral-850));
-  width: 100%;
-}
-
 .course p {
   margin: 0;
 }

@@ -25,7 +25,7 @@
         <li class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
           <a href="{{ course.url }}" class="card">
             <div class="primary">
-              <div class="media"></div>
+              <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}"></div>
               <h3>{{ course.title }}</h3>
               <p class="authors">
                 <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
