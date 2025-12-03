@@ -141,6 +141,7 @@ class CoursePage(Page):
     tags = ClusterTaggableManager(through=CourseCategoryTag, blank=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel("image"),
         FieldPanel("content"),
         MultiFieldPanel(
             [
@@ -200,9 +201,15 @@ class CourseMaterial(models.Model):
 
 
 class ChapterPage(Page):
-    content = StreamField([
-        ("rich_text", RichTextBlock()),
-    ], use_json_field=True)
+    content = StreamField(
+        [
+            ("rich_text", RichTextBlock()),
+            ("markdown", MarkdownBlock()),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("content"),
@@ -214,11 +221,16 @@ class ChapterPage(Page):
 
 class SegmentPage(Page):
     video_url = models.URLField(blank=True)
-    content = StreamField([
-        ("rich_text", RichTextBlock()),
-    ], use_json_field=True)
-    
-    # TODO: Allow empty content
+
+    content = StreamField(
+        [
+            ("rich_text", RichTextBlock()),
+            ("markdown", MarkdownBlock()),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
