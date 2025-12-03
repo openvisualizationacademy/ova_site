@@ -159,11 +159,19 @@
               </p>
               {% if chapter.get_children.live %}
                 <ol>
+                  
                   {% for segment in chapter.get_children.live.specific %}
                   <li>
                     <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-                      <span>{{ segment.title }}</span>
-                      
+
+                      <!-- TEMP: Pretend certain segment pages are a quiz, as quiz pages are not yet implemented -->
+                      {% if segment.title|slice:":6" == "[Quiz]" %}
+                        <span class="quiz-badge kicker">Quiz</span>
+                        <span>Test your knowledge</span>
+                      {% else %}  
+                        <span>{{ segment.title }}</span>
+                      {% endif %}
+
                       <!-- TODO: Make completed status dynamic -->
                       {% with completed=False %}
                         {% if completed %}
@@ -175,25 +183,6 @@
                     </a>
                   </li>
                   {% endfor %}
-
-                  <!-- TEMP: Add a fake quiz at the end of each chapter, except for first of last chapters -->
-                  {% if not forloop.first and not forloop.last %}
-                  <li>
-                    <a href="javascript:void(0)">
-                      <span class="quiz-badge kicker">Quiz</span>
-                      <span>Test your knowledge</span>
-
-                      <!-- TODO: Make completed status dynamic -->
-                      {% with completed=False %}
-                        {% if completed %}
-                          <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-                        {% else %}
-                          <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
-                        {% endif %}
-                      {% endwith %}
-                    </a>
-                  </li>
-                  {% endif %}
 
                 </ol>
               {% endif %}
