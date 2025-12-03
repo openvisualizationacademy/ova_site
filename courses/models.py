@@ -144,7 +144,7 @@ class CoursePage(Page):
         FieldPanel("content"),
         MultiFieldPanel(
             [
-                InlinePanel("materials", label="Materials", max_num=5),
+                InlinePanel("materials", label="Materials"),
             ],
             heading="Downloadable Materials",
         ),
