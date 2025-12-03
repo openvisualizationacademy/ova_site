@@ -271,7 +271,7 @@
             <!-- <h4>Materials of Segment</h4> -->
             {% for material in segment_materials %}
               <li>
-                <a href="{{ material.file }}" download class="button tertiary material-segment">
+                <a href="{{ material.file.url }}" download class="button tertiary material-segment">
                   <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
                   <span>{{ material.title }}</span>
                 </a>
