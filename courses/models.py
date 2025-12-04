@@ -213,6 +213,7 @@ class ChapterPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("content"),
+        InlinePanel("quizzes", label="Quizzes"),
     ]
 
     parent_page_types = ["CoursePage"]
@@ -354,27 +355,57 @@ class SegmentPage(Page):
         return context
 
 
-class Quiz(models.Model):
+class Quiz(ClusterableModel):
     title = models.CharField(max_length=255)
-    chapter = models.ForeignKey(ChapterPage, related_name="quizzes", on_delete=models.CASCADE, null=True, blank=True)
+    chapter = ParentalKey(
+        ChapterPage,
+        related_name="quizzes",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     segment = models.ForeignKey(SegmentPage, related_name="quizzes", on_delete=models.CASCADE, null=True, blank=True)
+
+    panels = [
+        FieldPanel("title"),
+        InlinePanel("questions", label="Questions"),
+    ]
 
     def __str__(self):
         return f"Quiz for {self.chapter or self.segment}"
 
 
-class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, related_name="questions", on_delete=models.CASCADE)
+class Question(ClusterableModel):
+    quiz = ParentalKey(
+        Quiz,
+        related_name="questions",
+        on_delete=models.CASCADE
+    )
     text = models.TextField()
+
+    panels = [
+        FieldPanel("text"),
+        InlinePanel("choices", label="Choices"),
+    ]
 
     def __str__(self):
         return self.text
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name="choices", on_delete=models.CASCADE)
+    question = ParentalKey(
+        "Question",
+        related_name="choices",
+        on_delete=models.CASCADE
+    )
     text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
+
+    panels = [
+        FieldPanel("text"),
+        FieldPanel("is_correct"),
+    ]
+
 
     def __str__(self):
         return self.text
