@@ -141,10 +141,11 @@ class CoursePage(Page):
     tags = ClusterTaggableManager(through=CourseCategoryTag, blank=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel("image"),
         FieldPanel("content"),
         MultiFieldPanel(
             [
-                InlinePanel("materials", label="Materials", max_num=5),
+                InlinePanel("materials", label="Materials"),
             ],
             heading="Downloadable Materials",
         ),
@@ -200,12 +201,19 @@ class CourseMaterial(models.Model):
 
 
 class ChapterPage(Page):
-    content = StreamField([
-        ("rich_text", RichTextBlock()),
-    ], use_json_field=True)
+    content = StreamField(
+        [
+            ("rich_text", RichTextBlock()),
+            ("markdown", MarkdownBlock()),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("content"),
+        InlinePanel("quizzes", label="Quizzes"),
     ]
 
     parent_page_types = ["CoursePage"]
@@ -214,11 +222,16 @@ class ChapterPage(Page):
 
 class SegmentPage(Page):
     video_url = models.URLField(blank=True)
-    content = StreamField([
-        ("rich_text", RichTextBlock()),
-    ], use_json_field=True)
-    
-    # TODO: Allow empty content
+
+    content = StreamField(
+        [
+            ("rich_text", RichTextBlock()),
+            ("markdown", MarkdownBlock()),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
@@ -342,27 +355,57 @@ class SegmentPage(Page):
         return context
 
 
-class Quiz(models.Model):
+class Quiz(ClusterableModel):
     title = models.CharField(max_length=255)
-    chapter = models.ForeignKey(ChapterPage, related_name="quizzes", on_delete=models.CASCADE, null=True, blank=True)
+    chapter = ParentalKey(
+        ChapterPage,
+        related_name="quizzes",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     segment = models.ForeignKey(SegmentPage, related_name="quizzes", on_delete=models.CASCADE, null=True, blank=True)
+
+    panels = [
+        FieldPanel("title"),
+        InlinePanel("questions", label="Questions"),
+    ]
 
     def __str__(self):
         return f"Quiz for {self.chapter or self.segment}"
 
 
-class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, related_name="questions", on_delete=models.CASCADE)
+class Question(ClusterableModel):
+    quiz = ParentalKey(
+        Quiz,
+        related_name="questions",
+        on_delete=models.CASCADE
+    )
     text = models.TextField()
+
+    panels = [
+        FieldPanel("text"),
+        InlinePanel("choices", label="Choices"),
+    ]
 
     def __str__(self):
         return self.text
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name="choices", on_delete=models.CASCADE)
+    question = ParentalKey(
+        "Question",
+        related_name="choices",
+        on_delete=models.CASCADE
+    )
     text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
+
+    panels = [
+        FieldPanel("text"),
+        FieldPanel("is_correct"),
+    ]
+
 
     def __str__(self):
         return self.text
@@ -396,3 +439,14 @@ class SegmentProgress(models.Model):
 
     class Meta:
         unique_together = ("user", "segment")
+
+
+class QuizProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    score = models.IntegerField(default=0, null=True, blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "quiz")
