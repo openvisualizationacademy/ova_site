@@ -439,3 +439,14 @@ class SegmentProgress(models.Model):
 
     class Meta:
         unique_together = ("user", "segment")
+
+
+class QuizProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    score = models.IntegerField(default=0, null=True, blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "quiz")
