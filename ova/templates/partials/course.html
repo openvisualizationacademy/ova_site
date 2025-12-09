@@ -126,8 +126,6 @@
         <h2>Chapters</h2>
 
         <!-- TODO: Only show “view as chart” option if completion percentage is > 0 -->
-        <label>
-          <input type="checkbox" name="chart-view" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
         <label class="button tertiary switch">
           <input type="checkbox" name="chart-view" class="screen-reader" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
           <span>View as chart</span>
@@ -261,8 +259,13 @@
         </section>
       {% endif %}
 
+      <!-- TEMP: Check if page is “quiz” (temporary fix) -->
+      {% if segment.title|slice:":6" == "[Quiz]" %}
+        {% include 'partials/quiz.html' %}
+      {% endif %}
+
       <!-- TEMP: Hide materials and chapter content if current segment is a “quiz” (temporary fix) -->
-      {% if segment_materials or chapter_materials or course_materials and segment.title|slice:":6" != "[Quiz]" %}
+      {% if segment.title|slice:":6" != "[Quiz]" and segment_materials or chapter_materials or course_materials %}
         <section class="content-materials">
           <h3>Materials</h3>
 
