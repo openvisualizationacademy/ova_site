@@ -82,6 +82,7 @@
 }
 
 .course .card {
+  background-color: light-dark(var(--neutral-100), var(--neutral-900));
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 1.6rem;
   color: inherit;

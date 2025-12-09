@@ -71,6 +71,7 @@ section.course-page {
 }
 
 [data-page="course"] .course .card {
+  background: transparent;
   border: 1px solid light-dark(transparent, transparent);
   border-radius: 0;
 }
