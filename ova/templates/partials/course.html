@@ -96,27 +96,7 @@
     </p>
 
     {% if course.content %}
-    <details open>
-      <summary class="kicker">
-        <span>Overview</span>
-      </summary>
-      <div>
-        {% for block in course.content %}
-          {% if block.block_type == "markdown" %}
-            {{ block.value|markdown }}
-          {% elif block.block_type == "rich_text" %}
-            {{ block.value|richtext }}
-          {% endif %}
-        {% endfor %}
-      </div>
-    </details>
-    <script>
-      // Close details element if user has last closed it in another page (redundant with Accessibility.js class)
-      if (localStorage.getItem("overviewState") === "closed") {
-        const details = document.querySelector(".overview details");
-        if (details) details.open = false;
-      }
-    </script>
+      {% include 'partials/overview.html' %}
     {% endif %}
   </section>
 
@@ -125,11 +105,7 @@
       <header>
         <h2>Chapters</h2>
 
-        <!-- TODO: Only show “view as chart” option if completion percentage is > 0 -->
-        <label class="button tertiary switch">
-          <input type="checkbox" name="chart-view" class="screen-reader" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
-          <span>View as chart</span>
-        </label>
+        {% include 'partials/compact-view.html' %}
       </header>
 
       {% comment %}
@@ -149,62 +125,8 @@
       {% endcomment %}
 
       {% if course.get_children.live %}
-        <ol>
-          {% for chapter in course.get_children.live.specific %}
-            <li>
-              <p class="chapter kicker">
-                Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
-              </p>
-              {% if chapter.get_children.live %}
-                <ol>
-
-                  {% for segment in chapter.get_children.live.specific %}
-                  <li>
-                    <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-
-                      <!-- TEMP: Pretend certain segment pages are a quiz, as quiz pages are not yet implemented -->
-                      {% if segment.title|slice:":6" == "[Quiz]" %}
-                        <span class="quiz-badge kicker">Quiz</span>
-                        <span>Test your knowledge</span>
-                      {% else %}  
-                        <span>{{ segment.title }}</span>
-                      {% endif %}
-
-                      <!-- TODO: Make completed status dynamic -->
-                      {% with completed=False %}
-                        {% if completed %}
-                          <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-                        {% else %}
-                          <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
-                        {% endif %}
-                      {% endwith %}
-                    </a>
-                  </li>
-                  {% endfor %}
-
-                </ol>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ol>
+        {% include 'partials/chapter-list.html' %}
       {% endif %}
-
-      <!-- TEMP: Randomly set segments as completed to test style
-      <script>
-        (function() {
-          const courseParts = document.querySelectorAll(".chapters ol ol a");
-          courseParts.forEach((part, index) => {
-            // const chance = index === 0 || Math.random() < .3;
-            
-            // Roughly first 37%
-            const chance = (index / courseParts.length ) < .37;
-            part.classList.toggle("completed", chance);
-          });
-
-        })();
-      </script>
-      -->
-
     </section>
 
     <section class="content">

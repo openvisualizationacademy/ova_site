@@ -1,0 +1,24 @@
+{% load wagtailcore_tags wagtailmarkdown %}
+
+<details open>
+  <summary class="kicker">
+    <span>Overview</span>
+  </summary>
+  <div>
+    {% for block in course.content %}
+      {% if block.block_type == "markdown" %}
+        {{ block.value|markdown }}
+      {% elif block.block_type == "rich_text" %}
+        {{ block.value|richtext }}
+      {% endif %}
+    {% endfor %}
+  </div>
+</details>
+
+<script>
+  // Close details element if user has last closed it in another page (pairs with Accessibility.js class)
+  if (localStorage.getItem("overviewOpen") === "false") {
+    const details = document.querySelector(".overview details");
+    if (details) details.open = false;
+  }
+</script>

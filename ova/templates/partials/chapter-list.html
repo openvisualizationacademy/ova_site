@@ -1,0 +1,49 @@
+<ol>
+  {% for chapter in course.get_children.live.specific %}
+    <li>
+      <p class="chapter kicker">
+        Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
+      </p>
+      {% if chapter.get_children.live %}
+        <ol>
+
+          {% for segment in chapter.get_children.live.specific %}
+          <li>
+            <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
+
+              <!-- TEMP: Pretend certain segment pages are a quiz, as quiz pages are not yet implemented -->
+              {% if segment.title|slice:":6" == "[Quiz]" %}
+                <span class="quiz-badge kicker">Quiz</span>
+                <span>Test your knowledge</span>
+              {% else %}  
+                <span>{{ segment.title }}</span>
+              {% endif %}
+
+              <!-- TODO: Make completed status dynamic -->
+              {% with completed=False %}
+                {% if completed %}
+                  <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+                {% else %}
+                  <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                {% endif %}
+              {% endwith %}
+            </a>
+          </li>
+          {% endfor %}
+
+        </ol>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ol>
+
+<script>
+  // Make chapter list compact if user has last viewed like so it in another page (pairs with Accessibility.js class)
+  if (localStorage.getItem("compactView") === "true") {
+    const input = document.querySelector('.switch input[name="compact-view"]');
+    if (input) {
+      input.checked = true;
+      input.dispatchEvent(new Event('change'));
+    }
+  }
+</script>

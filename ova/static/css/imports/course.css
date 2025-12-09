@@ -251,6 +251,27 @@ background:
   padding-inline-start: 2px;
 }
 
+.chapters ol ol li:not(:last-child) a::before {
+  --width: 1.2rem;
+  background: light-dark(var(--neutral-200), var(--neutral-800));
+  content: "";
+  display: block;
+  inset-block-end: -2.4rem;
+  inset-block-start: 1.6rem;
+  inset-inline-end: calc(1.6rem - var(--width) / 2);
+  position: absolute;
+  width: var(--width);
+  z-index: -1;
+}
+
+.chapters ol li.compact ol li:not(:last-child) a::before {
+  height: var(--width);
+  inset-block-end: unset;
+  inset-block-start: 1rem;
+  inset-inline-start: calc(1rem + var(--width) / 2);
+  width: 3.6rem;
+}
+
 .chapters ol li a svg[data-icon] {
   border-radius: 50%;
   inset-block-start: .4rem;
@@ -269,7 +290,11 @@ background:
 }
 
 .chapters ol li a svg[data-icon="circle"] {
-  color: light-dark(var(--neutral-300), var(--neutral-700));
+  color: light-dark(var(--neutral-400), var(--neutral-600));
+  fill: light-dark(var(--neutral-400), var(--neutral-600));
+  scale: .5;
+
+  /* color: light-dark(var(--neutral-300), var(--neutral-700)); */
 }
 
 .chapters .chapter.kicker {
@@ -277,7 +302,7 @@ background:
   line-height: 1.25;
   margin: 0;
   margin-block-end: .4rem;
-  padding-inline: 0;
+  padding-inline: 0 3.2rem;
 }
 
 .chapters .chapter.kicker .single-segment {
@@ -310,20 +335,21 @@ background:
   }
    } */
 
-.chapters.chart ol ol {
+.chapters ol li.compact ol {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.chapters.chart ol ol a {
+.chapters ol li.compact ol a {
   height: 3.2rem;
-  overflow: hidden;
   padding-inline: 0rem;
   width: 3.2rem;
+
+  /* overflow: hidden; */
 }
 
 /* TODO: Turn spans into tooltip when chart dots are hovered  */
-.chapters.chart ol ol a span {
+.chapters ol li.compact ol a span {
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
@@ -332,7 +358,7 @@ background:
   width: 1px;
 }
 
-.chapters.chart .chapter.kicker .single-segment {
+.chapters li.compact .chapter.kicker .single-segment {
   display: inline;
 }
 

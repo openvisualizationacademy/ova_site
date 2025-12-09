@@ -22,7 +22,6 @@ export default class Courses {
 
   filterCards(selectedTags) {
     if (selectedTags.length === 0 || selectedTags[0] === "all") {
-      console.log("Show all");
       this.courses.forEach((course) => {
         course.hidden = false;
       });

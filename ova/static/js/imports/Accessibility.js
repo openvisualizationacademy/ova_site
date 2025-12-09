@@ -14,25 +14,31 @@ export default class Accessibility {
     this.queries.reducedMotion.addEventListener("change", (event) => (this.reducedMotion = event.matches));
 
     // Remember course overview toggle preference (whether details is open or not)
-    this.setupOverviewState();
+    this.setupOverview();
+
+    // Remember chapter compact view toggle preference (whether input is checked or not)
+    this.setupCompactView();
 
     // Simulate button behavior for `role=button`
     document.addEventListener('keydown', this.simulateButton);
   }
 
-  setupOverviewState() {
+  setupCompactView() {
+    const input = document.querySelector('.switch input[name="compact-view"]');
+    if (!input) return;
+
+    input.addEventListener("change", () => {
+      localStorage.setItem("compactView", input.checked ? "true" : "false");
+    }); 
+  }
+
+  setupOverview() {
     const details = document.querySelector(".overview details");
     if (!details) return;
 
-    // Moved snippet to HTML template for performance
-    // If users have last closed a course overview, keep new ones closed
-    // if (localStorage.getItem("overviewState") === "closed") {
-    //   details.open = false
-    // }
-
     // If users open or close course overview, store that preference
     details.addEventListener("toggle", () => {
-      localStorage.setItem("overviewState", details.open ? "open" : "closed");
+      localStorage.setItem("overviewOpen", details.open ? "true" : "false");
     });
   }
 
