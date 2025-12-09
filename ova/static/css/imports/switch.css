@@ -1,0 +1,25 @@
+label.switch {
+  align-items: center;
+  display: flex;
+  gap: .8rem;
+}
+
+label.switch::before {
+  --knob-color: var(--neutral-100);
+  background-color: light-dark(var(--neutral-400), var(--neutral-600));
+  background-image: radial-gradient(circle at 50%, var(--knob-color) 0%, var(--knob-color) 40%, transparent 40%, transparent 100%);
+  background-position-x: 0%;
+  background-repeat: no-repeat;
+  background-size: 1.6rem 1.6rem;
+  border-radius: .8rem;
+  content: "";
+  display: block;
+  height: 1.6rem;
+  transition: background-position .2s, background-color .2s;
+  width: 2.4rem;
+}
+
+label.switch:has(input:checked)::before {
+  background-color: light-dark(var(--success-600), var(--success-500));
+  background-position-x: 100%;
+}

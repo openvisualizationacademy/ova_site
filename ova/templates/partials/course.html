@@ -125,13 +125,13 @@
       <header>
         <h2>Chapters</h2>
 
-        {% comment %}
         <!-- TODO: Only show “view as chart” option if completion percentage is > 0 -->
         <label>
           <input type="checkbox" name="chart-view" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
+        <label class="button tertiary switch">
+          <input type="checkbox" name="chart-view" class="screen-reader" oninput="this.closest('.chapters').classList.toggle('chart', this.checked)">
           <span>View as chart</span>
         </label>
-        {% endcomment %}
       </header>
 
       {% comment %}
