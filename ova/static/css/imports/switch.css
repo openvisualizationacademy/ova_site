@@ -1,6 +1,7 @@
 label.switch {
   align-items: center;
   display: flex;
+  flex-shrink: 0;
   gap: .8rem;
 }
 
