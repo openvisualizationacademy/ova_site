@@ -234,7 +234,7 @@ background:
 }
 
 .chapters ol a {
-  border-radius: 1.6rem;
+  border-radius: .8rem;
   display: flex;
   margin-block: .2rem;
   padding-block: .4rem;
