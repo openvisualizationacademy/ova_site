@@ -13,10 +13,12 @@
 
               <!-- TEMP: Pretend certain segment pages are a quiz, as quiz pages are not yet implemented -->
               {% if segment.title|slice:":6" == "[Quiz]" %}
-                <span class="quiz-badge kicker">Quiz</span>
-                <span>Test your knowledge</span>
+                <span class="tooltip">
+                  <span class="quiz-badge kicker">Quiz</span>
+                  <span>Test your knowledge</span>
+                </span>
               {% else %}  
-                <span>{{ segment.title }}</span>
+                <span class="tooltip">{{ segment.title }}</span>
               {% endif %}
 
               <!-- TODO: Make completed status dynamic -->

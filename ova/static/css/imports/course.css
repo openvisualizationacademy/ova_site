@@ -172,6 +172,7 @@ background:
   position: sticky !important;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 .chapters header {
@@ -348,8 +349,12 @@ background:
   /* overflow: hidden; */
 }
 
+.chapters li.compact .chapter.kicker .single-segment {
+  display: inline;
+}
+
 /* TODO: Turn spans into tooltip when chart dots are hovered  */
-.chapters ol li.compact ol a span {
+.chapters ol li.compact ol a span.tooltip {
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
@@ -358,8 +363,27 @@ background:
   width: 1px;
 }
 
-.chapters li.compact .chapter.kicker .single-segment {
-  display: inline;
+@media (hover: hover) {
+  .chapters ol li.compact ol a:hover span.tooltip {
+    background: light-dark(var(--neutral-800), var(--neutral-200));
+    border-radius: .8rem;
+    clip-path: none;
+    color: light-dark(var(--neutral-100), var(--neutral-900));
+    display: flex;
+    height: auto;
+    inset-block-start: -.8rem;
+    inset-inline-start: -2px;
+    max-width: calc(80vi);
+    overflow: visible;
+    padding: .4rem .8rem;
+    translate: 0 -100%;
+    white-space: initial;
+    width: max-content;
+  }
+
+  .chapters ol li.compact ol a:hover span.tooltip:has(.quiz-badge) {
+    padding: .4rem .8rem .4rem .4rem;
+  }
 }
 
 .chapters + .content {
