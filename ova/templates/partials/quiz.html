@@ -2,6 +2,10 @@
 
 <form class="quiz" method="post">
 
+  <!-- Screen reader descriptions for submission results -->
+  <div id="correct" hidden>Correct</div>
+  <div id="incorrect" hidden>Wrong</div>
+
   <fieldset>
     <legend class="question">Question 1 goes here</legend>
 
@@ -9,9 +13,13 @@
       <input type="radio" name="q1" value="a1" class="screen-reader" required/>
       <span>First alternative</span>
     </label>
-    <label class="alternative incorrect">
-      <input type="radio" name="q1" value="a2" class="screen-reader" />
+
+    <!-- TODO: If submitted and wrong: add `aria-describedby` and `disabled` attributes and <svg> -->
+    <label class="alternative" aria-describedby="incorrect">
+      <input type="radio" name="q1" value="a2" class="screen-reader" disabled/>
       <span>Second alternative</span>
+
+      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
     </label>
     <label class="alternative">
       <input type="radio" name="q1" value="a3" class="screen-reader" />
@@ -19,7 +27,8 @@
     </label>
   </fieldset>
 
-  <fieldset>
+  <!-- TODO: If submitted and correct: add disabled attribute -->
+  <fieldset disabled>
     <legend>Question 2 goes here</legend>
 
     <label class="alternative">
@@ -30,9 +39,13 @@
       <input type="radio" name="q2" value="a2" class="screen-reader" />
       <span>Second alternative</span>
     </label>
-    <label class="alternative correct">
-      <input type="radio" name="q2" value="a3" class="screen-reader" />
+
+    <!-- TODO: If submitted and correct: add `aria-describedby` and `checked` attributes and <svg> -->
+    <label class="alternative" aria-describedby="correct">
+      <input type="radio" name="q2" value="a3" class="screen-reader" checked/>
       <span>Third alternative</span>
+
+      <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
     </label>
   </fieldset>
 

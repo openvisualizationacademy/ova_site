@@ -17,6 +17,11 @@
   width: 100%;
 }
 
+.quiz fieldset:disabled .alternative:not([aria-describedby]),
+.quiz fieldset:disabled legend {
+  color: var(--neutral-500);
+}
+
 .quiz legend {
   font-weight: bold;
   padding-inline: .25em;
@@ -26,10 +31,40 @@
 .quiz .alternative {
   background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: .8rem;
-  padding: .8rem;
+  padding-block: .8rem;
+  padding-inline-end: calc( 2.4rem + 1.6rem);
+  padding-inline-start: 1.2rem;
+  position: relative;
 }
 
-.quiz label {
+.quiz .alternative [data-icon] {
+  inset-block-start: .8rem;
+  inset-inline-start: .8rem;
+  position: absolute;
+}
+
+.quiz .alternative[aria-describedby] {
+  padding-inline-end: 1.2rem;
+  padding-inline-start: calc( 2.4rem + 1.6rem);
+}
+
+.quiz .alternative[aria-describedby="correct"] {
+  background: linear-gradient( to right, light-dark(var(--success-200), var(--success-900)), light-dark(var(--success-300), var(--success-800)));
+
+  & [data-icon] {
+    color: light-dark(var(--success-700), var(--success-300));
+  }
+}
+
+.quiz .alternative[aria-describedby="incorrect"] {
+  background: linear-gradient( to right, light-dark(var(--failure-200), var(--failure-900)), light-dark(var(--failure-300), var(--failure-800)));
+
+  & [data-icon] {
+    color: light-dark(var(--failure-700), var(--failure-300));
+  }
+}
+
+.quiz fieldset:not(:disabled) label:not(:has(input:disabled)) {
   cursor: pointer;
 }
 
@@ -39,8 +74,8 @@
   outline-offset: 0.4rem;
 }
 
-.quiz label:has(input:checked) {
-  box-shadow: 0 0 0 2px var(--primary-600);
+.quiz fieldset:not(:disabled) label:has(input:checked) {
+  box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100)) !important;
 }
 
 .quiz button {
@@ -48,7 +83,7 @@
 }
 
 @media (hover: hover) {
-  .quiz label:hover {
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-600) 33.333%, transparent);
+  .quiz fieldset:not(:disabled) label:not(:has(input:disabled)):hover {
+    box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));
   }
 }

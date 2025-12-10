@@ -30,6 +30,6 @@ label.switch::before {
 }
 
 label.switch:has(input:checked)::before {
-  background-color: light-dark(var(--success-600), var(--success-500));
+  background-color: light-dark(var(--success-600), var(--success-600));
   background-position-x: 100%;
 }
