@@ -1,0 +1,18 @@
+{% load wagtailcore_tags %}
+
+<div class="arrows">
+  {% with previous=segment.get_previous_segment next=segment.get_next_segment %}
+    {% if previous %}
+      <a href="{% pageurl previous %}#main" class="button secondary" title="{{ previous.title }}">
+        <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
+        <span>Back</span>
+      </a>
+    {% endif %}
+    {% if next %}
+      <a href="{% pageurl next %}#main" class="button secondary" title="{{ next.title }}">
+        <span>Next</span>
+        <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
+      </a>
+    {% endif %}
+  {% endwith %}
+</div>

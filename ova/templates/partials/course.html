@@ -106,11 +106,8 @@
         <h2>Chapters</h2>
 
         {% include 'partials/compact-view.html' %}
-      </header>
 
-      {% comment %}
-        <header>
-          <h2>Chapters</h2>
+        {% comment %}
           <div class="arrows">
             <a href="#" class="button tertiary">
               <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
@@ -121,8 +118,8 @@
               <span class="screen-reader">Next</span>
             </a>
           </div>
-        </header>
-      {% endcomment %}
+        {% endcomment %}
+      </header>
 
       {% if course.get_children.live %}
         {% include 'partials/chapter-list.html' %}
@@ -132,11 +129,11 @@
     <section class="content">
       
       <h2 id="main" tabindex="-1">
+        <span class="number kicker">
+          {{ chapter_number }}.{{ segment_number }}
+        </span>
+        <!-- TODO: Handle empty(?) titles when segment is a quiz -->
         {% if segment.title %}
-          <span class="number kicker">
-            {{ chapter_number }}.{{ segment_number }}
-          </span>
-
           <!-- TEMP: change title if current segment is a “quiz” (temporary fix) -->
           {% if segment.title|slice:":6" == "[Quiz]" %}
             <span class="quiz-badge kicker">Quiz</span>
@@ -144,8 +141,6 @@
           {% else %}
             {{ segment.title }}
           {% endif %}
-        {% else %}
-          Welcome to the Course
         {% endif %}
       </h2>
 
@@ -157,113 +152,42 @@
         <section class="content-written">
           <h3 class="screen-reader">Content</h3>
 
+          {% if segment.content %}
           <div class="content-written-segment">
-            <!-- Quick fix while content is still a required field -->
-            {% if segment.content and segment.content.0.value|striptags != "-" %}
-              {% for block in segment.content %}
-                {{ block.value|richtext }}
-              {% endfor %}
-            {% endif %}
+            <!-- TODO: Render markdown too -->
+            {% for block in segment.content %}
+              {{ block.value|richtext }}
+            {% endfor %}
           </div>
+          {% endif %}
 
-          <!-- TEMP: Hide materials and chapter content if current segment is a “quiz” (temporary fix) -->
-          {% if segment.title|slice:":6" != "[Quiz]" %}
+          {% if chapter.content %}
           <div class="content-written-chapter">
-            <!-- Quick fix while content is still a required field -->
-            {% if chapter.content and chapter.content.0.value|striptags != "-" %}
-              {% for block in chapter.content %}
-                {{ block.value|richtext }}
-              {% endfor %}
-            {% endif %}
+            <!-- TODO: Render markdown too -->
+            {% for block in chapter.content %}
+              {{ block.value|richtext }}
+            {% endfor %}
           </div>
           {% endif %}
 
+          <!-- TEMP: Check if page is “quiz” (temporary fix) -->
+          {% if segment.title|slice:":6" == "[Quiz]" %}
+            {% include 'partials/quiz.html' %}
+          {% endif %}
+          
         </section>
       {% endif %}
 
-      <!-- TEMP: Check if page is “quiz” (temporary fix) -->
-      {% if segment.title|slice:":6" == "[Quiz]" %}
-        {% include 'partials/quiz.html' %}
+      <!-- TODO: Hide materials if current segment is a “quiz” -->
+      {% if segment_materials or chapter_materials or course_materials %}
+        {% include 'partials/materials.html' %}
       {% endif %}
 
-      <!-- TEMP: Hide materials and chapter content if current segment is a “quiz” (temporary fix) -->
-      {% if segment.title|slice:":6" != "[Quiz]" and segment_materials or chapter_materials or course_materials %}
-        <section class="content-materials">
-          <h3>Materials</h3>
-
-          <ul>
-          {% if segment_materials %}
-            <!-- <h4>Materials of Segment</h4> -->
-            {% for material in segment_materials %}
-              <li>
-                <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-segment">
-                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-                  <span>Chapter {{ material.title }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          {% endif %}
-
-          {% if chapter_materials %}
-            <!-- <h4>Materials of Chapter</h4> -->
-            {% for material in chapter_materials %}
-              <li>
-                <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-chapter">
-                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-                  <span>Chapter {{ material.title }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          {% endif %}
-
-          {% if course_materials %}
-            <!-- <h4>Materials of Course</h4> -->
-            {% for material in course_materials %}
-              <li>
-                <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-course">
-                  <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-                  <span>Chapter {{ material.title }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          {% endif %}
-          </ul>
-
-        </section>
-      {% endif %}
-
+      <!-- TODO: Consider need to check segment before adding arrows -->
       {% if segment %}
-    
-        <div class="arrows">
-          {% with previous=segment.get_previous_segment next=segment.get_next_segment %}
-            {% if previous %}
-              <a href="{% pageurl previous %}#main" class="button secondary" title="{{ previous.title }}">
-                <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
-                <span>Back</span>
-              </a>
-            {% endif %}
-            {% if next %}
-              <a href="{% pageurl next %}#main" class="button secondary" title="{{ next.title }}">
-                <span>Next</span>
-                <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
-              </a>
-            {% endif %}
-          {% endwith %}
-        </div>
-
-      {% else %}
-
-        <!-- TODO: Add general welcome message and start course button -->
-        <div class="arrows">
-          <a href="#" class="button secondary">
-            Start here
-          </a>
-        </div>
-
+        {% include 'partials/chapter-arrows.html' %}
       {% endif %}
 
     </section>
-
   </div>
-
 </section>

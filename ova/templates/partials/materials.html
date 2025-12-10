@@ -1,0 +1,42 @@
+<section class="content-materials">
+  <h3>Materials</h3>
+
+  <ul>
+  {% if segment_materials %}
+    <!-- <h4>Materials of Segment</h4> -->
+    {% for material in segment_materials %}
+      <li>
+        <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-segment">
+          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          <span>Chapter {{ material.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+
+  {% if chapter_materials %}
+    <!-- <h4>Materials of Chapter</h4> -->
+    {% for material in chapter_materials %}
+      <li>
+        <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-chapter">
+          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          <span>Chapter {{ material.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+
+  {% if course_materials %}
+    <!-- <h4>Materials of Course</h4> -->
+    {% for material in course_materials %}
+      <li>
+        <a href="{{ material.file.url }}" download target="_blank" class="button tertiary material-course">
+          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          <span>Chapter {{ material.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+  </ul>
+
+</section>
