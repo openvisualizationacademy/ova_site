@@ -238,7 +238,7 @@ background:
   display: flex;
   margin-block: .2rem;
   padding-block: .4rem;
-  padding-inline: 1.2rem 3.2rem;
+  padding-inline: .8rem 3.2rem;
   position: relative;
   text-decoration: none;
   text-wrap: pretty;
@@ -314,6 +314,10 @@ background:
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
+.chapters ol a span.tooltip {
+  display: inline-flex;
+}
+
 /* Adapted from https://mark.ie/blog/nested-lists-in-css-with-a-numbered-hierarchy */
 /* .course-page .chapters {  
   ol {
@@ -353,7 +357,6 @@ background:
   display: inline;
 }
 
-/* TODO: Turn spans into tooltip when chart dots are hovered  */
 .chapters ol li.compact ol a span.tooltip {
   clip-path: inset(50%);
   height: 1px;
@@ -529,7 +532,7 @@ section.overview {
 
 @media (hover: hover) {
   .chapters ol a:not(.active):hover {
-    box-shadow: 0 0 0 2px light-dark(var(--neutral-300), var(--neutral-700));
+    box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));
 
     /* background: light-dark(var(--neutral-200), var(--neutral-800)); */
     /* border-color: currentColor; */
