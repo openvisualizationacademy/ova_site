@@ -8,6 +8,8 @@
         <ol>
 
           {% for segment in chapter.get_children.live.specific %}
+
+          <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
           <li>
             <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
 
