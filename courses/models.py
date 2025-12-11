@@ -446,7 +446,7 @@ class SegmentPage(Page):
 
         # auto calculate aspect ratio
         if self.width and self.height:
-            self.aspect_ratio = (self.width / self.height) * 100
+            self.aspect_ratio = (self.height / self.width) * 100
         else:
             self.aspect_ratio = 0
 
