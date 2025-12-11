@@ -121,8 +121,65 @@ class CoursesIndexPage(Page):
         return context
 
 
+class CourseMaterial(Orderable):
+    page = ParentalKey(
+        "courses.CoursePage",
+        related_name="materials",
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="course_materials/", blank=True, null=True)
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("file"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+
+class ChapterMaterial(Orderable):
+    page = ParentalKey(
+        "courses.ChapterPage",
+        related_name="materials",
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="course_materials/", blank=True, null=True)
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("file"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+
+class SegmentMaterial(Orderable):
+    page = ParentalKey(
+        "courses.SegmentPage",
+        related_name="materials",
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="course_materials/", blank=True, null=True)
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("file"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+
 class CoursePage(Page):
     """Instructors are linked via InstructorsOrderable model to implement many to one."""
+    duration = models.DurationField(blank=True, null=True)
+    updated_on = models.DateTimeField(blank=True, null=True)
+
     content = StreamField(
         [
             ("rich_text", RichTextBlock()),
@@ -147,7 +204,7 @@ class CoursePage(Page):
             [
                 InlinePanel("materials", label="Materials"),
             ],
-            heading="Downloadable Materials",
+            heading="Course Materials",
         ),
         MultiFieldPanel(
             [
@@ -158,13 +215,19 @@ class CoursePage(Page):
         FieldPanel("tags"),
     ]
 
-    # TODO: Add fields for:
-    # duration (hours of video as int or float)
-    # percentage (of completion, int or float from 0 to 100)
-    # content_updated (manually updated, as date or string YYYY-MM or YYYY-MM-DD)
-
     parent_page_types = ['CoursesIndexPage']
     subpage_types = ["ChapterPage"]
+
+    def get_all_materials(self):
+        materials = list(self.materials.all())  # course-level
+
+        for chapter in self.get_children().type(ChapterPage).specific():
+            materials.extend(chapter.materials.all())
+
+            for segment in chapter.get_children().type(SegmentPage).specific():
+                materials.extend(segment.materials.all())
+
+        return materials
 
     # Redirect to first segment of first chapter
     def serve(self, request):
@@ -186,20 +249,6 @@ class CoursePage(Page):
         return context
 
 
-class CourseMaterial(models.Model):
-    course = ParentalKey(CoursePage, on_delete=models.CASCADE, related_name="materials")
-    title = models.CharField(max_length=255)
-    file = models.FileField(upload_to="course_materials/", blank=True, null=True)
-
-    panels = [
-        FieldPanel("title"),
-        FieldPanel("file"),
-    ]
-
-    def __str__(self):
-        return self.title
-
-
 class ChapterPage(Page):
     content = StreamField(
         [
@@ -213,7 +262,12 @@ class ChapterPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("content"),
-        InlinePanel("quizzes", label="Quizzes"),
+        MultiFieldPanel(
+            [
+                InlinePanel("materials", label="Materials"),
+            ],
+            heading="Chapter Materials",
+        ),
     ]
 
     parent_page_types = ["CoursePage"]
@@ -222,6 +276,7 @@ class ChapterPage(Page):
 
 class SegmentPage(Page):
     video_url = models.URLField(blank=True)
+    duration = models.DurationField(blank=True, null=True)
 
     content = StreamField(
         [
@@ -236,6 +291,7 @@ class SegmentPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
         FieldPanel("content"),
+        InlinePanel("quizzes", label="Quizzes"),
     ]
 
     # TODO: Add fields for completion, materials, video aspect ratio, and video duration
@@ -357,14 +413,13 @@ class SegmentPage(Page):
 
 class Quiz(ClusterableModel):
     title = models.CharField(max_length=255)
-    chapter = ParentalKey(
-        ChapterPage,
+    segment = ParentalKey(
+        SegmentPage,
         related_name="quizzes",
         on_delete=models.CASCADE,
         null=True,
         blank=True
     )
-    segment = models.ForeignKey(SegmentPage, related_name="quizzes", on_delete=models.CASCADE, null=True, blank=True)
 
     panels = [
         FieldPanel("title"),
