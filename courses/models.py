@@ -493,6 +493,9 @@ class SegmentPage(Page):
                 + 1
         )
 
+        # Get only first quiz
+        context["quiz"] = self.quizzes.first()
+
         # ---------------------------------------
         # MATERIALS
         # For current segment, chapter & course

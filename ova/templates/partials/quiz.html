@@ -6,6 +6,37 @@
   <div id="correct" hidden>Correct</div>
   <div id="incorrect" hidden>Wrong</div>
 
+  {% for question in quiz.questions.all %}
+    <fieldset>
+      <legend>
+        <span class="count kicker">
+          <span aria-hidden="true">Q{{ forloop.counter }}</span>
+          <span class="screen-reader">Question {{ forloop.counter }}</span>
+        </span>
+        {{ question }}
+      </legend>
+
+      {% for choice in question.choices.all %}
+        <label class="choice">
+          <input type="radio" name="{{ question.id }}" value="{{ choice.id }}" class="screen-reader" {% if forloop.first %}required{% endif %}/>
+          <span>{{ choice }}</span>
+        </label>
+      {% endfor %}
+      
+    </fieldset>
+  {% endfor %}
+
+  <button class="button primary">Submit answers</button>
+
+</form>
+
+{% comment %}
+<form class="quiz" method="post">
+
+  <!-- Screen reader descriptions for submission results -->
+  <div id="correct" hidden>Correct</div>
+  <div id="incorrect" hidden>Wrong</div>
+
   <fieldset>
     <legend class="question">Question 1 goes here</legend>
 
@@ -69,3 +100,4 @@
   <button class="button primary">Submit answers</button>
 
 </form>
+{% endcomment %}

@@ -133,15 +133,11 @@
         <span class="number kicker">
           {{ chapter_number }}.{{ segment_number }}
         </span>
-        <!-- TODO: Handle empty(?) titles when segment is a quiz -->
-        {% if segment.title %}
-          <!-- TEMP: change title if current segment is a “quiz” (temporary fix) -->
-          {% if segment.title|slice:":6" == "[Quiz]" %}
-            <span class="quiz-badge kicker">Quiz</span>
-            <span>Test your knowledge</span>
-          {% else %}
-            {{ segment.title }}
-          {% endif %}
+        {% if quiz %}
+          <span class="quiz-badge kicker">Quiz</span>
+          {{ quiz.title|default:"Test your knowledge" }}
+        {% else %}
+          {{ segment.title }}
         {% endif %}
       </h2>
 
@@ -149,7 +145,7 @@
         {% include 'partials/video.html' with id=vimeo_id %}
       {% endif %}
 
-      {% if segment.content or chapter.content %}
+      {% if segment.content or chapter.content or quiz %}
         <section class="content-written">
           <h3 class="screen-reader">Content</h3>
 
@@ -172,16 +168,17 @@
           {% endif %}
 
           <!-- TEMP: Check if page is “quiz” (temporary fix) -->
-          {% if segment.title|slice:":6" == "[Quiz]" %}
+          {% if quiz %}
             {% include 'partials/quiz.html' %}
           {% endif %}
-          
         </section>
       {% endif %}
 
       <!-- TODO: Hide materials if current segment is a “quiz” -->
-      {% if segment_materials or chapter_materials or course_materials %}
-        {% include 'partials/materials.html' %}
+      {% if not quiz %}
+        {% if segment_materials or chapter_materials or course_materials %}
+          {% include 'partials/materials.html' %}
+        {% endif %}
       {% endif %}
 
       <!-- TODO: Consider need to check segment before adding arrows -->
