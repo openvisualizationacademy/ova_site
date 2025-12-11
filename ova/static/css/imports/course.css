@@ -415,6 +415,12 @@ background:
   margin-block-start: 4.8rem;
 }
 
+.chapters + .content h4 {
+  font-weight: bolder;
+  margin-block-start: 2.4rem;
+  margin-block-end: 1.2rem;
+}
+
 .content h2 {
   align-items: baseline;
   display: flex;
