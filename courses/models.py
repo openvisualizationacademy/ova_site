@@ -495,15 +495,23 @@ class SegmentPage(Page):
 
         # ---------------------------------------
         # MATERIALS
-        # Only show this segment's materials
+        # For current segment, chapter & course
         # ---------------------------------------
         context["segment_materials"] = self.materials.all()
 
         # Template still expects these keys so they must exist
         from .models import ChapterMaterial, CourseMaterial
 
-        context["chapter_materials"] = ChapterMaterial.objects.none()
-        context["course_materials"] = CourseMaterial.objects.none()
+        context["chapter_materials"] = (
+            chapter.materials.all()
+            if chapter and hasattr(chapter, "materials")
+            else ChapterMaterial.objects.none()
+        )
+        context["course_materials"] = (
+            course.materials.all()
+            if course and hasattr(course, "materials")
+            else CourseMaterial.objects.none()
+        )
 
         # Alias for template
         context["segment"] = self
