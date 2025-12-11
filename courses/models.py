@@ -520,7 +520,7 @@ class SegmentPage(Page):
 
 
 class Quiz(ClusterableModel):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
     segment = ParentalKey(
         SegmentPage,
         related_name="quizzes",
