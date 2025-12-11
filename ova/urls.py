@@ -11,6 +11,7 @@ from .views import chrome_devtools_dummy
 
 
 urlpatterns = [
+    path("api/", include("courses.urls")),
     path("django-ova-admin/", admin.site.urls),
     path("ova-admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
