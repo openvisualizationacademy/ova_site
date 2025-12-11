@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
+from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 from wagtail.models import Page, Orderable
 from wagtail.fields import StreamField
 from wagtail.blocks import RichTextBlock
 from wagtail.snippets.models import register_snippet
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
 from wagtail.images import get_image_model
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -218,34 +219,86 @@ class CoursePage(Page):
     parent_page_types = ['CoursesIndexPage']
     subpage_types = ["ChapterPage"]
 
-    def get_all_materials(self):
-        materials = list(self.materials.all())  # course-level
+    def save(self, *args, **kwargs):
+        # update slug to match title whenever it is changed
+        self.slug = slugify(self.title)
 
-        for chapter in self.get_children().type(ChapterPage).specific():
+        return super().save(*args, **kwargs)
+
+    def get_all_materials(self):
+        # 1. Course-level materials
+        materials = list(self.materials.all())
+
+        # 2. Chapter-level and segment-level materials
+        chapters = self.get_children().type(ChapterPage).live().specific()
+
+        for chapter in chapters:
+            # Chapter materials
             materials.extend(chapter.materials.all())
 
-            for segment in chapter.get_children().type(SegmentPage).specific():
+            # Segment materials
+            segments = chapter.get_children().type(SegmentPage).live().specific()
+            for segment in segments:
                 materials.extend(segment.materials.all())
 
-        return materials
+        # 3. Remove duplicates while keeping order
+        seen = set()
+        deduped = []
+        for mat in materials:
+            if mat.id not in seen:
+                deduped.append(mat)
+                seen.add(mat.id)
+
+        return deduped
 
     # Redirect to first segment of first chapter
     def serve(self, request):
-        first_chapter = self.get_children().type(ChapterPage).live().first()
-        
-        if first_chapter:
-            first_segment = first_chapter.specific.get_children().type(SegmentPage).live().first()
-            
-            if first_segment:
-                return redirect(first_segment.specific.url)
+        first_ch = self.get_children().type(ChapterPage).live().first()
+        if first_ch:
+            first_seg = first_ch.get_children().type(SegmentPage).live().first()
+            if first_seg:
+                return redirect(first_seg.url)
 
+        # If no segments/chapters, fall back to normal view
         return super().serve(request)
+
+    # Resolve URL to first segment of first chapter (that way no one ends up on the course page)
+    # This "becomes" the url for the course
+    def get_url(self, request=None, *args, **kwargs):
+        # Get the first chapter
+        first_ch = (
+            self.get_children()
+            .type(ChapterPage)
+            .live()
+            .specific()
+            .first()
+        )
+        if not first_ch:
+            return super().get_url(request, *args, **kwargs)
+
+        # Get the first segment
+        first_seg = (
+            first_ch.get_children()
+            .type(SegmentPage)
+            .live()
+            .specific()
+            .first()
+        )
+        if not first_seg:
+            return super().get_url(request, *args, **kwargs)
+
+        # Return the segment URL instead
+        return first_seg.get_url(request, *args, **kwargs)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        # Create alias, so the same template include can be used for course & segments pages
-        context['course'] = self
+        # Needed for templates that expect 'course'
+        context["course"] = self
+
+        # Course-level materials
+        context["course_materials"] = self.materials.all()
+
         return context
 
 
@@ -273,10 +326,39 @@ class ChapterPage(Page):
     parent_page_types = ["CoursePage"]
     subpage_types = ["SegmentPage"]
 
+    def save(self, *args, **kwargs):
+        # update slug to match title whenever it is changed
+        self.slug = slugify(self.title)
+
+        return super().save(*args, **kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        course = self.get_parent()
+        course = course.specific if hasattr(course, "specific") else None
+        context["course"] = course
+
+        # Chapter materials
+        context["chapter_materials"] = self.materials.all()
+
+        # Course materials with EmptyQuerySet fallback
+        context["course_materials"] = (
+            course.materials.all()
+            if course and hasattr(course, "materials")
+            else CourseMaterial.objects.none()
+        )
+
+        return context
+
 
 class SegmentPage(Page):
     video_url = models.URLField(blank=True)
     duration = models.DurationField(blank=True, null=True)
+
+    width = models.PositiveIntegerField(blank=True, null=True)
+    height = models.PositiveIntegerField(blank=True, null=True)
+    aspect_ratio = models.FloatField(editable=False, default=0)
 
     content = StreamField(
         [
@@ -290,123 +372,141 @@ class SegmentPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
+        FieldRowPanel([
+            FieldPanel("width"),
+            FieldPanel("height"),
+            FieldPanel("aspect_ratio", read_only=True),
+        ]),
+        MultiFieldPanel(
+            [
+                InlinePanel("materials", label="Materials"),
+            ],
+            heading="Segment Materials",
+        ),
         FieldPanel("content"),
         InlinePanel("quizzes", label="Quizzes"),
     ]
 
-    # TODO: Add fields for completion, materials, video aspect ratio, and video duration
-
     parent_page_types = ["ChapterPage"]
     subpage_types = []
 
-    def get_previous_segment(self):
+    def _get_adjacent_segment(self, direction):
+        """
+        Internal helper to get the next or previous segment.
+        direction: "next" or "previous"
+        """
+
+        if direction not in ("next", "previous"):
+            raise ValueError("direction must be 'next' or 'previous'")
+
+        # Select the correct sibling lookup
+        sibling_lookup = (
+            self.get_next_siblings().live().specific()
+            if direction == "next"
+            else self.get_prev_siblings().live().specific()
+        )
+
+        # 1. Try sibling segments
+        sibling = sibling_lookup.first()
+        if sibling:
+            return sibling
+
+        # 2. No siblings -> look in next/previous chapter
         chapter = self.get_parent().specific
 
-        previous = self.get_prev_siblings().live().first()
-      
-        if previous:
-            return previous
-        
-        previous_chapter = chapter.get_prev_siblings().type(ChapterPage).live().first()
-        
-        if previous_chapter:
-            return previous_chapter.specific.get_children().type(SegmentPage).live().last()
-        
-        return None
-    
+        chapter_lookup = (
+            chapter.get_next_siblings().type(ChapterPage).live().specific()
+            if direction == "next"
+            else chapter.get_prev_siblings().type(ChapterPage).live().specific()
+        )
+
+        adjacent_chapter = chapter_lookup.first()
+        if not adjacent_chapter:
+            return None
+
+        # 3. Select first/last segment of that chapter
+        segment_lookup = (
+            adjacent_chapter.get_children()
+            .type(SegmentPage)
+            .live()
+            .specific()
+        )
+
+        return segment_lookup.first() if direction == "next" else segment_lookup.last()
+
     def get_next_segment(self):
-        chapter = self.get_parent().specific
-        
-        next_seg = self.get_next_siblings().live().first()
-        
-        if next_seg:
-            return next_seg
-        
-        next_chapter = chapter.get_next_siblings().type(ChapterPage).live().first()
-        
-        if next_chapter:
-            return next_chapter.specific.get_children().type(SegmentPage).live().first()
-        
-        return None
+        return self._get_adjacent_segment("next")
+
+    def get_previous_segment(self):
+        return self._get_adjacent_segment("previous")
+
+    def save(self, *args, **kwargs):
+        # update slug to match title whenever it is changed
+        self.slug = slugify(self.title)
+
+        # auto calculate aspect ratio
+        if self.width and self.height:
+            self.aspect_ratio = (self.width / self.height) * 100
+        else:
+            self.aspect_ratio = 0
+
+        return super().save(*args, **kwargs)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        # Extract Vimeo id
+        # Vimeo
         if self.video_url:
             match = re.search(r'vimeo\.com/(\d+)', self.video_url)
             context["vimeo_id"] = match.group(1) if match else None
-        
-        # Get respective chapter
+
+        # Parent chapter
         chapter = self.get_parent()
+        context["chapter"] = chapter
+
+        # Parent course
+        course = None
         if chapter:
+            parent_course = chapter.get_parent()
+            if parent_course and hasattr(parent_course, "specific"):
+                course = parent_course.specific
+        context["course"] = course
 
-            # Get chapter properties (like chapter-wide content)
-            context["chapter"] = chapter
+        # Chapter number
+        if chapter:
+            context["chapter_number"] = (
+                    chapter.get_siblings(inclusive=True)
+                    .live()
+                    .filter(path__lt=chapter.path)
+                    .count()
+                    + 1
+            )
+        else:
+            context["chapter_number"] = None
 
-            # Get respective course
-            course = chapter.get_parent()
-            if course and isinstance(course.specific, CoursePage):
-                context["course"] = course.specific
+        # Segment number
+        context["segment_number"] = (
+                self.get_siblings(inclusive=True)
+                .live()
+                .filter(path__lt=self.path)
+                .count()
+                + 1
+        )
 
-            # Get chapter number
-            chapter_number = chapter.get_siblings(inclusive=True).live().filter(
-                path__lt=chapter.path
-            ).count() + 1
-            context["chapter_number"] = chapter_number
-            
-            # Get segment number
-            segment_number = self.get_siblings(inclusive=True).live().filter(
-                path__lt=self.path
-            ).count() + 1
-            context["segment_number"] = segment_number
+        # ---------------------------------------
+        # MATERIALS
+        # Only show this segment's materials
+        # ---------------------------------------
+        context["segment_materials"] = self.materials.all()
 
-            # Get materials relative to each segment, chapter, or whole course
-            segment_materials = []
-            chapter_materials = []
-            course_materials = []
-            
-            for material in course.specific.materials.all():
-                title = material.title.strip()
-                
-                # Segment materials are like "2.1 file.csv" or "3.2. file.csv"
-                if re.match(r'^\d+\.\d+\.?\s', title):
-                    segment_materials.append(material)
+        # Template still expects these keys so they must exist
+        from .models import ChapterMaterial, CourseMaterial
 
-                # Chapter materials are like "2 file.csv" or "3. file.csv"
-                elif re.match(r'^\d+\.?\s', title):
-                    chapter_materials.append(material)
+        context["chapter_materials"] = ChapterMaterial.objects.none()
+        context["course_materials"] = CourseMaterial.objects.none()
 
-                # Course materials are everything else, like "dataset.csv" or "3x2.csv"
-                else:
-                    course_materials.append(material)
-
-            # Filter list to match only current chapter or segment
-            
-            def belongs_to_current_chapter(material, chapter_number):
-                title = material.title.strip()
-                pattern_1 = f'{chapter_number}. '
-                pattern_2 = f'{chapter_number} '
-                return title.startswith(pattern_1) or title.startswith(pattern_2)
-
-            def belongs_to_current_segment(material, chapter_number, segment_number):
-                title = material.title.strip()
-                pattern_1 = f'{chapter_number}.{segment_number}. '
-                pattern_2 = f'{chapter_number}.{segment_number} '
-                return title.startswith(pattern_1) or title.startswith(pattern_2)
-
-            # Filter segment materials for current segment
-            segment_materials = [ m for m in segment_materials if belongs_to_current_segment(m, chapter_number, segment_number) ]
-
-            # Filter chapter materials for current chapter
-            chapter_materials = [ m for m in chapter_materials if belongs_to_current_chapter(m, chapter_number) ]
-
-            context["segment_materials"] = segment_materials
-            context["chapter_materials"] = chapter_materials
-            context["course_materials"] = course_materials
-
-        # Create alias, so we can check if segment details exists in course include
-        context['segment'] = self
+        # Alias for template
+        context["segment"] = self
 
         return context
 
