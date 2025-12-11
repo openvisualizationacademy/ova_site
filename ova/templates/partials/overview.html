@@ -6,10 +6,10 @@
   </summary>
   <div>
     {% for block in course.content %}
-      {% if block.block_type == "markdown" %}
-        {{ block.value|markdown }}
-      {% elif block.block_type == "rich_text" %}
+      {% if block.block_type == "rich_text" %}
         {{ block.value|richtext }}
+      {% elif block.block_type == "markdown" %}
+        {{ block.value|markdown }}
       {% endif %}
     {% endfor %}
   </div>

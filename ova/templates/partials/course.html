@@ -151,18 +151,24 @@
 
           {% if segment.content %}
           <div class="content-written-segment">
-            <!-- TODO: Render markdown too -->
             {% for block in segment.content %}
-              {{ block.value|richtext }}
+              {% if block.block_type == "rich_text" %}
+                {{ block.value|richtext }}
+              {% elif block.block_type == "markdown" %}
+                {{ block.value|markdown }}
+              {% endif %}
             {% endfor %}
           </div>
           {% endif %}
 
           {% if chapter.content and not quiz %}
           <div class="content-written-chapter">
-            <!-- TODO: Render markdown too -->
             {% for block in chapter.content %}
-              {{ block.value|richtext }}
+              {% if block.block_type == "rich_text" %}
+                {{ block.value|richtext }}
+              {% elif block.block_type == "markdown" %}
+                {{ block.value|markdown }}
+              {% endif %}
             {% endfor %}
           </div>
           {% endif %}
