@@ -158,7 +158,7 @@
           </div>
           {% endif %}
 
-          {% if chapter.content %}
+          {% if chapter.content and not quiz %}
           <div class="content-written-chapter">
             <!-- TODO: Render markdown too -->
             {% for block in chapter.content %}
