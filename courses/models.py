@@ -452,6 +452,10 @@ class SegmentPage(Page):
 
         return super().save(*args, **kwargs)
 
+    def quiz(self):
+        # Get only first quiz
+        return self.quizzes.first()
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
@@ -494,7 +498,7 @@ class SegmentPage(Page):
         )
 
         # Get only first quiz
-        context["quiz"] = self.quizzes.first()
+        context["quiz"] = self.quiz()
 
         # ---------------------------------------
         # MATERIALS

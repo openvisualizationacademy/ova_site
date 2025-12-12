@@ -12,16 +12,15 @@
           <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
           <li>
             <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-
-              <!-- TEMP: Pretend certain segment pages are a quiz, as quiz pages are not yet implemented -->
-              {% if segment.title|slice:":6" == "[Quiz]" %}
-                <span class="tooltip">
+            
+              <span class="tooltip">
+                {% if segment.quiz %}
                   <span class="quiz-badge kicker">Quiz</span>
-                  <span>Test your knowledge</span>
-                </span>
-              {% else %}  
-                <span class="tooltip">{{ segment.title }}</span>
-              {% endif %}
+                  {{ segment.quiz.title|default:"Test your knowledge" }}
+                {% else %}
+                  {{ segment.title }}
+                {% endif %}
+              </span>
 
               <!-- TODO: Make completed status dynamic -->
               {% with completed=False %}
