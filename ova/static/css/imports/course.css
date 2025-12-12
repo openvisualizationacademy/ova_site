@@ -417,8 +417,8 @@ background:
 
 .chapters + .content h4 {
   font-weight: bolder;
-  margin-block-start: 2.4rem;
   margin-block-end: 1.2rem;
+  margin-block-start: 2.4rem;
 }
 
 .content h2 {
@@ -510,13 +510,15 @@ section.overview {
 .quiz-badge {
   align-items: baseline;
   align-self: start;
-  background: light-dark(var(--neutral-300), var(--neutral-700));
+  background: light-dark(var(--info-200), var(--info-900));
   border-radius: .4rem;
   color: light-dark(var(--neutral-900), var(--neutral-100));
   display: flex;
   margin-inline-end: .6rem;
   padding-block: .6rem .4rem;
   padding-inline: .6rem;
+
+  /* background: light-dark(var(--neutral-300), var(--neutral-700)); */
 }
 
 .completed .quiz-badge {

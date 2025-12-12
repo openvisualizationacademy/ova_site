@@ -44,17 +44,6 @@
   --success-900: #004529;
   */
 
-  /* Greens scheme from d3 or https://colorbrewer2.org */
-  --success-100: #f7fcf5;
-  --success-200: #e5f5e0;
-  --success-300: #c7e9c0;
-  --success-400: #a1d99b;
-  --success-500: #74c476;
-  --success-600: #41ab5d;
-  --success-700: #238b45;
-  --success-800: #006d2c;
-  --success-900: #00441b;
-
   /* Reds scheme from d3 or https://colorbrewer2.org */
   --failure-100: #fff5f0;
   --failure-200: #fee0d2;
@@ -66,6 +55,27 @@
   --failure-800: #a50f15;
   --failure-900: #67000d;
 
+  /* Greens scheme from d3 or https://colorbrewer2.org */
+  --success-100: #f7fcf5;
+  --success-200: #e5f5e0;
+  --success-300: #c7e9c0;
+  --success-400: #a1d99b;
+  --success-500: #74c476;
+  --success-600: #41ab5d;
+  --success-700: #238b45;
+  --success-800: #006d2c;
+  --success-900: #00441b;
+
+  /* Blues scheme from d3 or https://colorbrewer2.org */
+  --info-100: #f7fbff;
+  --info-200: #deebf7;
+  --info-300: #c6dbef;
+  --info-400: #9ecae1;
+  --info-500: #6baed6;
+  --info-600: #4292c6;
+  --info-700: #2171b5;
+  --info-800: #08519c;
+  --info-900: #08306b;
   
   --tag-all: currentColor;
   --tag-fundamentals: #e15759; /* red from `d3.schemeTableau10[2]` */
