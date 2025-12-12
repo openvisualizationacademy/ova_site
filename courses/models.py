@@ -15,6 +15,7 @@ from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
 import re
 
+from .mixins import QuizMixin
 
 User = get_user_model()
 
@@ -352,7 +353,7 @@ class ChapterPage(Page):
         return context
 
 
-class SegmentPage(Page):
+class SegmentPage(QuizMixin, Page):
     video_url = models.URLField(blank=True)
     duration = models.DurationField(blank=True, null=True)
 
@@ -456,6 +457,11 @@ class SegmentPage(Page):
         # Get only first quiz
         return self.quizzes.first()
 
+    def serve(self, request, *args, **kwargs):
+        if request.method == "POST":
+            return self.handle_quiz_submission(request)
+        return super().serve(request, *args, **kwargs)
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
@@ -522,6 +528,36 @@ class SegmentPage(Page):
 
         # Alias for template
         context["segment"] = self
+
+        user = request.user
+        if user.is_authenticated:
+
+            # Segment progress
+            seg_prog = SegmentProgress.objects.filter(
+                user=user, segment=self
+            ).first()
+            context["segment_progress"] = seg_prog
+
+            # Chapter progress
+            chapter = context.get("chapter")
+            if chapter:
+                chap_prog = ChapterProgress.objects.filter(
+                    user=user, chapter=chapter
+                ).first()
+                context["chapter_progress"] = chap_prog
+
+            # Course progress
+            course = context.get("course")
+            if course:
+                course_prog = CourseProgress.objects.filter(
+                    user=user, course=course
+                ).first()
+                context["course_progress"] = course_prog
+
+        else:
+            context["segment_progress"] = None
+            context["chapter_progress"] = None
+            context["course_progress"] = None
 
         return context
 
@@ -590,6 +626,9 @@ class ChapterProgress(models.Model):
     class Meta:
         unique_together = ("user", "chapter")
 
+    def __str__(self):
+        return f"{self.user} completed {self.chapter}: {self.completed}"
+
 
 class CourseProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -600,6 +639,9 @@ class CourseProgress(models.Model):
     class Meta:
         unique_together = ("user", "course")
 
+    def __str__(self):
+        return f"{self.user} completed {self.course}: {self.completed}"
+
 
 class SegmentProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -609,6 +651,9 @@ class SegmentProgress(models.Model):
 
     class Meta:
         unique_together = ("user", "segment")
+
+    def __str__(self):
+        return f"{self.user} watched {self.segment}: {self.percent_watched}%"
 
 
 class QuizProgress(models.Model):

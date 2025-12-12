@@ -1,8 +1,11 @@
 <!-- TODO: Add inline message if any questions were submitted and wrong? Where is most accessbile? -->
 
+{% load get_item %}
+
 <form class="quiz" method="post">
-{% csrf_token %}
-  <!-- Screen reader descriptions for submission results -->
+  {% csrf_token %}
+
+  <!-- Screen reader feedback -->
   <div id="correct" hidden>Correct</div>
   <div id="incorrect" hidden>Wrong</div>
 
@@ -17,18 +20,50 @@
       </legend>
 
       {% for choice in question.choices.all %}
-        <label class="choice">
-          <input type="radio" name="{{ question.id }}" value="{{ choice.id }}" class="screen-reader" {% if forloop.first %}required{% endif %}/>
-          <span>{{ choice }}</span>
-        </label>
+
+        {% if submitted and answers %}
+          {% with submitted_choice=answers|get_item:question.id %}
+              <label class="choice
+                  {% if submitted_choice == choice.id|stringformat:"s" %}
+                      {% if choice.is_correct %}correct{% else %}incorrect{% endif %}
+                  {% endif %}
+              ">
+                  <input
+                      type="radio"
+                      name="{{ question.id }}"
+                      value="{{ choice.id }}"
+                      class="screen-reader"
+                      {% if submitted_choice == choice.id|stringformat:"s" %}checked{% endif %}
+                      {% if forloop.first %}required{% endif %}
+                  >
+                  <span>{{ choice }}</span>
+              </label>
+          {% endwith %}
+      {% else %}
+          <label class="choice">
+              <input
+                  type="radio"
+                  name="{{ question.id }}"
+                  value="{{ choice.id }}"
+                  class="screen-reader"
+                  {% if forloop.first %}required{% endif %}
+              >
+              <span>{{ choice }}</span>
+          </label>
+      {% endif %}
+
       {% endfor %}
-      
+
     </fieldset>
   {% endfor %}
 
   <button class="button primary">Submit answers</button>
 
+  {% if submitted %}
+    <p class="quiz-score">Score: {{ score }}%</p>
+  {% endif %}
 </form>
+
 
 {% comment %}
 <form class="quiz" method="post">
