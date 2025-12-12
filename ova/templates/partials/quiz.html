@@ -1,7 +1,7 @@
 <!-- TODO: Add inline message if any questions were submitted and wrong? Where is most accessbile? -->
 
 <form class="quiz" method="post">
-
+{% csrf_token %}
   <!-- Screen reader descriptions for submission results -->
   <div id="correct" hidden>Correct</div>
   <div id="incorrect" hidden>Wrong</div>
