@@ -1,11 +1,9 @@
-<!-- TODO: Add inline message if any questions were submitted and wrong? Where is most accessbile? -->
-
 {% load get_item %}
 
 <form class="quiz" method="post">
   {% csrf_token %}
 
-  <!-- Screen reader feedback -->
+  <!-- Screen reader descriptions -->
   <div id="correct" hidden>Correct</div>
   <div id="incorrect" hidden>Wrong</div>
 
@@ -19,41 +17,34 @@
         {{ question }}
       </legend>
 
-      {% for choice in question.choices.all %}
+      {% with submitted_choice=answers|get_item:question.id %}
+        {% for choice in question.choices.all %}
 
-        {% if submitted and answers %}
-          {% with submitted_choice=answers|get_item:question.id %}
-              <label class="choice
-                  {% if submitted_choice == choice.id|stringformat:"s" %}
-                      {% if choice.is_correct %}correct{% else %}incorrect{% endif %}
-                  {% endif %}
-              ">
-                  <input
-                      type="radio"
-                      name="{{ question.id }}"
-                      value="{{ choice.id }}"
-                      class="screen-reader"
-                      {% if submitted_choice == choice.id|stringformat:"s" %}checked{% endif %}
-                      {% if forloop.first %}required{% endif %}
-                  >
-                  <span>{{ choice }}</span>
-              </label>
-          {% endwith %}
-      {% else %}
           <label class="choice">
-              <input
-                  type="radio"
-                  name="{{ question.id }}"
-                  value="{{ choice.id }}"
-                  class="screen-reader"
-                  {% if forloop.first %}required{% endif %}
-              >
-              <span>{{ choice }}</span>
+            <input
+              type="radio"
+              name="{{ question.id }}"
+              value="{{ choice.id }}"
+              class="screen-reader"
+              {% if forloop.first %}required{% endif %}
+
+              {# Restore checked state on POST #}
+              {% if submitted and submitted_choice == choice.id|stringformat:"s" %}
+                checked
+
+                {# Add semantic correctness attributes #}
+                {% if choice.is_correct %}
+                  aria-describedby="correct"
+                {% else %}
+                  aria-describedby="incorrect"
+                {% endif %}
+              {% endif %}
+            >
+            <span>{{ choice }}</span>
           </label>
-      {% endif %}
 
-      {% endfor %}
-
+        {% endfor %}
+      {% endwith %}
     </fieldset>
   {% endfor %}
 
@@ -63,78 +54,3 @@
     <p class="quiz-score">Score: {{ score }}%</p>
   {% endif %}
 </form>
-
-
-{% comment %}
-<form class="quiz" method="post">
-
-  <!-- Screen reader descriptions for submission results -->
-  <div id="correct" hidden>Correct</div>
-  <div id="incorrect" hidden>Wrong</div>
-
-  <fieldset>
-    <legend class="question">Question 1 goes here</legend>
-
-    <label class="choice">
-      <input type="radio" name="q1" value="a" class="screen-reader" required/>
-      <span>First alternative</span>
-    </label>
-
-    <!-- TODO: If submitted and wrong: add `aria-describedby` and `disabled` attributes and <svg> -->
-    <label class="choice">
-      <input type="radio" name="q1" value="b" class="screen-reader" aria-describedby="incorrect" disabled/>
-      <span>Second alternative</span>
-
-      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
-    </label>
-    <label class="choice">
-      <input type="radio" name="q1" value="c" class="screen-reader" />
-      <span>Third alternative</span>
-    </label>
-  </fieldset>
-
-  <!-- TODO: If submitted and correct: add disabled attribute -->
-  <fieldset disabled>
-    <legend>Question 2 goes here</legend>
-
-    <label class="choice">
-      <input type="radio" name="q2" value="a" class="screen-reader" required/>
-      <span>First alternative</span>
-    </label>
-    <label class="choice">
-      <input type="radio" name="q2" value="b" class="screen-reader" />
-      <span>Second alternative</span>
-    </label>
-
-    <!-- TODO: If submitted and correct: add `aria-describedby` and `checked` attributes and <svg> -->
-    <label class="choice">
-      <input type="radio" name="q2" value="c" class="screen-reader" aria-describedby="correct" checked/>
-      <span>Third alternative</span>
-
-      <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
-    </label>
-  </fieldset>
-
-  <fieldset>
-    <legend>Question 3 goes here</legend>
-
-    <label class="choice">
-      <input type="radio" name="q3" value="a" class="screen-reader" required/>
-      <span>First alternative</span>
-    </label>
-    <label class="choice">
-      <input type="radio" name="q3" value="b" class="screen-reader" />
-      <span>Second alternative</span>
-    </label>
-    <label class="choice">
-      <input type="radio" name="q3" value="c" class="screen-reader" />
-      <span>Third alternative</span>
-    </label>
-  </fieldset>
-
-  <!-- TODO: Remind signed-out users that their progress will not be saved (but they’ll still see their results) -->
-
-  <button class="button primary">Submit answers</button>
-
-</form>
-{% endcomment %}
