@@ -3,7 +3,7 @@
 <form class="quiz" method="post">
   {% csrf_token %}
 
-  <!-- Screen reader descriptions -->
+  <!-- Screen reader announcements -->
   <div id="correct" hidden>Correct</div>
   <div id="incorrect" hidden>Wrong</div>
 
@@ -17,34 +17,53 @@
         {{ question }}
       </legend>
 
-      {% with submitted_choice=answers|get_item:question.id %}
-        {% for choice in question.choices.all %}
+      {# We guard before evaluating answers, so template never crashes #}
+      {% if submitted and answers %}
+          {% with submitted_choice=answers|get_item:question.id %}
 
-          <label class="choice">
-            <input
-              type="radio"
-              name="{{ question.id }}"
-              value="{{ choice.id }}"
-              class="screen-reader"
-              {% if forloop.first %}required{% endif %}
+              {% for choice in question.choices.all %}
+                  <label class="choice">
+                    <input
+                      type="radio"
+                      name="{{ question.id }}"
+                      value="{{ choice.id }}"
+                      class="screen-reader"
+                      {% if forloop.first %}required{% endif %}
 
-              {# Restore checked state on POST #}
-              {% if submitted and submitted_choice == choice.id|stringformat:"s" %}
-                checked
+                      {# If this choice was selected, mark checked #}
+                      {% if submitted_choice == choice.id|stringformat:"s" %}
+                        checked
 
-                {# Add semantic correctness attributes #}
-                {% if choice.is_correct %}
-                  aria-describedby="correct"
-                {% else %}
-                  aria-describedby="incorrect"
-                {% endif %}
-              {% endif %}
-            >
-            <span>{{ choice }}</span>
-          </label>
+                        {# Add semantic correctness for CSS highlighting #}
+                        {% if choice.is_correct %}
+                          aria-describedby="correct"
+                        {% else %}
+                          aria-describedby="incorrect"
+                        {% endif %}
+                      {% endif %}
+                    >
+                    <span>{{ choice }}</span>
+                  </label>
+              {% endfor %}
 
-        {% endfor %}
-      {% endwith %}
+          {% endwith %}
+
+      {% else %}
+          {# GET request or missing answers → render normal choices #}
+          {% for choice in question.choices.all %}
+              <label class="choice">
+                <input
+                  type="radio"
+                  name="{{ question.id }}"
+                  value="{{ choice.id }}"
+                  class="screen-reader"
+                  {% if forloop.first %}required{% endif %}
+                >
+                <span>{{ choice }}</span>
+              </label>
+          {% endfor %}
+      {% endif %}
+
     </fieldset>
   {% endfor %}
 
