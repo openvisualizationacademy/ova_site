@@ -1,5 +1,10 @@
 {% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
 
+<!-- TODO: Consider using scoped variable instead of global one -->
+<script>
+  const segmentId = {{ segment.id }};
+</script>
+
 <section class="course-page grid">
 
   <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}"></div>
