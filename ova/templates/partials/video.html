@@ -1,5 +1,4 @@
-<!-- TODO: Make aspect ratio dynamic -->
-<div class="vimeo-embed" style="padding:56.25% 0 0 0">
+<div class="vimeo-embed" style="padding:{{ segment.aspect_ratio|default:'56.25' }}% 0 0 0">
   <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?dnt=1&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Video"></iframe>
 </div>
 <script src="https://player.vimeo.com/api/player.js"></script>
