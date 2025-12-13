@@ -244,6 +244,10 @@ background:
   text-wrap: pretty;
 }
 
+.chapters ol a:not(.active) {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+}
+
 .chapters ol ol {
   display: flex;
   flex-direction: column;
@@ -299,7 +303,6 @@ background:
 }
 
 .chapters .chapter.kicker {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
   line-height: 1.25;
   margin: 0;
   margin-block-end: .4rem;

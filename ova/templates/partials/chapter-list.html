@@ -1,6 +1,6 @@
 <ol>
   {% for chapter in course.get_children.live.specific %}
-    <li>
+    <li class="compact">
       <p class="chapter kicker">
         Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
       </p>
