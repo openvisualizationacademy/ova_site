@@ -285,11 +285,11 @@ background:
   position: absolute;
 }
 
-.chapters ol li a svg[data-icon="check-circle"] path {
+section.course-page svg[data-icon="check-circle"] path {
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
-.chapters ol li a svg[data-icon="check-circle"] circle {
+section.course-page svg[data-icon="check-circle"] circle {
   color: light-dark(var(--success-600), var(--success-500));
   fill: light-dark(var(--success-600), var(--success-500));
 }
@@ -427,7 +427,11 @@ background:
 .content h2 {
   align-items: baseline;
   display: flex;
-  flex-wrap: wrap;
+}
+
+.content h2 svg[data-icon] {
+  margin-inline-start: .8rem;
+  translate: 0 .2rem;
 }
 
 #sign-in-description {

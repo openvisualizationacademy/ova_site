@@ -138,12 +138,20 @@
         <span class="number kicker">
           {{ chapter_number }}.{{ segment_number }}
         </span>
-        {% if quiz %}
-          <span class="quiz-badge kicker">Quiz</span>
-          {{ quiz.title|default:"Test your knowledge" }}
-        {% else %}
-          {{ segment.title }}
-        {% endif %}
+        <span>
+          {% if quiz %}
+            <span class="quiz-badge kicker">Quiz</span>
+            {{ quiz.title|default:"Test your knowledge" }}
+          {% else %}
+            {{ segment.title }}
+          {% endif %}
+
+          <!-- TODO: Display checkmark also for completed quiz -->
+          {% if segment_progress.percent_watched == 100 %}
+            <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+            <span class="screen-reader">(Completed)</span>
+          {% endif %}
+        </span>
       </h2>
 
       {% if segment.video_url %}
