@@ -39,6 +39,10 @@
         </label>
       </div>
       {% if user.is_authenticated %}
+        <!-- TODO: Abbreviate long email addresses -->
+        <small class="signed-email" title="{{ user.email }}">
+          {{ user.email }}
+        </small>
         <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
       {% else %}
         {% if course or '/courses/' in request.path %}
