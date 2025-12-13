@@ -83,6 +83,10 @@ header .account {
 header .account .signed-email {
   color: light-dark(var(--neutral-600), var(--neutral-400));
   margin-inline-start: 1.6rem;
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 header nav .links a[aria-describedby="current"]::after {
