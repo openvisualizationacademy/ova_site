@@ -1,34 +1,76 @@
 <footer class="grid">
   <div class="info">
-    <p>
-      This page is set in
-      <a href="https://www.brailleinstitute.org/about-us/news/braille-institute-launches-enhanced-atkinson-hyperlegible-font-to-make-reading-easier/" target="_blank">Atkinson Hyperlegible Next</a>,
-      a free typeface designed by the
-      <a href="https://www.brailleinstitute.org/" target="_blank">Braille Institute</a>
-      with a focus on accessibility.
-    </p>
+
     <p>
       <small>
-        <!-- We don’t track you or collect your data. -->
-
-        <!-- We only collect minimal data of users when they sign in: your email address and course progress, so we can issue certificates of completion. -->
-
-        <!-- We don’t track or collect data from you, unless you are signed in. When you sign in, we only store your email address and course progress, so we can issue certificates of completion. This is optional, as all content is openly available. -->
-
-        We only collect data if you sign in (email and course progress for certificates). This is optional — all content is openly available.
+        We only collect data if you
+        <a href="{% url 'account_login' %}">sign in</a>
+        (email and course progress for certificates). This is optional — all content is openly available.
       </small>
     </p>
+
+    <p>
+      <small>
+        Contact us via the email
+        <span class="contact">
+          <span class="username">&#104;&#101;&#108;&#108;&#111;</span><span class="at">&#64;</span><span class="domain">&#111;&#112;&#101;&#110;&#118;&#105;&#115;&#117;&#97;&#108;&#105;&#122;&#97;&#116;&#105;&#111;&#110;&#97;&#99;&#97;&#100;&#101;&#109;&#121;&#46;&#111;&#114;&#103;</span>
+        </span>
+        <button class="button quaternary" onclick="copy(this,this.previousElementSibling.textContent.trim())">
+          <svg width="24" height="24" data-icon="copy" aria-hidden="true"></svg>
+          <span>Copy</span> 
+        </button>
+      </small>
+
+      <script>
+        async function copy(button, text) {
+          button.disabled = true;
+
+          try {
+            await navigator.clipboard.writeText(text);
+
+            const span = button.querySelector("span");
+            span.textContent = "Copied!";
+            
+            setTimeout(() => {
+              span.textContent = "Copy";
+              button.disabled = false;
+            }, 1000);
+
+          } catch (error) {
+            alert("Error copying text");
+            button.disabled = false;
+          }
+        }
+      </script>
+    </p>
+
+    <!-- TODO: Consider moving the info below to the about page
+    <p>
+      <small>
+        This page is set in
+        <a href="https://www.brailleinstitute.org/about-us/news/braille-institute-launches-enhanced-atkinson-hyperlegible-font-to-make-reading-easier/" target="_blank">Atkinson Hyperlegible Next</a>,
+        a free typeface designed by the
+        <a href="https://www.brailleinstitute.org/" target="_blank">Braille Institute</a>
+        with a focus on accessibility.
+      </small>
+    </p>
+    -->
+    
     <p>
       <small>
         Source code on <a href="https://github.com/openvisualizationacademy/coming-soon" target="_blank">GitHub</a>.
       </small>
     </p>
+
+    
   </div>
-  <a href="/">
-    <picture>
-      <source srcset="/static/media/logos/ova-icon-type-light.svg" media="(prefers-color-scheme: light)" />
-      <source srcset="/static/media/logos/ova-icon-type-dark.svg" media="(prefers-color-scheme: dark)" />
-      <img src="/static/media/logos/ova-icon-type-light.svg" alt="Open Visualization Academy by Alberto Cairo" />
-    </picture>
-  </a>
+  <div>
+    <a href="/">
+      <picture>
+        <source srcset="/static/media/logos/ova-icon-type-light.svg" media="(prefers-color-scheme: light)" />
+        <source srcset="/static/media/logos/ova-icon-type-dark.svg" media="(prefers-color-scheme: dark)" />
+        <img src="/static/media/logos/ova-icon-type-light.svg" alt="Open Visualization Academy by Alberto Cairo" />
+      </picture>
+    </a>
+  </div>
 </footer>

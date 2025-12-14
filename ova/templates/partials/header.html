@@ -45,6 +45,7 @@
         </small>
         <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
       {% else %}
+        <!-- TODO: Implement better check (so it also works in Wagtail’s preview -->
         {% if course or '/courses/' in request.path %}
           <a href="{% url 'account_login' %}" class="button secondary" aria-describedby="sign-in-description">Sign in</a>  
         {% else %}

@@ -17,6 +17,38 @@ footer.grid .info small {
   color: light-dark(var(--neutral-600), var(--neutral-400));
 }
 
-footer.grid a:has(picture) {
+footer.grid div:has(a picture) {
   grid-column: span 3;
+}
+
+footer .contact {
+  color: light-dark(var(--neutral-800), var(--neutral-200));
+}
+
+footer .contact {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 2s ease-in-out infinite alternate;
+  background: linear-gradient(to right, var(--primary-500), var(--primary-600), var(--primary-700), var(--primary-800));
+  background-clip: text;
+  background-size: 200% auto;
+  text-fill-color: transparent;
+  font-weight: 700;
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  footer .contact {
+    animation: none;
+    color: var(--primary-700);
+  }
 }

@@ -46,6 +46,26 @@
   }
 }
 
+.button.quaternary {
+  background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  color: light-dark(var(--neutral-800), var(--neutral-200));
+  font-size: 1.6rem;
+  margin-inline: .8rem;
+  padding: .3rem .6rem;
+  position: absolute;
+
+  [data-icon] {
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+
+  &:focus-visible,
+  &:active {
+    border: 1px solid currentColor;
+  }
+}
+
 .button span {
   padding-inline: .8rem;
 }
