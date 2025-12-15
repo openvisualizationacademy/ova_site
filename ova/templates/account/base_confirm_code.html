@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load allauth account %}
 {% block content %}
+  <section class="grid">
     {% setvar title_ %}
         {% block title %}{% endblock %}
     {% endsetvar %}
@@ -93,4 +94,5 @@
             {% endslot %}
         {% endelement %}
     {% endif %}
+  </section>
 {% endblock content %}
