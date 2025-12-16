@@ -302,6 +302,11 @@ section.course-page svg[data-icon="check-circle"] circle {
   /* color: light-dark(var(--neutral-300), var(--neutral-700)); */
 }
 
+.chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
+  color: light-dark(var(--info-400), var(--info-600));
+  fill: light-dark(var(--info-400), var(--info-600));
+}
+
 .chapters .chapter.kicker {
   line-height: 1.25;
   margin: 0;
@@ -518,10 +523,10 @@ section.overview {
 .quiz-badge {
   align-items: baseline;
   align-self: start;
-  background: light-dark(var(--info-200), var(--info-900));
+  background: light-dark(var(--info-300), var(--info-700));
   border-radius: .4rem;
   color: light-dark(var(--neutral-900), var(--neutral-100));
-  display: flex;
+  display: inline-flex;
   margin-inline-end: .6rem;
   padding-block: .6rem .4rem;
   padding-inline: .6rem;
