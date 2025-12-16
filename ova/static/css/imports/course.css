@@ -537,6 +537,10 @@ section.overview {
   margin-block: 0;
 }
 
+.content-written a {
+  color: light-dark(var(--info-800), var(--info-400));
+}
+
 .content .content-materials ul {
   display: flex;
   flex-direction: column;
