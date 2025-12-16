@@ -419,9 +419,10 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters + .content h4 {
+  font-size: larger;
   font-weight: bolder;
   margin-block-end: 1.2rem;
-  margin-block-start: 2.4rem;
+  margin-block-start: 3.2rem;
 }
 
 .content h2 {
