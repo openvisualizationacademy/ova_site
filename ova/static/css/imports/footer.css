@@ -4,13 +4,13 @@ footer {
 }
 
 footer.grid .info {
-  grid-column: span 9;
+  grid-column: span 12;
   padding-block: 2.4rem;
   text-wrap: balance;
 }
 
 footer.grid .info p {
-  margin-block: .5em;
+  margin-block: 1em;
 }
 
 footer.grid .info small {
@@ -18,11 +18,11 @@ footer.grid .info small {
 }
 
 footer.grid div:has(a picture) {
-  grid-column: span 3;
+  grid-column: span 12;
 }
 
-footer .contact {
-  color: light-dark(var(--neutral-800), var(--neutral-200));
+footer.grid a img {
+  max-width: 32rem;
 }
 
 footer .contact {
@@ -32,8 +32,10 @@ footer .contact {
   background: linear-gradient(to right, var(--primary-500), var(--primary-600), var(--primary-700), var(--primary-800));
   background-clip: text;
   background-size: 200% auto;
-  text-fill-color: transparent;
+  color: light-dark(var(--neutral-800), var(--neutral-200));
   font-weight: 700;
+  margin-inline-end: .5em;
+  text-fill-color: transparent;
 }
 
 @keyframes textShine {
@@ -50,5 +52,19 @@ footer .contact {
   footer .contact {
     animation: none;
     color: var(--primary-700);
+  }
+}
+
+@media (min-width: 1024px) {
+  footer.grid .info {
+    grid-column: span 9;
+  }
+
+  footer.grid div:has(a picture) {
+    grid-column: span 3;
+  }
+
+  footer.grid .info p {
+    margin-block: .5em;
   }
 }
