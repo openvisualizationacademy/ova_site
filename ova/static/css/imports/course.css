@@ -298,8 +298,10 @@ section.course-page svg[data-icon="check-circle"] circle {
   color: light-dark(var(--neutral-400), var(--neutral-600));
   fill: light-dark(var(--neutral-400), var(--neutral-600));
   scale: .5;
+}
 
-  /* color: light-dark(var(--neutral-300), var(--neutral-700)); */
+.chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
+  scale: .75;
 }
 
 .chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
