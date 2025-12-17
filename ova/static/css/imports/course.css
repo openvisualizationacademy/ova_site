@@ -555,6 +555,16 @@ section.overview {
   padding-inline-start: 0;
 }
 
+.content-materials li {
+  align-items: center;
+  display: flex;
+  gap: .8rem;
+}
+
+.content-materials li .file-size {
+  color: light-dark(var(--neutral-600), var(--neutral-400));
+}
+
 @media (hover: hover) {
   .chapters ol a:not(.active):hover {
     box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));

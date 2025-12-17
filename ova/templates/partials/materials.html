@@ -1,3 +1,5 @@
+<!-- TODO: Add size after each material (like 74 KB or 4.2 MB )-->
+
 <section class="content-materials">
   <h3>Materials</h3>
 
@@ -10,6 +12,7 @@
           <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
           <span>Section {{ material.title }}</span>
         </a>
+        <small class="file-size">{{ material.file.size|filesizeformat }}</small>
       </li>
     {% endfor %}
   {% endif %}
@@ -22,6 +25,7 @@
           <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
           <span>Chapter {{ material.title }}</span>
         </a>
+        <small class="file-size">{{ material.file.size|filesizeformat }}</small>
       </li>
     {% endfor %}
   {% endif %}
@@ -34,6 +38,7 @@
           <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
           <span>Course {{ material.title }}</span>
         </a>
+        <small class="file-size">{{ material.file.size|filesizeformat }}</small>
       </li>
     {% endfor %}
   {% endif %}
