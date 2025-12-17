@@ -58,8 +58,18 @@
                   value="{{ choice.id }}"
                   class="screen-reader"
                   {% if forloop.first %}required{% endif %}
+
+                  {% comment %} TEMP: Display correct alternatives so instructors can review answers {% endcomment %}
+                  {% if choice.is_correct %}
+                    aria-describedby="correct"
+                  {% endif %}
                 >
                 <span>{{ choice }}</span>
+
+                {% comment %} TEMP: Display correct checkmarks so instructors can review answers {% endcomment %}
+                {% if choice.is_correct %}
+                  <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
+                {% endif %}
               </label>
           {% endfor %}
       {% endif %}
