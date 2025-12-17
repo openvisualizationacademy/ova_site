@@ -4,21 +4,23 @@
   left: 0;
   margin: 0 auto;
   max-width: calc(16.8rem * 4);
+  pointer-events: none;
   position: absolute;
   top: 0;
   width: fit-content;
   width: 100%;
-  z-index: 0;
+  z-index: -1;
 }
 
 .wave canvas {
+  clip-path: ellipse(60% 30%);
   display: block;
   translate: 12.5% -25%;
   user-select: none;
   width: 100% !important;
-  clip-path: ellipse(60% 30%); /* Clips so only middle region reacts to hover */
-}
 
+  /* Clips so only middle region reacts to hover */
+}
 
 @media (prefers-reduced-motion: reduce) {
   .wave {
