@@ -41,12 +41,16 @@
 </ol>
 
 <script>
-  // Make chapter list compact if user has last viewed like so it in another page (pairs with Accessibility.js class)
-  if (localStorage.getItem("compactView") === "true") {
+  // Make chapter list compact/expanded if user has last viewed like so it in another page (pairs with Accessibility.js class)
+  (function() {
+    const compactView = localStorage.getItem("compactView");
+    if (compactView === null) return;
+
     const input = document.querySelector('.switch input[name="compact-view"]');
-    if (input) {
-      input.checked = true;
-      input.dispatchEvent(new Event('change'));
-    }
-  }
+    if (!input) return;
+
+    input.checked = compactView === "true" ? true : false;
+    input.dispatchEvent(new Event("change"));
+  })();
+  
 </script>
