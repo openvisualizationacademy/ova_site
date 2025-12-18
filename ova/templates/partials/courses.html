@@ -45,7 +45,7 @@
               <p class="tags">
                 {% if user.is_authenticated %}
                   <!-- TODO: Check if user is signed in and has completed the course -->
-                  <span class="completed-badge kicker">Completed</span>
+                  {% comment %} <span class="completed-badge kicker">Completed</span> {% endcomment %}
                 {% endif %}
 
                 {% for tag in course.tags.all %}
