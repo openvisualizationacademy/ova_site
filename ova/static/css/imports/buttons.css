@@ -75,7 +75,8 @@
     background-color: light-dark(var(--primary-700), var(--primary-700));
   }
 
-  .button.tertiary:hover {
+  .button.tertiary:hover,
+  .button.quaternary:hover {
     border: 1px solid currentColor;
   }
 }
