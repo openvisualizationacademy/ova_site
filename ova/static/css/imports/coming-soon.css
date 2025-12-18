@@ -13,14 +13,6 @@ main {
   margin-block-end: 0;
 }
 
-.cover .button.primary {
-  margin-block-start: 1.2rem;
-}
-
-.cover .newsletter-cta small {
-  display: block;
-}
-
 .coming-soon {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
