@@ -47,12 +47,37 @@ export default class PreviewVideos {
     this.video.muted = true;
   }
 
+  showDuration() {
+
+    // If duration is not yet available
+    if (isNaN(this.video.duration) || this.video.duration === Infinity) {
+
+      // Try again after 1s
+      const timeout = setTimeout(() => { this.showDuration() }, 1000);
+
+      // Try listening for a more precise event
+      this.video.addEventListener('loadedmetadata', () => {
+        this.showDuration();
+        clearTimeout(timeout);
+      }, { once: true });
+
+      // Stop executing
+      return;
+    }
+
+    const { duration } = this.video;
+    const value = duration < 30 ? duration : duration / 60; 
+    const unit = duration < 30 ? "s" : "min";
+    
+    this.minutes.textContent = `${ Math.round(value) } ${ unit }`;
+  }
+
   setup() {
     if (this.app.accessibility.reducedMotion) {
       this.pause();
     }
 
-    this.minutes.textContent = `${ Math.round(this.video.duration / 60) } min`;
+    this.showDuration();
 
     this.controls.forEach((element) => {
       element.addEventListener("click", () => {
