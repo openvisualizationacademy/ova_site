@@ -14,18 +14,25 @@
           <div class="logo" aria-hidden="true"></div>
           <span class="screen-reader">Home</span>
         </a>
-        {% if course or '/courses/' in request.path %}
-          <a href="/#courses" aria-describedby="current">Courses</a>
-        {% else %}
-          <a href="/#courses">Courses</a>
-        {% endif %}
-          <a href="/#about">About</a>
-          <a href="https://openvisualizationacademy.beehiiv.com/" target="_blank">
-            Newsletter
-            <svg width="24" height="24" data-icon="arrow-up-right" aria-hidden="true"></svg>
-          </a>
-
-          <div id="current" hidden>You are here</div>
+        <a
+          href="/#courses"
+          {% if course or '/courses/' in request.path %}
+            aria-describedby="current"
+          {% endif %}>
+          Courses
+        </a>  
+        <a
+          href="/about/"
+          {% if '/about/' in request.path %}
+            aria-describedby="current"
+          {% endif %}>
+          About
+        </a>
+        <a href="https://openvisualizationacademy.beehiiv.com/" target="_blank">
+          Newsletter
+          <svg width="24" height="24" data-icon="arrow-up-right" aria-hidden="true"></svg>
+        </a>
+        <div id="current" hidden>You are here</div>
       {% endif %}
     </div>
     <div class="account">
@@ -42,18 +49,19 @@
         </label>
       </div>
       {% if user.is_authenticated %}
-        <!-- TODO: Abbreviate long email addresses -->
         <small class="signed-email" title="{{ user.email }}">
           {{ user.email }}
         </small>
         <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
       {% else %}
-        <!-- TODO: Implement better check (so it also works in Wagtail’s preview -->
-        {% if course or '/courses/' in request.path %}
-          <a href="{% url 'account_login' %}" class="button secondary" aria-describedby="sign-in-description">Sign in</a>  
-        {% else %}
-          <a href="{% url 'account_login' %}" class="button secondary">Sign in</a>
-        {% endif %}
+        <a 
+          href="{% url 'account_login' %}"
+          class="button secondary"
+          {% if course or '/courses/' in request.path %}
+            aria-describedby="sign-in-description"
+          {% endif %}>
+          Sign in
+        </a>  
       {% endif %}
     </div>
   </nav>
