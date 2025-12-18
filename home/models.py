@@ -46,17 +46,13 @@ class AboutPage(NonCoursePage):
     template = "home/about.html"
 
 
-# class SponsorsPage(NonCoursePage):
-#     template = "home/sponsors.html"
+class SponsorsPage(NonCoursePage):
+    template = "home/sponsors.html"
 
 
-# class ContactPage(NonCoursePage):
-#     template = "home/contact.html"
+class ContactPage(NonCoursePage):
+    template = "home/contact.html"
 
 
-# class NewsPage(NonCoursePage):
-#     template = "home/news.html"
-
-# TEMP: Create a simple certificate page for testing layout
-class CertificatePage(NonCoursePage):
-    template = "home/certificate.html"
+class NewsPage(NonCoursePage):
+    template = "home/news.html"
