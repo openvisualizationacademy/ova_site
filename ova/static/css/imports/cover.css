@@ -27,7 +27,6 @@
   gap: 1.2rem .4rem;
   grid-column: span 12;
   justify-content: center;
-  margin: 0;
   margin-block-start: 4.8rem;
   order: 4;
 }

@@ -205,6 +205,25 @@
   padding-inline: .6rem;
 }
 
+.courses .cta {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem .4rem;
+  grid-column: span 12;
+  justify-content: center;
+  margin-block-start: 4.8rem;
+}
+
+.courses .cta .button.primary {
+  background: var(--tag-fundamentals);
+}
+
+.courses .cta small {
+  display: block;
+  padding: 0 1.2rem;
+}
+
 @media (hover: hover) {
   .courses .filters label:hover {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
