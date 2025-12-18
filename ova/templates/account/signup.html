@@ -4,6 +4,7 @@
     {% trans "Signup" %}
 {% endblock head_title %}
 {% block content %}
+  <section class="grid">
     {% element h1 %}
         {% trans "Sign Up" %}
     {% endelement %}
@@ -42,4 +43,5 @@
     {% if SOCIALACCOUNT_ENABLED %}
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
+  </section>
 {% endblock content %}
