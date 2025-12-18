@@ -50,10 +50,6 @@
   text-wrap: balance;
 }
 
-.cover .button.primary {
-  margin-top: 2.4rem;
-}
-
 .cover .preview video {
   aspect-ratio: 16/9;
   border-radius: 1.6rem;
@@ -103,7 +99,7 @@
 }
 
 .cover .cta .button.primary {
-  margin-block-start: 0;
+  background: var(--tag-fundamentals);
 }
 
 .cover .cta small {
