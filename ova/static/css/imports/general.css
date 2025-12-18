@@ -4,6 +4,10 @@ html {
   scroll-padding-top: 2.4rem;
 }
 
+html {
+  font-size: calc((8 / 16) * 100%);
+}
+
 body {
   background: light-dark(var(--neutral-100), var(--neutral-900));
   color: light-dark(var(--neutral-800), var(--neutral-200));
@@ -125,5 +129,17 @@ section h2 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (min-width: 340px) {
+  html {
+    font-size: calc((9 / 16) * 100%);
+  }
+}
+
+@media (min-width: 375px) {
+  html {
+    font-size: calc((10 / 16) * 100%);
   }
 }

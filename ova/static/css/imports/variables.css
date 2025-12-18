@@ -88,22 +88,6 @@
   --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
 }
 
-html {
-  font-size: calc((8 / 16) * 100%);
-}
-
-@media (min-width: 340px) {
-  html {
-    font-size: calc((9 / 16) * 100%);
-  }
-}
-
-@media (min-width: 375px) {
-  html {
-    font-size: calc((10 / 16) * 100%);
-  }
-}
-
 @media (min-width: 480px) {
   :root {
     --gutter: 2.4rem;
