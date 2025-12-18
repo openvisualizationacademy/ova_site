@@ -1,8 +1,8 @@
 :root {
   color-scheme: light dark;
 
-  --gutter: 2.4rem;
-  --margin: 2.4rem;
+  --gutter: 2rem;
+  --margin: 2rem;
   --max-width: 134.4rem;
 
   /* YlOrRd scheme from d3 or https://colorbrewer2.org */
@@ -101,5 +101,12 @@ html {
 @media (min-width: 375px) {
   html {
     font-size: calc((10 / 16) * 100%);
+  }
+}
+
+@media (min-width: 480px) {
+  :root {
+    --gutter: 2.4rem;
+    --margin: 2.4rem;
   }
 }

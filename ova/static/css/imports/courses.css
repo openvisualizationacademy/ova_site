@@ -193,13 +193,6 @@
   display: flex;
 }
 
-.course .duration .icon {
-  height: 1em;
-  margin-inline: 0.25em;
-  translate: 0 0.05em;
-  width: 1em;
-}
-
 .course .completed-badge {
   align-items: baseline;
   align-self: start;

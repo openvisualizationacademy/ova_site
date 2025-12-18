@@ -98,13 +98,6 @@
   white-space: nowrap;
 }
 
-.cover .preview .duration [data-icon] {
-  height: 1em;
-  margin-inline: 0.25em;
-  translate: 0 0.05em;
-  width: 1em;
-}
-
 @media (min-width: 960px) {
 
   .cover .heading,

@@ -1,6 +1,27 @@
 [data-icon] {
   aspect-ratio: 1;
-  width: 2.4rem;
-  height: 2.4rem;
   flex-shrink: 0;
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+.duration [data-icon] {
+  height: 1.4rem;
+  margin-inline: 0.25em;
+  stroke-width: calc(1.5px * 2.4 / 1.4);
+  translate: 0 0.05em;
+  width: 1.4rem;
+}
+
+header nav a [data-icon] {
+  display: none;
+  height: 1.2rem;
+  stroke-width: calc(1.5px * 2.4 / 1.2);
+  width: 1.2rem;
+}
+
+@media (min-width: 480px) {
+  header nav a [data-icon] {
+    display: block;
+  }
 }
