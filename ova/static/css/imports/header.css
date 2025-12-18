@@ -84,8 +84,9 @@ header .account {
 
 header .account .signed-email {
   color: light-dark(var(--neutral-600), var(--neutral-400));
+  display: none;
   margin-inline-start: 1.6rem;
-  max-width: 24ch;
+  max-width: 12ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -119,5 +120,17 @@ header nav .links a[aria-describedby="current"]::after {
 
   header nav .links a:first-child {
     margin-inline-end: 1.6rem;
+  }
+}
+
+@media (min-width: 720px) {
+  header .account .signed-email {
+    display: block;
+  }
+}
+
+@media (min-width: 960px) {
+  header .account .signed-email {
+    max-width: 24ch;
   }
 }
