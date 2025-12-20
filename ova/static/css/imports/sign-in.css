@@ -1,0 +1,72 @@
+/* Borrow overall button style */
+[data-page="sign-in"] button {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  gap: 0rem;
+  letter-spacing: 0.025em;
+  outline-offset: 0.4rem;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Borrow primary button style */
+[data-page="sign-in"] button {
+  background-color: light-dark(var(--primary-600), var(--primary-600));
+  color: light-dark(var(--neutral-100), var(--neutral-100));
+  padding: 1.2rem 1.6rem;
+  text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
+}
+
+/* Add extra margin */
+[data-page="sign-in"] button {
+  margin-block-start: 2.4rem;
+}
+
+/* Borrow kicker style, but reduces padding */
+[data-page="sign-in"] label:has(+ input[type="email"]),
+[data-page="sign-in"] label:has(+ input[type="text"]) {
+  font-size: small;
+  font-weight: 500;
+  letter-spacing: .05em;
+  line-height: 1;
+  padding-inline: .4rem;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+[data-page="sign-in"] input[type="email"],
+[data-page="sign-in"] input[type="text"] {
+  border: 1px solid currentColor;
+  border-radius: .8rem;
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  margin-block: .8rem;
+  max-width: 100%;
+  outline-offset: .4rem;
+  padding: .8rem;
+  width: 32ch;
+}
+
+/* Hide cancel button on code page */
+[data-page="sign-in"] button[form="logout-from-stage"] {
+  display: none;
+}
+
+@media (hover: hover) {  
+  [data-page="sign-in"] button:hover {
+    background-color: light-dark(var(--primary-700), var(--primary-700));
+  }
+}
