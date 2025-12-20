@@ -1,5 +1,5 @@
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 2.4rem;
 }
@@ -15,7 +15,7 @@ body {
   font-size: 1.8rem;
   font-weight: 400;
   line-height: 2.4rem;
-  overflow-x: hidden;
+  overflow-x: clip;
   text-underline-offset: .1em;
 }
 
