@@ -1,5 +1,5 @@
 header {
-  margin-block-end: 4.8rem;
+  margin-block-end: 3.2rem;
   padding-block-start: 1.6rem;
 }
 
@@ -66,6 +66,7 @@ header nav a {
 header nav .links a:first-child {
   margin-inline-end: 0.4rem;
   padding: 0;
+  translate: -.2rem;
 
   &::after {
     display: none;
@@ -120,6 +121,7 @@ header nav .links a[aria-describedby="current"]::after {
 
   header nav .links a:first-child {
     margin-inline-end: 1.6rem;
+    translate: 0;
   }
 }
 
@@ -132,5 +134,11 @@ header nav .links a[aria-describedby="current"]::after {
 @media (min-width: 960px) {
   header .account .signed-email {
     max-width: 24ch;
+  }
+}
+
+@media (min-width: 1024px) {
+  header {
+    margin-block-end: 4.8rem;
   }
 }

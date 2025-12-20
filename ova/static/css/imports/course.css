@@ -62,12 +62,15 @@ section.course-page {
 
 [data-page="course"] .media {
   border-radius: 1.6rem;
+  display: none;
   grid-column: span 3;
+  order: 1;
 }
 
 [data-page="course"] .course {
-  grid-column: span 6;
+  grid-column: span 12;
   max-width: 100%;
+  order: 2;
 }
 
 [data-page="course"] .course .card {
@@ -78,18 +81,30 @@ section.course-page {
 
 [data-page="course"] .course .secondary {
   justify-content: start;
+  padding-block-end: 0;
+  padding-inline: 0;
 }
 
 [data-page="course"] .course h1 {
-  padding: .8rem 1.6rem 1.6rem;
+  padding: .8rem 0 1.6rem;
   text-wrap: balance;
+}
+
+[data-page="course"] .course .kicker {
+  display: none;
+  padding-inline: 0;
+}
+
+[data-page="course"] .course .authors {
+  padding-inline: 0;
 }
 
 .tracker {
   display: flex;
   flex-direction: column;
   gap: .8rem;
-  grid-column: span 3;
+  grid-column: span 12;
+  order: 3;
 }
 
 .progress {
@@ -100,7 +115,7 @@ section.course-page {
   gap: 1.6rem;
   height: min-content;
   padding: 1.6rem;
-  width: 100%;
+  width: fit-content;
 }
 
 .progress.completed {
@@ -147,7 +162,8 @@ background:
 
 .certificate {
   display: flex;
-  justify-content: end;
+  display: none;
+  justify-content: start;
   width: 100%;
 }
 
@@ -160,6 +176,7 @@ background:
   align-items: baseline;
   border-block-start: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   grid-column: span 12;
+  order: 5;
 }
 
  .sticky-wrapper section {
@@ -445,13 +462,16 @@ section.course-page svg[data-icon="check-circle"] circle {
 #sign-in-description {
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 1.6rem;
-  grid-column: span 3;
+  grid-column: span 12;
   height: min-content;
+  justify-self: end;
   margin: 0;
+  order: 0;
   padding: 1.6rem;
   position: relative;
-  text-wrap: balance;
+  text-wrap: pretty;
   transition: background-color .2s, color .2s;
+  width: fit-content;
 }
 
 #sign-in-description::before {
@@ -478,17 +498,19 @@ section.overview {
   align-items: baseline;
   margin-block: 0;
   margin-inline: auto;
+  order: 4;
   width: 100%;
 }
 
 .overview .content-updated {
   color: light-dark(var(--neutral-600), var(--neutral-400));
+  display: none;
   grid-column: span 3;
   margin: 0;
 }
 
 .overview details {
-  grid-column: span 9;
+  grid-column: span 12;
   width: 100%;
 }
 
@@ -496,7 +518,7 @@ section.overview {
   border-radius: 1.6rem;
   cursor: pointer;
   padding-block: .8rem;
-  padding-inline: 1.6rem;
+  padding-inline: 0;
   user-select: none;
   width: fit-content;
 }
@@ -507,7 +529,7 @@ section.overview {
 
 .overview details > div {
   color: light-dark(var(--neutral-600), var(--neutral-400));
-  padding-inline: 1.6rem;
+  padding-inline: 0;
 }
 
 .overview details > div p {
@@ -581,4 +603,71 @@ section.overview {
   .course-page .chapters > ol > li > a:hover::after {
     background: currentColor;
   } */
+}
+
+@media (min-width: 1024px) {
+  [data-page="course"] .media {
+    display: block;
+    order: unset;
+  }
+
+  [data-page="course"] .course .primary > * {
+    padding-inline: 1.6rem;
+  }
+
+  [data-page="course"] .course .secondary {
+    padding-block-end: 1.6rem;
+    padding-inline: 1.6rem;
+  }
+
+  [data-page="course"] .course {
+    grid-column: span 6;
+    order: unset;
+  }
+
+  [data-page="course"] .tracker {
+    grid-column: span 3;
+    order: unset;
+  }
+
+  [data-page="course"] .tracker .progress {
+    width: 100%;
+  }
+
+  [data-page="course"] .tracker .certificate {
+    display: flex;
+    justify-content: end;
+  }
+
+  #sign-in-description {
+    grid-column: span 3;
+    order: unset;
+    text-wrap: balance;
+    width: 100%;
+  }
+
+  .overview .content-updated {
+    display: block;
+  }
+
+  .overview details {
+    grid-column: span 9;
+  }
+
+  .overview details summary,
+  .overview details > div {
+    padding-inline: 1.6rem;
+  }
+
+  section.overview {
+    order: unset;
+  }
+
+  [data-page="course"] .course .kicker {
+    display: inline;
+  }
+
+  .sticky-wrapper {
+    order: unset;
+  }
 }
