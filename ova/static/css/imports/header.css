@@ -84,7 +84,7 @@ header .account {
 }
 
 header .account .signed-email {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   display: none;
   margin-inline-start: 1.6rem;
   max-width: 12ch;

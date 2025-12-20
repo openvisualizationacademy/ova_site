@@ -29,7 +29,7 @@
 }
 
 .quiz .count.kicker {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   line-height: 1.25;
   padding-inline: 0;
 }

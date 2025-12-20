@@ -36,8 +36,8 @@
 }
 
 .person .tagline {
-  font-size: 1.6rem;
   text-wrap: balance;
+  color: light-dark(var(--neutral-700), var(--neutral-300))
 }
 
 .person .media {
@@ -65,7 +65,7 @@
   border-radius: 0.4rem;
   content: " Former";
   display: inline-block;
-  font-size: 1.4rem;
+  font-size: .8em;
   font-weight: normal;
   line-height: 1.5;
   margin-inline: 0.5em;
@@ -168,15 +168,14 @@ body:has(.people dialog[open]) {
 }
 
 .people dialog .person .bio {
-  font-size: 1.6rem;
-  opacity: .75;
   padding-block-start: .8rem;
+  color: light-dark(var(--neutral-700), var(--neutral-300));
 
   /* margin-block-end: 0; */
 }
 
 .people dialog .courses {
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   list-style-type: square;
   margin: 0;
   padding: 0;
@@ -187,7 +186,7 @@ body:has(.people dialog[open]) {
 .people dialog .links {
   display: flex;
   flex-direction: column;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   gap: .8rem;
   grid-column: 1/-1;
   justify-self: start;
@@ -264,7 +263,7 @@ body:has(.people dialog[open]) {
   }
 
   .people dialog .links {
-    font-size: unset;
+    /* font-size: unset; */
     gap: 1.6rem;
     grid-column: auto;
     justify-self: end;
@@ -276,7 +275,7 @@ body:has(.people dialog[open]) {
   }
 
   .people dialog .person .bio {
-    font-size: unset;
+    /* font-size: unset; */
     padding-block-start: 1.6rem;
   }
 

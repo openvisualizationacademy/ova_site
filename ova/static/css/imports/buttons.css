@@ -37,7 +37,7 @@
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   color: light-dark(var(--neutral-800), var(--neutral-200));
-  font-size: 1.6rem;
+  font-size: .8409em;
   padding: 0.6rem 1.2rem;
 
   &:focus-visible,
@@ -51,7 +51,7 @@
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   bottom: -.3rem;
   color: light-dark(var(--neutral-800), var(--neutral-200));
-  font-size: 1.6rem;
+  font-size: .8409em;
   padding: .3rem .6rem;
   position: relative;
 

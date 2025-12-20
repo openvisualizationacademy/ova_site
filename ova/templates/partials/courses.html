@@ -7,13 +7,13 @@
   <div class="widget">
 
     <form class="filters" onsubmit="return false">
-      <label>
+      <label class="small">
         <input type="radio" name="tag" value="all" checked/>
         <span class="tag" data-tag="all">Show all<span class="screen-reader">&nbsp;courses</span></span>
       </label>
 
       {% for tag in all_tags %}
-        <label>
+        <label class="small">
           <input type="radio" name="tag" value="{{ tag }}">
           <span class="tag" data-tag="{{ tag }}">{{ tag }}{% if tag == "Lecture" or tag == "Tutorial" %}s{% endif %}</span>
         </label>
@@ -41,7 +41,7 @@
                 {% endfor %}
               </p>
             </div>
-            <div class="secondary">
+            <div class="secondary small">
               <p class="tags">
                 {% if user.is_authenticated %}
                   <!-- TODO: Check if user is signed in and has completed the course -->

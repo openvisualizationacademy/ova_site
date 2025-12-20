@@ -168,7 +168,7 @@ background:
 }
 
 .certificate small {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: 1.6rem;
 }
 
@@ -261,7 +261,7 @@ background:
 }
 
 .chapters ol a:not(.active) {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
 .chapters ol ol {
@@ -427,7 +427,7 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters + .content .number.kicker {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   font-size: 1.8rem;
   margin-inline-end: .5em;
   padding-inline: 0;
@@ -440,7 +440,6 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters + .content h4 {
-  font-weight: bolder;
   margin-block-end: 1.2rem;
   margin-block-start: 3.2rem;
 }
@@ -499,7 +498,7 @@ section.overview {
 }
 
 .overview .content-updated {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   display: none;
   grid-column: span 3;
   margin: 0;
@@ -524,7 +523,7 @@ section.overview {
 }
 
 .overview details > div {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: 0;
 }
 
@@ -592,7 +591,7 @@ section.overview {
 }
 
 .content-materials li .file-size {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: .8rem;
 }
 

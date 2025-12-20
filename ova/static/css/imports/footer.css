@@ -14,7 +14,7 @@ footer.grid .info p {
 }
 
 footer.grid .info small {
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
 footer.grid div:has(a picture) {
@@ -38,6 +38,10 @@ footer .contact {
   font-weight: 700;
   margin-inline-end: .5em;
   text-fill-color: transparent;
+}
+
+footer .button.quaternary {
+  font-size: unset;
 }
 
 @keyframes textShine {

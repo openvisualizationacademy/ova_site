@@ -81,7 +81,6 @@
 
 .cover .preview .secondary {
   display: flex;
-  font-size: 1.6rem;
   gap: 2.4rem;
   justify-content: space-between;
   letter-spacing: 0.025em;
@@ -91,7 +90,7 @@
 
 .cover .preview .duration {
   align-items: baseline;
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   display: flex;
   text-align: end;
   white-space: nowrap;

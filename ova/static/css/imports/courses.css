@@ -19,12 +19,13 @@
   border-radius: 999px;
   cursor: pointer;
   display: flex;
-  font-size: 1.6rem;
   font-weight: 500;
   gap: 0.6rem;
   letter-spacing: 0.025em;
   padding: 0.6rem 1.2rem;
   user-select: none;
+
+  /* font-size: 1.6rem; */
 }
 
 .courses .filters label:has(input:focus-visible) {
@@ -34,7 +35,7 @@
 }
 
 .courses .filters input:not(:checked) + span {
-  color: light-dark(var(--neutral-600), var(--neutral-400)) !important;
+  color: light-dark(var(--neutral-700), var(--neutral-300)) !important;
 }
 
 .courses .filters input:not([value="all"]) + span::before {
@@ -102,6 +103,7 @@
 
 .course h3 {
   border-top: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  font-size: 1.1892em;
   padding: 1.6rem;
   text-wrap: balance;
 }
@@ -109,9 +111,10 @@
 .authors {
   display: flex;
   flex-wrap: wrap;
-  font-size: 1.6rem;
   gap: 1.6rem;
   padding: 0 1.6rem;
+
+  /* font-size: 1.6rem; */
 }
 
 .author {
@@ -147,11 +150,12 @@
 
 .course .secondary {
   display: flex;
-  font-size: 1.4rem;
   gap: 2.4rem;
   justify-content: space-between;
   letter-spacing: 0.025em;
   padding: 1.6rem;
+
+  /* font-size: 1.4rem; */
 }
 
 .course .tags {
@@ -189,7 +193,7 @@
 
 .course .duration {
   align-items: baseline;
-  color: light-dark(var(--neutral-600), var(--neutral-400));
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   display: flex;
 }
 

@@ -37,7 +37,7 @@ export default class People {
           }
           <figcaption>
             <strong>${person.name}</strong>
-            <span class="tagline">${person.tagline}</span>  
+            <span class="tagline small">${person.tagline}</span>  
           </figcaption>
         </figure>
       </div>
@@ -67,7 +67,7 @@ export default class People {
 
     if (person?.courses && person.courses.length > 0) {
       const heading = `<h3 class="kicker">${ person.courses.length > 1 ? "Courses" : "Course" }</h3>`;
-      const list = `<ul class="courses">${ person.courses.map(course => `<li>${course}</li>`).join("") }</ul>`
+      const list = `<ul class="courses small">${ person.courses.map(course => `<li>${course}</li>`).join("") }</ul>`
       courses = heading + list;
     }
 

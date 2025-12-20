@@ -23,7 +23,7 @@ export default class Contributors extends People {
 
           ${ this.getCourses(person) }
         </div>
-        <ul class="links">
+        <ul class="links small">
           ${ this.list(person.links) }
         </ul>
       </div>
