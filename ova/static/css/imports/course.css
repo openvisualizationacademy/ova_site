@@ -179,13 +179,14 @@ background:
   order: 5;
 }
 
- .sticky-wrapper section {
-  margin-block: 4.8rem;
+.sticky-wrapper section {
+  margin-block: 2.4rem;
   padding-block: 2.4rem;
 }
 
 .chapters {
-  grid-column: span 4;
+  grid-column: span 12;
+  order: 2;
   position: sticky !important;
   top: 0;
   width: 100%;
@@ -417,9 +418,9 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters + .content {
-  grid-column: span 8;
+  grid-column: span 12;
   inset-block-start: 0;
-  padding-inline-start: 1.6rem;
+  order: 1;
   position: sticky;
   width: 100%;
 }
@@ -669,5 +670,20 @@ section.overview {
 
   .sticky-wrapper {
     order: unset;
+  }
+
+  .sticky-wrapper section {
+    margin-block: 4.8rem;
+  }
+
+  .chapters {
+    grid-column: span 4;
+    order: unset;
+  }
+
+  .chapters + .content {
+    grid-column: span 8;
+    order: unset;
+    padding-inline-start: 1.6rem;
   }
 }
