@@ -60,6 +60,24 @@ h6 {
   margin: 0;
 }
 
+/* Harmonic Scale */
+
+h1 {
+  font-size: calc(24em / 12);
+}
+
+h2 {
+  font-size: calc(18em / 12);
+}
+
+h3 {
+  font-size: calc(14em / 12);
+}
+
+h4 {
+  font-size: calc(12em / 12);
+}
+
 h1, h2 {
   line-height: 1;
 }
@@ -73,7 +91,7 @@ sup {
 }
 
 .kicker {
-  font-size: small;
+  font-size: 1.3rem;
   font-weight: 500;
   letter-spacing: .05em;
   line-height: 1;

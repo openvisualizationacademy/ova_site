@@ -66,7 +66,7 @@ export default class People {
     let courses = "";
 
     if (person?.courses && person.courses.length > 0) {
-      const heading = `<h3>${ person.courses.length > 1 ? "Courses" : "Course" }</h3>`;
+      const heading = `<h3 class="kicker">${ person.courses.length > 1 ? "Courses" : "Course" }</h3>`;
       const list = `<ul class="courses">${ person.courses.map(course => `<li>${course}</li>`).join("") }</ul>`
       courses = heading + list;
     }

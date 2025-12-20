@@ -37,7 +37,7 @@
 /* Borrow kicker style, but reduces padding */
 [data-page="sign-in"] label:has(+ input[type="email"]),
 [data-page="sign-in"] label:has(+ input[type="text"]) {
-  font-size: small;
+  font-size: 1.3rem;
   font-weight: 500;
   letter-spacing: .05em;
   line-height: 1;
@@ -69,4 +69,4 @@
   [data-page="sign-in"] button:hover {
     background-color: light-dark(var(--primary-700), var(--primary-700));
   }
-}
+   }

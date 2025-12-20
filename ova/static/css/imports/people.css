@@ -158,9 +158,9 @@ body:has(.people dialog[open]) {
 }
 
 .people dialog .person h3 {
-  font-variant: all-small-caps;
-  letter-spacing: .025em;
+  line-height: 2.4rem;
   margin-block-end: .25em;
+  padding-inline: 0;
 }
 
 .people dialog .person .tagline {
@@ -221,11 +221,9 @@ body:has(.people dialog[open]) {
   .person:is(a,button,[role=button]):hover {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
-  
   .people dialog .links li a:hover {
     text-decoration: underline;
   }
-
   /* .person[data-role="contributor"]:is(a,button,[role=button]):hover [data-icon] {
     opacity: 1;
   } */
