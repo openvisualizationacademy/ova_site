@@ -22,7 +22,9 @@ footer.grid div:has(a picture) {
 }
 
 footer.grid a img {
+  display: block;
   max-width: 32rem;
+  place-self: center;
 }
 
 footer .contact {
@@ -52,6 +54,12 @@ footer .contact {
   footer .contact {
     animation: none;
     color: var(--primary-700);
+  }
+}
+
+@media (min-width: 480px) {
+  footer.grid a img {
+    place-self: start;
   }
 }
 
