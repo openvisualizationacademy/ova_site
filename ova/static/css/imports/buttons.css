@@ -11,7 +11,7 @@
   font-size: inherit;
   font-weight: 500;
   gap: 0rem;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.01em;
   outline-offset: 0.4rem;
   overflow: hidden;
   position: relative;
@@ -23,6 +23,7 @@
 .button.primary {
   background-color: light-dark(var(--primary-600), var(--primary-600));
   color: light-dark(var(--neutral-100), var(--neutral-100));
+  line-height: 1;
   padding: 1.2rem 1.6rem;
   text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
 }
@@ -30,6 +31,7 @@
 .button.secondary {
   background-color: light-dark(var(--neutral-800), var(--neutral-200));
   color: light-dark(var(--neutral-100), var(--neutral-900));
+  line-height: 1;
   padding: 0.6rem 1.2rem;
 }
 
@@ -37,7 +39,7 @@
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   color: light-dark(var(--neutral-800), var(--neutral-200));
-  font-size: .8409em;
+  font-size: var(--font-size-small);
   padding: 0.6rem 1.2rem;
 
   &:focus-visible,
@@ -51,7 +53,7 @@
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   bottom: -.3rem;
   color: light-dark(var(--neutral-800), var(--neutral-200));
-  font-size: .8409em;
+  font-size: var(--font-size-small);
   padding: .3rem .6rem;
   position: relative;
 

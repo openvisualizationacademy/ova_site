@@ -14,7 +14,7 @@
       <div class="primary">
         <span class="kicker">Course<span class="screen-reader">:</span></span>
         <h1>{{ course.title }}</h1>
-        <p class="authors">
+        <p class="authors small">
           <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
 
           {% for iteration in course.course_instructors.all %}

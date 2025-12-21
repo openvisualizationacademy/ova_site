@@ -27,7 +27,7 @@
             <div class="primary">
               <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}"></div>
               <h3>{{ course.title }}</h3>
-              <p class="authors">
+              <p class="authors small">
                 <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
 
                 {% for iteration in course.course_instructors.all %}

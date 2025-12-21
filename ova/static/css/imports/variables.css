@@ -31,19 +31,6 @@
   --neutral-150: #f8f8f8;
   --neutral-850: #131313;
 
-  /* YlGn scheme from d3 or https://colorbrewer2.org */
-  /*
-  --success-100: #ffffe5;
-  --success-200: #f7fcb9;
-  --success-300: #d9f0a3;
-  --success-400: #addd8e;
-  --success-500: #78c679;
-  --success-600: #41ab5d;
-  --success-700: #238443;
-  --success-800: #006837;
-  --success-900: #004529;
-  */
-
   /* Reds scheme from d3 or https://colorbrewer2.org */
   --failure-100: #fff5f0;
   --failure-200: #fee0d2;
@@ -86,6 +73,18 @@
   --tag-yet-to-exist-2: #ff9da7; /* pink from `d3.schemeTableau10[7]` */
 
   --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
+  --font-size-base: 1.8rem;
+
+  /* Pentatonic scale extended from https://type-scale.spencermortensen.com/5/2/0/1em */
+  --font-size-h1: 2em; /* 2^(1/5 * 5) */
+  --font-size-h2: 1.7411011266em; /* 2^(1/5 * 4) */
+  --font-size-h3: 1.5157165665em; /* 2^(1/5 * 3) */
+  --font-size-h4: 1.3195079108em; /* 2^(1/5 * 2) */
+  --font-size-h5: 1.148698355em; /* 2^(1/5 * 1) */
+  --font-size-h6: initial;
+  --font-size-p: 1em; /* 2^(1/5 * 0) */
+  --font-size-small: .8705505633em; /* 2^(1/5 * -1) */
+  --font-size-smaller: .7578582833em; /* 2^(1/5 * -2) */
 }
 
 @media (min-width: 480px) {

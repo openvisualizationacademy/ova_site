@@ -12,7 +12,7 @@
   font-size: inherit;
   font-weight: 500;
   gap: 0rem;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.01em;
   outline-offset: 0.4rem;
   overflow: hidden;
   position: relative;
@@ -39,7 +39,7 @@
 [data-page="sign-in"] form label:has(+ input[type="text"]) {
   font-size: 1.3rem;
   font-weight: 500;
-  letter-spacing: .05em;
+  letter-spacing: .02em;
   line-height: 1;
   padding-inline: .4rem;
   text-transform: uppercase;
