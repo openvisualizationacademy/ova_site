@@ -63,15 +63,29 @@
   --info-700: #2171b5;
   --info-800: #08519c;
   --info-900: #08306b;
-  
-  --tag-all: currentColor;
-  --tag-fundamentals: #e15759; /* red from `d3.schemeTableau10[2]` */
-  --tag-lecture: #59a14f; /* green from `d3.schemeTableau10[4]` */
-  --tag-tutorial: #4e79a7; /* blue from `d3.schemeTableau10[0]` */
-  --tag-yet-to-exist-0: #f28e2c; /* orange from `d3.schemeTableau10[1]` */
-  --tag-yet-to-exist-1: #af7aa1; /* purple from `d3.schemeTableau10[6]` */
-  --tag-yet-to-exist-2: #ff9da7; /* pink from `d3.schemeTableau10[7]` */
 
+  /* Tags use Tableau 10 palette (but darker for light theme) */
+  --tag-all: currentColor;
+
+  /* red from `d3.schemeTableau10[2]` */
+  --tag-fundamentals: light-dark(color-mix(in srgb, #e15759, #000 10%), #e15759); 
+
+  /* green from `d3.schemeTableau10[4]` */
+  --tag-lecture: light-dark(color-mix(in srgb, #59a14f, #000 10%), #59a14f);
+
+  /* blue from `d3.schemeTableau10[0]` */
+  --tag-tutorial: light-dark(color-mix(in srgb, #4e79a7, #000 10%), #4e79a7);
+
+  /* orange from `d3.schemeTableau10[1]` */
+  --tag-yet-to-exist-0: #f28e2c; 
+
+  /* purple from `d3.schemeTableau10[6]` */
+  --tag-yet-to-exist-1: #af7aa1;
+  
+   /* pink from `d3.schemeTableau10[7]` */
+  --tag-yet-to-exist-2: #ff9da7;
+
+  /* Font */
   --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
   --font-size-base: 1.8rem;
 

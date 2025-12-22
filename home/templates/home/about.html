@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="grid">
-  <h1>About</h1>
+  <h1 id="main">About (WIP)</h1>
 
   <article>
     <hgroup>
@@ -377,18 +377,110 @@
 
   <p>Our primary color palette is <a href="https://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=9">YlOrRd</a> — which contains shades of yellow, orange and red. These colors are turned into a <a href="https://d3js.org/d3-scale-chromatic/sequential#interpolateYlOrRd">smooth gradient</a> and featued in our symbol.</p>
 
-  
+  <figure>
+    <div class="palette">
+      <div class="color" style="background: var(--primary-900)"></div>
+      <div class="color" style="background: var(--primary-800)"></div>
+      <div class="color" style="background: var(--primary-700)"></div>
+      <div class="color" style="background: var(--primary-600)"></div>
+      <div class="color" style="background: var(--primary-500)"></div>
+      <div class="color" style="background: var(--primary-400)"></div>
+      <div class="color" style="background: var(--primary-300)"></div>
+      <div class="color" style="background: var(--primary-200)"></div>
+      <div class="color" style="background: var(--primary-100)"></div>
+    </div>
+    <figcaption>
+      YlOrRd with 9 steps
+      https://en.wikipedia.org/wiki/Cynthia_Brewer
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div class="palette">
+      <div class="color" style="background: var(--neutral-900)"></div>
+      <div class="color" style="background: var(--neutral-800)"></div>
+      <div class="color" style="background: var(--neutral-700)"></div>
+      <div class="color" style="background: var(--neutral-600)"></div>
+      <div class="color" style="background: var(--neutral-500)"></div>
+      <div class="color" style="background: var(--neutral-400)"></div>
+      <div class="color" style="background: var(--neutral-300)"></div>
+      <div class="color" style="background: var(--neutral-200)"></div>
+      <div class="color" style="background: var(--neutral-100)"></div>
+    </div>
+    <figcaption>
+      Greys with 9 steps
+      https://colorbrewer2.org/#type=sequential&scheme=Greys&n=9
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div class="palette">
+      <div class="color" style="background: var(--failure-900)"></div>
+      <div class="color" style="background: var(--failure-800)"></div>
+      <div class="color" style="background: var(--failure-700)"></div>
+      <div class="color" style="background: var(--failure-600)"></div>
+      <div class="color" style="background: var(--failure-500)"></div>
+      <div class="color" style="background: var(--failure-400)"></div>
+      <div class="color" style="background: var(--failure-300)"></div>
+      <div class="color" style="background: var(--failure-200)"></div>
+      <div class="color" style="background: var(--failure-100)"></div>
+    </div>
+    <figcaption>
+      Reds with 9 steps
+      https://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div class="palette">
+      <div class="color" style="background: var(--success-900)"></div>
+      <div class="color" style="background: var(--success-800)"></div>
+      <div class="color" style="background: var(--success-700)"></div>
+      <div class="color" style="background: var(--success-600)"></div>
+      <div class="color" style="background: var(--success-500)"></div>
+      <div class="color" style="background: var(--success-400)"></div>
+      <div class="color" style="background: var(--success-300)"></div>
+      <div class="color" style="background: var(--success-200)"></div>
+      <div class="color" style="background: var(--success-100)"></div>
+    </div>
+    <figcaption>
+      Greens with 9 steps
+      https://colorbrewer2.org/#type=sequential&scheme=Greens&n=9
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div class="palette">
+      <div class="color" style="background: var(--info-900)"></div>
+      <div class="color" style="background: var(--info-800)"></div>
+      <div class="color" style="background: var(--info-700)"></div>
+      <div class="color" style="background: var(--info-600)"></div>
+      <div class="color" style="background: var(--info-500)"></div>
+      <div class="color" style="background: var(--info-400)"></div>
+      <div class="color" style="background: var(--info-300)"></div>
+      <div class="color" style="background: var(--info-200)"></div>
+      <div class="color" style="background: var(--info-100)"></div>
+    </div>
+    <figcaption>
+      Blues with 9 steps
+      https://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
+    </figcaption>
+  </figure>
+
+  <div class="tags">
+    <div class="color" style="background: var(--tag-fundamentals)"></div>
+    <span class="tag" data-tag="Fundamentals">Fundamentals</span>
+
+    <div class="color" style="background: var(--tag-lecture)"></div>
+    <span class="tag" data-tag="Lecture">Lecture</span>
+
+    <div class="color" style="background: var(--tag-tutorial)"></div>
+    <span class="tag" data-tag="Tutorial">Tutorial</span>
+  </div>
+
   {% comment %}
   ColorBrewer
   © Cynthia Brewer, Mark Harrower and The Pennsylvania State University
-
-  
-
-  https://colorbrewer2.org/#type=sequential&scheme=Greys&n=9
-
-  https://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-  https://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
-  https://colorbrewer2.org/#type=sequential&scheme=Greens&n=9
 
   Tableau 10
   Maureen Stone
