@@ -1,44 +1,46 @@
-<ol>
-  {% for chapter in course.get_children.live.specific %}
-    <li class="compact">
-      <p class="chapter kicker">
-        Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
-      </p>
-      {% if chapter.get_children.live %}
-        <ol>
+<nav>
+  <ol>
+    {% for chapter in course.get_children.live.specific %}
+      <li class="compact">
+        <p class="chapter kicker">
+          Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
+        </p>
+        {% if chapter.get_children.live %}
+          <ol>
 
-          {% for segment in chapter.get_children.live.specific %}
+            {% for segment in chapter.get_children.live.specific %}
 
-          <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
-          <li>
-            <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-            
-              <span class="tooltip">
-                {% if segment.quiz %}
-                  <span class="quiz-badge kicker">Quiz</span>
-                  {{ segment.quiz.title|default:"Test your knowledge" }}
-                {% else %}
-                  {{ segment.title }}
-                {% endif %}
-              </span>
+            <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
+            <li>
+              <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
+              
+                <span class="tooltip">
+                  {% if segment.quiz %}
+                    <span class="quiz-badge kicker">Quiz</span>
+                    {{ segment.quiz.title|default:"Test your knowledge" }}
+                  {% else %}
+                    {{ segment.title }}
+                  {% endif %}
+                </span>
 
-              <!-- TODO: Make completed status dynamic -->
-              {% with completed=False %}
-                {% if completed %}
-                  <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-                {% else %}
-                  <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
-                {% endif %}
-              {% endwith %}
-            </a>
-          </li>
-          {% endfor %}
+                <!-- TODO: Make completed status dynamic -->
+                {% with completed=False %}
+                  {% if completed %}
+                    <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+                  {% else %}
+                    <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                  {% endif %}
+                {% endwith %}
+              </a>
+            </li>
+            {% endfor %}
 
-        </ol>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ol>
+          </ol>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</nav>
 
 <script>
   // Make chapter list compact/expanded if user has last viewed like so it in another page (pairs with Accessibility.js class)

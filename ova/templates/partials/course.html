@@ -107,7 +107,7 @@
   </section>
 
   <div class="sticky-wrapper grid">
-    <section class="chapters">
+    <aside class="chapters">
       <header>
         <h2>Chapters</h2>
 
@@ -130,7 +130,7 @@
       {% if course.get_children.live %}
         {% include 'partials/chapter-list.html' %}
       {% endif %}
-    </section>
+    </aside>
 
     <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
     <section class="content">
