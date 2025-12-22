@@ -68,13 +68,13 @@
   --tag-all: currentColor;
 
   /* red from `d3.schemeTableau10[2]` */
-  --tag-fundamentals: light-dark(color-mix(in srgb, #e15759, #000 10%), #e15759); 
+  --tag-fundamentals: light-dark(color-mix(in srgb, #e15759, #000 5%), #e15759); 
 
   /* green from `d3.schemeTableau10[4]` */
-  --tag-lecture: light-dark(color-mix(in srgb, #59a14f, #000 10%), #59a14f);
+  --tag-lecture: light-dark(color-mix(in srgb, #59a14f, #000 5%), #59a14f);
 
   /* blue from `d3.schemeTableau10[0]` */
-  --tag-tutorial: light-dark(color-mix(in srgb, #4e79a7, #000 10%), #4e79a7);
+  --tag-tutorial: light-dark(color-mix(in srgb, #4e79a7, #000 5%), #4e79a7);
 
   /* orange from `d3.schemeTableau10[1]` */
   --tag-yet-to-exist-0: #f28e2c; 
