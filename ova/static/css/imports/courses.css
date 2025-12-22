@@ -170,19 +170,23 @@
   padding: 0;
 }
 
-.courses [data-tag="all"] {
+.courses [data-tag="all"],
+.course [data-tag="all"] {
   color: var(--tag-all);
 }
 
-.courses [data-tag="Fundamentals"] {
+.courses [data-tag="Fundamentals"],
+.course [data-tag="Fundamentals"] {
   color: var(--tag-fundamentals);
 }
 
-.courses [data-tag="Lecture"] {
+.courses [data-tag="Lecture"],
+.course [data-tag="Lecture"] {
   color: var(--tag-lecture);
 }
 
-.courses [data-tag="Tutorial"] {
+.courses [data-tag="Tutorial"],
+.course [data-tag="Tutorial"] {
   color: var(--tag-tutorial);
 }
 
