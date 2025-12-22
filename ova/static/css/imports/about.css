@@ -6,13 +6,60 @@
 [data-page="about"] .dark-background {
   background-color: var(--neutral-900);
   background-image: repeating-conic-gradient(var(--neutral-800) 0 25%, transparent 0 50%);
-  background-size: 1.6rem 1.6rem;
   background-position: center;
+  background-size: 1.6rem 1.6rem;
 }
 
 [data-page="about"] .light-background {
   background-color: var(--neutral-100);
   background-image: repeating-conic-gradient(var(--neutral-200) 0 25%, transparent 0 50%);
-  background-size: 1.6rem 1.6rem;
   background-position: center;
+  background-size: 1.6rem 1.6rem;
+}
+
+[data-page="about"] table {
+  border-collapse: collapse;
+  margin-block: var(--gutter);
+  width: 100%;
+}
+
+[data-page="about"] th,
+[data-page="about"] td {
+  padding: 0;
+  vertical-align: top;
+}
+
+[data-page="about"] tbody td {
+  width: 25%;
+}
+
+[data-page="about"] th {
+  border-block-end: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  padding-block: 1.6rem;
+  text-align: start;
+}
+
+[data-page="about"] tr:first-child td {
+  padding-block: 1.6rem;
+}
+
+[data-page="about"] :is(h2, h3, h4, h5) {
+  margin-block-start: 2em;
+}
+
+[data-page="about"] table [data-icon] {
+  display: none;
+}
+
+[data-page="about"] tbody tr:first-child {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  [data-page="about"] table [data-icon] {
+    display: block;
+  }
+  [data-page="about"] tbody tr:first-child {
+    display: table-row;
+  }
 }

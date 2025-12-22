@@ -166,60 +166,210 @@
 
   <h2>Brand assets</h2>
 
-  <figure>
-    <img src="{% static 'media/logos/ova-icon.svg' %}" class="light-background"/>
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="{% static 'media/logos/ova-icon.svg' %}" class="dark-background"/>
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="{% static 'media/logos/ova-icon-type-light.svg' %}" class="light-background"/>
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon-type-light.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="{% static 'media/logos/ova-icon-type-dark.svg' %}" class="dark-background"/>
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon-type-dark.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="{% static 'media/logos/ova-icon-type-tag-light.svg' %}" class="light-background" />
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon-type-tag-light.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="{% static 'media/logos/ova-icon-type-tag-dark.svg' %}" class="dark-background"/>
-    <figcaption>
-      <a href="{% static 'media/logos/ova-icon-type-tag-dark.svg' %}" class="button tertiary" download>
-        <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
-        <span>Download SVG</span>
-      </a>
-    </figcaption>
-  </figure>
+  <h3>Logos</h3>
+  <!-- TODO: Create PNG versions for download -->
+
+  <h4>Symbol</h4>
+  
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="1" colspan="2">Light<br>
+        </th>
+        <th rowspan="1" colspan="2">Dark<br>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Transparent</td>
+        <td>Solid</td>
+        <td>Transparent</td>
+        <td>Solid</td>
+      </tr>
+      <tr>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol.svg' %}" class="light-background"/>
+          <a href="{% static 'media/logos/ova-symbol.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-light-solid.svg' %}"/>
+          <a href="{% static 'media/logos/ova-symbol-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-dark-solid.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Symbol + name</h4>
+  
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="1" colspan="2">Light<br>
+        </th>
+        <th rowspan="1" colspan="2">Dark<br>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Transparent</td>
+        <td>Solid</td>
+        <td>Transparent</td>
+        <td>Solid</td>
+      </tr>
+      <tr>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-light.svg' %}" class="light-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-light.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-light.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-light-solid.svg' %}"/>
+          <a href="{% static 'media/logos/ova-symbol-type-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-dark.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-dark.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-dark.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-dark-solid.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Symbol + name + tagline</h4>
+
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="1" colspan="2">Light<br>
+        </th>
+        <th rowspan="1" colspan="2">Dark<br>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Transparent</td>
+        <td>Solid</td>
+        <td>Transparent</td>
+        <td>Solid</td>
+      </tr>
+      <tr>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-tag-light.svg' %}" class="light-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-light.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-light.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-tag-light-solid.svg' %}"/>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-light-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-tag-dark.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-dark.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-dark.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+        <td>
+          <img src="{% static 'media/logos/ova-symbol-type-tag-dark-solid.svg' %}" class="dark-background"/>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>SVG</span>
+          </a>
+          <a href="{% static 'media/logos/ova-symbol-type-tag-dark-solid.svg' %}" class="button quaternary" download>
+            <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+            <span>PNG</span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 
   <h3>Colors</h3>
   
