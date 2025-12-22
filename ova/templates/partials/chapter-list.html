@@ -17,6 +17,8 @@
                 <span class="tooltip">
                   {% if segment.quiz %}
                     <span class="quiz-badge kicker">Quiz</span>
+                    <span class="screen-reader">{{ forloop.parentloop.counter }}</span>
+
                     {{ segment.quiz.title|default:"Test your knowledge" }}
                   {% else %}
                     {{ segment.title }}
