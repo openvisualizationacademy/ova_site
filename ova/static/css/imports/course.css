@@ -247,6 +247,7 @@ background:
   display: flex;
   flex-direction: column;
   gap: .4rem;
+  width: calc(100% - 1.6rem);
 }
 
 .chapters ol a {
@@ -350,15 +351,33 @@ section.course-page svg[data-icon="check-circle"] circle {
   inset: 1.6rem -.6rem 0 auto;
   translate: 100% -50%;
   clip-path: polygon(0 50%, 100% 100%, 100% 0%);
-  animation: swing 1s 6 alternate ease-in-out;
+  animation: swingHorizontal 1s 6 alternate ease-in-out;
 }
 
-@keyframes swing {
+.chapters li.compact ol a.active::after {
+  inset: auto auto -.6rem 50%;
+  translate: -50% 100%;
+  height: .8rem;
+  width: 1.6rem;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  animation: swingVertical .5s 6 alternate ease-in-out;
+}
+
+@keyframes swingHorizontal {
   0% {
     translate: 100% -50%;
   }
   100% {
     translate: 125% -50%;
+  }
+}
+
+@keyframes swingVertical {
+  0% {
+    translate: -50% 100%;
+  }
+  100% {
+    translate: -50% 125%;
   }
 }
 
@@ -738,5 +757,9 @@ section.overview {
     order: unset;
     padding-inline-start: 1.6rem;
     position: sticky;
+  }
+
+  .chapters nav > ol {
+    width: calc(100% - .8rem);
   }
 }
