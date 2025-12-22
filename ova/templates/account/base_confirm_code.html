@@ -22,9 +22,9 @@
     {% setvar recipient %}
         {% block recipient %}{% endblock %}
     {% endsetvar %}
-    {% element h1 %}
+    <h1 id="main">
         {{ title_ }}
-    {% endelement %}
+    </h1>
     {% element p %}
         {% blocktranslate %}We've sent a code to {{ recipient }}. The code expires shortly, so please enter it soon.{% endblocktranslate %}
     {% endelement %}

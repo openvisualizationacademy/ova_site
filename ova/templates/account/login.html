@@ -7,9 +7,9 @@
 {% endblock head_title %}
 {% block content %}
   <section class="grid">
-    {% element h1 %}
+    <h1 id="main">
         {% trans "Sign In" %}
-    {% endelement %}
+    </h1>
     {% if not SOCIALACCOUNT_ONLY %}
         {% setvar link %}
             <a href="{{ signup_url }}">
