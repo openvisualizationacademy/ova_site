@@ -220,6 +220,7 @@
 
 .courses .cta .button.primary {
   background: var(--tag-fundamentals);
+  color-scheme: light;
 }
 
 .courses .cta small {
