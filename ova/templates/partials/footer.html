@@ -19,26 +19,25 @@
           <svg width="24" height="24" data-icon="copy" aria-hidden="true"></svg>
           <span>Copy</span> 
         </button>
+        <span aria-live="polite"></span>
       </small>
 
       <script>
         async function copy(button, text) {
-          button.disabled = true;
+
+          // Get span with [aria-live="polite"]
+          const span = button.nextElementSibling;
+
+          // Clear before announcing again or for 1st time
+          span.textContent = "";
 
           try {
             await navigator.clipboard.writeText(text);
-
-            const span = button.querySelector("span");
-            span.textContent = "Copied!";
-            
             setTimeout(() => {
-              span.textContent = "Copy";
-              button.disabled = false;
-            }, 1000);
-
+              span.textContent = "Email copied!";
+            }, 100);
           } catch (error) {
-            alert("Error copying text");
-            button.disabled = false;
+            alert("Error copying email");
           }
         }
       </script>
