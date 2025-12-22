@@ -1,0 +1,18 @@
+[data-page="about"] figure img {
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: .8rem;
+}
+
+[data-page="about"] .dark-background {
+  background-color: var(--neutral-900);
+  background-image: repeating-conic-gradient(var(--neutral-800) 0 25%, transparent 0 50%);
+  background-size: 1.6rem 1.6rem;
+  background-position: center;
+}
+
+[data-page="about"] .light-background {
+  background-color: var(--neutral-100);
+  background-image: repeating-conic-gradient(var(--neutral-200) 0 25%, transparent 0 50%);
+  background-size: 1.6rem 1.6rem;
+  background-position: center;
+}
