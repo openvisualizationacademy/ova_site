@@ -40,11 +40,57 @@
 }
 
 [data-page="about"] tr:first-child td {
+  color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-block: 1.6rem;
 }
 
 [data-page="about"] :is(h2, h3, h4, h5) {
   margin-block-start: 2em;
+}
+
+[data-page="about"] p {
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+}
+
+[data-page="about"] figure {
+  margin: 0;
+  padding: 0;
+}
+
+[data-page="about"] .palette {
+  display: flex;
+}
+
+[data-page="about"] .color {
+  height: 2em;
+  width: 2em;
+}
+
+[data-page="about"] .tags {
+  display: flex;
+  gap: 0.8rem;
+}
+
+[data-page="about"] .tag {
+  align-items: center;
+  display: inline-flex;
+  font-weight: 500;
+}
+
+[data-page="about"] .tag[data-tag="all"] {
+  color: var(--tag-all);
+}
+
+[data-page="about"] .tag[data-tag="Fundamentals"] {
+  color: var(--tag-fundamentals);
+}
+
+[data-page="about"] .tag[data-tag="Lecture"] {
+  color: var(--tag-lecture);
+}
+
+[data-page="about"] .tag[data-tag="Tutorial"] {
+  color: var(--tag-tutorial);
 }
 
 [data-page="about"] table [data-icon] {

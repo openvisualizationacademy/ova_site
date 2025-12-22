@@ -56,7 +56,7 @@ small, .small {
   letter-spacing: .02em;
 }
 
-strong, b {
+strong, b, th {
   font-weight: 600;
 }
 
