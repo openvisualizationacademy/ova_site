@@ -1,3 +1,5 @@
+{% load static %}
+
 <header class="grid">
   <nav>
     <a href="#main" class="button tertiary skip-to-main" onclick="document.getElementById('main').focus()">
@@ -11,7 +13,7 @@
         </a>
       {% else %}
         <a href="/">
-          <div class="logo" aria-hidden="true"></div>
+          <div class="logo" aria-hidden="true" style="background: url({% static '/media/logos/ova-symbol-header-placeholder.png' %}) center center / contain no-repeat;"></div>
           <span class="screen-reader">Home</span>
         </a>
         <a

@@ -118,7 +118,12 @@ export default class Logo {
     this.setup();
 
     // Run update for the first time
-    window.requestAnimationFrame((ms) => this.update(ms));
+    window.requestAnimationFrame((ms) => {
+      this.update(ms);
+
+      // Remove image placeholder (used to display logo quickly after page load)
+      this.parent.style.backgroundImage = "none";
+    });
   }
 
   clone(object) {
