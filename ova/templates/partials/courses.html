@@ -7,15 +7,15 @@
   <div class="widget">
 
     <form class="filters" onsubmit="return false">
-      <label class="small">
+      <label class="small" data-tag="all">
         <input type="radio" name="tag" value="all" checked/>
-        <span class="tag" data-tag="all">Show all<span class="screen-reader">&nbsp;courses</span></span>
+        <span class="tag">Show all<span class="screen-reader">&nbsp;courses</span></span>
       </label>
 
       {% for tag in all_tags %}
-        <label class="small">
+        <label class="small" data-tag="{{ tag }}">
           <input type="radio" name="tag" value="{{ tag }}">
-          <span class="tag" data-tag="{{ tag }}">{{ tag }}{% if tag == "Lecture" or tag == "Tutorial" %}s{% endif %}</span>
+          <span class="tag">{{ tag }}{% if tag == "Lecture" or tag == "Tutorial" %}s{% endif %}</span>
         </label>
       {% endfor %}
     </form>

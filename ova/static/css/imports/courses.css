@@ -52,13 +52,14 @@
 }
 
 .courses .filters label:has(input:checked) {
-  border: 1px solid currentColor;
+  border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
 }
 
 .courses .filters label:has(input:checked)::before {
-  background: light-dark(var(--neutral-900), var(--neutral-100));
-  border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
-  box-shadow: 0 0 1.6rem 0.2rem light-dark(transparent, currentColor);
+  background: currentColor;
+  border: 1px solid currentColor;
+
+  /* box-shadow: 0 0 1.6rem 0.2rem light-dark(transparent, currentColor); */
 }
 
 .courses .filters input {
@@ -169,19 +170,19 @@
   padding: 0;
 }
 
-.tag[data-tag="all"] {
+.courses [data-tag="all"] {
   color: var(--tag-all);
 }
 
-.tag[data-tag="Fundamentals"] {
+.courses [data-tag="Fundamentals"] {
   color: var(--tag-fundamentals);
 }
 
-.tag[data-tag="Lecture"] {
+.courses [data-tag="Lecture"] {
   color: var(--tag-lecture);
 }
 
-.tag[data-tag="Tutorial"] {
+.courses [data-tag="Tutorial"] {
   color: var(--tag-tutorial);
 }
 
