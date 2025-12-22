@@ -340,6 +340,40 @@ section.course-page svg[data-icon="check-circle"] circle {
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
+.chapters ol a.active::after {
+  content: "";
+  display: block;
+  height: 1.6rem;
+  width: .8rem;
+  background-color: light-dark(var(--primary-600), var(--primary-600));
+  position: absolute;
+  inset: 1.6rem -.6rem 0 auto;
+  translate: 100% -50%;
+  clip-path: polygon(0 50%, 100% 100%, 100% 0%);
+  animation: swing 1s 6 alternate ease-in-out;
+}
+
+@keyframes swing {
+  0% {
+    translate: 100% -50%;
+  }
+  100% {
+    translate: 125% -50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapters ol a.active::after {
+    animation: none;
+  }
+}
+
+@media (hover: hover) {
+  .chapters ol a.active:hover::after {
+    animation: swing 1s infinite alternate ease-in-out;
+  }
+}
+
 .chapters ol a span.tooltip {
   display: inline-flex;
 }
