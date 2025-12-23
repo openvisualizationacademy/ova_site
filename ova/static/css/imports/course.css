@@ -179,7 +179,8 @@ background:
   order: 5;
 }
 
-.sticky-wrapper section {
+.sticky-wrapper .chapters,
+.sticky-wrapper .content {
   margin-block: 2.4rem;
   padding-block: 2.4rem;
 }
@@ -740,7 +741,8 @@ section.overview {
     order: unset;
   }
 
-  .sticky-wrapper section {
+  .sticky-wrapper .chapters,
+  .sticky-wrapper .content {
     margin-block: 4.8rem;
   }
 
