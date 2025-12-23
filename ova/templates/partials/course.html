@@ -88,10 +88,7 @@
 
   {% else %}
 
-    <!-- TODO: Remember whether user deactivated warning (and add class conditionally) -->
-    <p id="sign-in-description" class="warning" onclick="this.classList.remove('warning')">
-      To get a <strong>certificate</strong> of completion, sign&nbsp;in to track your progress
-    </p>
+    {% include 'partials/sign-in-warning.html' %}
 
   {% endif %}
 

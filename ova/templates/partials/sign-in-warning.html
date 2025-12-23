@@ -1,0 +1,12 @@
+<!-- Remember whether user deactivated warning (and remove class conditionally) -->
+<p id="sign-in-description" class="warning">
+  To get a <strong>certificate</strong> of completion, sign&nbsp;in to track your progress
+</p>
+
+<script>
+  // Apply subtle color (gray instead of yellow) for warning if user dismissed it in another page (pairs with Accessibility.js class)
+  if (localStorage.getItem("signInWarning") === "false") {
+    const description = document.querySelector("#sign-in-description");
+    if (description) description.classList.remove("warning");
+  }
+</script>

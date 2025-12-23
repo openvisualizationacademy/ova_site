@@ -19,8 +19,21 @@ export default class Accessibility {
     // Remember chapter compact view toggle preference (whether input is checked or not)
     this.setupCompactView();
 
+    // Remember sign in warning (for certificate) state (whether warning was dismissed or not)
+    this.setupSignInWarning();
+
     // Simulate button behavior for `role=button`
     document.addEventListener('keydown', this.simulateButton);
+  }
+
+  setupSignInWarning() {
+    const description = document.querySelector("#sign-in-description");
+    if (!description) return;
+
+    description.addEventListener("click", () => {
+      description.classList.remove("warning");
+      localStorage.setItem("signInWarning", "false");
+    }); 
   }
 
   setupCompactView() {
