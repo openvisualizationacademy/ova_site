@@ -7,7 +7,12 @@
 
 <section class="course-page grid">
 
-  <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}"></div>
+  <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+    {% if course.image %}
+      {% image course.image fill-480x270 as img %}
+      <img src="{{ img.url }}" alt="">
+    {% endif %}
+  </div>
  
   <div class="course">
     <div class="card">

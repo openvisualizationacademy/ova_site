@@ -1,9 +1,11 @@
 :root:has(.theme-picker [value="light"]:checked) {
   color-scheme: light;
+  --image-filter: invert(0);
 }
 
 :root:has(.theme-picker [value="dark"]:checked) {
   color-scheme: dark;
+  --image-filter: invert(1);
 }
 
 .theme-picker {

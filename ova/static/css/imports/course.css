@@ -13,6 +13,16 @@ section.course-page {
   /* background-image: url(https://placecats.com/480/270); */
 }
 
+.media img {
+  filter: var(--image-filter);
+  image-rendering: pixelated;
+  inset: 0;
+  max-width: 100%;
+  object-fit: cover;
+  opacity: .25;
+  position: absolute;
+}
+
 /* .media[data-tags]::before {
   --radius: 1px;
   background-image: radial-gradient(circle, light-dark(var(--neutral-900), var(--neutral-100)) var(--radius), transparent 1px);
@@ -26,11 +36,11 @@ section.course-page {
 } */
 
 .media[data-tags]::after {
-  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .5));
+  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .666));
   content: "";
   display: block;
   inset: 0;
-  mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .5));
+  mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .666));
   pointer-events: none;
   position: absolute;
 }
@@ -343,25 +353,25 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters ol a.active::after {
+  animation: swingHorizontal 1s 6 alternate ease-in-out;
+  background-color: light-dark(var(--primary-600), var(--primary-600));
+  clip-path: polygon(0 50%, 100% 100%, 100% 0%);
   content: "";
   display: block;
   height: 1.6rem;
-  width: .8rem;
-  background-color: light-dark(var(--primary-600), var(--primary-600));
-  position: absolute;
   inset: 1.6rem -.6rem 0 auto;
+  position: absolute;
   translate: 100% -50%;
-  clip-path: polygon(0 50%, 100% 100%, 100% 0%);
-  animation: swingHorizontal 1s 6 alternate ease-in-out;
+  width: .8rem;
 }
 
 .chapters li.compact ol a.active::after {
+  animation: swingVertical .5s 6 alternate ease-in-out;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  height: .8rem;
   inset: auto auto -.6rem 50%;
   translate: -50% 100%;
-  height: .8rem;
   width: 1.6rem;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  animation: swingVertical .5s 6 alternate ease-in-out;
 }
 
 @keyframes swingHorizontal {
