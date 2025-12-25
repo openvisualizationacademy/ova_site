@@ -27,13 +27,19 @@
   /* font-size: 1.6rem; */
 }
 
+.courses .filters label::after {
+  content: "(" attr(data-count) ")";
+  font-weight: 400;
+}
+
 .courses .filters label:has(input:focus-visible) {
   outline: 5px auto Highlight;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: 0.4rem;
 }
 
-.courses .filters input:not(:checked) + span {
+.courses .filters input:not(:checked) + span,
+.courses .filters label:has(input:not(:checked)) {
   color: light-dark(var(--neutral-700), var(--neutral-300)) !important;
 }
 

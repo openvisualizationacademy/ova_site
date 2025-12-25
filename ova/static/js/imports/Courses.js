@@ -6,8 +6,8 @@ export default class Courses {
     if (!this.element) return;
 
     this.filters = this.element.querySelector(".filters");
+    this.labels = this.filters.querySelectorAll("label[data-tag]");
     this.cards = this.element.querySelector(".cards");
-    this.tags = this.element.querySelector(".tag");
     this.courses = this.cards.querySelectorAll(".course");
 
     this.setup();
@@ -35,8 +35,36 @@ export default class Courses {
     });
   }
 
+  // Pre-calculate how many courses each category contains
+  countFilters() {
+    const tagCount = {};
+
+    this.courses.forEach((course) => {
+      const courseTags = course.dataset.tags.split(",");
+
+      courseTags.forEach((tag) => {
+        if (tag in tagCount) {
+          tagCount[tag]++;
+        } else {
+          tagCount[tag] = 1;
+        }
+      });
+    });
+
+    this.labels.forEach(label => {
+      const tag = label.dataset.tag;
+
+      if (tag === "all") {
+        label.dataset.count = this.courses.length
+      } else {
+        label.dataset.count = tagCount[tag];
+      }
+    });
+  }
+
   setup() {
     this.setupFilters();
+    this.countFilters();
   }
 
   update() {}
