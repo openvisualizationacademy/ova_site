@@ -27,7 +27,7 @@
             <div class="primary">
               <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
                 {% if course.image %}
-                  {% image course.image fill-480x270 as img %}
+                  {% image course.image original as img %}
                   <img src="{{ img.url }}" alt="">
                 {% endif %}
               </div>
