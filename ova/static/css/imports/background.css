@@ -15,7 +15,7 @@
 }
 
 .background::after {
-  background: radial-gradient(circle, light-dark(var(--neutral-100), var(--neutral-900)) 50%, transparent 100%);
+  background: radial-gradient(circle, var(--neutral-100) 50%, transparent 100%);
   content: "";
   inset: 0;
   opacity: .75;
