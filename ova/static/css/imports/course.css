@@ -18,7 +18,7 @@ section.course-page {
   inset: 0;
   max-width: 100%;
   object-fit: cover;
-  opacity: .5;
+  opacity: .75;
   position: absolute;
   width: 100%;
 }
