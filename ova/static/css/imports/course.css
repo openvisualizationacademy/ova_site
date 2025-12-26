@@ -14,13 +14,13 @@ section.course-page {
 }
 
 .media img {
-  filter: var(--image-filter);
   image-rendering: pixelated;
   inset: 0;
   max-width: 100%;
   object-fit: cover;
   opacity: .5;
   position: absolute;
+  width: 100%;
 }
 
 /* .media[data-tags]::before {
@@ -36,11 +36,11 @@ section.course-page {
 } */
 
 .media[data-tags]::after {
-  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .666));
+  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .75));
   content: "";
   display: block;
   inset: 0;
-  mask-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .666));
+  mask-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .75));
   pointer-events: none;
   position: absolute;
 }
