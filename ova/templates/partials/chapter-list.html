@@ -10,8 +10,8 @@
 
             {% for segment in chapter.get_children.live.specific %}
 
-            <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
-            <li>
+            {% comment %} TODO: If segment is completed, add `completed` class to <li> so [quiz] tag turns green {% endcomment %}
+            <li {% if segment.segment_progress is True %}class="completed"{% endif %}>
               <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
               
                 <span class="tooltip">
@@ -25,8 +25,8 @@
                   {% endif %}
                 </span>
 
-                {% comment %} TODO: Consider renaming segment_progress to segment_complete {% endcomment %}
-                {% if segment_progress is True %}
+                {% comment %} TODO: Fix line below to be the completion status of the segment in the loop (not the current page) {% endcomment %}
+                {% if segment.segment_progress is True %}
                   <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                 {% else %}
                   <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
@@ -54,5 +54,4 @@
     input.checked = compactView === "true" ? true : false;
     input.dispatchEvent(new Event("change"));
   })();
-  
 </script>
