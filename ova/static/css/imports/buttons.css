@@ -23,7 +23,6 @@
 .button.primary {
   background-color: light-dark(var(--primary-600), var(--primary-600));
   color: light-dark(var(--neutral-100), var(--neutral-100));
-  line-height: 1;
   padding: 1.2rem 1.6rem;
   text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
 }
@@ -31,7 +30,6 @@
 .button.secondary {
   background-color: light-dark(var(--neutral-800), var(--neutral-200));
   color: light-dark(var(--neutral-100), var(--neutral-900));
-  line-height: 1;
   padding: 0.6rem 1.2rem;
 }
 
