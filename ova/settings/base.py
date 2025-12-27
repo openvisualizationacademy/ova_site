@@ -19,8 +19,8 @@ from urllib.parse import urlparse
 
 load_dotenv()
 
-PROJECT_DIR = Path(__file__).resolve().parent.parent     # e.g., <project>/ova
-BASE_DIR = PROJECT_DIR.parent                            # e.g., <project>
+PROJECT_DIR = Path(__file__).resolve().parent.parent  # e.g., <project>/ova
+BASE_DIR = PROJECT_DIR.parent  # e.g., <project>
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -29,12 +29,10 @@ BASE_DIR = PROJECT_DIR.parent                            # e.g., <project>
 
 INSTALLED_APPS = [
     "daphne",
-
     "users",
     "home",
     "search",
     "courses",
-
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -46,14 +44,12 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
-
     "modelcluster",
     "taggit",
     "storages",
     "wagtailmarkdown",
-    'allauth',
-    'allauth.account',
-
+    "allauth",
+    "allauth.account",
     "django_filters",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -91,7 +87,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "django.template.context_processors.media"
+                "django.template.context_processors.media",
             ],
         },
     },
@@ -105,17 +101,17 @@ CSRF_TRUSTED_ORIGINS = os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split()
 pg_conf = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv("DB_ENGINE"),
-        'NAME': pg_conf.path.replace('/', ''),
-        'USER': pg_conf.username,
-        'PASSWORD': pg_conf.password,
-        'HOST': pg_conf.hostname,
-        'PORT': 5432,
+    "default": {
+        "ENGINE": os.getenv("DB_ENGINE"),
+        "NAME": pg_conf.path.replace("/", ""),
+        "USER": pg_conf.username,
+        "PASSWORD": pg_conf.password,
+        "HOST": pg_conf.hostname,
+        "PORT": 5432,
     }
 }
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -181,7 +177,7 @@ STORAGES = {
             "azure_container": AZURE_CONTAINER_MEDIA,
             "connection_string": AZURE_STORAGE_CONNECTION,
             "account_key": AZURE_ACCOUNT_KEY,
-        }
+        },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -214,7 +210,18 @@ WAGTAILADMIN_BASE_URL = "http://example.com"  # TODO: edit
 # This can be omitted to allow all files, but note that this may present a security risk
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]
 
 ASGI_APPLICATION = "ova.asgi.application"
 
@@ -235,9 +242,9 @@ WAGTAILMARKDOWN = {
 # Djgnao allauth
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 SITE_ID = 1
@@ -256,3 +263,10 @@ ACCOUNT_SIGNUP_FIELDS = ["email*"]
 ACCOUNT_ALLOW_SIGNUPS = True  # will autocreate users
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_BY_CODE_EXPIRATION = 600  # 10 min
+
+# Azure Communications Service Email
+EMAIL_BACKEND = "django_azure_communication_email.EmailBackend"
+AZURE_COMMUNICATION_CONNECTION_STRING = os.getenv("AZURE_COMM_EMAIL_STRING")
+EMAIL_FAIL_SILENTLY = False
+DEFAULT_FROM_EMAIL = "no-reply@openvisualizationacademy.org"  # not for auth emails
+ACCOUNT_ADAPTER = "users.adapter.ACSAccountAdapter"
