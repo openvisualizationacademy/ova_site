@@ -38,11 +38,9 @@ class Role(models.Model):
 
 class InstructorsOrderable(Orderable):
     """This allows selection of one or more instructors for a course."""
+
     page = ParentalKey("courses.CoursePage", related_name="course_instructors")
-    instructor = models.ForeignKey(
-        "courses.Instructor",
-        on_delete=models.CASCADE
-    )
+    instructor = models.ForeignKey("courses.Instructor", on_delete=models.CASCADE)
 
     panels = [
         FieldPanel("instructor"),
@@ -63,7 +61,7 @@ class Instructor(models.Model):
     )
     social_links = models.JSONField(default=list, blank=True)
     active = models.BooleanField(default=False)
-    role = models.ForeignKey('Role', on_delete=models.SET_NULL, null=True, blank=True)
+    role = models.ForeignKey("Role", on_delete=models.SET_NULL, null=True, blank=True)
 
     panels = [
         MultiFieldPanel(
@@ -85,7 +83,7 @@ class Instructor(models.Model):
                 FieldPanel("social_links"),
             ],
             heading="Links",
-        )
+        ),
     ]
 
     def __str__(self):
@@ -101,7 +99,7 @@ class CourseCategoryTag(TaggedItemBase):
 
 
 class CoursesIndexPage(Page):
-    subpage_types = ['CoursePage']
+    subpage_types = ["CoursePage"]
     max_count = 1  # optional
 
     # def get_context(self, request, *args, **kwargs):
@@ -116,18 +114,16 @@ class CoursesIndexPage(Page):
         for course in courses:
             for tag in course.tags.all():
                 tags.add(str(tag))
-        context['courses'] = courses
+        context["courses"] = courses
 
         # TODO: Consider sorting in order of importance
-        context['all_tags'] = sorted(tags)
+        context["all_tags"] = sorted(tags)
         return context
 
 
 class CourseMaterial(Orderable):
     page = ParentalKey(
-        "courses.CoursePage",
-        related_name="materials",
-        on_delete=models.CASCADE
+        "courses.CoursePage", related_name="materials", on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to="course_materials/", blank=True, null=True)
@@ -143,9 +139,7 @@ class CourseMaterial(Orderable):
 
 class ChapterMaterial(Orderable):
     page = ParentalKey(
-        "courses.ChapterPage",
-        related_name="materials",
-        on_delete=models.CASCADE
+        "courses.ChapterPage", related_name="materials", on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to="course_materials/", blank=True, null=True)
@@ -161,9 +155,7 @@ class ChapterMaterial(Orderable):
 
 class SegmentMaterial(Orderable):
     page = ParentalKey(
-        "courses.SegmentPage",
-        related_name="materials",
-        on_delete=models.CASCADE
+        "courses.SegmentPage", related_name="materials", on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to="course_materials/", blank=True, null=True)
@@ -179,6 +171,7 @@ class SegmentMaterial(Orderable):
 
 class CoursePage(Page):
     """Instructors are linked via InstructorsOrderable model to implement many to one."""
+
     duration = models.DurationField(blank=True, null=True)
     updated_on = models.DateTimeField(blank=True, null=True)
 
@@ -210,14 +203,16 @@ class CoursePage(Page):
         ),
         MultiFieldPanel(
             [
-                InlinePanel("course_instructors", label="Instructors", min_num=1, max_num=5),
+                InlinePanel(
+                    "course_instructors", label="Instructors", min_num=1, max_num=5
+                ),
             ],
             heading="Instructors",
         ),
         FieldPanel("tags"),
     ]
 
-    parent_page_types = ['CoursesIndexPage']
+    parent_page_types = ["CoursesIndexPage"]
     subpage_types = ["ChapterPage"]
 
     def save(self, *args, **kwargs):
@@ -267,24 +262,12 @@ class CoursePage(Page):
     # This "becomes" the url for the course
     def get_url(self, request=None, *args, **kwargs):
         # Get the first chapter
-        first_ch = (
-            self.get_children()
-            .type(ChapterPage)
-            .live()
-            .specific()
-            .first()
-        )
+        first_ch = self.get_children().type(ChapterPage).live().specific().first()
         if not first_ch:
             return super().get_url(request, *args, **kwargs)
 
         # Get the first segment
-        first_seg = (
-            first_ch.get_children()
-            .type(SegmentPage)
-            .live()
-            .specific()
-            .first()
-        )
+        first_seg = first_ch.get_children().type(SegmentPage).live().specific().first()
         if not first_seg:
             return super().get_url(request, *args, **kwargs)
 
@@ -373,11 +356,13 @@ class SegmentPage(QuizMixin, Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("video_url"),
-        FieldRowPanel([
-            FieldPanel("width"),
-            FieldPanel("height"),
-            FieldPanel("aspect_ratio", read_only=True),
-        ]),
+        FieldRowPanel(
+            [
+                FieldPanel("width"),
+                FieldPanel("height"),
+                FieldPanel("aspect_ratio", read_only=True),
+            ]
+        ),
         MultiFieldPanel(
             [
                 InlinePanel("materials", label="Materials"),
@@ -427,10 +412,7 @@ class SegmentPage(QuizMixin, Page):
 
         # 3. Select first/last segment of that chapter
         segment_lookup = (
-            adjacent_chapter.get_children()
-            .type(SegmentPage)
-            .live()
-            .specific()
+            adjacent_chapter.get_children().type(SegmentPage).live().specific()
         )
 
         return segment_lookup.first() if direction == "next" else segment_lookup.last()
@@ -467,7 +449,7 @@ class SegmentPage(QuizMixin, Page):
 
         # Vimeo
         if self.video_url:
-            match = re.search(r'vimeo\.com/(\d+)', self.video_url)
+            match = re.search(r"vimeo\.com/(\d+)", self.video_url)
             context["vimeo_id"] = match.group(1) if match else None
 
         # Parent chapter
@@ -485,22 +467,19 @@ class SegmentPage(QuizMixin, Page):
         # Chapter number
         if chapter:
             context["chapter_number"] = (
-                    chapter.get_siblings(inclusive=True)
-                    .live()
-                    .filter(path__lt=chapter.path)
-                    .count()
-                    + 1
+                chapter.get_siblings(inclusive=True)
+                .live()
+                .filter(path__lt=chapter.path)
+                .count()
+                + 1
             )
         else:
             context["chapter_number"] = None
 
         # Segment number
         context["segment_number"] = (
-                self.get_siblings(inclusive=True)
-                .live()
-                .filter(path__lt=self.path)
-                .count()
-                + 1
+            self.get_siblings(inclusive=True).live().filter(path__lt=self.path).count()
+            + 1
         )
 
         # Get only first quiz
@@ -530,34 +509,112 @@ class SegmentPage(QuizMixin, Page):
         context["segment"] = self
 
         user = request.user
+        # Defaults for anonymous users
+        context["segment_progress"] = None
+        context["chapter_progress"] = None
+        context["course_progress"] = None
+        context["segments_in_chapter"] = []
+        context["segments_progress_list"] = []
+        context["chapters_in_course"] = []
+        context["chapters_progress_list"] = []
+        context["chapter_percent_complete"] = 0
+        context["course_percent_complete"] = 0
         if user.is_authenticated:
 
-            # Segment progress
-            seg_prog = SegmentProgress.objects.filter(
-                user=user, segment=self
-            ).first()
-            context["segment_progress"] = seg_prog
+            # -----------------------------
+            # 1. Current segment progress
+            # -----------------------------
+            seg_prog = (
+                SegmentProgress.objects.filter(user=user, segment=self)
+                .values_list("percent_watched", flat=True)
+                .first()
+            )
+            if seg_prog:
+                context["segment_progress"] = True
 
-            # Chapter progress
             chapter = context.get("chapter")
+            course = context.get("course")
+
+            # -----------------------------
+            # 2. All segments in chapter
+            # -----------------------------
             if chapter:
-                chap_prog = ChapterProgress.objects.filter(
-                    user=user, chapter=chapter
-                ).first()
+                segments = chapter.get_children().type(SegmentPage).live().specific()
+                context["segments_in_chapter"] = segments
+
+                # Get user progress for these segments
+                seg_progress_map = {
+                    p.segment_id: p
+                    for p in SegmentProgress.objects.filter(
+                        user=user, segment__in=segments
+                    )
+                }
+
+                # List aligned with segments
+                seg_progress_list = []
+                completed_count = 0
+
+                for s in segments:
+                    p = seg_progress_map.get(s.id)
+                    seg_progress_list.append(p)
+                    if p and getattr(p, "completed", False):
+                        completed_count += 1
+
+                context["segments_progress_list"] = seg_progress_list
+
+                # Percent chapter completion
+                total_segments = segments.count()
+                if total_segments > 0:
+                    context["chapter_percent_complete"] = int(
+                        (completed_count / total_segments) * 100
+                    )
+
+                # Current chapter progress object
+                chap_prog = (
+                    ChapterProgress.objects.filter(user=user, chapter=chapter)
+                    .values_list("completed", flat=True)
+                    .first()
+                )
                 context["chapter_progress"] = chap_prog
 
-            # Course progress
-            course = context.get("course")
+            # -----------------------------
+            # 3. All chapters in course
+            # -----------------------------
             if course:
-                course_prog = CourseProgress.objects.filter(
-                    user=user, course=course
-                ).first()
-                context["course_progress"] = course_prog
+                chapters = course.get_children().type(ChapterPage).live().specific()
+                context["chapters_in_course"] = chapters
 
-        else:
-            context["segment_progress"] = None
-            context["chapter_progress"] = None
-            context["course_progress"] = None
+                chap_progress_map = {
+                    p.chapter_id: p
+                    for p in ChapterProgress.objects.filter(
+                        user=user, chapter__in=chapters
+                    )
+                }
+
+                chap_progress_list = []
+                completed_chapters = 0
+
+                for ch in chapters:
+                    p = chap_progress_map.get(ch.id)
+                    chap_progress_list.append(p)
+                    if p and p.completed:
+                        completed_chapters += 1
+
+                context["chapters_progress_list"] = chap_progress_list
+
+                total_chapters = chapters.count()
+                if total_chapters > 0:
+                    context["course_percent_complete"] = int(
+                        (completed_chapters / total_chapters) * 100
+                    )
+
+                # Current course progress object
+                course_prog = (
+                    CourseProgress.objects.filter(user=user, course=course)
+                    .values_list("completed", flat=True)
+                    .first()
+                )
+                context["course_progress"] = course_prog
 
         return context
 
@@ -569,7 +626,7 @@ class Quiz(ClusterableModel):
         related_name="quizzes",
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
     )
 
     panels = [
@@ -582,11 +639,7 @@ class Quiz(ClusterableModel):
 
 
 class Question(ClusterableModel):
-    quiz = ParentalKey(
-        Quiz,
-        related_name="questions",
-        on_delete=models.CASCADE
-    )
+    quiz = ParentalKey(Quiz, related_name="questions", on_delete=models.CASCADE)
     text = models.TextField()
 
     panels = [
@@ -599,11 +652,7 @@ class Question(ClusterableModel):
 
 
 class Choice(models.Model):
-    question = ParentalKey(
-        "Question",
-        related_name="choices",
-        on_delete=models.CASCADE
-    )
+    question = ParentalKey("Question", related_name="choices", on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
 
@@ -611,7 +660,6 @@ class Choice(models.Model):
         FieldPanel("text"),
         FieldPanel("is_correct"),
     ]
-
 
     def __str__(self):
         return self.text
