@@ -92,6 +92,7 @@ dependencies = [
     "msgpack==1.1.2",
     "py-ubjson==0.16.1",
     "ujson==5.11.0",
+    "django-azure-communication-email>=1.6.0",
 ]
 
 [dependency-groups]
