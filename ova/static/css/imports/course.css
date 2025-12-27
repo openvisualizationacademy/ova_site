@@ -513,6 +513,10 @@ section.course-page svg[data-icon="check-circle"] circle {
   display: flex;
 }
 
+.content h2 span {
+  text-wrap: pretty;
+}
+
 .content h2 svg[data-icon] {
   margin-inline-start: .8rem;
   translate: 0 .2rem;
