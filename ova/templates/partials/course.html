@@ -60,7 +60,7 @@
   {% if user.is_authenticated %}
 
     <!-- TODO: Calculate and display course progress -->
-    {% with percentage=0 %}
+    {% with percentage=course_percent_complete %}
       <div class="tracker">
         <div class="progress {% if percentage == 100 %}completed{% endif %}">
           <label>
@@ -152,7 +152,7 @@
           {% endif %}
 
           <!-- TODO: Display checkmark also for completed quiz -->
-          {% if segment_progress.percent_watched == 100 %}
+          {% if segment_progress is True %}
             <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
             <span class="screen-reader">(Completed)</span>
           {% endif %}

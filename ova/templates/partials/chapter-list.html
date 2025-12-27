@@ -25,14 +25,12 @@
                   {% endif %}
                 </span>
 
-                <!-- TODO: Make completed status dynamic -->
-                {% with completed=False %}
-                  {% if completed %}
-                    <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-                  {% else %}
-                    <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
-                  {% endif %}
-                {% endwith %}
+                {% comment %} TODO: Consider renaming segment_progress to segment_complete {% endcomment %}
+                {% if segment_progress is True %}
+                  <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+                {% else %}
+                  <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                {% endif %}
               </a>
             </li>
             {% endfor %}
