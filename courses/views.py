@@ -21,11 +21,7 @@ def _is_chapter_complete(user, chapter):
     have percent_watched >= 100.
     """
     # All segments under this chapter
-    segments_qs = (
-        chapter.get_children()
-        .type(SegmentPage)
-        .live()
-    )
+    segments_qs = chapter.get_children().type(SegmentPage).live()
 
     total_segments = segments_qs.count()
     if total_segments == 0:
@@ -44,12 +40,7 @@ def _is_course_complete(user, course):
     """
     A course is complete when ALL of its chapters are complete for this user.
     """
-    chapters_qs = (
-        course.get_children()
-        .type(ChapterPage)
-        .live()
-        .specific()
-    )
+    chapters_qs = course.get_children().type(ChapterPage).live().specific()
 
     if not chapters_qs.exists():
         return False
@@ -134,11 +125,12 @@ def update_progress(request):
             cprog.save()
 
     # Anonymous users don’t get persisted state or completion inference
-    return JsonResponse({
-        "segment_id": segment.id,
-        "saved": authenticated,
-        "percent_watched": percent,
-        "chapter_completed": chapter_completed if authenticated else False,
-        "course_completed": course_completed if authenticated else False,
-    })
-
+    return JsonResponse(
+        {
+            "segment_id": segment.id,
+            "saved": authenticated,
+            "percent_watched": percent,
+            "chapter_completed": chapter_completed if authenticated else False,
+            "course_completed": course_completed if authenticated else False,
+        }
+    )
