@@ -1,4 +1,14 @@
 <label class="button tertiary switch">
-  <input type="checkbox" name="compact-view" class="screen-reader" role="switch" checked onchange="document.querySelectorAll('.chapters nav > ol > li').forEach( li => li.classList.toggle('compact', this.checked) )">
+  <input type="checkbox" name="compact-view" class="screen-reader" role="switch" checked onchange="toggleCompact(this.checked)">
   <span>Compact view</span>
 </label>
+
+<script>
+  // The function below relates to the script in chapter-list.html and Accessibility.js
+  function toggleCompact(bool = false) {
+    const lis = document.querySelectorAll('.chapters nav > ol > li');
+    lis.forEach( (li) => {
+      li.classList.toggle('compact', bool);
+    });
+  }
+</script>

@@ -45,13 +45,22 @@
 <script>
   // Make chapter list compact/expanded if user has last viewed like so it in another page (pairs with Accessibility.js class)
   (function() {
-    const compactView = localStorage.getItem("compactView");
-    if (compactView === null) return;
-
     const input = document.querySelector('.switch input[name="compact-view"]');
     if (!input) return;
 
-    input.checked = compactView === "true" ? true : false;
-    input.dispatchEvent(new Event("change"));
+    const compactView = localStorage.getItem("compactView");
+    if (compactView === null) {
+      
+        // Display expanded if no preference is stored and user is on mobile
+        if (window.innerWidth <= 480) {
+          input.checked = false;
+          toggleCompact(false);
+        }
+      return;
+    }
+
+    const bool = compactView === "true";
+    input.checked = bool;
+    toggleCompact(input.checked);
   })();
 </script>
