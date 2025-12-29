@@ -325,7 +325,7 @@ section.course-page svg[data-icon="check-circle"] circle {
 .chapters ol li a svg[data-icon="circle"] {
   color: light-dark(var(--neutral-400), var(--neutral-600));
   fill: light-dark(var(--neutral-400), var(--neutral-600));
-  scale: .5;
+  scale: calc(24/22 * .5);
 }
 
 .chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
