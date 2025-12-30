@@ -95,6 +95,8 @@ export default class ThemePicker {
   }
 
   updatePictures() {
+    if (!CSS.supports('color', 'light-dark(black, white)')) return;
+
     const { matchesSystem } = this;
     this.pictures.forEach((picture) => {
       if (matchesSystem) {
