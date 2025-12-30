@@ -1,5 +1,19 @@
-html {
+/* Overflow clip allows position sticky inside course page (it would break with overflow hidden) */
+html,
+body {
   overflow-x: clip;
+}
+
+/* Prevent horizontal scroll on browsers that don’t support clip (like Safari 15) */
+@supports not (overflow-x: clip) {
+  /* Apply only to home, because it has the the animated wave, which is partially off screen */
+  html:has(body[data-page="home"]),
+  body[data-page="home"] {
+    overflow-x: hidden;
+  }
+}
+
+html {
   scroll-behavior: smooth;
   scroll-padding-top: 2.4rem;
 }
@@ -15,7 +29,6 @@ body {
   font-size: var(--font-size-base);
   font-weight: 400;
   line-height: 1.333;
-  overflow-x: clip;
   text-underline-offset: .1em;
 }
 
