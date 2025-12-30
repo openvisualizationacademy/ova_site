@@ -37,12 +37,8 @@
 
 .person .tagline {
   text-wrap: balance;
-  color: var(--neutral-700)
-}
-
-.person .media {
-  align-self: center;
-  color: light-dark(var(--neutral-700), var(--neutral-300))
+  color: var(--neutral-700);
+  color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
 .person .media {
