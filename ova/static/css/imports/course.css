@@ -56,6 +56,21 @@ section.course-page {
   background-image: linear-gradient(to right in oklab, var(--tag-lecture), var(--tag-tutorial));
 }
 
+/* Provide simpler gradient to older browsers (like Safari 15) */
+@supports not (background: linear-gradient(to right in oklab, red, blue)) {
+  .media[data-tags="Fundamentals,Lecture"]::after {
+    background-image: linear-gradient(to right , var(--tag-fundamentals), var(--tag-lecture));
+  }
+
+  .media[data-tags="Fundamentals,Tutorial"]::after {
+    background-image: linear-gradient(to right , var(--tag-fundamentals), var(--tag-tutorial));
+  }
+
+  .media[data-tags="Lecture,Tutorial"]::after {
+    background-image: linear-gradient(to right , var(--tag-lecture), var(--tag-tutorial));
+  }
+}
+
 [data-page="course"] .media {
   border-radius: 1.6rem;
   display: none;
