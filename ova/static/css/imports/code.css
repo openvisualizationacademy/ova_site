@@ -9,6 +9,7 @@ code:not(.codehilite *),
 kbd {
   background-color: #0d1117;
   border-radius: 0.4rem;
+  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   color: #E6EDF3;
   display: inline-block;
@@ -30,6 +31,7 @@ kbd {
 
 .codehilite {
   border-radius: .8rem;
+  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
 }
 

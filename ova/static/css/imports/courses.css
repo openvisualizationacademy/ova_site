@@ -14,7 +14,9 @@
 
 .courses .filters label {
   align-items: center;
+  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 999px;
   cursor: pointer;
@@ -40,6 +42,7 @@
 
 .courses .filters input:not(:checked) + span,
 .courses .filters label:has(input:not(:checked)) {
+  color: var(--neutral-700) !important;
   color: light-dark(var(--neutral-700), var(--neutral-300)) !important;
 }
 
@@ -49,6 +52,7 @@
 }
 
 .courses .filters label::before {
+  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 999px;
   content: "";
@@ -58,6 +62,7 @@
 }
 
 .courses .filters label:has(input:checked) {
+  border: 1px solid var(--neutral-900);
   border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
 }
 
@@ -65,6 +70,7 @@
   background: currentColor;
   border: 1px solid currentColor;
 
+  /* box-shadow: 0 0 1.6rem 0.2rem transparent;
   /* box-shadow: 0 0 1.6rem 0.2rem light-dark(transparent, currentColor); */
 }
 
@@ -89,7 +95,9 @@
 }
 
 .course .card {
+  background-color: var(--neutral-100);
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 1.6rem;
   color: inherit;
@@ -108,6 +116,7 @@
 }
 
 .course h3 {
+  border-top: 1px solid var(--neutral-300);
   border-top: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   font-size: var(--font-size-h5);
   padding: 1.6rem;
@@ -133,8 +142,10 @@
 .author img {
   align-self: center;
   aspect-ratio: 1;
+  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   display: inline-flex;
   flex-shrink: 0;
@@ -145,8 +156,10 @@
 .author:not(:has(img))::before {
   align-self: center;
   aspect-ratio: 1;
+  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   content: "";
   display: inline-flex;
@@ -202,6 +215,7 @@
 
 .course .duration {
   align-items: baseline;
+  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   display: flex;
 }
@@ -209,8 +223,10 @@
 .course .completed-badge {
   align-items: baseline;
   align-self: start;
+  background: var(--success-600);
   background: light-dark(var(--success-600), var(--success-500));
   border-radius: .4rem;
+  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-900));
   display: flex;
   margin-inline-end: .6rem;
@@ -240,10 +256,12 @@
 
 @media (hover: hover) {
   .courses .filters label:hover {
+    border: 1px solid var(--neutral-900);
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
 
   .course a:hover {
+    border: 1px solid var(--neutral-900);
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
 }

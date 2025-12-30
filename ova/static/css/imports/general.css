@@ -9,7 +9,9 @@ html {
 }
 
 body {
+  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
+  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-200));
   font-family: var(--font-family);
   font-size: var(--font-size-base);

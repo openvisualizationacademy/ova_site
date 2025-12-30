@@ -1,4 +1,5 @@
 footer {
+  border-block-start: 1px solid var(--neutral-300);
   border-block-start: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   padding-block: var(--gutter);
 }
@@ -14,6 +15,7 @@ footer.grid .info p {
 }
 
 footer.grid .info small {
+  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
@@ -34,6 +36,7 @@ footer .contact {
   background: linear-gradient(to right, var(--primary-500), var(--primary-600), var(--primary-700), var(--primary-800));
   background-clip: text;
   background-size: 200% auto;
+  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-200));
   font-weight: 700;
   margin-inline-end: .5em;

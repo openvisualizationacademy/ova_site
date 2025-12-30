@@ -21,21 +21,29 @@
 }
 
 .button.primary {
+  background-color: var(--primary-600);
   background-color: light-dark(var(--primary-600), var(--primary-600));
+  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-100));
   padding: 1.2rem 1.6rem;
+  text-shadow: 0 0 1em var(--primary-900);
   text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
 }
 
 .button.secondary {
+  background-color: var(--neutral-800);
   background-color: light-dark(var(--neutral-800), var(--neutral-200));
+  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-900));
   padding: 0.6rem 1.2rem;
 }
 
 .button.tertiary {
+  background-color: var(--neutral-100);
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-200));
   font-size: var(--font-size-small);
   padding: 0.6rem 1.2rem;
@@ -47,9 +55,12 @@
 }
 
 .button.quaternary {
+  background-color: var(--neutral-100);
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   bottom: -.3rem;
+  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-200));
   font-size: var(--font-size-small);
   padding: .3rem .6rem;
@@ -72,6 +83,7 @@
 
 @media (hover: hover) {
   .button.primary:hover {
+    background-color: var(--primary-700);
     background-color: light-dark(var(--primary-700), var(--primary-700));
   }
 

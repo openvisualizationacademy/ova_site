@@ -52,6 +52,7 @@
 .cover .preview video {
   aspect-ratio: 16/9;
   border-radius: 1.6rem;
+  box-shadow: 0 0 0 1px var(--neutral-200);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-200), var(--neutral-800));
   display: block;
   margin-block: 3.2rem 1.2rem;
@@ -90,6 +91,7 @@
 
 .cover .preview .duration {
   align-items: baseline;
+  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   display: flex;
   text-align: end;
