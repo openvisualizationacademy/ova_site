@@ -135,7 +135,7 @@ section.course-page {
 
 .progress .donut {
   --inner-color: light-dark(var(--neutral-150), var(--neutral-850));
-  --percentage: 0%;
+  --percent: 0%;
   align-items: center;
   border-radius: 50%;
   color: light-dark(var(--success-600), var(--success-500));
@@ -151,7 +151,7 @@ section.course-page {
       transparent 75% 100%
     ),
     conic-gradient(
-      light-dark(var(--success-600), var(--success-500)) var(--percentage),
+      light-dark(var(--success-600), var(--success-500)) var(--percent),
       light-dark(var(--neutral-300), var(--neutral-700)) 0
     );
   /* TODO: Replace radial-gradient by mask when it has better support */
@@ -166,7 +166,7 @@ section.course-page {
   margin: 0;
 }
 
-.progress:not(.completed) .percentage {
+.progress:not(.completed) .percent {
   color: light-dark(var(--success-600), var(--success-500));
 }
 
@@ -805,7 +805,7 @@ section.overview {
         transparent 75% 100%
       ),
       conic-gradient(
-        var(--success-600) var(--percentage),
+        var(--success-600) var(--percent),
         var(--neutral-300) 0
       );
   }
@@ -814,7 +814,7 @@ section.overview {
     --inner-color: var(--success-300);
   }
 
-  .progress:not(.completed) .percentage {
+  .progress:not(.completed) .percent {
     color: var(--success-600);
   }
 

@@ -60,25 +60,25 @@
   {% if user.is_authenticated %}
 
     <!-- TODO: Calculate and display course progress -->
-    {% with percentage=course_percent_complete %}
+    {% with percent=course_percent_complete|default:0 %}
       <div class="tracker">
-        <div class="progress {% if percentage == 100 %}completed{% endif %}">
+        <div class="progress {% if percent == 100 %}completed{% endif %}">
           <label>
             <span class="screen-reader">Course progress</span> 
-            <div class="donut" style="--percentage: {{ percentage }}%">
-              <progress value="{{ percentage }}" min="0" max="100" class="screen-reader">{{ percentage }}%</progress>
-              {% if percentage == 100 %}
+            <div class="donut" style="--percent: {{ percent }}%">
+              <progress value="{{ percent }}" min="0" max="100" class="screen-reader">{{ percent }}%</progress>
+              {% if percent == 100 %}
                 <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
               {% endif %}
             </div>
           </label>
           <p>
-            <strong class="percentage">{{ percentage }}%</strong>
+            <strong class="percent">{{ percent }}%</strong>
             of course completed
           </p>
         </div>
         <div class="certificate">
-          {% if percentage == 100 %}
+          {% if percent == 100 %}
             <a href="#" class="button tertiary">
               <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
               <span>
