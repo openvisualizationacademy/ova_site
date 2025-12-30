@@ -1,17 +1,17 @@
 :root:has(.theme-picker [value="light"]:checked) {
-  color-scheme: light;
   --image-filter: invert(0);
+  color-scheme: light;
 }
 
 :root:has(.theme-picker [value="dark"]:checked) {
-  color-scheme: dark;
   --image-filter: invert(1);
+  color-scheme: dark;
 }
 
 .theme-picker {
-  border-radius: 999px;
   background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
+  border-radius: 999px;
   box-shadow: inset 0 0 0 1px var(--neutral-300);
   box-shadow: inset 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   color: inherit;
@@ -70,5 +70,12 @@
 @media (min-width: 640px) {
   .theme-picker {
     display: flex;
+  }
+}
+
+/* Hide theme picker if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .theme-picker {
+    display: none;
   }
 }
