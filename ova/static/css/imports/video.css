@@ -7,11 +7,17 @@
   background: #000000;
   border: 0;
   border-radius: .4rem;
-  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   height:100%;
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .vimeo-embed iframe {
+    box-shadow: 0 0 0 1px var(--neutral-300);
+  }
 }

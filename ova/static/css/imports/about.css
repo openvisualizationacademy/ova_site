@@ -1,5 +1,4 @@
 [data-page="about"] figure img {
-  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: .8rem;
 }
@@ -35,14 +34,12 @@
 }
 
 [data-page="about"] th {
-  border-block-end: 1px solid var(--neutral-300);
   border-block-end: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   padding-block: 1.6rem;
   text-align: start;
 }
 
 [data-page="about"] tr:first-child td {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-block: 1.6rem;
 }
@@ -52,7 +49,6 @@
 }
 
 [data-page="about"] p {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
@@ -111,5 +107,21 @@
   }
   [data-page="about"] tbody tr:first-child {
     display: table-row;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  [data-page="about"] figure img {
+    border: 1px solid var(--neutral-300);
+  }
+  [data-page="about"] th {
+    border-block-end: 1px solid var(--neutral-300);
+  }
+  [data-page="about"] tr:first-child td {
+    color: var(--neutral-700);
+  }
+  [data-page="about"] p {
+    color: var(--neutral-700);
   }
 }

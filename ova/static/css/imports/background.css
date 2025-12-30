@@ -24,27 +24,6 @@
   z-index: -1;
 }
 
-/* .background {
-  --radius: 1px;
-  background: light-dark(var(--neutral-100), var(--neutral-900));
-  background-image: radial-gradient(circle, light-dark(var(--neutral-300), var(--neutral-800)) var(--radius), transparent 1px);
-  background-position: center calc(1.2rem - var(--radius));
-  background-size: 2.4rem 2.4rem;
-  inset: 0;
-  pointer-events: none;
-  position: fixed;
-  z-index: -1;
-}
-
-.background::before {
-  background: linear-gradient(light-dark(var(--neutral-100), var(--neutral-900)), transparent 66.666%);
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: fixed;
-  z-index: -1;
-} */
-
 @media (prefers-reduced-motion: reduce) {
   .background {
     background-image: none;

@@ -4,14 +4,11 @@ section.course-page {
 
 .media[data-tags] {
   aspect-ratio: 16/9;
-  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
   background-size: cover;
   overflow: hidden;
   position: relative;
   width: 100%;
-
-  /* background-image: url(https://placecats.com/480/270); */
 }
 
 .media img {
@@ -23,18 +20,6 @@ section.course-page {
   position: absolute;
   width: 100%;
 }
-
-/* .media[data-tags]::before {
-  --radius: 1px;
-  background-image: radial-gradient(circle, light-dark(var(--neutral-900), var(--neutral-100)) var(--radius), transparent 1px);
-  background-position: center;
-  background-size: 4px 4px;
-  content: "";
-  display: block;
-  inset: 0;
-  opacity: .05;
-  position: absolute;
-} */
 
 .media[data-tags]::after {
   -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .75));
@@ -87,7 +72,6 @@ section.course-page {
 [data-page="course"] .course .card {
   background: transparent;
   border: 1px solid transparent;
-  border: 1px solid light-dark(transparent, transparent);
   border-radius: 0;
 }
 
@@ -121,7 +105,6 @@ section.course-page {
 
 .progress {
   align-items: center;
-  background: var(--neutral-150);
   background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: 1.6rem;
   display: flex;
@@ -132,33 +115,20 @@ section.course-page {
 }
 
 .progress.completed {
-  background: var(--success-300);
   background: light-dark(var(--success-300), var(--success-900));
 }
 
 .progress .donut {
-  --inner-color: var(--neutral-150);
   --inner-color: light-dark(var(--neutral-150), var(--neutral-850));
   --percentage: 0%;
   align-items: center;
   border-radius: 50%;
-  color: var(--success-600);
   color: light-dark(var(--success-600), var(--success-500));
   display: flex;
   height: 4.8rem;
   justify-content: center;
   position: relative;
   width: 4.8rem;
-  background:
-    radial-gradient(
-      closest-side,
-      var(--inner-color) 75%,
-      transparent 75% 100%
-    ),
-    conic-gradient(
-      var(--success-600) var(--percentage),
-      var(--neutral-300) 0
-    );
   background:
     radial-gradient(
       closest-side,
@@ -174,7 +144,6 @@ section.course-page {
 }
 
 .progress.completed .donut {
-  --inner-color: var(--success-300);
   --inner-color: light-dark(var(--success-300), var(--success-900));
 }
 
@@ -183,7 +152,6 @@ section.course-page {
 }
 
 .progress:not(.completed) .percentage {
-  color: var(--success-600);
   color: light-dark(var(--success-600), var(--success-500));
 }
 
@@ -195,14 +163,12 @@ section.course-page {
 }
 
 .certificate small {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: 1.6rem;
 }
 
 .sticky-wrapper {
   align-items: baseline;
-  border-block-start: 1px solid var(--neutral-300);
   border-block-start: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   grid-column: span 12;
   order: 5;
@@ -292,7 +258,6 @@ section.course-page {
 }
 
 .chapters ol a:not(.active) {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
@@ -306,7 +271,6 @@ section.course-page {
 
 .chapters ol ol li:not(:last-child) a::before {
   --width: 1.2rem;
-  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   content: "";
   display: block;
@@ -335,21 +299,16 @@ section.course-page {
 }
 
 section.course-page svg[data-icon="check-circle"] path {
-  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
 section.course-page svg[data-icon="check-circle"] circle {
-  color: var(--success-600);
   color: light-dark(var(--success-600), var(--success-500));
-  fill: var(--success-600);
   fill: light-dark(var(--success-600), var(--success-500));
 }
 
 .chapters ol li a svg[data-icon="circle"] {
-  color: var(--neutral-400);
   color: light-dark(var(--neutral-400), var(--neutral-600));
-  fill: var(--neutral-400);
   fill: light-dark(var(--neutral-400), var(--neutral-600));
   scale: calc(24/22 * .5);
 }
@@ -359,9 +318,7 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
-  color: var(--info-400);
   color: light-dark(var(--info-400), var(--info-600));
-  fill: var(--info-400);
   fill: light-dark(var(--info-400), var(--info-600));
 }
 
@@ -377,13 +334,11 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters ol a.active {
-  box-shadow: 0 0 0 2px var(--neutral-900);
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100));
 }
 
 .chapters ol a.active::after {
   animation: swingHorizontal 1s 6 alternate ease-in-out;
-  background-color: var(--primary-600);
   background-color: light-dark(var(--primary-600), var(--primary-600));
   clip-path: polygon(0 50%, 100% 100%, 100% 0%);
   content: "";
@@ -488,11 +443,9 @@ section.course-page svg[data-icon="check-circle"] circle {
 
 @media (hover: hover) {
   .chapters ol li.compact ol a:hover span.tooltip {
-    background: var(--neutral-800);
     background: light-dark(var(--neutral-800), var(--neutral-200));
     border-radius: .8rem;
     clip-path: none;
-    color: var(--neutral-100);
     color: light-dark(var(--neutral-100), var(--neutral-900));
     display: flex;
     height: auto;
@@ -523,7 +476,6 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 .chapters + .content .number.kicker {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   font-size: 1.8rem;
   margin-inline-end: .5em;
@@ -556,7 +508,6 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 #sign-in-description {
-  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 1.6rem;
   grid-column: span 12;
@@ -572,7 +523,6 @@ section.course-page svg[data-icon="check-circle"] circle {
 }
 
 #sign-in-description::before {
-  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   content: "";
@@ -588,9 +538,7 @@ section.course-page svg[data-icon="check-circle"] circle {
 
 #sign-in-description.warning,
 #sign-in-description.warning::before {
-  background: var(--primary-200);
   background: light-dark(var(--primary-200), var(--primary-300));
-  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-800));
 }
 
@@ -603,7 +551,6 @@ section.overview {
 }
 
 .overview .content-updated {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   display: none;
   grid-column: span 3;
@@ -629,7 +576,6 @@ section.overview {
 }
 
 .overview details > div {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: 0;
 }
@@ -649,24 +595,19 @@ section.overview {
 .quiz-badge {
   align-items: baseline;
   align-self: start;
-  background: var(--info-300);
   background: light-dark(var(--info-300), var(--info-700));
   border-radius: .4rem;
-  color: var(--neutral-900);
   color: light-dark(var(--neutral-900), var(--neutral-100));
   display: inline-flex;
   margin-inline-end: .6rem;
   padding-block: .6rem .4rem;
   padding-inline: .6rem;
 
-  /* background: var(--neutral-300);
   /* background: light-dark(var(--neutral-300), var(--neutral-700)); */
 }
 
 .completed .quiz-badge {
-  background: var(--success-600);
   background: light-dark(var(--success-600), var(--success-500));
-  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
 
@@ -675,7 +616,6 @@ section.overview {
 }
 
 .content-written a {
-  color: var(--info-800);
   color: light-dark(var(--info-800), var(--info-400));
   word-break: break-word;
 }
@@ -704,14 +644,12 @@ section.overview {
 }
 
 .content-materials li .file-size {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: .8rem;
 }
 
 @media (hover: hover) {
   .chapters ol a:not(.active):hover {
-    box-shadow: 0 0 0 2px var(--neutral-400);
     box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));
 
     /* background: var(--neutral-200);
@@ -825,5 +763,143 @@ section.overview {
 
   .chapters nav > ol {
     width: calc(100% - .8rem);
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .media[data-tags] {
+    background: var(--neutral-100);
+  }
+
+  .progress {
+    background: var(--neutral-150);
+  }
+
+  .progress.completed {
+    background: var(--success-300);
+  }
+
+  .progress .donut {
+    --inner-color: var(--neutral-150);
+    color: var(--success-600);
+    background:
+      radial-gradient(
+        closest-side,
+        var(--inner-color) 75%,
+        transparent 75% 100%
+      ),
+      conic-gradient(
+        var(--success-600) var(--percentage),
+        var(--neutral-300) 0
+      );
+  }
+
+  .progress.completed .donut {
+    --inner-color: var(--success-300);
+  }
+
+  .progress:not(.completed) .percentage {
+    color: var(--success-600);
+  }
+
+  .certificate small {
+    color: var(--neutral-700);
+  }
+
+  .sticky-wrapper {
+    border-block-start: 1px solid var(--neutral-300);
+  }
+
+  .chapters ol a:not(.active) {
+    color: var(--neutral-700);
+  }
+
+  .chapters ol ol li:not(:last-child) a::before {
+    background: var(--neutral-200);
+  }
+
+  section.course-page svg[data-icon="check-circle"] path {
+    color: var(--neutral-100);
+  }
+
+  section.course-page svg[data-icon="check-circle"] circle {
+    color: var(--success-600);
+    fill: var(--success-600);
+  }
+
+  .chapters ol li a svg[data-icon="circle"] {
+    color: var(--neutral-400);
+    fill: var(--neutral-400);
+  }
+
+  .chapters ol li a:has(.quiz-badge) svg[data-icon="circle"] {
+    color: var(--info-400);
+    fill: var(--info-400);
+  }
+
+  .chapters ol a.active {
+    box-shadow: 0 0 0 2px var(--neutral-900);
+  }
+
+  .chapters ol a.active::after {
+    background-color: var(--primary-600);
+  }
+
+  @media (hover: hover) {
+    .chapters ol li.compact ol a:hover span.tooltip {
+      background: var(--neutral-800);
+      color: var(--neutral-100);
+    }
+  }
+
+  .chapters + .content .number.kicker {
+    color: var(--neutral-700);
+  }
+
+  #sign-in-description {
+    background: var(--neutral-200);
+  }
+
+  #sign-in-description::before {
+    background: var(--neutral-200);
+  }
+
+  #sign-in-description.warning,
+  #sign-in-description.warning::before {
+    background: var(--primary-200);
+    color: var(--neutral-800);
+  }
+
+  .overview .content-updated {
+    color: var(--neutral-700);
+  }
+
+  .overview details > div {
+    color: var(--neutral-700);
+  }
+
+  .quiz-badge {
+    background: var(--info-300);
+    color: var(--neutral-900);
+  }
+
+  .completed .quiz-badge {
+    background: var(--success-600);
+    color: var(--neutral-100);
+  }
+
+  .content-written a {
+    color: var(--info-800);
+  }
+
+  .content-materials li .file-size {
+    color: var(--neutral-700);
+  }
+
+  @media (hover: hover) {
+    .chapters ol a:not(.active):hover {
+      box-shadow: 0 0 0 2px var(--neutral-400);
+    }
   }
 }

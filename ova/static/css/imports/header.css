@@ -84,7 +84,6 @@ header .account {
 }
 
 header .account .signed-email {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   display: none;
   margin-inline-start: 1.6rem;
@@ -100,7 +99,6 @@ header nav .links a[aria-describedby="current"]::after {
 
 @media (hover: hover) {
   header nav .links a:not([aria-describedby="current"]):hover::after {
-    background: var(--neutral-300);
     background: light-dark(var(--neutral-300), var(--neutral-700));
     opacity: 1;
   }
@@ -142,5 +140,18 @@ header nav .links a[aria-describedby="current"]::after {
 @media (min-width: 1024px) {
   header {
     margin-block-end: 4.8rem;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  header .account .signed-email {
+    color: var(--neutral-700);
+  }
+
+  @media (hover: hover) {
+    header nav .links a:not([aria-describedby="current"]):hover::after {
+      background: var(--neutral-300);
+    }
   }
 }

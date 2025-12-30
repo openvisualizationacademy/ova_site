@@ -6,7 +6,6 @@
 }
 
 .quiz fieldset {
-  border: 1px solid var(--neutral-300);
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 1.6rem;
   display: flex;
@@ -31,14 +30,12 @@
 }
 
 .quiz .count.kicker {
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   line-height: 1.25;
   padding-inline: 0;
 }
 
 .quiz .choice {
-  background: var(--neutral-150);
   background: light-dark(var(--neutral-150), var(--neutral-850));
   border-radius: .8rem;
   padding-block: .8rem;
@@ -59,21 +56,17 @@
 }
 
 .quiz .choice:has(input[aria-describedby="correct"]) {
-  background: linear-gradient( to right, var(--success-200), var(--success-300));
   background: linear-gradient( to right, light-dark(var(--success-200), color-mix(in srgb, var(--success-900) 50%, var(--neutral-900))), light-dark(var(--success-300), var(--success-900)));
 
   & [data-icon] {
-    color: var(--success-600);
     color: light-dark(var(--success-600), var(--success-400));
   }
 }
 
 .quiz .choice:has(input[aria-describedby="incorrect"]) {
-  background: linear-gradient( to right, var(--failure-200), var(--failure-300));
   background: linear-gradient( to right, light-dark(var(--failure-200), color-mix(in srgb, var(--failure-900) 50%, var(--neutral-900))), light-dark(var(--failure-300), var(--failure-900)));
 
   & [data-icon] {
-    color: var(--failure-600);
     color: light-dark(var(--failure-600), var(--failure-400));
   }
 }
@@ -89,9 +82,7 @@
 }
 
 .quiz fieldset:not(:disabled) label:has(input:checked) {
-  background: linear-gradient( to right, var(--info-200), var(--info-300));
   background: linear-gradient( to right, light-dark(var(--info-200), color-mix(in srgb, var(--info-900) 50%, var(--neutral-900))), light-dark(var(--info-300), var(--info-900)));
-  box-shadow: 0 0 0 2px var(--neutral-900), inset 0 0 0 2px var(--neutral-100) !important;
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100)), inset 0 0 0 2px light-dark(var(--neutral-100), var(--neutral-900)) !important;
 }
 
@@ -100,15 +91,59 @@
 }
 
 .quiz .button.primary {
-  background-color: var(--info-700);
   background-color: light-dark(var(--info-700), var(--info-700));
-  text-shadow: 0 0 1em var(--info-900);
   text-shadow: 0 0 1em light-dark(var(--info-900), var(--info-900));
 }
 
 @media (hover: hover) {
   .quiz fieldset:not(:disabled) label:not(:has(input:disabled)):hover {
-    box-shadow: 0 0 0 2px var(--neutral-400);
     box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .quiz fieldset {
+    border: 1px solid var(--neutral-300);
+  }
+
+  .quiz .count.kicker {
+    color: var(--neutral-700);
+  }
+  
+  .quiz .choice {
+    background: var(--neutral-150);
+  }
+  
+  .quiz .choice:has(input[aria-describedby="correct"]) {
+    background: linear-gradient( to right, var(--success-200), var(--success-300));
+
+    & [data-icon] {
+      color: var(--success-600);
+    }
+  }
+
+  .quiz .choice:has(input[aria-describedby="incorrect"]) {
+    background: linear-gradient( to right, var(--failure-200), var(--failure-300));
+
+    & [data-icon] {
+      color: var(--failure-600);
+    }
+  }
+
+  .quiz fieldset:not(:disabled) label:has(input:checked) {
+    background: linear-gradient( to right, var(--info-200), var(--info-300));
+    box-shadow: 0 0 0 2px var(--neutral-900), inset 0 0 0 2px var(--neutral-100) !important;
+  }
+
+  .quiz .button.primary {
+    background-color: var(--info-700);
+    text-shadow: 0 0 1em var(--info-900);
+  }
+
+  @media (hover: hover) {
+    .quiz fieldset:not(:disabled) label:not(:has(input:disabled)):hover {
+      box-shadow: 0 0 0 2px var(--neutral-400);
+    }
   }
 }

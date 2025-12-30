@@ -52,7 +52,6 @@
 .cover .preview video {
   aspect-ratio: 16/9;
   border-radius: 1.6rem;
-  box-shadow: 0 0 0 1px var(--neutral-200);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-200), var(--neutral-800));
   display: block;
   margin-block: 3.2rem 1.2rem;
@@ -91,7 +90,6 @@
 
 .cover .preview .duration {
   align-items: baseline;
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
   display: flex;
   text-align: end;
@@ -133,5 +131,16 @@
   .cover .cta {
     justify-content: end;
     margin: 0;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .cover .preview video {
+    box-shadow: 0 0 0 1px var(--neutral-200);
+  }
+
+  .cover .preview .duration {
+    color: var(--neutral-700);
   }
 }

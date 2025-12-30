@@ -9,7 +9,6 @@ code:not(.codehilite *),
 kbd {
   background-color: #0d1117;
   border-radius: 0.4rem;
-  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   color: #E6EDF3;
   display: inline-block;
@@ -31,7 +30,6 @@ kbd {
 
 .codehilite {
   border-radius: .8rem;
-  box-shadow: 0 0 0 1px var(--neutral-300);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
 }
 
@@ -138,3 +136,15 @@ span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 
 .codehilite .vi { color: #79C0FF } /* Name.Variable.Instance */
 .codehilite .vm { color: #79C0FF } /* Name.Variable.Magic */
 .codehilite .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  code:not(.codehilite *),
+  kbd {
+    box-shadow: 0 0 0 1px var(--neutral-300);
+  }
+
+  .codehilite {
+    box-shadow: 0 0 0 1px var(--neutral-300);
+  }
+}

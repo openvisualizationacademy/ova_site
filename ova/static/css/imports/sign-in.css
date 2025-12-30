@@ -23,12 +23,9 @@
 
 /* Borrow primary button style */
 [data-page="sign-in"] form button {
-  background-color: var(--primary-600);
   background-color: light-dark(var(--primary-600), var(--primary-600));
-  color: var(--neutral-100);
   color: light-dark(var(--neutral-100), var(--neutral-100));
   padding: 1.2rem 1.6rem;
-  text-shadow: 0 0 1em var(--primary-900);
   text-shadow: 0 0 1em light-dark(var(--primary-900), var(--primary-900));
 }
 
@@ -70,7 +67,21 @@
 
 @media (hover: hover) {  
   [data-page="sign-in"] form button:hover {
-    background-color: var(--primary-700);
     background-color: light-dark(var(--primary-700), var(--primary-700));
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  [data-page="sign-in"] form button {
+    background-color: var(--primary-600);
+    color: var(--neutral-100);
+    text-shadow: 0 0 1em var(--primary-900);
+  }
+
+  @media (hover: hover) {  
+    [data-page="sign-in"] form button:hover {
+      background-color: var(--primary-700);
+    }
   }
 }

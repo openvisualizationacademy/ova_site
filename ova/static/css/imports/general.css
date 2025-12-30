@@ -9,9 +9,7 @@ html {
 }
 
 body {
-  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
-  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-200));
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -19,8 +17,6 @@ body {
   line-height: 1.333;
   overflow-x: clip;
   text-underline-offset: .1em;
-
-  /* line-height: 2.4rem; */
 }
 
 video::cue {
@@ -35,8 +31,6 @@ header {
 main {
   position: relative;
   z-index: 1;
-
-  /* overflow-x: hidden; */
 }
 
 a {
@@ -86,5 +80,13 @@ section h2 {
 @media (min-width: 375px) {
   html {
     font-size: calc((10 / 16) * 100%);
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  body {
+    background: var(--neutral-100);
+    color: var(--neutral-800);
   }
 }

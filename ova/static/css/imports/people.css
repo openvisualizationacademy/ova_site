@@ -37,14 +37,12 @@
 
 .person .tagline {
   text-wrap: balance;
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
 }
 
 .person .media {
   align-self: center;
   aspect-ratio: 1;
-  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 0.4rem;
   display: block;
@@ -58,13 +56,11 @@
 }
 
 .person .media[src] {
-  box-shadow: 0 0 0 1px var(--neutral-200);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-200), var(--neutral-800));
   opacity: 1;
 }
 
 .person[data-former="true"] strong::after {
-  background: var(--neutral-200);
   background: light-dark(var(--neutral-200), var(--neutral-800));
   border-radius: 0.4rem;
   content: " Former";
@@ -111,7 +107,6 @@ body:has(.people dialog[open]) {
 }
 
 .people dialog::backdrop {
-  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
   opacity: .75;
 }
@@ -174,7 +169,6 @@ body:has(.people dialog[open]) {
 
 .people dialog .person .bio {
   padding-block-start: .8rem;
-  color: var(--neutral-700);
   color: light-dark(var(--neutral-700), var(--neutral-300));
 
   /* margin-block-end: 0; */
@@ -224,7 +218,6 @@ body:has(.people dialog[open]) {
   }
 
   .person:is(a,button,[role=button]):hover {
-    border: 1px solid var(--neutral-900);
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
   
@@ -293,5 +286,37 @@ body:has(.people dialog[open]) {
     position: absolute;
     top: 0;
     translate: 0 -50%;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .person .tagline {
+    color: var(--neutral-700);
+  }
+
+  .person .media {
+    background: var(--neutral-200);
+  }
+
+  .person .media[src] {
+    box-shadow: 0 0 0 1px var(--neutral-200);
+  }
+  .person[data-former="true"] strong::after {
+    background: var(--neutral-200);
+  }
+
+  .people dialog::backdrop {
+    background: var(--neutral-100);
+  }
+
+  .people dialog .person .bio {
+    color: var(--neutral-700);
+  }
+
+  @media (hover: hover) {
+    .person:is(a,button,[role=button]):hover {
+      border: 1px solid var(--neutral-900);
+    }
   }
 }

@@ -16,7 +16,6 @@ label.switch input:focus {
 
 label.switch::before {
   --knob-color: var(--neutral-100);
-  background-color: var(--neutral-400);
   background-color: light-dark(var(--neutral-400), var(--neutral-600));
   background-image: radial-gradient(circle at 50%, var(--knob-color) 0%, var(--knob-color) 40%, transparent 40%, transparent 100%);
   background-position-x: 0%;
@@ -31,7 +30,17 @@ label.switch::before {
 }
 
 label.switch:has(input:checked)::before {
-  background-color: var(--success-600);
   background-color: light-dark(var(--success-600), var(--success-600));
   background-position-x: 100%;
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  label.switch::before {
+    background-color: var(--neutral-400);
+  }
+
+  label.switch:has(input:checked)::before {
+    background-color: var(--success-600);
+  }
 }

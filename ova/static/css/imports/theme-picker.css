@@ -9,10 +9,8 @@
 }
 
 .theme-picker {
-  background: var(--neutral-100);
   background: light-dark(var(--neutral-100), var(--neutral-900));
   border-radius: 999px;
-  box-shadow: inset 0 0 0 1px var(--neutral-300);
   box-shadow: inset 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   color: inherit;
   display: none;
@@ -37,7 +35,6 @@
   align-items: center;
   background: transparent;
   border-radius: 999px;
-  color: var(--neutral-300);
   color: light-dark(var(--neutral-300), var(--neutral-700));
   cursor: pointer;
   display: flex;
@@ -56,13 +53,11 @@
 }
 
 .theme-picker label:has(input:checked) {
-  color: var(--neutral-800);
   color: light-dark(var(--neutral-800), var(--neutral-100));
 }
 
 @media (hover: hover) {
   .theme-picker label:hover {
-    color: var(--neutral-800);
     color: light-dark(var(--neutral-800), var(--neutral-100));
   }
 }
@@ -73,8 +68,23 @@
   }
 }
 
-/* Hide theme picker if browser does not support light-dark rules */
+/* Force light theme if browser does not support light-dark rules */
 @supports not (color: light-dark(black, white)) {
+  .theme-picker label {
+    color: var(--neutral-300);
+  }
+
+  .theme-picker label:has(input:checked) {
+    color: var(--neutral-800);
+  }
+
+  @media (hover: hover) {
+    .theme-picker label:hover {
+      color: var(--neutral-800);
+    }
+  }
+
+  /* Hide theme picker if browser does not support light-dark rules */
   .theme-picker {
     display: none;
   }
