@@ -9,8 +9,13 @@ export default class Video {
   }
   
   setupPlayer() {
-    // TODO: Considering adding a retry if the Vimeo API is not yet available
-    if (!Vimeo) return;
+    // Retry in 1s if the Vimeo API is not yet available
+    if (!Vimeo) {
+      setTimeout(() => {
+        this.setupPlayer();
+      }, 1000 );
+      return;
+    };
     
     this.player = new Vimeo.Player(this.iframe);
     
