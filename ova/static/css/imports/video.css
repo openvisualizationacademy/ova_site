@@ -1,9 +1,9 @@
-.vimeo-embed {
+.video-embed {
   padding: 56.25% 0 0 0;
   position: relative;
 }
 
-.vimeo-embed iframe {
+.video-embed iframe {
   background: #000000;
   border: 0;
   border-radius: .4rem;
@@ -15,9 +15,54 @@
   width: 100%;
 }
 
+.video-progress {
+  align-items: end;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-block: 3.2rem;
+  place-self: end;
+  width: fit-content;
+}
+
+.video-progress-parts {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+}
+
+.video-progress-part {
+  border-inline-end: 1px solid transparent;
+  border-inline-start: 1px solid transparent;
+  height: .6rem;
+  width: 1.6rem;
+}
+
+.video-progress-part:first-child {
+  border-radius: .8rem 0 0 .8rem;
+}
+
+.video-progress-part:last-child {
+  border-radius: 0 .8rem .8rem 0;
+}
+
+.video-progress-part[data-watched="false"] {
+  background: light-dark(var(--neutral-400), var(--neutral-600));
+  height: .4rem;
+  margin-block: .1rem;
+}
+
+.video-progress-part[data-watched="true"] {
+  background: light-dark(var(--success-600), var(--success-500));
+}
+
+.video-progress-percentage {
+  margin: 0;
+}
+
 /* Force light theme if browser does not support light-dark rules */
 @supports not (color: light-dark(black, white)) {
-  .vimeo-embed iframe {
+  .video-embed iframe {
     box-shadow: 0 0 0 1px var(--neutral-300);
   }
 }

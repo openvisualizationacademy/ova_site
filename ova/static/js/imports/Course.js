@@ -14,7 +14,7 @@ export default class Course {
   
   setup() {
     this.progress = new Progress(this);
-    this.video = new Video(this, ".vimeo-embed iframe");
+    this.video = new Video(this, ".video-embed iframe", ".video-progress");
     this.quiz = new Quiz(this, ".quiz");
   }
 
