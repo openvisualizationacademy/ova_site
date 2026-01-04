@@ -1,7 +1,7 @@
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST, require_http_methods
+from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 import json
 
@@ -12,9 +12,6 @@ from .models import (
     SegmentProgress,
     ChapterProgress,
     CourseProgress,
-    Quiz,
-    Choice,
-    QuizProgress,
 )
 
 
@@ -136,58 +133,4 @@ def update_progress(request):
             "chapter_completed": chapter_completed if authenticated else False,
             "course_completed": course_completed if authenticated else False,
         }
-    )
-
-
-@require_http_methods(["GET", "POST"])
-def quiz_view(request, quiz_id):
-    quiz = get_object_or_404(Quiz, id=quiz_id)
-
-    submitted = False
-    answers = {}
-    correct_count = 0
-    total = quiz.questions.count()
-
-    if request.method == "POST":
-        submitted = True
-
-        for question in quiz.questions.all():
-            qid = str(question.id)
-            choice_id = request.POST.get(qid)
-
-            if not choice_id:
-                continue
-
-            answers[question.id] = choice_id
-
-            choice = Choice.objects.filter(id=choice_id, question=question).first()
-
-            if choice and choice.is_correct:
-                correct_count += 1
-
-        score = round((correct_count / total) * 100) if total else 0
-
-        # ✅ Mark quiz completed for authenticated users only
-        if request.user.is_authenticated:
-            QuizProgress.objects.update_or_create(
-                user=request.user,
-                quiz=quiz,
-                defaults={
-                    "completed": True,
-                    "score": score,
-                },
-            )
-
-    else:
-        score = 0
-
-    return render(
-        request,
-        "quiz.html",
-        {
-            "quiz": quiz,
-            "submitted": submitted,
-            "answers": answers,
-            "score": score,
-        },
     )

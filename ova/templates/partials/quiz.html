@@ -12,66 +12,56 @@
       <legend>
         <span class="count kicker">
           <span aria-hidden="true">Q{{ forloop.counter }}</span>
-          <span class="screen-reader">Question {{ forloop.counter }}</span>
+          <span class="screen-reader">
+            Question {{ forloop.counter }}
+          </span>
         </span>
         {{ question }}
       </legend>
-
-      {# We guard before evaluating answers, so template never crashes #}
       {% if submitted and answers %}
-          {% with submitted_choice=answers|get_item:question.id %}
+        {% with qid=question.id|stringformat:"s" %}
+          {% with submitted_choice=answers|get_item:qid %}
+            {% with is_correct=answer_results|get_item:qid %}
 
               {% for choice in question.choices.all %}
-                  <label class="choice">
-                    <input
+                <label
+                    class="choice{% if submitted_choice == choice.id %} {% if is_correct %}correct{% else %}incorrect{% endif %}{% endif %}">
+                  <input
                       type="radio"
                       name="{{ question.id }}"
                       value="{{ choice.id }}"
                       class="screen-reader"
-                      {% if forloop.first %}required{% endif %}
 
-                      {# If this choice was selected, mark checked #}
-                      {% if submitted_choice == choice.id|stringformat:"s" %}
+                      {% if submitted_choice == choice.id %}
                         checked
-
-                        {# Add semantic correctness for CSS highlighting #}
-                        {% if choice.is_correct %}
-                          aria-describedby="correct"
+                        {% if is_correct %}
+                      aria-describedby="correct"
+                      data-locked="true"
                         {% else %}
-                          aria-describedby="incorrect"
+                      aria-describedby="incorrect"
                         {% endif %}
                       {% endif %}
-                    >
-                    <span>{{ choice }}</span>
-                  </label>
+                  >
+                  <span>{{ choice }}</span>
+                </label>
               {% endfor %}
 
+            {% endwith %}
           {% endwith %}
-
+        {% endwith %}
       {% else %}
-          {# GET request or missing answers → render normal choices #}
-          {% for choice in question.choices.all %}
-              <label class="choice">
-                <input
-                  type="radio"
-                  name="{{ question.id }}"
-                  value="{{ choice.id }}"
-                  class="screen-reader"
-                  {% if forloop.first %}required{% endif %}
-
-                  {% comment %} TEMP: Display correct alternatives so instructors can review answers {% endcomment %}
-                  {% if choice.is_correct %}
-                    aria-describedby="correct"
-                  {% endif %}
-                >
-                <span>{{ choice }}</span>
-
-                {% comment %} TEMP: Display correct checkmarks so instructors can review answers {% endcomment %}
-                {% if choice.is_correct %}
-                  <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
-                {% endif %}
-              </label>
-          {% endfor %}
+        {% for choice in question.choices.all %}
+          <label class="choice">
+            <input
+                type="radio"
+                name="{{ question.id }}"
+                value="{{ choice.id }}"
+                class="screen-reader"
+                {% if forloop.first %}required{% endif %}
+            >
+            <span>{{ choice }}</span>
+          </label>
+        {% endfor %}
       {% endif %}
 
     </fieldset>
@@ -80,6 +70,8 @@
   <button class="button primary">Submit answers</button>
 
   {% if submitted %}
-    <p class="quiz-score">Score: {{ score }}%</p>
+    <p class="quiz-score">
+      Score: {{ score }}%
+    </p>
   {% endif %}
 </form>

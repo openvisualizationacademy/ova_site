@@ -443,7 +443,7 @@ class SegmentPage(QuizMixin, Page):
 
     def serve(self, request):
         quiz = self.quizzes.first()  # assume max one quiz per segment
-
+        answer_results = {}
         submitted = False
         answers = {}
         correct_count = 0
@@ -454,16 +454,23 @@ class SegmentPage(QuizMixin, Page):
 
             for question in quiz.questions.all():
                 qid = str(question.id)
-                choice_id = request.POST.get(qid)
+                raw_choice_id = request.POST.get(qid)
 
-                if not choice_id:
+                if not raw_choice_id:
                     continue
 
-                answers[question.id] = choice_id
+                choice_id = int(raw_choice_id)
+                answers[qid] = choice_id
 
-                choice = Choice.objects.filter(id=choice_id, question=question).first()
+                choice = Choice.objects.filter(
+                    id=choice_id,
+                    question=question,
+                ).first()
 
-                if choice and choice.is_correct:
+                is_correct = bool(choice and choice.is_correct)
+                answer_results[qid] = is_correct
+
+                if is_correct:
                     correct_count += 1
 
             score = round((correct_count / total) * 100) if total else 0
@@ -488,6 +495,7 @@ class SegmentPage(QuizMixin, Page):
                 "submitted": submitted,
                 "answers": answers,
                 "score": score,
+                "answer_results": answer_results,
             }
         )
 
@@ -684,7 +692,7 @@ class Quiz(ClusterableModel):
     ]
 
     def __str__(self):
-        return f"Quiz for {self.chapter or self.segment}"
+        return f"Quiz for {self.segment}"
 
 
 class Question(ClusterableModel):
