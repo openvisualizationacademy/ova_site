@@ -88,7 +88,7 @@ dependencies = [
     "webencodings==0.5.1",
     "django-allauth==65.13.1",
     "django-extensions==4.1",
-    "cbor2==5.7.1",
+    "cbor2==5.8.0",
     "msgpack==1.1.2",
     "py-ubjson==0.16.1",
     "ujson==5.11.0",
