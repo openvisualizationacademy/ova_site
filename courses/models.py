@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.utils.text import slugify
+from django.utils import timezone
+from django.shortcuts import render
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 from wagtail.models import Page, Orderable
@@ -439,10 +441,57 @@ class SegmentPage(QuizMixin, Page):
         # Get only first quiz
         return self.quizzes.first()
 
-    def serve(self, request, *args, **kwargs):
-        if request.method == "POST":
-            return self.handle_quiz_submission(request)
-        return super().serve(request, *args, **kwargs)
+    def serve(self, request):
+        quiz = self.quizzes.first()  # assume max one quiz per segment
+
+        submitted = False
+        answers = {}
+        correct_count = 0
+        total = quiz.questions.count() if quiz else 0
+
+        if request.method == "POST" and quiz:
+            submitted = True
+
+            for question in quiz.questions.all():
+                qid = str(question.id)
+                choice_id = request.POST.get(qid)
+
+                if not choice_id:
+                    continue
+
+                answers[question.id] = choice_id
+
+                choice = Choice.objects.filter(id=choice_id, question=question).first()
+
+                if choice and choice.is_correct:
+                    correct_count += 1
+
+            score = round((correct_count / total) * 100) if total else 0
+
+            # Mark quiz completed if authenticated
+            if request.user.is_authenticated:
+                QuizProgress.objects.update_or_create(
+                    user=request.user,
+                    quiz=quiz,
+                    defaults={
+                        "completed": True,
+                        "score": score,
+                    },
+                )
+        else:
+            score = 0
+
+        context = self.get_context(request)
+        context.update(
+            {
+                "quiz": quiz,
+                "submitted": submitted,
+                "answers": answers,
+                "score": score,
+            }
+        )
+
+        return render(request, self.get_template(request), context)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
