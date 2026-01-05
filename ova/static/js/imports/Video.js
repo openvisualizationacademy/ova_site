@@ -11,10 +11,16 @@ export default class Video {
     this.partsCount = 10;
 
     // Get element for displaying course progress
-    this.videoProgress = this.course.element.querySelector(".video-progress");
+    this.videoProgressElement = this.course.element.querySelector(".video-progress");
 
     // Keeps track of last timeupdate call for throttle feature
     this.lastSeconds = 0;
+
+    // Consider something as watched if the below amount of secodns had passed since lastSeconds
+    this.delay = 3;
+
+    // This will be updated with actual video duration
+    this.duration = 0;
 
     this.setup();
   }
@@ -39,21 +45,12 @@ export default class Video {
     // Keep track of which parts of the video were already watched
     this.parts = Array.from({ length: this.partsCount }, () => false);
 
-    // Show video progress tracker even before video plays
-    this.showProgress();
-  }
-
-  showProgress() {
-    if (!this.videoProgress) return;
-
-    // TODO: Move markup generation to setupProgress() and only update nodes here (instead of replacing them)
-
-    // Create HTML element with of parts (and set some as watched)
+    // Create HTML element with all parts (and set some as watched)
     const parts = this.course.app.utils.html(`
       <div class="video-progress-parts">
         ${
           this.parts.map((watched, i) => 
-            `<div class="video-progress-part" data-watched="${ watched }" data-percent="${ (i + 1) / this.parts.length }"></div>`
+            `<div class="video-progress-part" data-watched="${ watched }" data-percent="${ i / this.parts.length }"></div>`
           ).join("")
         }
       </div>`);
@@ -62,12 +59,57 @@ export default class Video {
     const percentage = this.course.app.utils.html(`
       <p class="video-progress-percentage">
         <small>
-          Video ${ this.percentWatched }% watched
+          Video <span>${ this.percentWatched }%</span> watched
         </small>
       </p>`);
 
-    // Update user interface
-    this.videoProgress.replaceChildren(parts, percentage);
+    // Add elements to user interface
+    this.videoProgressElement.append(parts, percentage);
+
+    // Select elements to be easily updated in showProgress
+    this.videoProgressPartElements = parts.querySelectorAll(".video-progress-part");
+    this.videoProgressPercentElement = percentage.querySelector("span");
+
+    // Allow clicking in a part to skip the video to that moment
+    this.videoProgressPartElements.forEach( part => {
+      part.addEventListener("click", async () => {
+    
+        // If video duration was not already obtained
+        if (!this.duration) {
+          // Get video duration in seconds and cache it
+          this.duration = await this.player.getDuration();
+        }
+          
+        // Get clicked percentage as decimal
+        const seconds = parseFloat(part.dataset.percent) * this.duration;
+          
+        // Sets a time (and checks the precise time Vimeo seeked to)
+        const seekedSeconds = await this.player.setCurrentTime(seconds);
+
+        // Update tracked time so part has a delay before being set as watched
+        this.lastSeconds = seekedSeconds;
+
+        // Plays the video (also returns a promise)
+        this.player.play();
+
+        // TODO: Add visual feedback as player takes a while to actually play after
+
+        // TODO: Handle errors
+
+      });
+    });
+  }
+
+  showProgress() {
+    if (!this.videoProgressElement) return;
+
+    // Only update part nodes here (instead of recreating them)
+    this.parts.forEach( (watched, i) => {
+      this.videoProgressPartElements[i].dataset.watched = watched;
+    });
+
+    // Update percentage (10%, 20%, 30%, etc)
+    this.videoProgressPercentElement.textContent = `${ this.percentWatched }%`;
   }
 
   setupPlayer() {
@@ -90,9 +132,15 @@ export default class Video {
     });
 
     // When video gets paused
-    this.player.on("pause", (data) => {
+    this.player.on("pause", () => {
       this.isPlaying = false;
     });
+
+    // When user seeks/scrubs/skips to a certain moment
+    this.player.on("seeked", (data) => {
+      // Update this to add delay in watched check
+      this.lastSeconds = data.seconds;
+    }); 
 
     // When video is progressing or user is scrubbing
     this.player.on("timeupdate", (data) => {
@@ -104,7 +152,7 @@ export default class Video {
       const { seconds } = data;
 
       // Throttle to run roughly once every 3 seconds
-      if (Math.abs(seconds - this.lastSeconds) < 3) return;
+      if (Math.abs(seconds - this.lastSeconds) < this.delay) return;
 
       // Store seconds for checking in next timeupdate call
       this.lastSeconds = seconds;
@@ -139,10 +187,11 @@ export default class Video {
       if (percent === 100) {
         // Send API request to update completion status 
         this.course.progress.updateSegment(segmentId, percent);
+
+        // TODO: Optimistically display green checkmark on segment title and on chapter list
       }
 
     });
-
   }
   
   setup() {    
