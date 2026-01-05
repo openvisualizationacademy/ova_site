@@ -12,6 +12,7 @@ ova/settings/*.env
 
 # temp files
 temp/
+logs/
 
 # Static/media collection outputs
 /staticfiles/
