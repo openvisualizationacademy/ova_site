@@ -3,4 +3,6 @@
 </div>
 <script src="https://player.vimeo.com/api/player.js"></script>
 
-<div class="video-progress"></div>
+{% if user.is_authenticated %}
+  <div class="video-progress"></div>
+{% endif %}
