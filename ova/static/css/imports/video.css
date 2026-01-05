@@ -21,12 +21,44 @@
   flex-direction: column;
   gap: .4rem;
   margin-block: 1.6rem;
+  position: relative;
   width: 100%;
 }
 
 .video-progress-parts {
   align-items: center;
   display: flex;
+}
+
+/* Processing spinner */
+.video-progress-parts::before {
+  animation: spin linear 1s infinite;
+  animation-play-state: paused;
+  border: .2rem solid light-dark(var(--neutral-400), var(--neutral-600));
+  border-block-end-color: transparent;
+  border-radius: 50%;
+  content: "";
+  display: none;
+  height: 1.6rem;
+  margin-inline: .8rem;
+  width: 1.6rem;
+}
+
+.video-progress.processing .video-progress-parts::before {
+  animation-play-state: running;
+  display: block;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-progress.processing .video-progress-parts::before {
+    display: none;
+  }
 }
 
 .video-progress-part {
@@ -41,7 +73,7 @@
 .video-progress-part::before {
   content: "";
   display: block;
-  height: .6rem;
+  height: .8rem;
   width: 1.6rem;
 }
 
@@ -55,7 +87,7 @@
 
 .video-progress-part[data-watched="false"]::before {
   background: light-dark(var(--neutral-400), var(--neutral-600));
-  height: .4rem;
+  height: .5rem;
 }
 
 .video-progress-part[data-watched="true"]::before {
