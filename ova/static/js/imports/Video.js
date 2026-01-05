@@ -73,29 +73,48 @@ export default class Video {
     // Allow clicking in a part to skip the video to that moment
     this.videoProgressPartElements.forEach( part => {
       part.addEventListener("click", async () => {
+        
+        // Add “loading” class to parent (as to add a spinner in CSS)
+        this.videoProgressElement.classList.add("processing");
+
+        // Pause video
+        await this.player.pause();
     
         // If video duration was not already obtained
         if (!this.duration) {
+
           // Get video duration in seconds and cache it
           this.duration = await this.player.getDuration();
         }
           
         // Get clicked percentage as decimal
-        const seconds = parseFloat(part.dataset.percent) * this.duration;
+        const seconds = Math.floor(parseFloat(part.dataset.percent) * this.duration);
           
-        // Sets a time (and checks the precise time Vimeo seeked to)
-        const seekedSeconds = await this.player.setCurrentTime(seconds);
+        try {
+
+          // Sets a time (and checks the precise time Vimeo seeked to)
+          const seekedSeconds = await this.player.setCurrentTime(seconds);
+        } catch (error) {
+
+          // TODO: Handle errors
+          console.error(error.name, error);
+        }
+
+        console.log(seconds, seekedSeconds);
 
         // Update tracked time so part has a delay before being set as watched
         this.lastSeconds = seekedSeconds;
+        
+        // Ask Vimeo to play the video
+        this.player.play().then(() => {
+          
+          // Remove visual feedback after video actually starts playing
+          this.videoProgressElement.classList.remove("processing");
+        }).catch((error) => {
 
-        // Plays the video (also returns a promise)
-        this.player.play();
-
-        // TODO: Add visual feedback as player takes a while to actually play after
-
-        // TODO: Handle errors
-
+          // TODO: Handle errors
+          console.error(error.name, error);
+        });
       });
     });
   }
@@ -192,10 +211,11 @@ export default class Video {
       }
 
     });
+
+    this.setupProgress();
   }
   
   setup() {    
-    this.setupProgress();
     this.setupPlayer();
   }
 }
