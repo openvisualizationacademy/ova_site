@@ -1,10 +1,5 @@
 {% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
 
-<!-- TODO: Consider using scoped variable instead of global one -->
-<script>
-  const segmentId = {{ segment.id }};
-</script>
-
 <section class="course-page grid">
 
   <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
@@ -59,8 +54,17 @@
 
   {% if user.is_authenticated %}
 
-    <!-- TODO: Calculate and display course progress -->
+    <!-- Calculate and display course progress -->
     {% with percent=course_percent_complete|default:0 %}
+
+      <!-- TODO: Consider using scoped variables instead of global ones -->
+      <script>
+        const segmentId = {{ segment.id }};
+
+        {% comment %} TODO: Get exact stored percentage of video watched (not boolean) {% endcomment %}
+        const segmentPercentWatched = 0; // {{ segment_progress }};
+      </script>
+
       <div class="tracker">
         <div class="progress {% if percent == 100 %}completed{% endif %}">
           <label>

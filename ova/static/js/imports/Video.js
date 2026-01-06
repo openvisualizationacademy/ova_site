@@ -16,6 +16,9 @@ export default class Video {
     // Keeps track of last timeupdate call for throttle feature
     this.lastSeconds = 0;
 
+    // Keeps track of last stored watched percent value, to throttle API call
+    this.lastPercentWatched = 0;
+
     // Consider something as watched if the below amount of secodns had passed since lastSeconds
     this.delay = 3;
 
@@ -41,12 +44,28 @@ export default class Video {
   }
   
   setupProgress() {
-    // TODO: Check if parts of current video already exists in localStorage before creating empty array
-
-    // TODO: Check if percent of completion in DB is > 0 before creating empty array
 
     // Keep track of which parts of the video were already watched
     this.parts = Array.from({ length: this.partsCount }, () => false);
+
+    // TODO: Check if parts of current video already exists in localStorage to update parts array
+
+    // Check if percent of completion (provided from DB as global variable) is > 0
+    if (segmentPercentWatched > 0) {
+
+      // Get number of watched parts from percentage (e.g., 24% returns 2, in case of 10 parts);
+      const watchedParts = Math.floor(segmentPercentWatched / 100 * this.partsCount);
+      
+      // Update first parts as watched (true) to match that count
+      for (let i = 0; i < watchedParts; i++) {
+        this.parts[i] = true;
+      }
+
+      // Update percent watched to match current (rounded) calculation and prevent API call on page load
+      this.lastPercentWatched = this.percentWatched;
+
+      // TODO: Update exact parts (e.g., 3rd and 4th parts instead of first two) if user skipped some
+    }
 
     // Create HTML element with all parts (and set some as watched)
     const parts = this.course.app.utils.html(`
@@ -192,7 +211,7 @@ export default class Video {
       if (!this.duration) {
 
         // Get video duration in seconds and cache it
-        this.duration = data.duration
+        this.duration = data.duration;
       }
 
       // Get current position of video (in seconds)
@@ -230,15 +249,16 @@ export default class Video {
       // Ensure segmentId is provided
       if (segmentId === undefined) return;
 
-      // TODO: Add refined logic for determining if user watched video
-      const percent = this.percentWatched;
+      // Check if percent watched changed before calling the API (so we don’t overwhelm it it every timeupdate)
+      if (this.lastPercentWatched !== this.percentWatched) {
 
-      // TODO: Consider sending updates with other percentages too
-      if (percent === 100) {
-        // Send API request to update completion status 
-        this.course.progress.updateSegment(segmentId, percent);
+        // Send API request to update completion status in DB
+        this.course.progress.updateSegment(segmentId, this.percentWatched);
 
         // TODO: Optimistically display green checkmark on segment title and on chapter list
+
+        // Update last time API was called to prevent calls soon after
+        this.lastPercentWatched = this.percentWatched;
       }
 
     });
