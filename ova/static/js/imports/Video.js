@@ -22,6 +22,9 @@ export default class Video {
     // This will be updated with actual video duration
     this.duration = 0;
 
+    // NOTE: 100ms offset is used at start because Vimeo refuses to play video when percent is 0
+    this.offsetStart = 0.1;
+
     this.setup();
   }
 
@@ -72,51 +75,67 @@ export default class Video {
 
     // Allow clicking in a part to skip the video to that moment
     this.videoProgressPartElements.forEach( part => {
-      part.addEventListener("click", async () => {
-        
-        // Add “loading” class to parent (as to add a spinner in CSS)
-        this.videoProgressElement.classList.add("processing");
-
-        // Pause video
-        await this.player.pause();
-    
-        // If video duration was not already obtained
-        if (!this.duration) {
-
-          // Get video duration in seconds and cache it
-          this.duration = await this.player.getDuration();
-        }
-          
-        // Get clicked percentage as decimal
-        const seconds = Math.floor(parseFloat(part.dataset.percent) * this.duration);
-          
-        try {
-
-          // Sets a time (and checks the precise time Vimeo seeked to)
-          const seekedSeconds = await this.player.setCurrentTime(seconds);
-        } catch (error) {
-
-          // TODO: Handle errors
-          console.error(error.name, error);
-        }
-
-        console.log(seconds, seekedSeconds);
-
-        // Update tracked time so part has a delay before being set as watched
-        this.lastSeconds = seekedSeconds;
-        
-        // Ask Vimeo to play the video
-        this.player.play().then(() => {
-          
-          // Remove visual feedback after video actually starts playing
-          this.videoProgressElement.classList.remove("processing");
-        }).catch((error) => {
-
-          // TODO: Handle errors
-          console.error(error.name, error);
-        });
+      part.addEventListener("click", () => {
+        this.seekToPart(part);
       });
     });
+  }
+
+  async seekToPart(part) {
+    // Ensure part parameter exists
+    if (!part) return;
+
+    // If video duration was not already obtained
+    if (!this.duration) {
+
+      // Get video duration in seconds and cache it
+      this.duration = await this.player.getDuration();
+    }
+          
+    // Get clicked percentage as decimal
+    let seconds = Math.floor(parseFloat(part.dataset.percent) * this.duration);
+
+    // NOTE: 100ms offset is used at start because Vimeo refuses to play video when percent is 0
+    if (seconds === 0) seconds = this.offsetStart;
+
+    this.seekToSeconds(seconds);
+  }
+
+  async seekToSeconds(seconds) {
+
+    // Add “loading” class to parent (as to add a spinner in CSS)
+    this.videoProgressElement.classList.add("processing");
+
+    // Pause video
+    await this.player.pause();
+  
+    try {
+
+      // Sets a time (and checks the precise time Vimeo seeked to)
+      const seekedSeconds = await this.player.setCurrentTime(seconds);
+
+      // Update tracked time so part has a delay before being set as watched
+      this.lastSeconds = seekedSeconds;
+
+    } catch (error) {
+
+      // TODO: Handle errors
+      console.error(error.name, error);
+    }
+    
+    try {
+      
+      // Ask Vimeo to play the video
+      await this.player.play();
+
+      // Remove visual feedback after video actually starts playing
+      this.videoProgressElement.classList.remove("processing");
+
+    } catch (error) {
+      
+      // TODO: Handle errors
+      console.error(error.name, error);
+    }
   }
 
   showProgress() {
