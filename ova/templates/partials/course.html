@@ -59,10 +59,12 @@
 
       <!-- TODO: Consider using scoped variables instead of global ones -->
       <script>
-        const segmentId = {{ segment.id }};
 
-        {% comment %} TODO: Get exact stored percentage of video watched (not boolean) {% endcomment %}
-        const segmentPercentWatched = 0; // {{ segment_progress }};
+        /* Percent of segment complete (0-100) */
+        const segmentId = {{ segment.id }};
+        
+        /* Percent of segment complete (0-100) */
+        const segmentPercentWatched = {{ segment_progress|default:0 }};
       </script>
 
       <div class="tracker">
@@ -169,6 +171,7 @@
 
       {% if segment.content or chapter.content or quiz %}
         <section class="content-written">
+          {% comment %} TODO: Consider removing this heading so we can use <h3> inside .content {% endcomment %}
           <h3 class="screen-reader">Content</h3>
 
           {% if segment.content %}

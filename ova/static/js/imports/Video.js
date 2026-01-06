@@ -42,13 +42,60 @@ export default class Video {
     // Get percentage as integer from 0 to 100;
     return Math.round(percent * 100);
   }
-  
-  setupProgress() {
 
-    // Keep track of which parts of the video were already watched
+  get partsWatchedKey() {
+    // Ensure segment id exists as global variable
+    if (!segmentId) return;
+
+    return `partsWatched${ segmentId }`;
+  }
+
+  get storedPartsWatched() {
+
+    // Get stored array as string
+    const string = localStorage.getItem(this.partsWatchedKey);
+
+    // Should be array of booleans or null
+    return JSON.parse(string);
+  }
+
+  storePartsWatched() {
+    // Ensure parts array is already created
+    if (!this.parts) return;
+
+    // Store using segment-specific key
+    localStorage.setItem(this.partsWatchedKey, JSON.stringify(this.parts));
+  }
+
+  setupParts() {
+    // Keep track of which parts of the video were already watched (initialize all to not watched)
     this.parts = Array.from({ length: this.partsCount }, () => false);
 
-    // TODO: Check if parts of current video already exists in localStorage to update parts array
+    // If DB says video already is fully watched
+    if (segmentPercentWatched === 100) {
+
+      // Update all parts to watched (true)
+      this.parts.map(watched => true);
+
+      // Update localStorage as a redundancy
+      this.storePartsWatched();
+
+      // Stop checking
+      return;
+    }
+
+    // If parts watched of current video already exists in localStorage
+    const stored = this.storedPartsWatched;
+    if (stored) {
+
+      // Use stored array exactly as is
+      this.parts = stored;
+      
+      // TODO: Consider checking if parts array matches stored percentage on DB
+
+      // Stop checking
+      return;
+    }
 
     // Check if percent of completion (provided from DB as global variable) is > 0
     if (segmentPercentWatched > 0) {
@@ -66,6 +113,11 @@ export default class Video {
 
       // TODO: Update exact parts (e.g., 3rd and 4th parts instead of first two) if user skipped some
     }
+  }
+  
+  setupProgress() {
+
+    this.setupParts();
 
     // Create HTML element with all parts (and set some as watched)
     const parts = this.course.app.utils.html(`
@@ -259,6 +311,9 @@ export default class Video {
 
         // Update last time API was called to prevent calls soon after
         this.lastPercentWatched = this.percentWatched;
+
+        // Update localStorage value for redundancy
+        this.storePartsWatched();
       }
 
     });
