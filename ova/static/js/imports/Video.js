@@ -51,9 +51,10 @@ export default class Video {
     // Create HTML element with all parts (and set some as watched)
     const parts = this.course.app.utils.html(`
       <div class="video-progress-parts">
+        <div class="playhead"></div>
         ${
           this.parts.map((watched, i) => 
-            `<div class="video-progress-part" data-watched="${ watched }" data-percent="${ i / this.parts.length }"></div>`
+            `<button class="video-progress-part reset" data-watched="${ watched }" data-percent="${ i / this.parts.length }"></button>`
           ).join("")
         }
       </div>`);
@@ -71,6 +72,7 @@ export default class Video {
 
     // Select elements to be easily updated in showProgress
     this.videoProgressPartElements = parts.querySelectorAll(".video-progress-part");
+    this.videoProgressPlayheadElement = parts.querySelector(".playhead");
     this.videoProgressPercentElement = percentage.querySelector("span");
 
     // Allow clicking in a part to skip the video to that moment
@@ -186,8 +188,18 @@ export default class Video {
       // Ensure video is actually playing
       if (!this.isPlaying) return;
 
+      // If video duration was not already obtained
+      if (!this.duration) {
+
+        // Get video duration in seconds and cache it
+        this.duration = data.duration
+      }
+
       // Get current position of video (in seconds)
       const { seconds } = data;
+
+      // Visually mark current position of video on parts bar
+      this.updatePlayhead(seconds);
 
       // Throttle to run roughly once every 3 seconds
       if (Math.abs(seconds - this.lastSeconds) < this.delay) return;
@@ -236,5 +248,10 @@ export default class Video {
   
   setup() {    
     this.setupPlayer();
+  }
+
+  updatePlayhead(seconds) {
+    const percent = `${ seconds / this.duration * 100 }%`;
+    this.videoProgressPlayheadElement.style.insetInlineStart = percent;
   }
 }

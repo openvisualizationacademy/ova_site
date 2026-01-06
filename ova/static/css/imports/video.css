@@ -15,6 +15,12 @@
   width: 100%;
 }
 
+.video-progress-wrapper {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
 .video-progress {
   align-items: end;
   display: flex;
@@ -22,12 +28,27 @@
   gap: .4rem;
   margin-block: 1.6rem;
   position: relative;
-  width: 100%;
+  width: fit-content;
 }
 
 .video-progress-parts {
   align-items: center;
   display: flex;
+  position: relative;
+}
+
+/* Arrow poiting down */
+.video-progress-parts .playhead {
+  background: light-dark(var(--neutral-900), var(--neutral-100));
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  display: block;
+  height: .6rem;
+  inset-block-start: .2rem;
+  inset-inline-start: 0;
+  position: absolute;
+  translate: -50% 0%;
+  width: 1.2rem;
+  z-index: 1;
 }
 
 /* Processing spinner */
@@ -40,7 +61,10 @@
   content: "";
   display: none;
   height: 1.6rem;
-  margin-inline: .8rem;
+  inset-block-start: 50%;
+  inset-inline-start: -1.6rem;
+  position: absolute;
+  translate: -100% -50%;
   width: 1.6rem;
 }
 
@@ -61,7 +85,7 @@
   }
 }
 
-.video-progress-part {
+button.video-progress-part {
   align-items: center;
   border-radius: .4rem;
   display: flex;
@@ -77,11 +101,11 @@
   width: 1.6rem;
 }
 
-.video-progress-part:first-child::before {
+.video-progress-part:first-of-type::before {
   border-radius: .8rem 0 0 .8rem;
 }
 
-.video-progress-part:last-child::before {
+.video-progress-part:last-of-type::before {
   border-radius: 0 .8rem .8rem 0;
 }
 

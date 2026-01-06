@@ -1,4 +1,5 @@
-.button {
+.button,
+button.reset {
   align-items: center;
   appearance: none;
   background: transparent;

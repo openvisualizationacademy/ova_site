@@ -4,5 +4,7 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 
 {% if user.is_authenticated %}
-  <div class="video-progress"></div>
+  <div class="video-progress-wrapper">
+    <div class="video-progress"></div>
+  </div>
 {% endif %}
