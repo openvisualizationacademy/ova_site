@@ -586,8 +586,8 @@ class SegmentPage(QuizMixin, Page):
                 .values_list("percent_watched", flat=True)
                 .first()
             )
-            if seg_prog:
-                context["segment_progress"] = True
+
+            context["segment_progress"] = seg_prog if seg_prog > 0 else None
 
             chapter = context.get("chapter")
             course = context.get("course")

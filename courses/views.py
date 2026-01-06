@@ -74,12 +74,6 @@ def update_progress(request):
     except (TypeError, ValueError):
         return JsonResponse({"error": "Invalid percent_watched"}, status=400)
 
-    # Clamp percent to 0–100
-    if percent < 0:
-        percent = 0
-    if percent > 100:
-        percent = 100
-
     user = request.user
     authenticated = user.is_authenticated
 
