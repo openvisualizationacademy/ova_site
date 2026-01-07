@@ -75,7 +75,7 @@ export default class Video {
     if (segmentPercentWatched === 100) {
 
       // Update all parts to watched (true)
-      this.parts.map(watched => true);
+      this.parts = this.parts.map(watched => true);
 
       // Update localStorage as a redundancy
       this.storePartsWatched();
