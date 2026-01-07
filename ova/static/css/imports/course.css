@@ -601,7 +601,7 @@ section.overview {
 }
 
 .overview details > div p {
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .overview details > div p:first-child {
