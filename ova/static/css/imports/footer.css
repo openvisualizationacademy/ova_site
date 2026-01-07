@@ -40,6 +40,10 @@ footer .contact {
   text-fill-color: transparent;
 }
 
+footer .contact .at {
+  margin-inline: 0.05em;
+}
+
 footer .button.quaternary {
   font-size: unset;
 }
