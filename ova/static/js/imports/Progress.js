@@ -2,7 +2,6 @@ export default class Progress {
   constructor(course) {
     this.course = course;
     this.endpoint = "/api/progress/update/";
-    // this.api = `https://ova-blue.azurewebsites.net${ this.endpoint }`;
     this.api = this.endpoint;
 
     this.setup();
