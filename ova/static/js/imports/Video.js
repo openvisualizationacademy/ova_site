@@ -353,20 +353,47 @@ export default class Video {
     // Update segment title checkmark
 
     // Get template element from page (holding the checkmark and a “Complete” for screen readers)
-    const template = document.querySelector("template.complete-checkmark");
+    const templateTitle = document.querySelector("template.complete-checkmark-title");
 
     // Ensure it exists
-    if (!template) return;
+    if (!templateTitle) return;
 
     // Clone its conents
-    const clone = document.importNode(template.content, true);
+    const cloneTitle = document.importNode(templateTitle.content, true);
 
     // Add it to the DOM (direcly after the template tag)
-    template.after(clone);
+    templateTitle.after(cloneTitle);
+
+    // TODO: Only update newly added icon (istead of checking all page icosn)
 
     // Update icons (to replace <svg> placeholder with actual icon)
     this.course.app.icons.update();
 
     // TODO: Update checkmark and class in chapter list
+    const templateList = document.querySelector("template.complete-checkmark-list");
+
+    // Ensure it exists
+    if (!templateList) return;
+
+    // Clone its conents
+    const cloneList = document.importNode(templateList.content, true);
+
+    // Get current chapter in list
+    const li = document.querySelector(".chapters li:has(> a.active)");
+
+    // Ensure <li> was found
+    if (!li) return;
+
+    // Add completed class (e.g., to change color of quiz badge)
+    li.classList.add("completed");
+
+    // Get current svg icon inside li
+    const svg = li.querySelector("svg[data-icon]");
+
+    // Add it to the DOM (replacing circle icon by checkmark one)
+    svg.replaceWith(cloneList);
+
+    // Update icons (to replace <svg> placeholder with actual icon)
+    this.course.app.icons.update();
   }
 }
