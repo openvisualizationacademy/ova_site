@@ -587,7 +587,7 @@ class SegmentPage(QuizMixin, Page):
                 .first()
             )
 
-            context["segment_progress"] = seg_prog if seg_prog > 0 else None
+            context["segment_progress"] = 0 if seg_prog is None else seg_prog
 
             chapter = context.get("chapter")
             course = context.get("course")
