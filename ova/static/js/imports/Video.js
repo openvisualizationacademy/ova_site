@@ -369,6 +369,9 @@ export default class Video {
     // Update icons (to replace <svg> placeholder with actual icon)
     this.course.app.icons.update();
 
+    // Add completed class (for consistency, doesn’t do anything for non-quiz segments)
+    templateTitle.closest(".content").classList.add("completed");
+
     // TODO: Update checkmark and class in chapter list
     const templateList = document.querySelector("template.complete-checkmark-list");
 
