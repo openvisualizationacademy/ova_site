@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import include, path
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -8,7 +9,6 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
 from .views import chrome_devtools_dummy
-
 
 urlpatterns = [
     path("api/", include("courses.urls")),
@@ -18,8 +18,10 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
     path('accounts/', include('allauth.urls')),
     path(".well-known/appspecific/com.chrome.devtools.json", chrome_devtools_dummy),
-]
 
+    # Serve static /robots.txt
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
