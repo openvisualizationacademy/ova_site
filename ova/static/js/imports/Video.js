@@ -307,13 +307,17 @@ export default class Video {
         // Send API request to update completion status in DB
         this.course.progress.updateSegment(segmentId, this.percentWatched);
 
-        // TODO: Optimistically display green checkmark on segment title and on chapter list
-
         // Update last time API was called to prevent calls soon after
         this.lastPercentWatched = this.percentWatched;
-
+        
         // Update localStorage value for redundancy
         this.storePartsWatched();
+
+        // If video is fully watched
+        if (this.percentWatched === 100) {
+          // Optimistically display green checkmark on segment title and on chapter list
+          this.updateCheckmark();
+        }
       }
 
     });
@@ -328,5 +332,27 @@ export default class Video {
   updatePlayhead(seconds) {
     const percent = `${ seconds / this.duration * 100 }%`;
     this.videoProgressPlayheadElement.style.insetInlineStart = percent;
+  }
+
+  updateCheckmark() {
+
+    // Update segment title checkmark
+
+    // Get template element from page (holding the checkmark and a “Complete” for screen readers)
+    const template = document.querySelector("template.complete-checkmark");
+
+    // Ensure it exists
+    if (!template) return;
+
+    // Clone its conents
+    const clone = document.importNode(template.content, true);
+
+    // Add it to the DOM (direcly after the template tag)
+    template.after(clone);
+
+    // Update icons (to replace <svg> placeholder with actual icon)
+    this.course.app.icons.update();
+
+    // TODO: Update checkmark and class in chapter list
   }
 }
