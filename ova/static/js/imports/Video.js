@@ -125,7 +125,13 @@ export default class Video {
         <div class="playhead"></div>
         ${
           this.parts.map((watched, i) => 
-            `<button class="video-progress-part reset" data-watched="${ watched }" data-percent="${ i / this.parts.length }"></button>`
+            `<button 
+              class="video-progress-part reset"
+              data-watched="${ watched }"
+              data-percent="${ i / this.parts.length }"
+              aria-label="Jump to part ${ i + 1 } of ${ this.parts.length }"
+              aria-description="${ watched ? 'Watched' : 'Pending' }"
+            ></button>`
           ).join("")
         }
       </div>`);
@@ -216,7 +222,15 @@ export default class Video {
 
     // Only update part nodes here (instead of recreating them)
     this.parts.forEach( (watched, i) => {
-      this.videoProgressPartElements[i].dataset.watched = watched;
+
+      // Create alias for brevity
+      const part = this.videoProgressPartElements[i]
+      
+      // Change data attribute for styling
+      part.dataset.watched = watched;
+
+      // Change description for accessibility
+      part.ariaDescription = watched ? "Watched" : "Pending";
     });
 
     // Update percentage (10%, 20%, 30%, etc)
