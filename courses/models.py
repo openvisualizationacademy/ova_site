@@ -437,67 +437,16 @@ class SegmentPage(QuizMixin, Page):
 
         return super().save(*args, **kwargs)
 
-    def quiz(self):
-        # Get only first quiz
-        return self.quizzes.first()
-
     def serve(self, request):
-        quiz = self.quizzes.first()  # assume max one quiz per segment
-        answer_results = {}
-        submitted = False
-        answers = {}
-        correct_count = 0
-        total = quiz.questions.count() if quiz else 0
-
-        if request.method == "POST" and quiz:
-            submitted = True
-
-            for question in quiz.questions.all():
-                qid = str(question.id)
-                raw_choice_id = request.POST.get(qid)
-
-                if not raw_choice_id:
-                    continue
-
-                choice_id = int(raw_choice_id)
-                answers[qid] = choice_id
-
-                choice = Choice.objects.filter(
-                    id=choice_id,
-                    question=question,
-                ).first()
-
-                is_correct = bool(choice and choice.is_correct)
-                answer_results[qid] = is_correct
-
-                if is_correct:
-                    correct_count += 1
-
-            score = round((correct_count / total) * 100) if total else 0
-
-            # Mark quiz completed if authenticated
-            if request.user.is_authenticated:
-                QuizProgress.objects.update_or_create(
-                    user=request.user,
-                    quiz=quiz,
-                    defaults={
-                        "completed": True,
-                        "score": score,
-                    },
-                )
-        else:
-            score = 0
+        # POST always wins
+        if request.method == "POST":
+            return self.handle_quiz_submission(request)
 
         context = self.get_context(request)
-        context.update(
-            {
-                "quiz": quiz,
-                "submitted": submitted,
-                "answers": answers,
-                "score": score,
-                "answer_results": answer_results,
-            }
-        )
+
+        hydrated = self.hydrate_quiz_from_progress(request)
+        if hydrated:
+            context.update(hydrated)
 
         return render(request, self.get_template(request), context)
 
@@ -540,7 +489,7 @@ class SegmentPage(QuizMixin, Page):
         )
 
         # Get only first quiz
-        context["quiz"] = self.quiz()
+        context["quiz"] = self.get_quiz()
 
         # ---------------------------------------
         # MATERIALS
@@ -767,6 +716,7 @@ class QuizProgress(models.Model):
     completed = models.BooleanField(default=False)
     score = models.IntegerField(default=0, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
+    answers_snapshot = models.JSONField(default=dict, blank=True)
 
     class Meta:
         unique_together = ("user", "quiz")
