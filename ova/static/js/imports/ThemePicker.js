@@ -31,6 +31,10 @@ export default class ThemePicker {
     return ["light","dark"].includes(localStorage.getItem("theme"));
   }
 
+  get current() {
+    return this.overriden ? this.user : this.system;
+  }
+
   storeUserPreference() {
     localStorage.setItem("theme", this.user);
   }
@@ -59,12 +63,15 @@ export default class ThemePicker {
       this.dark.checked = event.matches;
       this.light.checked = !event.matches;
 
+      // If user last changed the system theme, forget about preference in theme picker
       this.forgetUserPreference();
       this.update();
     });
 
     this.inputs.forEach((input) => {
       input.addEventListener("change", (event) => {
+
+        // If user last changed the theme picker, remember that instead of system theme
         this.storeUserPreference();
         this.update();
       });
