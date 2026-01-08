@@ -42,13 +42,60 @@ export default class Video {
     // Get percentage as integer from 0 to 100;
     return Math.round(percent * 100);
   }
-  
-  setupProgress() {
 
-    // Keep track of which parts of the video were already watched
+  get partsWatchedKey() {
+    // Ensure segment id exists as global variable
+    if (!segmentId) return;
+
+    return `partsWatched${ segmentId }`;
+  }
+
+  get storedPartsWatched() {
+
+    // Get stored array as string
+    const string = localStorage.getItem(this.partsWatchedKey);
+
+    // Should be array of booleans or null
+    return JSON.parse(string);
+  }
+
+  storePartsWatched() {
+    // Ensure parts array is already created
+    if (!this.parts) return;
+
+    // Store using segment-specific key
+    localStorage.setItem(this.partsWatchedKey, JSON.stringify(this.parts));
+  }
+
+  setupParts() {
+    // Keep track of which parts of the video were already watched (initialize all to not watched)
     this.parts = Array.from({ length: this.partsCount }, () => false);
 
-    // TODO: Check if parts of current video already exists in localStorage to update parts array
+    // If DB says video already is fully watched
+    if (segmentPercentWatched === 100) {
+
+      // Update all parts to watched (true)
+      this.parts = this.parts.map(watched => true);
+
+      // Update localStorage as a redundancy
+      this.storePartsWatched();
+
+      // Stop checking
+      return;
+    }
+
+    // If parts watched of current video already exists in localStorage
+    const stored = this.storedPartsWatched;
+    if (stored) {
+
+      // Use stored array exactly as is
+      this.parts = stored;
+      
+      // TODO: Consider checking if parts array matches stored percentage on DB
+
+      // Stop checking
+      return;
+    }
 
     // Check if percent of completion (provided from DB as global variable) is > 0
     if (segmentPercentWatched > 0) {
@@ -66,6 +113,11 @@ export default class Video {
 
       // TODO: Update exact parts (e.g., 3rd and 4th parts instead of first two) if user skipped some
     }
+  }
+  
+  setupProgress() {
+
+    this.setupParts();
 
     // Create HTML element with all parts (and set some as watched)
     const parts = this.course.app.utils.html(`
@@ -73,7 +125,13 @@ export default class Video {
         <div class="playhead"></div>
         ${
           this.parts.map((watched, i) => 
-            `<button class="video-progress-part reset" data-watched="${ watched }" data-percent="${ i / this.parts.length }"></button>`
+            `<button 
+              class="video-progress-part reset"
+              data-watched="${ watched }"
+              data-percent="${ i / this.parts.length }"
+              aria-label="Jump to part ${ i + 1 } of ${ this.parts.length }"
+              aria-description="${ watched ? 'Watched' : 'Pending' }"
+            ></button>`
           ).join("")
         }
       </div>`);
@@ -164,7 +222,15 @@ export default class Video {
 
     // Only update part nodes here (instead of recreating them)
     this.parts.forEach( (watched, i) => {
-      this.videoProgressPartElements[i].dataset.watched = watched;
+
+      // Create alias for brevity
+      const part = this.videoProgressPartElements[i]
+      
+      // Change data attribute for styling
+      part.dataset.watched = watched;
+
+      // Change description for accessibility
+      part.ariaDescription = watched ? "Watched" : "Pending";
     });
 
     // Update percentage (10%, 20%, 30%, etc)
@@ -255,10 +321,17 @@ export default class Video {
         // Send API request to update completion status in DB
         this.course.progress.updateSegment(segmentId, this.percentWatched);
 
-        // TODO: Optimistically display green checkmark on segment title and on chapter list
-
         // Update last time API was called to prevent calls soon after
         this.lastPercentWatched = this.percentWatched;
+        
+        // Update localStorage value for redundancy
+        this.storePartsWatched();
+
+        // If video is fully watched
+        if (this.percentWatched === 100) {
+          // Optimistically display green checkmark on segment title and on chapter list
+          this.updateCheckmark();
+        }
       }
 
     });
@@ -273,5 +346,57 @@ export default class Video {
   updatePlayhead(seconds) {
     const percent = `${ seconds / this.duration * 100 }%`;
     this.videoProgressPlayheadElement.style.insetInlineStart = percent;
+  }
+
+  updateCheckmark() {
+
+    // Update segment title checkmark
+
+    // Get template element from page (holding the checkmark and a “Complete” for screen readers)
+    const templateTitle = document.querySelector("template.complete-checkmark-title");
+
+    // Ensure it exists
+    if (!templateTitle) return;
+
+    // Clone its conents
+    const cloneTitle = document.importNode(templateTitle.content, true);
+
+    // Add it to the DOM (direcly after the template tag)
+    templateTitle.after(cloneTitle);
+
+    // TODO: Only update newly added icon (istead of checking all page icosn)
+
+    // Update icons (to replace <svg> placeholder with actual icon)
+    this.course.app.icons.update();
+
+    // Add completed class (for consistency, doesn’t do anything for non-quiz segments)
+    templateTitle.closest(".content").classList.add("completed");
+
+    // TODO: Update checkmark and class in chapter list
+    const templateList = document.querySelector("template.complete-checkmark-list");
+
+    // Ensure it exists
+    if (!templateList) return;
+
+    // Clone its conents
+    const cloneList = document.importNode(templateList.content, true);
+
+    // Get current chapter in list
+    const li = document.querySelector(".chapters li:has(> a.active)");
+
+    // Ensure <li> was found
+    if (!li) return;
+
+    // Add completed class (e.g., to change color of quiz badge)
+    li.classList.add("completed");
+
+    // Get current svg icon inside li
+    const svg = li.querySelector("svg[data-icon]");
+
+    // Add it to the DOM (replacing circle icon by checkmark one)
+    svg.replaceWith(cloneList);
+
+    // Update icons (to replace <svg> placeholder with actual icon)
+    this.course.app.icons.update();
   }
 }

@@ -1,11 +1,9 @@
-<!-- TODO: Add size after each material (like 74 KB or 4.2 MB )-->
-
 <section class="content-materials">
   <h3>Materials</h3>
 
   <ul>
   {% if segment_materials %}
-    <!-- <h4>Materials of Segment</h4> -->
+    {% comment %} Materials of Segment {% endcomment %}
     {% for material in segment_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-segment">
@@ -18,7 +16,7 @@
   {% endif %}
 
   {% if chapter_materials %}
-    <!-- <h4>Materials of Chapter</h4> -->
+    {% comment %} Materials of Chapter {% endcomment %}
     {% for material in chapter_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-chapter">
@@ -31,7 +29,7 @@
   {% endif %}
 
   {% if course_materials %}
-    <!-- <h4>Materials of Course</h4> -->
+    {% comment %} Materials of Course {% endcomment %}
     {% for material in course_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-course">

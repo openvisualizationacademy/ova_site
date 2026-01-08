@@ -1,5 +1,11 @@
 {% load get_item %}
 
+{% if submitted %}
+  <p class="quiz-score">
+    Score: {{ score }}%
+  </p>
+{% endif %}
+
 <form class="quiz" method="post">
   {% csrf_token %}
 
@@ -8,70 +14,95 @@
   <div id="incorrect" hidden>Wrong</div>
 
   {% for question in quiz.questions.all %}
-    <fieldset>
-      <legend>
-        <span class="count kicker">
-          <span aria-hidden="true">Q{{ forloop.counter }}</span>
-          <span class="screen-reader">
-            Question {{ forloop.counter }}
-          </span>
-        </span>
-        {{ question }}
-      </legend>
-      {% if submitted and answers %}
-        {% with qid=question.id|stringformat:"s" %}
-          {% with submitted_choice=answers|get_item:qid %}
-            {% with is_correct=answer_results|get_item:qid %}
 
+    {% with qid=question.id|stringformat:"s" %}
+      {% with submitted_choice=answers|get_item:qid %}
+        {% with is_correct=answer_results|get_item:qid %}
+
+          <fieldset {% if is_correct %}disabled{% endif %}>
+            <legend>
+              <span class="count kicker">
+                <span aria-hidden="true">Q{{ forloop.counter }}</span>
+                <span class="screen-reader">
+                  Question {{ forloop.counter }}
+                </span>
+              </span>
+              {{ question }}
+            </legend>
+
+            {% if submitted and answers %}
               {% for choice in question.choices.all %}
-                <label
-                    class="choice{% if submitted_choice == choice.id %} {% if is_correct %}correct{% else %}incorrect{% endif %}{% endif %}">
+                <label class="choice">
                   <input
-                      type="radio"
-                      name="{{ question.id }}"
-                      value="{{ choice.id }}"
-                      class="screen-reader"
+                    type="radio"
+                    name="{{ question.id }}"
+                    value="{{ choice.id }}"
+                    class="screen-reader"
 
-                      {% if submitted_choice == choice.id %}
+                    {% if submitted_choice == choice.id %}
+                      {% if is_correct %}
+                        aria-describedby="correct"
                         checked
-                        {% if is_correct %}
-                      aria-describedby="correct"
-                      data-locked="true"
-                        {% else %}
-                      aria-describedby="incorrect"
-                        {% endif %}
+                      {% else %}
+                        aria-describedby="incorrect"
+                        disabled
                       {% endif %}
+                    {% endif %}
+                  >
+                  <span>{{ choice }}</span>
+
+                  {% if submitted_choice == choice.id %}
+                    {% if is_correct %}
+                      <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
+                    {% else %}
+                      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
+                    {% endif %}
+                  {% endif %}
+                </label>
+              {% endfor %}
+            {% else %}
+              {% for choice in question.choices.all %}
+                <label class="choice">
+                  <input
+                    type="radio"
+                    name="{{ question.id }}"
+                    value="{{ choice.id }}"
+                    class="screen-reader"
+                    {% if forloop.first %}required{% endif %}
                   >
                   <span>{{ choice }}</span>
                 </label>
               {% endfor %}
+            {% endif %}
 
-            {% endwith %}
-          {% endwith %}
+          </fieldset>
+
         {% endwith %}
-      {% else %}
-        {% for choice in question.choices.all %}
-          <label class="choice">
-            <input
-                type="radio"
-                name="{{ question.id }}"
-                value="{{ choice.id }}"
-                class="screen-reader"
-                {% if forloop.first %}required{% endif %}
-            >
-            <span>{{ choice }}</span>
-          </label>
-        {% endfor %}
-      {% endif %}
+      {% endwith %}
+    {% endwith %}
 
-    </fieldset>
   {% endfor %}
 
   <button class="button primary">Submit answers</button>
 
-  {% if submitted %}
-    <p class="quiz-score">
-      Score: {{ score }}%
-    </p>
-  {% endif %}
 </form>
+
+<script>
+  // Select quiz form
+  const form = document.querySelector("form.quiz");
+
+  // TODO: Consider adding disabled attribute to fieldseds that contain a correclty-submitted choice
+
+  // When form is about to be submitted
+  form.addEventListener("submit", () => {
+
+    // Enable all form elements so they get sent to backend
+    form.querySelectorAll(":disabled").forEach((element) => {
+      element.disabled = false;
+    });
+
+    // TODO: Prevent visual style of questions and choices from chaning/flashing before submission
+
+    // TODO: Add spinner and announce “Submitting” to screen readers
+  });
+</script>

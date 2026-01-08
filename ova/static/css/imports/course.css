@@ -158,9 +158,18 @@ section.course-page {
       light-dark(var(--success-600), var(--success-500)) var(--percent),
       light-dark(var(--neutral-300), var(--neutral-700)) 0
     );
-    
   /* TODO: Replace radial-gradient by mask when it has better support */
   /* mask: radial-gradient(circle, transparent 50%, black 50%); */
+}
+
+.progress .donut::before {
+  background: light-dark(var(--neutral-900), var(--neutral-100));
+  content: "";
+  height: 1.2rem;
+  inset-block-start: -.2rem;
+  inset-inline-end: 50%;
+  position: absolute;
+  width: .1rem;
 }
 
 .progress.completed .donut {
@@ -182,9 +191,56 @@ section.course-page {
   width: 100%;
 }
 
+.certificate a {
+  box-shadow: 0 0 1.6rem light-dark(var(--success-400), var(--success-700));
+  mix-blend-mode: luminosity;
+  overflow: visible;
+  position: relative;
+}
+
+/* @keyframes glow {
+  100% {
+    box-shadow: 0 .8rem 1.2rem light-dark(var(--success-500), var(--success-600));
+  }
+} */
+
 .certificate small {
   color: light-dark(var(--neutral-700), var(--neutral-300));
   padding-inline: 1.6rem;
+}
+
+.bubbles {
+  align-items: end;
+  display: flex;
+  inset: 0 1.6rem;
+  justify-content: space-around;
+  pointer-events: none;
+  position: absolute;
+  translate: 0 -83.333%;
+}
+
+.bubbles > div {
+  animation: floatUp 3s infinite ease-in;
+  aspect-ratio: 1;
+  background: light-dark(var(--success-600), var(--success-500));
+  border-radius: 50%;
+  width: .2rem;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  25% {
+    opacity: .75;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: .25;
+    translate: 0 -400%;
+  }
 }
 
 .sticky-wrapper {
@@ -401,6 +457,14 @@ section.course-page svg[data-icon="check-circle"] circle {
   .chapters ol a.active::after {
     animation: none;
   }
+
+  .bubbles {
+    display: none;
+  }
+
+  .certificate a {
+    animation: none;
+  }
 }
 
 @media (hover: hover) {
@@ -601,7 +665,7 @@ section.overview {
 }
 
 .overview details > div p {
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .overview details > div p:first-child {
@@ -803,8 +867,7 @@ section.overview {
   .progress .donut {
     --inner-color: var(--neutral-150);
     color: var(--success-600);
-
-background:
+    background:
       radial-gradient(
         closest-side,
         var(--inner-color) 75%,

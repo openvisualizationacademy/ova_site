@@ -22,11 +22,11 @@ export default class Icons {
     if (!name) return;
 
     // Update placeholder element with svg node
-    const icon = await this.get(name, element.ariaHidden);
+    const icon = await this.get(name, element);
     if (icon) element.replaceWith(icon);
   }
 
-  async get(name, ariaHidden) {
+  async get(name, element) {
     // If icon is not in the cache object
     if (!(name in this.cache)) {
       // Fetch icon svg as string from media/icons/ and store it in cache
@@ -51,7 +51,8 @@ export default class Icons {
     svg.dataset.icon = name;
 
     // Keep certain attributes
-    svg.ariaHidden = ariaHidden;
+    svg.ariaHidden = element.ariaHidden;
+    svg.ariaLabel = element.ariaLabel;
 
     return svg;
   }

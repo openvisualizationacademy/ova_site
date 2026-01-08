@@ -11,7 +11,7 @@
             {% for segment in chapter.get_children.live.specific %}
 
             {% comment %} TODO: If segment is completed, add `completed` class to <li> so [quiz] tag turns green {% endcomment %}
-            <li {% if segment.segment_progress is True %}class="completed"{% endif %}>
+            <li {% if segment.segment_progress == 100 %}class="completed"{% endif %}>
               <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
               
                 <span class="tooltip">
@@ -26,7 +26,7 @@
                 </span>
 
                 {% comment %} TODO: Fix line below to be the completion status of the segment in the loop (not the current page) {% endcomment %}
-                {% if segment.segment_progress is True %}
+                {% if segment.segment_progress == 100 %}
                   <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                 {% else %}
                   <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
@@ -40,6 +40,11 @@
       </li>
     {% endfor %}
   </ol>
+  
+  {% comment %} Checkmark to be injected with JS as soon as video is fully watched {% endcomment %}
+  <template class="complete-checkmark-list">
+    <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
+  </template>
 </nav>
 
 <script>

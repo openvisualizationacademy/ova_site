@@ -7,6 +7,7 @@
       {% image course.image original as img %}
       <img src="{{ img.url }}" alt="">
     {% else %}
+      {% comment %} White pixel {% endcomment %}
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
     {% endif %}
   </div>
@@ -54,15 +55,17 @@
 
   {% if user.is_authenticated %}
 
-    <!-- Calculate and display course progress -->
+    {% comment %} Calculate and display course progress {% endcomment %}
     {% with percent=course_percent_complete|default:0 %}
 
-      <!-- TODO: Consider using scoped variables instead of global ones -->
+      {% comment %} Consider using scoped variables instead of global ones {% endcomment %}
       <script>
-        const segmentId = {{ segment.id }};
 
-        {% comment %} TODO: Get exact stored percentage of video watched (not boolean) {% endcomment %}
-        const segmentPercentWatched = 0; // {{ segment_progress }};
+        /* Percent of segment complete (0-100) */
+        const segmentId = {{ segment.id }};
+        
+        /* Percent of segment complete (0-100) */
+        const segmentPercentWatched = {{ segment_progress|default:0 }};
       </script>
 
       <div class="tracker">
@@ -82,12 +85,16 @@
           </p>
         </div>
         <div class="certificate">
+          {% comment %} TODO: Gather user name and generate PDF {% endcomment %}
           {% if percent == 100 %}
             <a href="#" class="button tertiary">
+              <div class="bubbles">
+                <!-- To be filled with divs in JS -->
+              </div>
               <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
               <span>
                 <span class="screen-reader">Download</span>
-                Certificate
+                Certificate PDF
               </span>
             </a>
           {% else %}
@@ -105,7 +112,7 @@
 
   <section class="overview grid">
     <p class="content-updated">
-      <!-- TODO: Make this field dynamic -->
+      {% comment %} TODO: Make this field dynamic {% endcomment %}
       <small>Content updated in <time datetime="2025-09">September 2025</time></small>
     </p>
 
@@ -140,8 +147,8 @@
       {% endif %}
     </aside>
 
-    <!-- TODO: If segment is completed, add `completed` class so [quiz] tag turns green -->
-    <section class="content">
+    {% comment %} If segment is completed, add `completed` class so [quiz] tag turns green {% endcomment %}
+    <section class="content {% if segment_progress == 100 %}completed{% endif %}">
 
       <h2 id="main" tabindex="-1">
         <span class="number kicker">
@@ -156,9 +163,13 @@
           {% endif %}
 
           <!-- TODO: Display checkmark also for completed quiz -->
-          {% if segment_progress is True %}
-            <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-            <span class="screen-reader">(Completed)</span>
+          {% if segment_progress == 100 %}
+            <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+          {% else %}
+            {% comment %} Checkmark to be injected with JS as soon as video is fully watched {% endcomment %}
+            <template class="complete-checkmark-title">
+              <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+            </template>
           {% endif %}
         </span>
       </h2>
