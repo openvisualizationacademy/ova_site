@@ -92,7 +92,11 @@
 
   {% comment %} Hide submit button if all questions were already correctly submitted {% endcomment %}
   {% if score is not 100 %}
-    <button class="button primary">Submit answers</button>
+    <div class="submit-container">
+      <!-- Text is inserted on submit for screen readers via JS -->
+      <p aria-live="polite" class="small"></p>
+      <button type="submit" class="button primary">Submit answers</button>
+    </div>
   {% endif %}
 
 {% if score is not 100 %}

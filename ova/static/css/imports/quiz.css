@@ -86,8 +86,48 @@
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100)), inset 0 0 0 2px light-dark(var(--neutral-100), var(--neutral-900)) !important;
 }
 
-.quiz .button {
-  align-self: end;
+.quiz .submit-container {
+  align-items: baseline;
+  display: flex;
+  gap: 1.6rem;
+  justify-content: end;
+  width: 100%;
+}
+
+/* Submitting spinner */
+
+.quiz .submit-container [aria-live] {
+  display: flex;
+  margin: 0;
+  position: relative;
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+}
+
+.quiz .submit-container [aria-live]::before {
+  animation: spin linear 1s infinite;
+  animation-play-state: paused;
+  border: .2rem solid light-dark(var(--neutral-400), var(--neutral-600));
+  border-block-end-color: transparent;
+  border-radius: 50%;
+  content: "";
+  display: none;
+  height: 1.6rem;
+  inset-block-start: 50%;
+  inset-inline-start: -1.6rem;
+  position: absolute;
+  translate: -100% -50%;
+  width: 1.6rem;
+}
+
+.quiz .submit-container [aria-live]:not(:empty)::before {
+  animation-play-state: running;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz .submit-container [aria-live]:not(:empty)::before {
+    display: none;
+  }
 }
 
 .quiz .button.primary {

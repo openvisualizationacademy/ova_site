@@ -15,14 +15,27 @@ export default class Quiz {
       element.disabled = false;
     });
   }
+
+  showLoading() {
+
+    // Get element for screen reader announcement
+    const polite = this.form.querySelector('[aria-live="polite"]');
+
+    // Ensure it exists
+    if (!polite) return;
+
+    // Announce “Submitting” to screen readers
+    polite.textContent = "Submitting…";
+    // TODO: Add spinner 
+    ;
+  }
  
   setup() {
     
     // When quiz form gets submitted
     this.form.addEventListener("submit", () => {
+      this.showLoading();
       this.enableFields();
-
-      // TODO: Add spinner and announce “Submitting” to screen readers
     });
   }
 }
