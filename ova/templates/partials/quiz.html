@@ -1,13 +1,21 @@
 {% load get_item %}
 
 {% if submitted %}
-  <p class="quiz-score">
-    Score: {{ score }}%
-  </p>
+  <div class="quiz-score">
+    <p>
+      <strong>You scored {{ score }}%</strong><br>
+      <small>In last submission</small>
+    </p>
+  </div>
 {% endif %}
 
-<form class="quiz" method="post">
-  {% csrf_token %}
+{% comment %} Don’t use form if all questions are already correctly submitted {% endcomment %}
+{% if score is not 100 %}
+  <form class="quiz" method="post">
+    {% csrf_token %}
+{% else %}
+  <div class="quiz">
+{% endif %}
 
   <!-- Screen reader announcements -->
   <div id="correct" hidden>Correct</div>
@@ -18,7 +26,8 @@
       {% with submitted_choice=answers|get_item:qid %}
         {% with is_correct=answer_results|get_item:qid %}
 
-          <fieldset {% if submitted and is_correct %}disabled{% endif %}>
+          {% comment %} Using both attribute & class as the latter is to retain style after attribute is removed on submit {% endcomment %}
+          <fieldset {% if submitted and is_correct %}disabled class="disabled"{% endif %}>
             <legend>
               <span class="count kicker">
                 <span aria-hidden="true">Q{{ forloop.counter }}</span>
@@ -81,5 +90,14 @@
     {% endwith %}
   {% endfor %}
 
-  <button class="button primary">Submit answers</button>
-</form>
+  {% comment %} Hide submit button if all questions were already correctly submitted {% endcomment %}
+  {% if score is not 100 %}
+    <button class="button primary">Submit answers</button>
+  {% endif %}
+
+{% if score is not 100 %}
+  </form>
+{% else %}
+  </div>
+{% endif %}
+

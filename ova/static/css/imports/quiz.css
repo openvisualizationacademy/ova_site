@@ -18,8 +18,8 @@
   width: 100%;
 }
 
-.quiz fieldset:disabled .choice:has(input:not([aria-describedby])),
-.quiz fieldset:disabled legend {
+.quiz fieldset.disabled .choice:has(input:not([aria-describedby])),
+.quiz fieldset.disabled legend {
   color: var(--neutral-500);
 }
 
@@ -71,17 +71,17 @@
   }
 }
 
-.quiz fieldset:not(:disabled) label:not(:has(input:disabled)) {
+.quiz fieldset:not(.disabled) .choice:not(:has(input:disabled)) {
   cursor: pointer;
 }
 
-.quiz label:has(input:focus-visible) {
+.quiz .choice:has(input:focus-visible) {
   outline: 5px auto Highlight;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: 0.4rem;
 }
 
-.quiz fieldset:not(:disabled) label:has(input:checked) {
+.quiz fieldset:not(.disabled) .choice:has(input:checked) {
   background: linear-gradient( to right, light-dark(var(--info-200), color-mix(in srgb, var(--info-900) 50%, var(--neutral-900))), light-dark(var(--info-300), var(--info-900)));
   box-shadow: 0 0 0 2px light-dark(var(--neutral-900), var(--neutral-100)), inset 0 0 0 2px light-dark(var(--neutral-100), var(--neutral-900)) !important;
 }
@@ -95,8 +95,24 @@
   text-shadow: 0 0 1em light-dark(var(--info-900), var(--info-900));
 }
 
+.quiz-score {
+  background: light-dark(var(--neutral-150), var(--neutral-850));
+  border-radius: 1.6rem;
+  margin-block: 3.2rem;
+  padding: 1.6rem;
+  width: fit-content;
+}
+
+.quiz-score p {
+  margin: 0;
+}
+
+.quiz-score small {
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+}
+
 @media (hover: hover) {
-  .quiz fieldset:not(:disabled) label:not(:has(input:disabled)):hover {
+  .quiz fieldset:not(.disabled) .choice:not(:has(input:disabled)):hover {
     box-shadow: 0 0 0 2px light-dark(var(--neutral-400), var(--neutral-600));
   }
 }
@@ -110,11 +126,9 @@
   .quiz .count.kicker {
     color: var(--neutral-700);
   }
-  
   .quiz .choice {
     background: var(--neutral-150);
   }
-  
   .quiz .choice:has(input[aria-describedby="correct"]) {
     background: linear-gradient( to right, var(--success-200), var(--success-300));
 
@@ -131,7 +145,7 @@
     }
   }
 
-  .quiz fieldset:not(:disabled) label:has(input:checked) {
+  .quiz fieldset:not(.disabled) .choice:has(input:checked) {
     background: linear-gradient( to right, var(--info-200), var(--info-300));
     box-shadow: 0 0 0 2px var(--neutral-900), inset 0 0 0 2px var(--neutral-100) !important;
   }
@@ -142,7 +156,7 @@
   }
 
   @media (hover: hover) {
-    .quiz fieldset:not(:disabled) label:not(:has(input:disabled)):hover {
+    .quiz fieldset:not(.disabled) .choice:not(:has(input:disabled)):hover {
       box-shadow: 0 0 0 2px var(--neutral-400);
     }
   }
