@@ -13,6 +13,9 @@ export default class Video {
     // Get element for displaying course progress
     this.videoProgressElement = this.course.element.querySelector(".video-progress");
 
+    // Abort if progress element does not exist
+    if (!this.videoProgressElement) return;
+
     // Keeps track of last timeupdate call for throttle feature
     this.lastSeconds = 0;
 
@@ -70,6 +73,9 @@ export default class Video {
   setupParts() {
     // Keep track of which parts of the video were already watched (initialize all to not watched)
     this.parts = Array.from({ length: this.partsCount }, () => false);
+
+    // Ensure global variable exists (Safari is picky)
+    if (window.segmentPercentWatched === undefined) return;
 
     // If DB says video already is fully watched
     if (segmentPercentWatched === 100) {
