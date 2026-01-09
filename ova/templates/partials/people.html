@@ -1,0 +1,89 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
+
+<div class="people {{ class_name }} grid">
+
+  <dialog closedby="any">
+    <button class="button secondary" onclick="this.parentElement.close()" autofocus>
+      <span class="screen-reader">Close</span>
+      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
+    </button>
+    <div class="details"><!-- Filled in JS --></div>
+  </dialog>
+
+  {% for person in people %}
+
+    {% comment %} Card {% endcomment %}
+    <div role="button" tabindex="0" class="person" onclick="app.{{ class_name }}.open({{ person.id }})">
+      <figure>
+
+        {% if person.image %}
+          {% with alt=person.image.description|default:"Profile" %}
+            {% image person.image fill-480x480 as img %}
+            <img class="media" src="{{ img.url }}" alt="{{ alt }}">
+          {% endwith %}
+        {% else %}
+          <div class="media"></div>
+        {% endif %}
+
+        <figcaption>
+          <strong>{{ person.name }}</strong>
+          <span class="tagline small">{{ person.tagline }}</span>  
+        </figcaption>
+      </figure>
+    </div>
+
+    {% comment %} Content for dialog {% endcomment %}
+    <template data-person="{{ person.id }}">
+
+      <div class="person">
+
+        {% if person.image %}
+          {% with alt=person.image.description|default:"Profile" %}
+            {% image person.image fill-480x480 as img %}
+            <img class="media" src="{{ img.url }}" loading="lazy" alt="{{ alt }}">
+          {% endwith %}
+        {% else %}
+          <div class="media"></div>
+        {% endif %}
+        
+        <div class="info">
+          <h2><strong>{{ person.name }}</strong></h2>
+          <span class="tagline">{{ person.tagline }}</span>  
+          <p class="bio">{{ person.bio }}</p>          
+
+          {% comment %} TODO: Handle “Coming soon” courses {% endcomment %}
+          {% with courses=person.instructor_course.all %}
+            {% if courses %}
+              <h3 class="kicker">Course{{ courses|pluralize }}</h3>
+              <ul class="courses small">
+                {% for instructor_course in person.instructor_course.all %}
+                  <li>
+                    <a href="{{ instructor_course.page.url }}">
+                      {{ instructor_course.page.title }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+        </div>
+
+        <ul class="links small">
+          {% for social_link in person.processed_social_links %}
+            <li>
+              <a href="{{ social_link.url }}" target="_blank">
+                <svg width="24" height="24" data-icon="internet" aria-hidden="true"></svg>
+                <span>{{ social_link.clean }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+      </div>
+    </template>
+
+  {% endfor %}
+
+</div>
+
+  
