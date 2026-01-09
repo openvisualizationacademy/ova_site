@@ -3,9 +3,7 @@ from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 
-from courses.models import CoursesIndexPage, CoursePage
-
-
+from courses.models import CoursesIndexPage, CoursePage, Instructor
 
 class HomePage(Page):
     max_count = 1
@@ -33,6 +31,12 @@ class HomePage(Page):
 
             # TODO: Consider sorting in order of importance
             context['all_tags'] = sorted(tags)
+
+        # Get list of all instructors
+        context['instructors'] = Instructor.objects.filter(role__name='instructor').order_by('name')
+
+        # Get list of all contributors
+        context['contributors'] = Instructor.objects.filter(role__name='contributor').order_by('name')
         
         return context
 

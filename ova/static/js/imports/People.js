@@ -38,7 +38,7 @@ export default class People {
     if (!this.dialog) return;
     this.clear();
 
-    const template = this.element.querySelector(`template[data-instructor="${ id }"]`);
+    const template = this.element.querySelector(`template[data-person="${ id }"]`);
 
     if (!template) return;
 
