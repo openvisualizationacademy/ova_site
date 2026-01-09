@@ -32,8 +32,10 @@ class HomePage(Page):
             # TODO: Consider sorting in order of importance
             context['all_tags'] = sorted(tags)
 
+        # Instructors or contributors that should not appear on page must have no role set
+
         # Get list of all instructors
-        context['instructors'] = Instructor.objects.filter(role__name='instructor').order_by('name')
+        context['instructors'] = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related('instructor_course__page')
 
         # Get list of all contributors
         context['contributors'] = Instructor.objects.filter(role__name='contributor').order_by('name')

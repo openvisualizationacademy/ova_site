@@ -42,7 +42,7 @@ class InstructorsOrderable(Orderable):
     """This allows selection of one or more instructors for a course."""
 
     page = ParentalKey("courses.CoursePage", related_name="course_instructors")
-    instructor = models.ForeignKey("courses.Instructor", on_delete=models.CASCADE)
+    instructor = models.ForeignKey("courses.Instructor", related_name="instructor_course", on_delete=models.CASCADE)
 
     panels = [
         FieldPanel("instructor"),

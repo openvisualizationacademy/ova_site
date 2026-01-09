@@ -52,10 +52,15 @@
           <span class="tagline">{{ instructor.tagline }}</span>  
           <p class="bio">{{ instructor.bio }}</p>          
 
-          {% comment %} TODO: List all courses for instructor (in case of more than 1) and plurarize title {% endcomment %}
+          {% comment %} TODO: Plurarize title if there is more than 1 course {% endcomment %}
           <h3 class="kicker">Course</h3>
           <ul class="courses small">
-            <li>{{ course.title }}</li>
+            {% comment %} TODO: Handle “Coming soon” courses {% endcomment %}
+            {% for instructor_course in instructor.instructor_course.all %}
+              <li>
+                <a href="{{ instructor_course.page.url }}">{{ instructor_course.page.title }}</a>
+              </li>
+            {% endfor %}
           </ul>
 
         </div>
