@@ -28,11 +28,6 @@ export default class People {
     this.details.replaceChildren();
   }
 
-  getDetails(person) {
-    // Overridden by classes that extend People, like Contributors and Instructors 
-    return `${person.name}`;
-  }
-
   open(id) {
 
     if (!this.dialog) return;
@@ -43,6 +38,11 @@ export default class People {
     if (!template) return;
 
     const clone = document.importNode(template.content, true);
+
+    // Make icon match respective platforms based on domain
+    clone.querySelectorAll(".links a").forEach( (a) => {
+      a.querySelector("svg[data-icon]").dataset.icon = this.icon(a.href)
+    });
 
     this.details.replaceChildren(clone);
 
@@ -66,25 +66,7 @@ export default class People {
       }
     }
 
-    const svg = this.app.icons.getPlaceholder(platform);
-    return svg;
-  }
-
-  clean(link) {
-    const start = /^(https?:\/\/)?(www\.)?/i;
-    const end = /\/$/i;
-    return link.replace(start, "").replace(end, "").toLowerCase();
-  }
-
-  list(links) {
-    return links.map( link => `
-      <li>
-        <a href="${ link }" target="_blank">
-          ${ this.icon(link) }
-          ${ this.clean(link) }
-        </a>
-      </li>
-    `).join("");
+    return platform;
   }
 
   update() {}
