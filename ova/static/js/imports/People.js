@@ -1,15 +1,14 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export default class People {
-  constructor(app, selector, role, property) {
+  constructor(app, selector) {
     this.app = app;
 
     this.element = document.querySelector(selector);
     if (!this.element) return;
 
-    this.dialog = this.element.querySelector('dialog');
-    this.role = role;
-    this.property = property;
+    this.dialog = this.element.querySelector("dialog");
+    this.details = this.dialog.querySelector(".details");
 
     this.domains = {
       "linkedin.com" : "linkedin",
@@ -20,41 +19,13 @@ export default class People {
       "x.com" : "x",
     }
 
-    this.index = 0;
-
     this.setup();
   }
 
-  setupCards() {
-    this.data.forEach((person, index) => {
-      const card = `
-      <div role="button" tabindex="0" class="person" data-role="${this.role}" onclick="app.${this.property}.open(${index})">
-        <figure>
-          ${
-            person.photo
-              ? `<img class="media" src="/static/media/people/small/${person.photo}" loading="lazy" alt="Profile">`
-              : `<div class="media"></div>`
-          }
-          <figcaption>
-            <strong>${person.name}</strong>
-            <span class="tagline small">${person.tagline}</span>  
-          </figcaption>
-        </figure>
-      </div>
-      `;
-      this.element.insertAdjacentHTML("beforeend", card);
-    });
-  }
-
-  async setup() {
-    this.data = await d3.json("/static/data/people.json");
-    this.data.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-    this.data = this.data.filter((person) => person.role === this.role || person.role.includes(this.role));
-    this.setupCards();
-  }
+  setup() {}
 
   clear() {
-    this.dialog.querySelector('.details').remove()
+    this.details.replaceChildren();
   }
 
   getDetails(person) {
@@ -62,32 +33,19 @@ export default class People {
     return `${person.name}`;
   }
 
-  getCourses(person) {
-    let courses = "";
-
-    if (person?.courses && person.courses.length > 0) {
-      const heading = `<h3 class="kicker">${ person.courses.length > 1 ? "Courses" : "Course" }</h3>`;
-      const list = `<ul class="courses small">${ person.courses.map(course => `<li>${course}</li>`).join("") }</ul>`
-      courses = heading + list;
-    }
-
-    return courses;
-  }
-
-  open(index) {
-    this.index = index;
+  open(id) {
 
     if (!this.dialog) return;
     this.clear();
 
-    if (this.index < 0) this.index = this.data.length - 1;
-    if (this.index > this.data.length - 1) this.index = 0;
+    const template = this.element.querySelector(`template[data-instructor="${ id }"]`);
 
-    const person = this.data[this.index];
+    if (!template) return;
 
-    const details = this.getDetails(person);
+    const clone = document.importNode(template.content, true);
 
-    this.dialog.insertAdjacentHTML('beforeend', details);
+    this.details.replaceChildren(clone);
+
     this.dialog.showModal();
 
     // Update dynamically created svg icon placeholders

@@ -1,4 +1,7 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
+
 <div class="people instructors grid">
+
   <dialog closedby="any">
     <button class="button secondary" onclick="this.parentElement.close()" autofocus>
       <span class="screen-reader">Close</span>
@@ -6,4 +9,75 @@
     </button>
     <div class="details"><!-- Filled in JS --></div>
   </dialog>
+
+  {% comment %} TODO: Get unique list of instructors, sorted alphabetically {% endcomment %}
+  {% for course in courses %}
+    {% for iteration in course.course_instructors.all %}
+
+      {% comment %} Card {% endcomment %}
+      <div role="button" tabindex="0" class="person" data-role="instructor" onclick="app.instructors.open({{ iteration.instructor.id }})">
+        <figure>
+
+          {% if iteration.instructor.image %}
+            {% with alt=iteration.instructor.image.description|default:"Profile" %}
+              {% image iteration.instructor.image fill-480x480 as img %}
+              <img class="media" src="{{ img.url }}" alt="{{ alt }}">
+            {% endwith %}
+          {% else %}
+            <div class="media"></div>
+          {% endif %}
+
+          <figcaption>
+            <strong>{{ iteration.instructor.name }}</strong>
+            <span class="tagline small">{{ iteration.instructor.tagline }}</span>  
+          </figcaption>
+        </figure>
+      </div>
+
+      {% comment %} Content for dialog {% endcomment %}
+      <template data-instructor="{{ iteration.instructor.id }}">
+
+        <div class="person" data-role="instructor">
+
+          {% if iteration.instructor.image %}
+            {% with alt=iteration.instructor.image.description|default:"Profile" %}
+              {% image iteration.instructor.image fill-480x480 as img %}
+              <img class="media" src="{{ img.url }}" loading="lazy" alt="{{ alt }}">
+            {% endwith %}
+          {% else %}
+            <div class="media"></div>
+          {% endif %}
+          
+          <div class="info">
+            <h2><strong>{{ iteration.instructor.name }}</strong></h2>
+            <span class="tagline">{{ iteration.instructor.tagline }}</span>  
+            <p class="bio">{{ iteration.instructor.bio }}</p>          
+
+            {% comment %} TODO: List all courses for instructor (in case of more than 1) and plurarize title {% endcomment %}
+            <h3 class="kicker">Course</h3>
+            <ul class="courses small">
+              <li>{{ course.title }}</li>
+            </ul>
+
+          </div>
+          <ul class="links small">
+            {% for social_link in iteration.instructor.social_links %}
+              <li>
+                <a href="{{ social_link }}" target="_blank">
+                  {% comment %} Add platform icon name dynamically {% endcomment %}
+                  <svg width="24" height="24" data-icon="internet" aria-hidden="true"></svg>
+
+                  {% comment %} Clean link dynamically (remove protocol and trailing slash) {% endcomment %}
+                  <span>{{ social_link }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </template>
+
+    {% endfor %}
+  {% endfor %}
+
 </div>
+
+  
