@@ -65,14 +65,13 @@
 
         </div>
         <ul class="links small">
-          {% for social_link in instructor.social_links %}
+          {% for social_link in instructor.processed_social_links %}
             <li>
-              <a href="{{ social_link }}" target="_blank">
+              <a href="{{ social_link.url }}" target="_blank">
                 {% comment %} Add platform icon name dynamically {% endcomment %}
                 <svg width="24" height="24" data-icon="internet" aria-hidden="true"></svg>
 
-                {% comment %} Clean link dynamically (remove protocol and trailing slash) {% endcomment %}
-                <span>{{ social_link }}</span>
+                <span>{{ social_link.clean }}</span>
               </a>
             </li>
           {% endfor %}

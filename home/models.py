@@ -5,6 +5,8 @@ from wagtail.fields import RichTextField, StreamField
 
 from courses.models import CoursesIndexPage, CoursePage, Instructor
 
+import re
+
 class HomePage(Page):
     max_count = 1
     body = RichTextField(blank=True)
@@ -32,13 +34,30 @@ class HomePage(Page):
             # TODO: Consider sorting in order of importance
             context['all_tags'] = sorted(tags)
 
-        # Instructors or contributors that should not appear on page must have no role set
+        # Process social links for instructors or contributors for displaying in UI
+        def clean_social_links(people):
+            # Pre-compile regex for removing links protocol and www.
+            URL_CLEANER = re.compile(r'^(https?://)?(www\.)?', re.IGNORECASE)
+            for person in people:
+                person.processed_social_links = []
+                for link in person.social_links:
+                    processed = {
+                        # Full URL to be used for href
+                        'url': link,
+
+                        # Clean URL for displaying (no protocol, www, or trailing slash)
+                        'clean': URL_CLEANER.sub('', link).rstrip('/')
+                    }
+                    person.processed_social_links.append(processed)
+            return people
 
         # Get list of all instructors
-        context['instructors'] = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related('instructor_course__page')
+        instructors = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related('instructor_course__page')
+        context['instructors'] = clean_social_links(instructors)
 
         # Get list of all contributors
-        context['contributors'] = Instructor.objects.filter(role__name='contributor').order_by('name')
+        contributors = Instructor.objects.filter(role__name='contributor').order_by('name')
+        context['contributors'] = clean_social_links(contributors)
         
         return context
 
