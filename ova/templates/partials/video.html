@@ -8,3 +8,7 @@
     <div class="video-progress"></div>
   </div>
 {% endif %}
+
+<script>
+  window.segmentPercentWatched = {{ segment_progress|default:0 }};
+</script>
