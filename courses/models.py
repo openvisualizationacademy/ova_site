@@ -42,7 +42,9 @@ class InstructorsOrderable(Orderable):
     """This allows selection of one or more instructors for a course."""
 
     page = ParentalKey("courses.CoursePage", related_name="course_instructors")
-    instructor = models.ForeignKey("courses.Instructor", related_name="instructor_course", on_delete=models.CASCADE)
+    instructor = models.ForeignKey(
+        "courses.Instructor", related_name="instructor_course", on_delete=models.CASCADE
+    )
 
     panels = [
         FieldPanel("instructor"),
@@ -542,85 +544,86 @@ class SegmentPage(QuizMixin, Page):
             course = context.get("course")
 
             # -----------------------------
-            # 2. All segments in chapter
+            # Chapters + segments + progress
             # -----------------------------
-            if chapter:
-                segments = chapter.get_children().type(SegmentPage).live().specific()
-                context["segments_in_chapter"] = segments
+            chapters = course.get_children().type(ChapterPage).live().specific()
 
-                # Get user progress for these segments
-                seg_progress_map = {
-                    p.segment_id: p
-                    for p in SegmentProgress.objects.filter(
-                        user=user, segment__in=segments
-                    )
-                }
+            context["chapters_in_course"] = chapters
+            context["chapter_data"] = []
 
-                # List aligned with segments
-                seg_progress_list = []
-                completed_count = 0
+            # Prefetch all segments once
+            all_segments = (
+                SegmentPage.objects.filter(path__startswith=course.path)
+                .live()
+                .specific()
+            )
 
-                for s in segments:
-                    p = seg_progress_map.get(s.id)
-                    seg_progress_list.append(p)
-                    if p and getattr(p, "completed", False):
-                        completed_count += 1
-
-                context["segments_progress_list"] = seg_progress_list
-
-                # Percent chapter completion
-                total_segments = segments.count()
-                if total_segments > 0:
-                    context["chapter_percent_complete"] = int(
-                        (completed_count / total_segments) * 100
-                    )
-
-                # Current chapter progress object
-                chap_prog = (
-                    ChapterProgress.objects.filter(user=user, chapter=chapter)
-                    .values_list("completed", flat=True)
-                    .first()
+            # Segment progress lookup
+            segment_progress_map = {
+                p.segment_id: p
+                for p in SegmentProgress.objects.filter(
+                    user=user,
+                    segment__in=all_segments,
                 )
-                context["chapter_progress"] = chap_prog
+            }
 
-            # -----------------------------
-            # 3. All chapters in course
-            # -----------------------------
-            if course:
-                chapters = course.get_children().type(ChapterPage).live().specific()
-                context["chapters_in_course"] = chapters
-
-                chap_progress_map = {
-                    p.chapter_id: p
-                    for p in ChapterProgress.objects.filter(
-                        user=user, chapter__in=chapters
-                    )
-                }
-
-                chap_progress_list = []
-                completed_chapters = 0
-
-                for ch in chapters:
-                    p = chap_progress_map.get(ch.id)
-                    chap_progress_list.append(p)
-                    if p and p.completed:
-                        completed_chapters += 1
-
-                context["chapters_progress_list"] = chap_progress_list
-
-                total_chapters = chapters.count()
-                if total_chapters > 0:
-                    context["course_percent_complete"] = int(
-                        (completed_chapters / total_chapters) * 100
-                    )
-
-                # Current course progress object
-                course_prog = (
-                    CourseProgress.objects.filter(user=user, course=course)
-                    .values_list("completed", flat=True)
-                    .first()
+            # Chapter progress lookup
+            chapter_progress_map = {
+                p.chapter_id: p
+                for p in ChapterProgress.objects.filter(
+                    user=user,
+                    chapter__in=chapters,
                 )
-                context["course_progress"] = course_prog
+            }
+
+            completed_chapters = 0
+
+            for chapter in chapters:
+                segments = [s for s in all_segments if s.get_parent().id == chapter.id]
+
+                completed_segments = 0
+                segment_rows = []
+
+                for segment in segments:
+                    prog = segment_progress_map.get(segment.id)
+                    is_complete = prog and prog.percent_watched >= 100
+
+                    if is_complete:
+                        completed_segments += 1
+
+                    segment_rows.append(
+                        {
+                            "segment": segment,
+                            "progress": prog,
+                            "completed": is_complete,
+                        }
+                    )
+
+                chapter_complete = (
+                    completed_segments == len(segments) and len(segments) > 0
+                )
+
+                if chapter_complete:
+                    completed_chapters += 1
+
+                context["chapter_data"].append(
+                    {
+                        "chapter": chapter,
+                        "segments": segment_rows,
+                        "completed": chapter_complete,
+                        "percent_complete": (
+                            int((completed_segments / len(segments)) * 100)
+                            if segments
+                            else 0
+                        ),
+                    }
+                )
+
+            # Course percent
+            if chapters:
+                context["course_percent_complete"] = int(
+                    (completed_chapters / chapters.count()) * 100
+                )
 
         return context
 

@@ -1,50 +1,46 @@
 <nav>
   <ol>
-    {% for chapter in course.get_children.live.specific %}
+    {% for row in chapter_data %}
       <li class="compact">
+
         <p class="chapter kicker">
-          Chapter {{ forloop.counter }}<span {% if chapter.get_children.live.count == 1 %}class="single-segment"{% endif %}>: {{ chapter.title }}</span>
+          Chapter {{ forloop.counter }}: {{ row.chapter.title }}
+
+          {% if row.completed %}
+            <svg width="20" height="20" data-icon="check-circle" aria-hidden="true"></svg>
+          {% else %}
+            <svg width="20" height="20" data-icon="circle" aria-hidden="true"></svg>
+          {% endif %}
         </p>
-        {% if chapter.get_children.live %}
-          <ol>
 
-            {% for segment in chapter.get_children.live.specific %}
+        <ol>
+          {% for s in row.segments %}
+            <li {% if s.completed %}class="completed"{% endif %}>
+              <a href="{{ s.segment.url }}#main"
+                 {% if request.path == s.segment.url %}class="active"{% endif %}>
 
-            {% comment %} TODO: If segment is completed, add `completed` class to <li> so [quiz] tag turns green {% endcomment %}
-            <li {% if segment.segment_progress == 100 %}class="completed"{% endif %}>
-              <a href="{{ segment.url }}#main" {% if request.path == segment.url %}class="active"{% endif %}>
-              
                 <span class="tooltip">
-                  {% if segment.quiz %}
+                  {% if s.segment.quiz %}
                     <span class="quiz-badge kicker">Quiz</span>
-                    <span class="screen-reader">{{ forloop.parentloop.counter }}</span>
-
-                    {{ segment.quiz.title|default:"Test your knowledge" }}
+                    {{ s.segment.quiz.title|default:"Test your knowledge" }}
                   {% else %}
-                    {{ segment.title }}
+                    {{ s.segment.title }}
                   {% endif %}
                 </span>
 
-                {% comment %} TODO: Fix line below to be the completion status of the segment in the loop (not the current page) {% endcomment %}
-                {% if segment.segment_progress == 100 %}
+                {% if s.completed %}
                   <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
                 {% else %}
                   <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
                 {% endif %}
               </a>
             </li>
-            {% endfor %}
+          {% endfor %}
+        </ol>
 
-          </ol>
-        {% endif %}
       </li>
     {% endfor %}
   </ol>
-  
-  {% comment %} Checkmark to be injected with JS as soon as video is fully watched {% endcomment %}
-  <template class="complete-checkmark-list">
-    <svg width="24" height="24" data-icon="check-circle" aria-hidden="true"></svg>
-  </template>
 </nav>
 
 <script>
