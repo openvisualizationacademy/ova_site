@@ -65,14 +65,14 @@ class QuizMixin:
             },
         )
 
-    def mark_segment_complete(self, user):
+    def mark_segment_complete(self, user, score):
         from .models import SegmentProgress
 
         seg_prog, _ = SegmentProgress.objects.get_or_create(
             user=user,
             segment=self,
         )
-        seg_prog.percent_watched = 100
+        seg_prog.percent_watched = score
         seg_prog.save()
 
     def handle_quiz_submission(self, request):
@@ -93,7 +93,7 @@ class QuizMixin:
                 answers=answers,
                 answer_results=answer_results,
             )
-            self.mark_segment_complete(request.user)
+            self.mark_segment_complete(request.user, score)
 
         context = self.get_context(request)
         context.update(
