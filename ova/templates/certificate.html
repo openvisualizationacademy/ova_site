@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate (Draft)</title>
+    <style>
+      @page {
+        margin: 0;
+        size: a4 landscape;
+      }
+
+      @font-face {
+        font-display: swap;
+        font-family: "AtkinsonHyperlegibleNextVF";
+        font-style: normal;
+        font-weight: 100 900;
+
+src: url("https://ovastgacct.blob.core.windows.net/ovablob/certificate/fonts/AtkinsonHyperlegibleNextVF-Variable.woff2") format("woff2 supports variations"),
+            url("https://ovastgacct.blob.core.windows.net/ovablob/certificate/fonts/AtkinsonHyperlegibleNextVF-Variable.woff2") format("woff2-variations");
+      }
+
+      :root {
+        --font-family: "AtkinsonHyperlegibleNextVF", sans-serif;
+        color-scheme: light;
+
+        /* Greys scheme from d3 or https://colorbrewer2.org */
+        --neutral-100: #ffffff;
+        --neutral-200: #f0f0f0;
+        --neutral-300: #d9d9d9;
+        --neutral-400: #bdbdbd;
+        --neutral-500: #969696;
+        --neutral-600: #737373;
+        --neutral-700: #525252;
+        --neutral-800: #252525;
+        --neutral-900: #000000;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        overflow: hidden;
+      }
+
+      .grid {
+        display: grid;
+        gap: 0mm;
+        grid-template-columns: repeat(12, 1fr);
+        place-self: center;
+        width: 100%;
+      }
+
+      body {
+        background: var(--neutral-100);
+        color: var(--neutral-800);
+        display: flex;
+        flex-direction: column;
+        font-family: var(--font-family);
+        font-weight: 400;
+        gap: calc(297mm / 24);
+        height: 210mm;
+        line-height: 1.5;
+        margin: 0mm;
+        padding: calc(297mm / 12);
+        position: relative;
+        width: 297mm;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      svg {
+        display: inline-block;
+        height: 1em;
+        max-width: 100%;
+        width: 1em;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      main {
+        align-items: end;
+        height: 100%;
+      }
+
+      h1 {
+        font-size: 12pt;
+        font-weight: 700;
+        letter-spacing: .1em;
+        margin: 0;
+        padding-bottom: 36pt;
+        text-transform: uppercase;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .content p {
+        display: flex;
+        flex-direction: column;
+        gap: 16pt;
+      }
+
+      .content p > span {
+        display: block;
+        text-wrap: pretty;
+      }
+
+      span.student-name {
+        font-size: 24pt;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      span.course-name {
+        font-size: 18pt;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      .wave {
+        max-width: unset;
+        position: absolute;
+        right: -50mm;
+        transform: rotate(30deg);
+        top: -155mm;
+        width: calc(297mm * 1.25);
+        z-index: -1;
+      }
+
+      .logo {
+        grid-column: span 3;
+      }
+
+      .content,
+      .issued-date {
+        grid-column: 1 / 7;
+      }
+
+      .signature,
+      .ova-link {
+        grid-column: 9 / 13;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      .ova-link {
+        align-items: center;
+        display: flex;
+        gap: .5em;
+      }
+
+      .signature img {
+        bottom: -5mm;
+        left: 5mm;
+        position: relative;
+        width: 50mm;
+      }
+
+      .signature figcaption {
+        border-top: 1pt solid var(--neutral-600);
+        padding-top: 8pt;
+      }
+
+      .signature figcaption small {
+        color: var(--neutral-600);
+        display: block;
+        margin-top: 16pt;
+        text-wrap: pretty;
+      }
+
+    </style>
+  </head>
+  <body>
+    <header class="grid">
+      <img class="logo" src="https://ovastgacct.blob.core.windows.net/ovablob/certificate/media/ova-icon-type-light-slim.png" alt="Open Visualization Academy Logo">
+      <!-- Visual decoration: a wave made from straight lines, colored as a yellow-to-red gradient -->
+      <img class="wave" src="https://ovastgacct.blob.core.windows.net/ovablob/certificate/media/wave.png" alt="" aria-hidden="true">
+    </header>
+    <main class="grid">
+      <div class="content">
+        <h1>Certificate of Completion</h1>
+        <p>
+          <span class="student-name">Melissa Strong</span>
+          <span>has successfully completed</span>
+          <span class="course-name">The Craft of Building Stories with Data</span>
+          <span class="course-details">a self-paced 3-hour online course taught by <span class="instructor-name">Gurman Bhatia</span> and offered by the Open Visualization Academy, a free repository of knowledge about information design and data visualization</span>
+        </p>
+      </div> 
+      <figure class="signature">
+        <img src="https://ovastgacct.blob.core.windows.net/ovablob/certificate/media/signature-cairo.png" alt="Signature">
+        <figcaption>
+          Alberto Cairo
+          <small>
+            Founder of the Open Visualization Academy, Knight Chair
+            in Infographics and Data Visualization at the University of
+            Miami, and Director of the Visualization program at UM’s
+            Frost Institute for Data Science and Computing
+          </small>
+        </figcaption>
+      </figure>
+    </main>
+    <footer class="grid">
+      <p class="issued-date">
+        Issued
+        <time datetime="2025-12-15">December 15, 2025</time>
+      </p>
+      <p class="ova-link">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22" ></path>
+          <path d="M13 2.04932C13 2.04932 16 5.99994 16 11.9999"></path>
+          <path d="M11 21.9506C11 21.9506 8 17.9999 8 11.9999C8 5.99994 11 2.04932 11 2.04932"></path>
+          <path d="M2.62964 15.5H12"></path>
+          <path d="M2.62964 8.5H21.3704"></path>
+          <path d="M21.8789 17.9174C22.3727 18.2211 22.3423 18.9604 21.8337 19.0181L19.2671 19.309L18.1159 21.6213C17.8878 22.0795 17.1827 21.8552 17.0661 21.2873L15.8108 15.1713C15.7123 14.6913 16.1437 14.3892 16.561 14.646L21.8789 17.9174Z"></path>
+        </svg>
+        <a href="https://openvisualizationacademy.org" target="_blank">openvisualizationacademy.org</a>
+      </p>
+    </footer>
+  </body>
+</html>
