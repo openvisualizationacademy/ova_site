@@ -271,3 +271,5 @@ AZURE_COMMUNICATION_CONNECTION_STRING = os.getenv("AZURE_COMM_EMAIL_STRING")
 EMAIL_FAIL_SILENTLY = False
 DEFAULT_FROM_EMAIL = "no-reply@openvisualizationacademy.org"  # not for auth emails
 ACCOUNT_ADAPTER = "users.adapter.ACSAccountAdapter"
+
+WEASYPRINT_FUNCTION_URL = os.getenv("WEASYPRINT_FUNCTION_URL")

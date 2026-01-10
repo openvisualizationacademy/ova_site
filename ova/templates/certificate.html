@@ -194,13 +194,15 @@ src: url("https://ovastgacct.blob.core.windows.net/ovablob/certificate/fonts/Atk
       <img class="wave" src="https://ovastgacct.blob.core.windows.net/ovablob/certificate/media/wave.png" alt="" aria-hidden="true">
     </header>
     <main class="grid">
-      <div class="content">
+      <div class="content" role="document">
         <h1>Certificate of Completion</h1>
         <p>
-          <span class="student-name">Melissa Strong</span>
+          <span class="student-name">{{ student_name }}</span>
           <span>has successfully completed</span>
-          <span class="course-name">The Craft of Building Stories with Data</span>
-          <span class="course-details">a self-paced 3-hour online course taught by <span class="instructor-name">Gurman Bhatia</span> and offered by the Open Visualization Academy, a free repository of knowledge about information design and data visualization</span>
+          <span class="course-name">{{ course_name }}</span>
+          <span class="course-details">a self-paced, {{ course_duration }}-hour online course taught by
+            <span class="instructor-name">{{ course_instructor }}</span>
+            and offered by the Open Visualization Academy, a free repository of knowledge about information design and data visualization.</span>
         </p>
       </div> 
       <figure class="signature">
@@ -219,7 +221,9 @@ src: url("https://ovastgacct.blob.core.windows.net/ovablob/certificate/fonts/Atk
     <footer class="grid">
       <p class="issued-date">
         Issued
-        <time datetime="2025-12-15">December 15, 2025</time>
+        <time datetime="{{ issue_date|date:'Y-m-d' }}">
+          {{ issue_date|date:"F j, Y" }}
+        </time>
       </p>
       <p class="ova-link">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
