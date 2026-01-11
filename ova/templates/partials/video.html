@@ -9,7 +9,7 @@
   </div>
 {% endif %}
 
-{# comment #} Pass this through so we can update the progress bar in JS {# endcomment #}
+{% comment %} Pass this through so we can update the progress bar in JS {% endcomment %}
 <script>
   window.segmentPercentWatched = {{ segment_progress|default:0 }};
 </script>
