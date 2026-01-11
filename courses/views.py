@@ -157,6 +157,7 @@ def generate_certificate(request, course_id):
         raise Http404("Missing display name")
 
     # Course duration (human-readable)
+    # TODO: calculate course duration from segments
     if course.duration:
         total_minutes = int(course.duration.total_seconds() // 60)
         hours = total_minutes // 60
@@ -167,7 +168,7 @@ def generate_certificate(request, course_id):
         else:
             course_duration = f"{hours}h"
     else:
-        course_duration = "self-paced"
+        course_duration = ""
 
     # Instructor names (comma-separated)
     instructors = [
@@ -176,7 +177,7 @@ def generate_certificate(request, course_id):
     ]
     course_instructor = ", ".join(instructors)
 
-    issue_date = "2025-06-22"  # course_completed.completed_at.date()
+    issue_date = course_completed.completed_at.date()
 
     # ---- 3. Render certificate HTML ----
     html = render_to_string(
@@ -192,7 +193,7 @@ def generate_certificate(request, course_id):
 
     # ---- 4. Call Azure Function ----
     response = requests.post(
-        settings.WEASYPRINT_FUNCTION_URL,  # includes ?code=...
+        settings.CERT_FUNCTION_URL,  # includes ?code=...
         headers={
             "Content-Type": "text/html; charset=utf-8",
         },
