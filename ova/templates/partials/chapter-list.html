@@ -18,12 +18,14 @@
                  {% if request.path == s.segment.url %}class="active"{% endif %}>
 
                 <span class="tooltip">
-                  {% if s.segment.quiz %}
-                    <span class="quiz-badge kicker">Quiz</span>
-                    {{ s.segment.quiz.title|default:"Test your knowledge" }}
-                  {% else %}
-                    {{ s.segment.title }}
-                  {% endif %}
+                  {% with quiz=s.segment.get_quiz %}
+                    {% if quiz %}
+                      <span class="quiz-badge kicker">Quiz</span>
+                      {{ quiz.title|default:"Test your knowledge" }}
+                    {% else %}
+                      {{ s.segment.title }}
+                    {% endif %}
+                  {% endwith %}
                 </span>
 
                 {% if s.completed %}
