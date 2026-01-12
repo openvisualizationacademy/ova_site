@@ -274,79 +274,95 @@ export default class Video {
     }); 
 
     // When video is progressing or user is scrubbing
-    this.player.on("timeupdate", (data) => {
-
-      // Ensure video is actually playing
-      if (!this.isPlaying) return;
-
-      // If video duration was not already obtained
-      if (!this.duration) {
-
-        // Get video duration in seconds and cache it
-        this.duration = data.duration;
-      }
-
-      // Get current position of video (in seconds)
-      const { seconds } = data;
-
-      // Visually mark current position of video on parts bar
-      this.updatePlayhead(seconds);
-
-      // Throttle to run roughly once every 3 seconds
-      if (Math.abs(seconds - this.lastSeconds) < this.delay) return;
-
-      // Store seconds for checking in next timeupdate call
-      this.lastSeconds = seconds;
-
-      // Check which part of the video is currently being played
-      for (let i = 0; i < this.parts.length; i++) {
-
-        // Get limit of current part as decimal (.1, .2, .3, …, 1)
-        const upperLimit = (i + 1) / this.parts.length;
-
-        // If user is watching the current part (like 1/10, 2/10, 3/10)
-        if (data.percent < upperLimit) {
-
-          // Update part in parts array as true (watched)
-          this.parts[i] = true;
-
-          // Stop checking further
-          break;
-        }
-      }
-
-      // Update UI
-      this.showProgress();
-
-      // Ensure segmentId is provided
-      if (segmentId === undefined) return;
-
-      // Check if percent watched changed before calling the API (so we don’t overwhelm it it every timeupdate)
-      if (this.lastPercentWatched !== this.percentWatched) {
-
-        // Send API request to update completion status in DB
-        this.course.progress.updateSegment(segmentId, this.percentWatched);
-
-        // Update last time API was called to prevent calls soon after
-        this.lastPercentWatched = this.percentWatched;
-        
-        // Update localStorage value for redundancy
-        this.storePartsWatched();
-
-        // If video is fully watched
-        if (this.percentWatched === 100) {
-          // Optimistically display green checkmark on segment title and on chapter list
-          this.updateCheckmark();
-        }
-      }
-
-    });
+    this.player.on("timeupdate", (data) => this.handeTimeUpdate(data));
 
     this.setupProgress();
   }
   
   setup() {    
     this.setupPlayer();
+  }
+
+  async handleTimeUpdate(data) {
+    // Ensure video is actually playing
+    if (!this.isPlaying) return;
+
+    // If video duration was not already obtained
+    if (!this.duration) {
+
+      // Get video duration in seconds and cache it
+      this.duration = data.duration;
+    }
+
+    // Get current position of video (in seconds)
+    const { seconds } = data;
+
+    // Visually mark current position of video on parts bar
+    this.updatePlayhead(seconds);
+
+    // Get how many seconds have gone by since last check
+    const difference = Math.abs(seconds - this.lastSeconds);
+    
+    // Throttle to run roughly once every 3 seconds
+    if (difference < this.delay) return;
+
+    // Store seconds for checking in next timeupdate call
+    this.lastSeconds = seconds;
+
+    // Check which part of the video is currently being played
+    for (let i = 0; i < this.parts.length; i++) {
+
+      // Get limit of current part as decimal (.1, .2, .3, …, 1)
+      const upperLimit = (i + 1) / this.parts.length;
+
+      // If user is watching the current part (like 1/10, 2/10, 3/10)
+      if (data.percent < upperLimit) {
+
+        // Update part in parts array as true (watched)
+        this.parts[i] = true;
+
+        // Stop checking further
+        break;
+      }
+    }
+
+    // Update UI
+    this.showProgress();
+
+    // Ensure segmentId is provided
+    if (segmentId === undefined) return;
+
+    // Check if percent watched changed before calling the API (so we don’t overwhelm it it every timeupdate)
+    if (this.lastPercentWatched !== this.percentWatched) {
+
+      // TODO: Handle errors
+
+      // Send API request to update completion status in DB
+      const responseData = await this.course.progress.updateSegment(segmentId, this.percentWatched);
+
+      // If data was not saved in the DB, stop executing
+      if (!responseData.saved) return;
+
+      // Update last time API was called to prevent calls soon after
+      this.lastPercentWatched = this.percentWatched;
+      
+      // Update localStorage value for redundancy
+      this.storePartsWatched();
+
+      // If video is fully watched
+      if (responseData.percent_watched === 100) {
+        // Display green checkmark on segment title and on chapter list (without the need to reload the page)
+        this.updateCheckmark();
+      }
+
+      // If course is now complete
+      if (responseData.course_completed) {
+
+        // TODO: Congratulate student and provide link for certificate
+        console.log("Course complete");
+      }
+
+    }
   }
 
   updatePlayhead(seconds) {

@@ -24,6 +24,8 @@ export default class Progress {
 
     const data = await response.json();
     console.log(data);
+
+    return data;
   }
 
   setup() {}
