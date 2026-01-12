@@ -62,10 +62,7 @@
       <script>
 
         /* Percent of segment complete (0-100) */
-        const segmentId = {{ segment.id }};
-        
-        /* Percent of segment complete (0-100) */
-        const segmentPercentWatched = {{ segment_progress|default:0 }};
+        window.segmentId = {{ segment.id }};
       </script>
 
       <div class="tracker">
