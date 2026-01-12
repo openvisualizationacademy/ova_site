@@ -80,6 +80,7 @@ export default class ThemePicker {
     this.rememberUserPreference();
   }
 
+
   addTemporaryImage(picture) {
     const themeSrc = picture.querySelector(`source[media*="${this.user}"`)?.srcset;
     const pictureImg = picture.querySelector("img");

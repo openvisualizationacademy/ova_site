@@ -1,3 +1,4 @@
 {% load static %}
 
-<div class="background" style="background-image: url({% static 'media/decoration/perlin-noise-dithering-fs.png' %})"></div>
+<!-- Shown via JS to prevent FOUC (otherwise invert filters is applied with a delay) -->
+<div class="background" hidden style="background-image: url({% static 'media/decoration/perlin-noise-dithering-fs.png' %})"></div>

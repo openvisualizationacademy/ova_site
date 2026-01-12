@@ -9,6 +9,7 @@ import Course from "./Course.js";
 import Instructors from "./Instructors.js";
 import Contributors from "./Contributors.js";
 import Certificate from "./Certificate.js";
+import Background from "./Background.js";
 
 export default class App {
   constructor(selector) {
@@ -42,6 +43,7 @@ export default class App {
     this.contributors = new Contributors(this, ".contributors");
     this.themePicker = new ThemePicker(this, ".theme-picker");
     this.certificate = new Certificate(this, ".certificate");
+    this.background = new Background(this, ".background");
 
     // Allow anchor navigation, but don’t change url
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
