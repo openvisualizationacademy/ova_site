@@ -14,7 +14,6 @@ button.reset {
   gap: 0rem;
   letter-spacing: 0.01em;
   outline-offset: 0.4rem;
-  overflow: hidden;
   position: relative;
   text-decoration: none;
   user-select: none;
@@ -70,6 +69,11 @@ button.reset {
 
 .button span {
   padding-inline: .8rem;
+}
+
+.certificate .button {
+  box-shadow: 0 0 2.4rem light-dark(var(--success-300), var(--success-900));
+  mix-blend-mode: luminosity;
 }
 
 @media (hover: hover) {

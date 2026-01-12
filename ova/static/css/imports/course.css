@@ -130,7 +130,7 @@ section.course-page {
 }
 
 .progress.completed {
-  background: light-dark(var(--success-300), var(--success-900));
+  background: light-dark(var(--success-200), var(--success-900));
 }
 
 .progress .donut {
@@ -142,7 +142,7 @@ section.course-page {
   --thickness-percent: calc(100% * var(--ratio));
   align-items: center;
   border-radius: 50%;
-  color: light-dark(var(--success-600), var(--success-500));
+  color: light-dark(var(--success-700), var(--success-400));
   display: flex;
   height: calc(var(--radius) * 2);
   justify-content: center;
@@ -173,7 +173,7 @@ section.course-page {
 }
 
 .progress.completed .donut {
-  --inner-color: light-dark(var(--success-300), var(--success-900));
+  --inner-color: light-dark(var(--success-200), var(--success-900));
 }
 
 .progress p {
@@ -861,12 +861,12 @@ section.overview {
   }
 
   .progress.completed {
-    background: var(--success-300);
+    background: var(--success-200);
   }
 
   .progress .donut {
     --inner-color: var(--neutral-150);
-    color: var(--success-600);
+    color: var(--success-700);
     background:
       radial-gradient(
         closest-side,
@@ -880,7 +880,7 @@ section.overview {
   }
 
   .progress.completed .donut {
-    --inner-color: var(--success-300);
+    --inner-color: var(--success-200);
   }
 
   .progress:not(.completed) .percent {

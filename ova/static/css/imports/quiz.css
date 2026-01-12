@@ -59,7 +59,7 @@
   background: linear-gradient( to right, light-dark(var(--success-200), color-mix(in srgb, var(--success-900) 50%, var(--neutral-900))), light-dark(var(--success-300), var(--success-900)));
 
   & [data-icon] {
-    color: light-dark(var(--success-700), var(--success-300));
+    color: light-dark(var(--success-700), var(--success-400));
   }
 }
 
