@@ -1,4 +1,8 @@
 <nav>
+
+  <!-- Screen reader announcements -->
+  <div id="completed" hidden>Completed</div>
+
   <ol>
     {% for row in chapter_data %}
       <li class="compact">
@@ -9,7 +13,6 @@
 
         <ol>
           {% for s in row.segments %}
-            <li {% if s.completed %}class="completed"{% endif %}>
             <li {% if s.completed %}aria-describedby="completed"{% endif %}>
               <a href="{{ s.segment.url }}#main"
                  {% if request.path == s.segment.url %}class="active"{% endif %}>
@@ -47,11 +50,12 @@
     const compactView = localStorage.getItem("compactView");
     if (compactView === null) {
       
-        // Display expanded if no preference is stored and user is on mobile
-        if (window.innerWidth <= 480) {
-          input.checked = false;
-          toggleCompact(false);
-        }
+      // Display expanded if no preference is stored and user is on mobile
+      if (window.innerWidth <= 480) {
+        input.checked = false;
+        toggleCompact(false);
+      }
+      
       return;
     }
 
