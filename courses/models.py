@@ -527,6 +527,16 @@ class SegmentPage(QuizMixin, Page):
         context["chapters_progress_list"] = []
         context["chapter_percent_complete"] = 0
         context["course_percent_complete"] = 0
+
+        # Get chapters and segments (to be used for both anonymous and signed in users)
+        chapters = course.get_children().type(ChapterPage).live().specific()
+        # Prefetch all segments once
+        all_segments = (
+            SegmentPage.objects.filter(path__startswith=course.path)
+            .live()
+            .specific()
+        )
+
         if user.is_authenticated:
 
             # -----------------------------
@@ -546,17 +556,9 @@ class SegmentPage(QuizMixin, Page):
             # -----------------------------
             # Chapters + segments + progress
             # -----------------------------
-            chapters = course.get_children().type(ChapterPage).live().specific()
 
             context["chapters_in_course"] = chapters
             context["chapter_data"] = []
-
-            # Prefetch all segments once
-            all_segments = (
-                SegmentPage.objects.filter(path__startswith=course.path)
-                .live()
-                .specific()
-            )
 
             # Segment progress lookup
             segment_progress_map = {
@@ -623,6 +625,28 @@ class SegmentPage(QuizMixin, Page):
             if chapters:
                 context["course_percent_complete"] = int(
                     (completed_chapters / chapters.count()) * 100
+                )
+        else:
+
+            # For anonymous users, provide simpler list of chapters and segments 
+
+            context["chapter_data"] = []
+
+            for chapter in chapters:
+                segments = [s for s in all_segments if s.get_parent().id == chapter.id]
+                segment_rows = []
+                for segment in segments:
+                    segment_rows.append(
+                        {
+                            "segment": segment,
+                        }
+                    )
+
+                context["chapter_data"].append(
+                    {
+                        "chapter": chapter,
+                        "segments": segment_rows
+                    }
                 )
 
         return context
