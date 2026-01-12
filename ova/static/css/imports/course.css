@@ -690,7 +690,7 @@ section.overview {
   /* background: light-dark(var(--neutral-300), var(--neutral-700)); */
 }
 
-[aria-describedby="completed"] .quiz-badge {
+.completed .quiz-badge {
   background: light-dark(var(--success-600), var(--success-500));
   color: light-dark(var(--neutral-100), var(--neutral-900));
 }
@@ -968,7 +968,7 @@ section.overview {
     color: var(--neutral-900);
   }
 
-  [aria-describedby="completed"] .quiz-badge {
+  .completed .quiz-badge {
     background: var(--success-600);
     color: var(--neutral-100);
   }

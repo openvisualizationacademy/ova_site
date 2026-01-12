@@ -2,6 +2,9 @@
 
 <section class="course-page grid">
 
+  <!-- Screen reader announcements -->
+  <div id="completed" hidden>Completed</div>
+
   <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
     {% if course.image %}
       {% image course.image original as img %}
@@ -145,9 +148,9 @@
     </aside>
 
     {% comment %} If segment is completed, add `completed` class so [quiz] tag turns green {% endcomment %}
-    <section class="content {% if segment_progress == 100 %}completed{% endif %}">
+    <section class="content">
 
-      <h2 id="main" tabindex="-1">
+      <h2 id="main" tabindex="-1" {% if segment_progress == 100 %}class="completed"{% endif %}>
         <span class="number kicker">
           {{ chapter_number }}.{{ segment_number }}
         </span>
@@ -159,7 +162,6 @@
             {{ segment.title }}
           {% endif %}
 
-          <!-- TODO: Display checkmark also for completed quiz -->
           {% if segment_progress == 100 %}
             <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
           {% else %}
