@@ -3,19 +3,14 @@
     {% for row in chapter_data %}
       <li class="compact">
 
-        <p class="chapter kicker">
-          Chapter {{ forloop.counter }}: {{ row.chapter.title }}
-
-          {% if row.completed %}
-            <svg width="20" height="20" data-icon="check-circle" aria-hidden="true"></svg>
-          {% else %}
-            <svg width="20" height="20" data-icon="circle" aria-hidden="true"></svg>
-          {% endif %}
+        <p class="chapter kicker" {% if row.completed %}aria-describedby="completed"{% endif %}>
+          Chapter {{ forloop.counter }}<span {% if row.segments|length == 1 %}class="single-segment"{% endif %}>: {{ row.chapter.title }}</span>
         </p>
 
         <ol>
           {% for s in row.segments %}
             <li {% if s.completed %}class="completed"{% endif %}>
+            <li {% if s.completed %}aria-describedby="completed"{% endif %}>
               <a href="{{ s.segment.url }}#main"
                  {% if request.path == s.segment.url %}class="active"{% endif %}>
 
