@@ -18,6 +18,7 @@ button.reset {
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .button.primary {
