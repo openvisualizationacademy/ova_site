@@ -1,9 +1,10 @@
 from django.db import models
+from django.db.models import Prefetch
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 
-from courses.models import CoursesIndexPage, CoursePage, Instructor
+from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instructor
 
 import re
 
@@ -17,7 +18,8 @@ class HomePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        
+        user = request.user
+
         # Get the CoursesIndexPage instance
         courses_index = CoursesIndexPage.objects.live().first()
         if courses_index:
@@ -29,6 +31,21 @@ class HomePage(Page):
                 for tag in course.tags.all():
                     tags.add(str(tag))
             
+            # Check if user completed any course
+            if user.is_authenticated:
+                progress_queryset = CourseProgress.objects.filter(user=user)
+                courses = courses.prefetch_related(
+                    Prefetch(
+                        'courseprogress_set',
+                        queryset=progress_queryset,
+                        to_attr='progress'
+                    )
+                )
+                for course in courses:
+                    # Access and assign first item in the list created by to_attr
+                    progress = course.progress[0] if course.progress else None
+                    course.completed = progress.completed if progress else False
+
             context['courses'] = courses
 
             # TODO: Consider sorting in order of importance
