@@ -198,6 +198,7 @@ class CoursePage(Page):
     """Instructors are linked via InstructorsOrderable model to implement many to one."""
 
     duration = models.DurationField(blank=True, null=True)
+    duration_seconds = models.PositiveIntegerField(blank=True, null=True)
     updated_on = models.DateTimeField(blank=True, null=True)
 
     content = StreamField(
@@ -218,7 +219,13 @@ class CoursePage(Page):
     tags = ClusterTaggableManager(through=CourseCategoryTag, blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel("image"),
+        FieldRowPanel(
+            [
+                FieldPanel("image"),
+                FieldPanel("duration_seconds", help_text="duration in seconds"),
+                FieldPanel("updated_on"),
+            ]
+        ),
         FieldPanel("content"),
         MultiFieldPanel(
             [
@@ -553,9 +560,7 @@ class SegmentPage(QuizMixin, Page):
         chapters = course.get_children().type(ChapterPage).live().specific()
         # Prefetch all segments once
         all_segments = (
-            SegmentPage.objects.filter(path__startswith=course.path)
-            .live()
-            .specific()
+            SegmentPage.objects.filter(path__startswith=course.path).live().specific()
         )
 
         if user.is_authenticated:
@@ -649,7 +654,7 @@ class SegmentPage(QuizMixin, Page):
                 )
         else:
 
-            # For anonymous users, provide simpler list of chapters and segments 
+            # For anonymous users, provide simpler list of chapters and segments
 
             context["chapter_data"] = []
 
@@ -664,10 +669,7 @@ class SegmentPage(QuizMixin, Page):
                     )
 
                 context["chapter_data"].append(
-                    {
-                        "chapter": chapter,
-                        "segments": segment_rows
-                    }
+                    {"chapter": chapter, "segments": segment_rows}
                 )
 
         return context
