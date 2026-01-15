@@ -75,6 +75,7 @@ button.reset {
 .certificate .button {
   box-shadow: 0 0 2.4rem light-dark(var(--success-300), var(--success-900));
   mix-blend-mode: luminosity;
+  overflow: visible;
 }
 
 @media (hover: hover) {
