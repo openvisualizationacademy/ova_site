@@ -23,6 +23,7 @@
     <ul class="cards">
       {% for course in courses %}
         <li class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+          {% comment %} TODO: Don’t create link if course is not live yet (coming soon) {% endcomment %}
           <a href="{{ course.url }}" class="card">
             <div class="primary">
               <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
@@ -33,6 +34,8 @@
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
                 {% endif %}
               </div>
+              {% comment %} TODO: Check if course is coming soon and add badge (consider adding date, season, month, etc) {% endcomment %}
+              <!-- <span class="coming-soon-badge kicker">Coming soon</span> -->
               <h3>{{ course.title }}</h3>
               <p class="authors small">
                 <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
@@ -51,8 +54,8 @@
             <div class="secondary small">
               <p class="tags">
                 {% if user.is_authenticated %}
-                  <!-- TODO: Check if user is signed in and has completed the course -->
-                  {% comment %} <span class="completed-badge kicker">Completed</span> {% endcomment %}
+                  {% comment %} TODO: Check if user is signed in and has completed the course {% endcomment %}
+                  <!-- <span class="completed-badge kicker">Completed</span>-->
                 {% endif %}
 
                 {% for tag in course.tags.all %}

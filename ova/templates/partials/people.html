@@ -58,6 +58,7 @@
               <ul class="courses small">
                 {% for instructor_course in person.instructor_course.all %}
                   <li>
+                    {% comment %} TODO: Don’t add link if course is coming soon {% endcomment %}
                     <a href="{{ instructor_course.page.url }}">
                       {{ instructor_course.page.title }}
                     </a>

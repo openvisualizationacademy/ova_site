@@ -39,6 +39,7 @@
 }
 
 .courses .filters input:not([value="all"]) + span::before {
+
   /* content: "" / "Tag: "; */
 }
 
@@ -90,9 +91,24 @@
   gap: 0;
   justify-content: space-between;
   overflow: hidden;
+  position: relative;
   text-decoration: none;
   transition: border 0.2s;
   width: 100%;
+}
+
+.course .card:has(.coming-soon-badge) {
+  color: light-dark(var(--neutral-600), var(--neutral-500));
+  cursor: default;
+  pointer-events: none;
+
+  & .media {
+    opacity: .666;
+  }
+
+  & .duration {
+    display: none;
+  }
 }
 
 .course p {
@@ -206,6 +222,21 @@
   padding-inline: .6rem;
 }
 
+.course .coming-soon-badge {
+  align-items: baseline;
+  align-self: start;
+  background-color: light-dark(var(--neutral-800), var(--neutral-200));
+  border-radius: .4rem;
+  color: light-dark(var(--neutral-100), var(--neutral-900));
+  display: flex;
+  inset-block-start: 1.6rem;
+  inset-inline-start: 1.6rem;
+  margin-inline-end: .6rem;
+  padding-block: .6rem .4rem;
+  padding-inline: .6rem;
+  position: absolute;
+}
+
 .courses .cta {
   align-items: baseline;
   display: flex;
@@ -239,7 +270,7 @@
 /* Force light theme if browser does not support light-dark rules */
 @supports not (color: light-dark(black, white)) {
   .courses .filters label {
-    background: var(--neutral-100);  
+    background: var(--neutral-100);
     border: 1px solid var(--neutral-300);
   }
 
@@ -278,7 +309,6 @@
   .course .duration {
     color: var(--neutral-700);
   }
-  
   .course .completed-badge {
     background: var(--success-600);
     color: var(--neutral-100);
