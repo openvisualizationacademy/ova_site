@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Prefetch
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.utils.text import slugify
@@ -113,15 +114,35 @@ class CoursesIndexPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
+        user = request.user
+
         courses = self.get_children().live().specific()
+        
+        # Get all tags
         tags = set()
         for course in courses:
             for tag in course.tags.all():
                 tags.add(str(tag))
-        context["courses"] = courses
+        
+        # Check if user completed any course
+        if user.is_authenticated:
+            progress_queryset = CourseProgress.objects.filter(user=user)
+            courses = courses.prefetch_related(
+                Prefetch(
+                    'courseprogress_set',
+                    queryset=progress_queryset,
+                    to_attr='progress'
+                )
+            )
+            for course in courses:
+                # Access and assign first item in the list created by to_attr
+                progress = course.progress[0] if course.progress else None
+                course.completed = progress.completed if progress else False
+
+        context['courses'] = courses
 
         # TODO: Consider sorting in order of importance
-        context["all_tags"] = sorted(tags)
+        context['all_tags'] = sorted(tags)
         return context
 
 
