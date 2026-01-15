@@ -29,7 +29,7 @@
               <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
                 {% if course.image %}
                   {% image course.image original as img %}
-                  <img src="{{ img.url }}" alt="">
+                  <img src="{{ img.url }}" alt="" loading="lazy">
                 {% else %}
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
                 {% endif %}
@@ -44,7 +44,7 @@
                   <span class="author">
                     {% if iteration.instructor.image %}
                       {% image iteration.instructor.image fill-48x48 as img %}
-                      <img src="{{ img.url }}" alt="">
+                      <img src="{{ img.url }}" alt="" loading="lazy">
                     {% endif %}
                     {{ iteration.instructor.name }}
                   </span>

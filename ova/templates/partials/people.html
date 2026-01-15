@@ -19,7 +19,7 @@
         {% if person.image %}
           {% with alt=person.image.description|default:"Profile" %}
             {% image person.image fill-480x480 as img %}
-            <img class="media" src="{{ img.url }}" alt="{{ alt }}">
+            <img class="media" src="{{ img.url }}" alt="{{ alt }}" loading="lazy">
           {% endwith %}
         {% else %}
           <div class="media"></div>
@@ -40,7 +40,7 @@
         {% if person.image %}
           {% with alt=person.image.description|default:"Profile" %}
             {% image person.image fill-480x480 as img %}
-            <img class="media" src="{{ img.url }}" loading="lazy" alt="{{ alt }}">
+            <img class="media" src="{{ img.url }}" loading="lazy" alt="{{ alt }}" loading="lazy">
           {% endwith %}
         {% else %}
           <div class="media"></div>
