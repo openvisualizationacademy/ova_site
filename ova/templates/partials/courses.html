@@ -25,6 +25,9 @@
         {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
           <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
             <a href="{{ course.url }}" class="card{% if course.coming_soon %} coming-soon{% endif %}">
+              {% if course.coming_soon %}
+                <span class="coming-soon-badge kicker" style="color: var(--neutral-100) !important; background-color: var(--neutral-800) !important; font-weight: 600; z-index: 1;">Coming {{ course.coming_soon }}</span>
+              {% endif %}
               <div class="primary">
                 <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
                   {% if course.image %}
@@ -34,9 +37,6 @@
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
                   {% endif %}
                 </div>
-                {% if course.coming_soon %}
-                  <span class="coming-soon-badge kicker">Coming {{ course.coming_soon }}</span>
-                {% endif %}
                 <h3>{{ course.title }}</h3>
                 <p class="authors small">
                   <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
