@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<section class="coming-soon">
+  <div class="container">
+    <div class="content-wrapper">
+
+      {% if course.image %}
+        <div class="course-image">
+          {% image course.image width-400 as img %}
+          <img src="{{ img.url }}" alt="{{ course.title }}" loading="lazy">
+        </div>
+      {% endif %}
+
+      <h1>{{ course.title }}</h1>
+
+      <div class="coming-soon-message">
+        <span class="badge">Coming Soon</span>
+        {% if estimated_release %}
+          <p class="release-date">Expected release: <strong>{{ estimated_release }}</strong></p>
+        {% endif %}
+      </div>
+
+      <div class="description">
+        <p>This course is currently being developed and is not yet available to the public.</p>
+
+        {% if not user.is_authenticated %}
+          <p>If you have been granted early access, please <a href="{% url 'account_login' %}">sign in</a> to view this course.</p>
+        {% elif user.is_staff or user.is_superuser %}
+          <p class="staff-notice">As a staff member, you have access to this course. However, it appears you're seeing this message, which may indicate an issue with the course setup.</p>
+        {% else %}
+          <p>If you believe you should have access to this course, please contact the course administrators.</p>
+        {% endif %}
+      </div>
+
+      <div class="actions">
+        <a href="/courses/" class="button primary">
+          Browse All Courses
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.coming-soon {
+  padding: 4rem 2rem;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon .container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.coming-soon .content-wrapper {
+  text-align: center;
+}
+
+.coming-soon .course-image {
+  margin-bottom: 2rem;
+}
+
+.coming-soon .course-image img {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.coming-soon h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.coming-soon-message {
+  margin-bottom: 2rem;
+}
+
+.coming-soon .badge {
+  display: inline-block;
+  background-color: #f0ad4e;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.coming-soon .release-date {
+  font-size: 1.125rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.coming-soon .description {
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.coming-soon .description p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.coming-soon .description a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.coming-soon .staff-notice {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  padding: 1rem;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.coming-soon .actions {
+  margin-top: 3rem;
+}
+
+.coming-soon .button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.coming-soon .button:hover {
+  background-color: #0056b3;
+}
+</style>
+
+{% endblock %}

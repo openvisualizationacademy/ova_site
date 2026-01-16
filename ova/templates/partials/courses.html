@@ -24,8 +24,7 @@
       {% for course in courses %}
         {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
           <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-            {% comment %} TODO: Don't create link if course is not live yet (coming soon) {% endcomment %}
-            <a href="{{ course.url }}" class="card">
+            <a href="{{ course.url }}" class="card{% if course.coming_soon %} coming-soon{% endif %}">
               <div class="primary">
                 <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
                   {% if course.image %}
@@ -35,8 +34,9 @@
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
                   {% endif %}
                 </div>
-                {% comment %} TODO: Check if course is coming soon and add badge (consider adding date, season, month, etc) {% endcomment %}
-                <!-- <span class="coming-soon-badge kicker">Coming soon</span> -->
+                {% if course.coming_soon %}
+                  <span class="coming-soon-badge kicker">Coming {{ course.coming_soon }}</span>
+                {% endif %}
                 <h3>{{ course.title }}</h3>
                 <p class="authors small">
                   <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>

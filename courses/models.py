@@ -213,6 +213,18 @@ class CoursePage(Page):
     duration_seconds = models.PositiveIntegerField(blank=True, null=True)
     updated_on = models.DateTimeField(blank=True, null=True)
 
+    # Coming Soon feature
+    coming_soon = models.TextField(
+        blank=True,
+        null=True,
+        help_text="If set, this course is marked as 'Coming Soon'. Enter estimated release date (e.g., 'Spring 2026', 'March 2026'). Leave empty to make course publicly available."
+    )
+    allowed_emails = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Comma-separated list of email addresses allowed to access this course while it's coming soon. Staff and superusers always have access."
+    )
+
     content = StreamField(
         [
             ("rich_text", RichTextBlock()),
@@ -239,6 +251,13 @@ class CoursePage(Page):
             ]
         ),
         FieldPanel("content"),
+        MultiFieldPanel(
+            [
+                FieldPanel("coming_soon"),
+                FieldPanel("allowed_emails"),
+            ],
+            heading="Coming Soon Settings",
+        ),
         MultiFieldPanel(
             [
                 InlinePanel("materials", label="Materials"),
@@ -316,8 +335,34 @@ class CoursePage(Page):
 
         return deduped
 
+    def user_has_access(self, user):
+        """Check if a user has access to this coming soon course."""
+        # If course is not coming soon, everyone has access
+        if not self.coming_soon:
+            return True
+
+        # Staff and superusers always have access
+        if user.is_authenticated and (user.is_staff or user.is_superuser):
+            return True
+
+        # Check if user's email is in the allowed list
+        if user.is_authenticated and self.allowed_emails:
+            allowed_list = [email.strip().lower() for email in self.allowed_emails.split(',') if email.strip()]
+            if user.email.lower() in allowed_list:
+                return True
+
+        # No access
+        return False
+
     # Redirect to first segment of first chapter
     def serve(self, request):
+        # Check coming soon access restrictions
+        if not self.user_has_access(request.user):
+            return render(request, 'courses/coming_soon.html', {
+                'page': self,
+                'course': self,
+                'estimated_release': self.coming_soon,
+            }, status=403)
         first_ch = self.get_children().type(ChapterPage).live().first()
         if first_ch:
             first_seg = first_ch.get_children().type(SegmentPage).live().first()
@@ -384,6 +429,18 @@ class ChapterPage(Page):
         self.slug = slugify(self.title)
 
         return super().save(*args, **kwargs)
+
+    def serve(self, request):
+        # Check parent course's coming soon restrictions
+        course = self.get_parent().specific
+        if hasattr(course, 'user_has_access') and not course.user_has_access(request.user):
+            return render(request, 'courses/coming_soon.html', {
+                'page': self,
+                'course': course,
+                'estimated_release': course.coming_soon,
+            }, status=403)
+
+        return super().serve(request)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -508,6 +565,19 @@ class SegmentPage(QuizMixin, Page):
         return super().save(*args, **kwargs)
 
     def serve(self, request):
+        # Check parent course's coming soon restrictions
+        chapter = self.get_parent()
+        if chapter:
+            course = chapter.get_parent()
+            if course and hasattr(course, 'specific'):
+                course = course.specific
+                if hasattr(course, 'user_has_access') and not course.user_has_access(request.user):
+                    return render(request, 'courses/coming_soon.html', {
+                        'page': self,
+                        'course': course,
+                        'estimated_release': course.coming_soon,
+                    }, status=403)
+
         # POST always wins
         if request.method == "POST":
             return self.handle_quiz_submission(request)
