@@ -2,7 +2,6 @@
   display: grid;
   gap: 2.4rem;
   grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
-  margin-block-end: 9.6rem;
 }
 
 .sponsors > * {
@@ -11,7 +10,6 @@
 
 .sponsors a {
   color: inherit;
-  /* font-size: 1.4rem; */
   max-width: 32rem;
   padding: 1.6rem;
   text-decoration: none;

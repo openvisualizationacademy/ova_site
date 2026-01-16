@@ -235,6 +235,7 @@
   padding-block: .6rem .4rem;
   padding-inline: .6rem;
   position: absolute;
+  z-index: 1;
 }
 
 .courses .cta {

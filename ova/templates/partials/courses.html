@@ -24,53 +24,60 @@
       {% for course in courses %}
         {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
           <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-            <a href="{{ course.url }}" class="card{% if course.coming_soon %} coming-soon{% endif %}">
-              {% if course.coming_soon %}
-                <span class="coming-soon-badge kicker" style="color: var(--neutral-100) !important; background-color: var(--neutral-800) !important; font-weight: 600; z-index: 1;">Coming {{ course.coming_soon }}</span>
-              {% endif %}
-              <div class="primary">
-                <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-                  {% if course.image %}
-                    {% image course.image original as img %}
-                    <img src="{{ img.url }}" alt="" loading="lazy">
-                  {% else %}
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
-                  {% endif %}
-                </div>
-                <h3>{{ course.title }}</h3>
-                <p class="authors small">
-                  <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
+            {% if course.coming_soon %}
+              <div class="card">
+                <span class="coming-soon-badge kicker">Coming {{ course.coming_soon }}</span>
+            {% else %}
+              <a href="{{ course.url }}" class="card">
+            {% endif %}
+                <div class="primary">
+                  <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                    {% if course.image %}
+                      {% image course.image original as img %}
+                      <img src="{{ img.url }}" alt="" loading="lazy">
+                    {% else %}
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
+                    {% endif %}
+                  </div>
+                  <h3>{{ course.title }}</h3>
+                  <p class="authors small">
+                    <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
 
-                  {% for iteration in course_instructors %}
-                    <span class="author">
-                      {% if iteration.instructor.image %}
-                        {% image iteration.instructor.image fill-48x48 as img %}
-                        <img src="{{ img.url }}" alt="" loading="lazy">
-                      {% endif %}
-                      {{ iteration.instructor.name }}
-                    </span>
-                  {% endfor %}
-                </p>
-              </div>
-              <div class="secondary small">
-                <p class="tags">
-                  {% if user.is_authenticated and course.completed %}
-                    <span class="completed-badge kicker">Completed</span>
-                  {% endif %}
-
-                  {% for tag in course_tags %}
-                    <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
-                  {% endfor %}
-              </p>
-              {% with duration=course.formatted_duration %}
-                {% if duration %}
-                  <p class="duration">
-                    <span class="screen-reader">Duration: </span>
-                    {{ course.formatted_duration }}
+                    {% for iteration in course_instructors %}
+                      <span class="author">
+                        {% if iteration.instructor.image %}
+                          {% image iteration.instructor.image fill-48x48 as img %}
+                          <img src="{{ img.url }}" alt="" loading="lazy">
+                        {% endif %}
+                        {{ iteration.instructor.name }}
+                      </span>
+                    {% endfor %}
                   </p>
-                {% endif %}
-              {% endwith %}
-            </div>
+                </div>
+                <div class="secondary small">
+                  <p class="tags">
+                    {% if user.is_authenticated and course.completed %}
+                      <span class="completed-badge kicker">Completed</span>
+                    {% endif %}
+
+                    {% for tag in course_tags %}
+                      <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+                    {% endfor %}
+                  </p>
+                  {% with duration=course.formatted_duration %}
+                    {% if duration %}
+                      <p class="duration">
+                        <span class="screen-reader">Duration: </span>
+                        {{ course.formatted_duration }}
+                      </p>
+                    {% endif %}
+                  {% endwith %}
+                </div>
+            {% if course.coming_soon %}
+              </div>
+            {% else %}
+              </a>
+            {% endif %}
           </a>
         </li>
         {% endwith %}

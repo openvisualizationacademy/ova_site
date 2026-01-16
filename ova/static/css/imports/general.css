@@ -42,6 +42,9 @@ header {
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 12rem - 2.4rem - 1.6rem);
   position: relative;
   z-index: 1;
 }
@@ -51,7 +54,7 @@ a {
 }
 
 section:not(.cover) {
-  margin: 9.6rem auto;
+  margin: 4.8rem auto;
   position: relative;
 }
 
