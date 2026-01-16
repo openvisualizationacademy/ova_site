@@ -14,9 +14,9 @@
     {% endif %}
 
     <h2>Segments</h2>
-    {% if page.get_children.live %}
+    {% if segments %}
       <ol>
-        {% for segment in page.get_children.live.specific %}
+        {% for segment in segments %}
           <li><a href="{{ segment.url }}">{{ segment.title }}</a></li>
         {% endfor %}
       </ol>

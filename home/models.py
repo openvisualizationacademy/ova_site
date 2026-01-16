@@ -23,24 +23,36 @@ class HomePage(Page):
         # Get the CoursesIndexPage instance
         courses_index = CoursesIndexPage.objects.live().first()
         if courses_index:
-            courses = courses_index.get_children().live().specific()
-            
-            # Get all tags
-            tags = set()
-            for course in courses:
-                for tag in course.tags.all():
-                    tags.add(str(tag))
-            
-            # Check if user completed any course
+            # Build the complete queryset with all prefetches
+            courses_query = courses_index.get_children().live().specific().prefetch_related(
+                'tags',
+                'course_instructors__instructor',
+                'course_instructors__instructor__image',
+                'image',  # Prefetch course images
+            )
+
+            # Add progress prefetch for authenticated users
             if user.is_authenticated:
                 progress_queryset = CourseProgress.objects.filter(user=user)
-                courses = courses.prefetch_related(
+                courses_query = courses_query.prefetch_related(
                     Prefetch(
                         'courseprogress_set',
                         queryset=progress_queryset,
                         to_attr='progress'
                     )
                 )
+
+            # Evaluate queryset ONCE into a list
+            courses = list(courses_query)
+
+            # Get all tags - data already loaded
+            tags = set()
+            for course in courses:
+                for tag in course.tags.all():
+                    tags.add(str(tag))
+
+            # Set completed flag for authenticated users
+            if user.is_authenticated:
                 for course in courses:
                     # Access and assign first item in the list created by to_attr
                     progress = course.progress[0] if course.progress else None
@@ -69,11 +81,16 @@ class HomePage(Page):
             return people
 
         # Get list of all instructors
-        instructors = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related('instructor_course__page')
+        instructors = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related(
+            'instructor_course__page',
+            'image'  # Prefetch instructor images
+        )
         context['instructors'] = clean_social_links(instructors)
 
         # Get list of all contributors
-        contributors = Instructor.objects.filter(role__name='contributor').order_by('name')
+        contributors = Instructor.objects.filter(role__name='contributor').order_by('name').prefetch_related(
+            'image'  # Prefetch contributor images
+        )
         context['contributors'] = clean_social_links(contributors)
         
         return context

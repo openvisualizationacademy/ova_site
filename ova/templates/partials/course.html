@@ -5,56 +5,56 @@
   <!-- Screen reader announcements -->
   <div id="completed" hidden>Completed</div>
 
-  <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-    {% if course.image %}
-      {% image course.image original as img %}
-      <img src="{{ img.url }}" alt="">
-    {% else %}
-      {% comment %} White pixel {% endcomment %}
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
-    {% endif %}
-  </div>
- 
-  <div class="course">
-    <div class="card">
-      <div class="primary">
-        <span class="kicker">Course<span class="screen-reader">:</span></span>
-        <h1>{{ course.title }}</h1>
-        <p class="authors small">
-          <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
+  {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
+    <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+      {% if course.image %}
+        {% image course.image original as img %}
+        <img src="{{ img.url }}" alt="">
+      {% else %}
+        {% comment %} White pixel {% endcomment %}
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
+      {% endif %}
+    </div>
 
-          {% for iteration in course.course_instructors.all %}
-            <span class="author">
-              {% if iteration.instructor.image %}
-                {% image iteration.instructor.image fill-48x48 as img %}
-                <img src="{{ img.url }}" alt="">
-              {% endif %}
-              {{ iteration.instructor.name }}
-            </span>
-          {% endfor %}
-        </p>
-      </div>
-      <div class="secondary small">
-        {% with tags=course.tags.all %}
-          {% if tags %}
+    <div class="course">
+      <div class="card">
+        <div class="primary">
+          <span class="kicker">Course<span class="screen-reader">:</span></span>
+          <h1>{{ course.title }}</h1>
+          <p class="authors small">
+            <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
+
+            {% for iteration in course_instructors %}
+              <span class="author">
+                {% if iteration.instructor.image %}
+                  {% image iteration.instructor.image fill-48x48 as img %}
+                  <img src="{{ img.url }}" alt="">
+                {% endif %}
+                {{ iteration.instructor.name }}
+              </span>
+            {% endfor %}
+          </p>
+        </div>
+        <div class="secondary small">
+          {% if course_tags %}
             <p class="tags">
-              {% for tag in tags %}
+              {% for tag in course_tags %}
                 <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
               {% endfor %}
             </p>
           {% endif %}
-        {% endwith %}
-        {% with duration=course.formatted_duration %}
-          {% if duration %}
-            <p class="duration">
-              <span class="screen-reader">Duration: </span>
-              {{ course.formatted_duration }}
-            </p>
-          {% endif %}
-        {% endwith %}
+          {% with duration=course.formatted_duration %}
+            {% if duration %}
+              <p class="duration">
+                <span class="screen-reader">Duration: </span>
+                {{ course.formatted_duration }}
+              </p>
+            {% endif %}
+          {% endwith %}
+        </div>
       </div>
     </div>
-  </div>
+  {% endwith %}
 
   {% if user.is_authenticated %}
 
@@ -132,7 +132,7 @@
         {% endcomment %}
       </header>
 
-      {% if course.get_children.live %}
+      {% if chapter_data %}
         {% include 'partials/chapter-list.html' %}
       {% endif %}
     </aside>
