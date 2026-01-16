@@ -116,28 +116,36 @@ class CoursesIndexPage(Page):
         context = super().get_context(request)
         user = request.user
 
-        courses = self.get_children().live().specific().prefetch_related(
+        # Build the complete queryset with all prefetches
+        courses_query = self.get_children().live().specific().prefetch_related(
             'tags',
             'course_instructors__instructor',
-            'course_instructors__instructor__image'
+            'course_instructors__instructor__image',
+            'image',  # Prefetch course images
         )
 
-        # Get all tags - now optimized with prefetch
-        tags = set()
-        for course in courses:
-            for tag in course.tags.all():
-                tags.add(str(tag))
-
-        # Check if user completed any course
+        # Add progress prefetch for authenticated users
         if user.is_authenticated:
             progress_queryset = CourseProgress.objects.filter(user=user)
-            courses = courses.prefetch_related(
+            courses_query = courses_query.prefetch_related(
                 Prefetch(
                     'courseprogress_set',
                     queryset=progress_queryset,
                     to_attr='progress'
                 )
             )
+
+        # Evaluate queryset ONCE into a list
+        courses = list(courses_query)
+
+        # Get all tags - data already loaded
+        tags = set()
+        for course in courses:
+            for tag in course.tags.all():
+                tags.add(str(tag))
+
+        # Set completed flag for authenticated users
+        if user.is_authenticated:
             for course in courses:
                 # Access and assign first item in the list created by to_attr
                 progress = course.progress[0] if course.progress else None
@@ -532,27 +540,6 @@ class SegmentPage(QuizMixin, Page):
                 course = parent_course.specific
         context["course"] = course
 
-        # Chapter number
-        if chapter:
-            context["chapter_number"] = (
-                chapter.get_siblings(inclusive=True)
-                .live()
-                .filter(path__lt=chapter.path)
-                .count()
-                + 1
-            )
-        else:
-            context["chapter_number"] = None
-
-        # Segment number
-        context["segment_number"] = (
-            self.get_siblings(inclusive=True).live().filter(path__lt=self.path).count()
-            + 1
-        )
-
-        # Get only first quiz
-        context["quiz"] = self.get_quiz()
-
         # ---------------------------------------
         # MATERIALS
         # For current segment, chapter & course
@@ -589,14 +576,72 @@ class SegmentPage(QuizMixin, Page):
         context["course_percent_complete"] = 0
 
         # Get chapters and segments (to be used for both anonymous and signed in users)
-        chapters = course.get_children().type(ChapterPage).live().specific()
+        # Use select_related for content_type to reduce queries from .specific()
+        chapters = (
+            course.get_children()
+            .type(ChapterPage)
+            .live()
+            .select_related('content_type')
+            .specific()
+        )
+
         # Prefetch all segments once with their quizzes
         all_segments = (
             SegmentPage.objects.filter(path__startswith=course.path)
             .live()
+            .select_related('content_type')
             .specific()
             .prefetch_related('quizzes')
         )
+
+        # Build quiz lookup map early so we can use it for current segment too
+        from courses.models import Quiz
+        quiz_map = {}
+        all_quiz_list = list(Quiz.objects.filter(segment__in=all_segments).select_related('segment'))
+        for quiz in all_quiz_list:
+            if quiz.segment_id not in quiz_map:
+                quiz_map[quiz.segment_id] = quiz
+
+        # Get quiz for current segment from the map (no extra query)
+        context["quiz"] = quiz_map.get(self.id)
+
+        # Calculate segment and chapter numbers using cached data to avoid COUNT queries
+        # Segment number within chapter
+        segments_in_chapter = [s for s in all_segments if s.path.startswith(chapter.path) and s.path != chapter.path]
+        segments_in_chapter_sorted = sorted(segments_in_chapter, key=lambda s: s.path)
+        segment_number = 1
+        for idx, seg in enumerate(segments_in_chapter_sorted, 1):
+            if seg.id == self.id:
+                segment_number = idx
+                break
+        context["segment_number"] = segment_number
+
+        # Chapter number within course
+        if chapter:
+            chapters_sorted = sorted(chapters, key=lambda c: c.path)
+            chapter_number = 1
+            for idx, ch in enumerate(chapters_sorted, 1):
+                if ch.id == chapter.id:
+                    chapter_number = idx
+                    break
+            context["chapter_number"] = chapter_number
+        else:
+            context["chapter_number"] = None
+
+        # Build a mapping of chapter_id -> segments to avoid get_parent() calls
+        segments_by_chapter = {}
+
+        for segment in all_segments:
+            # Use path-based parent detection to avoid query
+            # Segment path is like '000100020001000200010001', chapter is parent
+            chapter_path = segment.path[:-4]  # Remove last 4 chars to get parent path
+            # Find chapter by matching path
+            for chapter in chapters:
+                if chapter.path == chapter_path:
+                    if chapter.id not in segments_by_chapter:
+                        segments_by_chapter[chapter.id] = []
+                    segments_by_chapter[chapter.id].append(segment)
+                    break
 
         if user.is_authenticated:
 
@@ -642,7 +687,7 @@ class SegmentPage(QuizMixin, Page):
             completed_chapters = 0
 
             for chapter in chapters:
-                segments = [s for s in all_segments if s.get_parent().id == chapter.id]
+                segments = segments_by_chapter.get(chapter.id, [])
 
                 completed_segments = 0
                 segment_rows = []
@@ -654,12 +699,15 @@ class SegmentPage(QuizMixin, Page):
                     if is_complete:
                         completed_segments += 1
 
+                    # Get quiz from prebuilt map - no database query
+                    quiz = quiz_map.get(segment.id)
+
                     segment_rows.append(
                         {
                             "segment": segment,
                             "progress": prog,
                             "completed": is_complete,
-                            "quiz": segment.get_quiz(),
+                            "quiz": quiz,
                         }
                     )
 
@@ -695,13 +743,16 @@ class SegmentPage(QuizMixin, Page):
             context["chapter_data"] = []
 
             for chapter in chapters:
-                segments = [s for s in all_segments if s.get_parent().id == chapter.id]
+                segments = segments_by_chapter.get(chapter.id, [])
                 segment_rows = []
                 for segment in segments:
+                    # Get quiz from prebuilt map - no database query
+                    quiz = quiz_map.get(segment.id)
+
                     segment_rows.append(
                         {
                             "segment": segment,
-                            "quiz": segment.get_quiz(),
+                            "quiz": quiz,
                         }
                     )
 
