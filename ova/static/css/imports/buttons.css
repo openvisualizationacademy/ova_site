@@ -72,12 +72,6 @@ button.reset {
   padding-inline: .8rem;
 }
 
-.certificate .button {
-  box-shadow: 0 0 2.4rem light-dark(var(--success-300), var(--success-900));
-  mix-blend-mode: luminosity;
-  overflow: visible;
-}
-
 @media (hover: hover) {
   .button.primary:hover {
     background-color: light-dark(var(--primary-700), var(--primary-700));

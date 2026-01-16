@@ -1,0 +1,55 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailmarkdown %}
+
+<div class="certificate">
+  {% if percent == 100 %}
+    <button type="button" class="button tertiary" onclick="document.getElementById('cert-dialog').showModal()">
+      {% comment %}
+      <div class="bubbles">
+        <!-- To be filled with divs in JS -->
+      </div>
+      {% endcomment %}
+      <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+      <span>
+        <span class="screen-reader">Download</span>
+        Certificate PDF
+      </span>
+    </button>
+    <div class="certificate-frame">
+      <img src="{% static 'media/decoration/certificate-dummy.png' %}" alt="" aria-hidden="true" class="certificate-dummy" loading="lazy" onclick="this.previousElementSibling.click()"/>
+    </div>
+  {% else %}
+    <small>Complete to earn PDF certificate</small>
+  {% endif %}
+</div>
+
+
+<dialog id="cert-dialog">
+  <form method="post" action="{% url 'generate_certificate' course.id %}">
+    {% csrf_token %}
+
+    <h2>Certificate Name</h2>
+
+    <p>
+      Enter the name you want displayed on your certificate.
+      This name is not verified and will appear exactly as entered.
+    </p>
+
+    <label>
+      Display name
+      <input
+        type="text"
+        name="display_name"
+        required
+        minlength="3"
+        maxlength="80"
+        pattern="[A-Za-z][A-Za-z '\-]+"
+        placeholder="Your name"
+      />
+    </label>
+
+    <menu>
+      <button type="submit">Generate Certificate</button>
+      <button type="button" onclick="this.closest('dialog').close()">Cancel</button>
+    </menu>
+  </form>
+</dialog>

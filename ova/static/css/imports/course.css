@@ -116,6 +116,8 @@ section.course-page {
   gap: .8rem;
   grid-column: span 12;
   order: 3;
+  position: relative;
+  z-index: 1;
 }
 
 .progress {
@@ -182,58 +184,6 @@ section.course-page {
 
 .progress:not(.completed) .percent {
   color: light-dark(var(--success-600), var(--success-500));
-}
-
-.certificate {
-  display: flex;
-  display: none;
-  justify-content: start;
-  width: 100%;
-}
-
-/* @keyframes glow {
-  100% {
-    box-shadow: 0 .8rem 1.2rem light-dark(var(--success-500), var(--success-600));
-  }
-} */
-
-.certificate small {
-  color: light-dark(var(--neutral-700), var(--neutral-300));
-  padding-inline: 1.6rem;
-}
-
-.bubbles {
-  align-items: end;
-  display: flex;
-  inset: 0 1.6rem;
-  justify-content: space-around;
-  pointer-events: none;
-  position: absolute;
-  translate: 0 -83.333%;
-}
-
-.bubbles > div {
-  animation: floatUp 3s infinite ease-in;
-  aspect-ratio: 1;
-  background: light-dark(var(--success-600), var(--success-500));
-  border-radius: 50%;
-  width: .2rem;
-}
-
-@keyframes floatUp {
-  0% {
-    opacity: 0;
-    scale: 0;
-  }
-  25% {
-    opacity: .75;
-    scale: 1;
-  }
-  100% {
-    opacity: 0;
-    scale: .25;
-    translate: 0 -400%;
-  }
 }
 
 .sticky-wrapper {
@@ -448,14 +398,6 @@ section.course-page svg[data-icon="check-circle"] circle {
 
 @media (prefers-reduced-motion: reduce) {
   .chapters ol a.active::after {
-    animation: none;
-  }
-
-  .bubbles {
-    display: none;
-  }
-
-  .certificate a {
     animation: none;
   }
 }
@@ -781,11 +723,6 @@ section.overview {
     width: 100%;
   }
 
-  [data-page="course"] .tracker .certificate {
-    display: flex;
-    justify-content: end;
-  }
-
   #sign-in-description {
     grid-column: span 3;
     order: unset;
@@ -878,10 +815,6 @@ section.overview {
 
   .progress:not(.completed) .percent {
     color: var(--success-600);
-  }
-
-  .certificate small {
-    color: var(--neutral-700);
   }
 
   .sticky-wrapper {
