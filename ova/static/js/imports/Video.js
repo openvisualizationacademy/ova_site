@@ -274,7 +274,7 @@ export default class Video {
     }); 
 
     // When video is progressing or user is scrubbing
-    this.player.on("timeupdate", (data) => this.handeTimeUpdate(data));
+    this.player.on("timeupdate", (data) => this.handleTimeUpdate(data));
 
     this.setupProgress();
   }
