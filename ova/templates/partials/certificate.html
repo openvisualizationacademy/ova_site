@@ -14,8 +14,8 @@
         Certificate PDF
       </span>
     </button>
-    <div class="certificate-frame">
-      <img src="{% static 'media/decoration/certificate-dummy.png' %}" alt="" aria-hidden="true" class="certificate-dummy" loading="lazy" onclick="this.previousElementSibling.click()"/>
+    <div class="certificate-frame" onclick="this.previousElementSibling.click()">
+      <img src="{% static 'media/decoration/certificate-dummy.png' %}" alt="" aria-hidden="true" class="certificate-dummy" loading="lazy"/>
     </div>
   {% else %}
     <small>Complete to earn PDF certificate</small>
