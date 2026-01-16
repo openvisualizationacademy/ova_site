@@ -247,6 +247,31 @@ class CoursePage(Page):
     parent_page_types = ["CoursesIndexPage"]
     subpage_types = ["ChapterPage"]
 
+    @property
+    def formatted_duration(self):
+        if not self.duration_seconds:
+            return None
+
+        # Round to nearest 30 minutes
+        steps = 30
+        interval = steps * 60
+        rounded_seconds = interval * round(self.duration_seconds / interval)
+        
+        # Calculate hours and minutes
+        hours = rounded_seconds // 3600
+        minutes = (rounded_seconds % 3600) // 60
+
+        # Build string like 2h, 1h30, or 30min
+        text = ""
+        if hours > 0:
+            text += f"{hours}h"
+        if minutes > 0:
+            text += f"{minutes}"
+            if not hours > 0:
+                text += "min"
+            
+        return text
+
     def save(self, *args, **kwargs):
         # update slug to match title whenever it is changed
         self.slug = slugify(self.title)

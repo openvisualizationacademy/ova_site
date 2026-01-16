@@ -61,14 +61,14 @@
                   <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
                 {% endfor %}
               </p>
-              <p class="duration">
-                {% comment %} <svg width="24" height="24" data-icon="timer" aria-hidden="true"></svg> {% endcomment %}
-                <span class="screen-reader">Duration: </span>
-                {% with rounded=course.duration|default:0|floatformat:0 %}
-                  {{ rounded }}<span aria-hidden="true">h</span>
-                  <span class="screen-reader">hour{{ rounded|pluralize }}</span>
-                {% endwith %}
-              </p>
+              {% with duration=course.formatted_duration %}
+                {% if duration %}
+                  <p class="duration">
+                    <span class="screen-reader">Duration: </span>
+                    {{ course.formatted_duration }}
+                  </p>
+                {% endif %}
+              {% endwith %}
             </div>
           </a>
         </li>
