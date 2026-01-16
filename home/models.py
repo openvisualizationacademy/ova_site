@@ -23,14 +23,18 @@ class HomePage(Page):
         # Get the CoursesIndexPage instance
         courses_index = CoursesIndexPage.objects.live().first()
         if courses_index:
-            courses = courses_index.get_children().live().specific()
-            
-            # Get all tags
+            courses = courses_index.get_children().live().specific().prefetch_related(
+                'tags',
+                'course_instructors__instructor',
+                'course_instructors__instructor__image'
+            )
+
+            # Get all tags - now optimized with prefetch
             tags = set()
             for course in courses:
                 for tag in course.tags.all():
                     tags.add(str(tag))
-            
+
             # Check if user completed any course
             if user.is_authenticated:
                 progress_queryset = CourseProgress.objects.filter(user=user)

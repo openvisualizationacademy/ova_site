@@ -116,14 +116,18 @@ class CoursesIndexPage(Page):
         context = super().get_context(request)
         user = request.user
 
-        courses = self.get_children().live().specific()
-        
-        # Get all tags
+        courses = self.get_children().live().specific().prefetch_related(
+            'tags',
+            'course_instructors__instructor',
+            'course_instructors__instructor__image'
+        )
+
+        # Get all tags - now optimized with prefetch
         tags = set()
         for course in courses:
             for tag in course.tags.all():
                 tags.add(str(tag))
-        
+
         # Check if user completed any course
         if user.is_authenticated:
             progress_queryset = CourseProgress.objects.filter(user=user)
@@ -380,6 +384,9 @@ class ChapterPage(Page):
         course = course.specific if hasattr(course, "specific") else None
         context["course"] = course
 
+        # Segments in this chapter (preloaded to avoid query in template)
+        context["segments"] = self.get_children().live().specific()
+
         # Chapter materials
         context["chapter_materials"] = self.materials.all()
 
@@ -583,9 +590,12 @@ class SegmentPage(QuizMixin, Page):
 
         # Get chapters and segments (to be used for both anonymous and signed in users)
         chapters = course.get_children().type(ChapterPage).live().specific()
-        # Prefetch all segments once
+        # Prefetch all segments once with their quizzes
         all_segments = (
-            SegmentPage.objects.filter(path__startswith=course.path).live().specific()
+            SegmentPage.objects.filter(path__startswith=course.path)
+            .live()
+            .specific()
+            .prefetch_related('quizzes')
         )
 
         if user.is_authenticated:
@@ -649,6 +659,7 @@ class SegmentPage(QuizMixin, Page):
                             "segment": segment,
                             "progress": prog,
                             "completed": is_complete,
+                            "quiz": segment.get_quiz(),
                         }
                     )
 
@@ -690,6 +701,7 @@ class SegmentPage(QuizMixin, Page):
                     segment_rows.append(
                         {
                             "segment": segment,
+                            "quiz": segment.get_quiz(),
                         }
                     )
 

@@ -22,44 +22,45 @@
 
     <ul class="cards">
       {% for course in courses %}
-        <li class="course" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-          {% comment %} TODO: Don’t create link if course is not live yet (coming soon) {% endcomment %}
-          <a href="{{ course.url }}" class="card">
-            <div class="primary">
-              <div class="media" data-tags="{% for tag in course.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
-                {% if course.image %}
-                  {% image course.image original as img %}
-                  <img src="{{ img.url }}" alt="" loading="lazy">
-                {% else %}
-                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
-                {% endif %}
+        {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
+          <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+            {% comment %} TODO: Don't create link if course is not live yet (coming soon) {% endcomment %}
+            <a href="{{ course.url }}" class="card">
+              <div class="primary">
+                <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                  {% if course.image %}
+                    {% image course.image original as img %}
+                    <img src="{{ img.url }}" alt="" loading="lazy">
+                  {% else %}
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
+                  {% endif %}
+                </div>
+                {% comment %} TODO: Check if course is coming soon and add badge (consider adding date, season, month, etc) {% endcomment %}
+                <!-- <span class="coming-soon-badge kicker">Coming soon</span> -->
+                <h3>{{ course.title }}</h3>
+                <p class="authors small">
+                  <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
+
+                  {% for iteration in course_instructors %}
+                    <span class="author">
+                      {% if iteration.instructor.image %}
+                        {% image iteration.instructor.image fill-48x48 as img %}
+                        <img src="{{ img.url }}" alt="" loading="lazy">
+                      {% endif %}
+                      {{ iteration.instructor.name }}
+                    </span>
+                  {% endfor %}
+                </p>
               </div>
-              {% comment %} TODO: Check if course is coming soon and add badge (consider adding date, season, month, etc) {% endcomment %}
-              <!-- <span class="coming-soon-badge kicker">Coming soon</span> -->
-              <h3>{{ course.title }}</h3>
-              <p class="authors small">
-                <span class="screen-reader">Author{{ course.course_instructors.all|pluralize }}:</span>
+              <div class="secondary small">
+                <p class="tags">
+                  {% if user.is_authenticated and course.completed %}
+                    <span class="completed-badge kicker">Completed</span>
+                  {% endif %}
 
-                {% for iteration in course.course_instructors.all %}
-                  <span class="author">
-                    {% if iteration.instructor.image %}
-                      {% image iteration.instructor.image fill-48x48 as img %}
-                      <img src="{{ img.url }}" alt="" loading="lazy">
-                    {% endif %}
-                    {{ iteration.instructor.name }}
-                  </span>
-                {% endfor %}
-              </p>
-            </div>
-            <div class="secondary small">
-              <p class="tags">
-                {% if user.is_authenticated and course.completed %}
-                  <span class="completed-badge kicker">Completed</span>
-                {% endif %}
-
-                {% for tag in course.tags.all %}
-                  <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
-                {% endfor %}
+                  {% for tag in course_tags %}
+                    <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+                  {% endfor %}
               </p>
               {% with duration=course.formatted_duration %}
                 {% if duration %}
@@ -72,6 +73,7 @@
             </div>
           </a>
         </li>
+        {% endwith %}
       {% endfor %}
     </ul>
 
