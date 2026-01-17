@@ -32,6 +32,7 @@
             {% endif %}
                 <div class="primary">
                   <div class="media" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                  <div class="media gradient{% for tag in course_tags %} tag-{{ tag|slugify }}{% endfor %}">
                     {% if course.image %}
                       {% image course.image original as img %}
                       <img src="{{ img.url }}" alt="" loading="lazy">

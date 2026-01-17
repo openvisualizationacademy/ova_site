@@ -2,10 +2,9 @@ section.course-page {
   margin-block-start: 0;
 }
 
-.media[data-tags] {
+.media {
   aspect-ratio: 16/9;
   background: light-dark(var(--neutral-100), var(--neutral-900));
-  background-size: cover;
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -21,7 +20,7 @@ section.course-page {
   width: 100%;
 }
 
-.media[data-tags]::after {
+.media.gradient::after {
   -webkit-mask-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .75));
   content: "";
   display: block;
@@ -31,42 +30,41 @@ section.course-page {
   position: absolute;
 }
 
-/* TEMP: Thumbnail overlays based on tags */
-.media[data-tags="Fundamentals"]::after {
+.media.gradient.tag-fundamentals::after {
   background: var(--tag-fundamentals);
 }
 
-.media[data-tags="Lecture"]::after {
+.media.gradient.tag-lecture::after {
   background: var(--tag-lecture);
 }
 
-.media[data-tags="Tutorial"]::after {
+.media.gradient.tag-tutorial::after {
   background: var(--tag-tutorial);
 }
 
-.media[data-tags="Fundamentals,Lecture"]::after {
+.media.gradient.tag-fundamentals.tag-lecture::after {
   background-image: linear-gradient(to right in oklab, var(--tag-fundamentals), var(--tag-lecture));
 }
 
-.media[data-tags="Fundamentals,Tutorial"]::after {
+.media.gradient.tag-fundamentals.tag-tutorial::after {
   background-image: linear-gradient(to right in oklab, var(--tag-fundamentals), var(--tag-tutorial));
 }
 
-.media[data-tags="Lecture,Tutorial"]::after {
+.media.gradient.tag-lecture.tag-tutorial::after {
   background-image: linear-gradient(to right in oklab, var(--tag-lecture), var(--tag-tutorial));
 }
 
 /* Provide simpler gradient to older browsers (like Safari 15) */
 @supports not (background: linear-gradient(to right in oklab, red, blue)) {
-  .media[data-tags="Fundamentals,Lecture"]::after {
+  .media.gradient.tag-fundamentals.tag-lecture::after {
     background-image: linear-gradient(to right , var(--tag-fundamentals), var(--tag-lecture));
   }
 
-  .media[data-tags="Fundamentals,Tutorial"]::after {
+  .media.gradient.tag-fundamentals.tag-tutorial::after {
     background-image: linear-gradient(to right , var(--tag-fundamentals), var(--tag-tutorial));
   }
 
-  .media[data-tags="Lecture,Tutorial"]::after {
+  .media.gradient.tag-lecture.tag-tutorial::after {
     background-image: linear-gradient(to right , var(--tag-lecture), var(--tag-tutorial));
   }
 }
@@ -782,7 +780,7 @@ section.overview {
 
 /* Force light theme if browser does not support light-dark rules */
 @supports not (color: light-dark(black, white)) {
-  .media[data-tags] {
+  .media {
     background: var(--neutral-100);
   }
 
