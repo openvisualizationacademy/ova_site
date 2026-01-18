@@ -22,7 +22,7 @@
   user-select: none;
 }
 
-.courses .filters label::after {
+.courses .filters label[data-count]::after {
   content: "(" attr(data-count) ")";
   font-weight: 400;
 }
