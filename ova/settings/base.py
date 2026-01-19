@@ -227,8 +227,6 @@ WAGTAILDOCS_EXTENSIONS = [
 
 ASGI_APPLICATION = "ova.asgi.application"
 
-# settings.py
-
 WAGTAILMARKDOWN = {
     "autodownload_fontawesome": True,
     "allowed_tags": [],  # optional. a list of HTML tags. e.g. ['div', 'p', 'a']
