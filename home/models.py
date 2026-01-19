@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Prefetch
+from wagtail.admin.panels import FieldPanel
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
@@ -8,12 +9,13 @@ from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instruc
 
 import re
 
+
 class HomePage(Page):
     max_count = 1
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        "body",
+        FieldPanel("body"),
     ]
 
     def get_context(self, request, *args, **kwargs):
@@ -24,11 +26,16 @@ class HomePage(Page):
         courses_index = CoursesIndexPage.objects.live().first()
         if courses_index:
             # Build the complete queryset with all prefetches
-            courses_query = courses_index.get_children().live().specific().prefetch_related(
-                'tags',
-                'course_instructors__instructor',
-                'course_instructors__instructor__image',
-                'image',  # Prefetch course images
+            courses_query = (
+                courses_index.get_children()
+                .live()
+                .specific()
+                .prefetch_related(
+                    "tags",
+                    "course_instructors__instructor",
+                    "course_instructors__instructor__image",
+                    "image",  # Prefetch course images
+                )
             )
 
             # Add progress prefetch for authenticated users
@@ -36,9 +43,9 @@ class HomePage(Page):
                 progress_queryset = CourseProgress.objects.filter(user=user)
                 courses_query = courses_query.prefetch_related(
                     Prefetch(
-                        'courseprogress_set',
+                        "courseprogress_set",
                         queryset=progress_queryset,
-                        to_attr='progress'
+                        to_attr="progress",
                     )
                 )
 
@@ -58,47 +65,52 @@ class HomePage(Page):
                     progress = course.progress[0] if course.progress else None
                     course.completed = progress.completed if progress else False
 
-            context['courses'] = courses
+            context["courses"] = courses
 
             # TODO: Consider sorting in order of importance
-            context['all_tags'] = sorted(tags)
+            context["all_tags"] = sorted(tags)
 
         # Process social links for instructors or contributors for displaying in UI
         def clean_social_links(people):
             # Pre-compile regex for removing links protocol and www.
-            URL_CLEANER = re.compile(r'^(https?://)?(www\.)?', re.IGNORECASE)
+            URL_CLEANER = re.compile(r"^(https?://)?(www\.)?", re.IGNORECASE)
             for person in people:
                 person.processed_social_links = []
                 for link in person.social_links:
                     processed = {
                         # Full URL to be used for href
-                        'url': link,
-
+                        "url": link,
                         # Clean URL for displaying (no protocol, www, or trailing slash)
-                        'clean': URL_CLEANER.sub('', link).rstrip('/')
+                        "clean": URL_CLEANER.sub("", link).rstrip("/"),
                     }
                     person.processed_social_links.append(processed)
             return people
 
         # Get list of all instructors
-        instructors = Instructor.objects.filter(role__name='instructor').order_by('name').prefetch_related(
-            'instructor_course__page',
-            'image'  # Prefetch instructor images
+        instructors = (
+            Instructor.objects.filter(role__name="instructor")
+            .order_by("name")
+            .prefetch_related(
+                "instructor_course__page", "image"  # Prefetch instructor images
+            )
         )
-        context['instructors'] = clean_social_links(instructors)
+        context["instructors"] = clean_social_links(instructors)
 
         # Get list of all contributors
-        contributors = Instructor.objects.filter(role__name='contributor').order_by('name').prefetch_related(
-            'image'  # Prefetch contributor images
+        contributors = (
+            Instructor.objects.filter(role__name="contributor")
+            .order_by("name")
+            .prefetch_related("image")  # Prefetch contributor images
         )
-        context['contributors'] = clean_social_links(contributors)
-        
+        context["contributors"] = clean_social_links(contributors)
+
         return context
 
 
 class NonCoursePage(Page):
     max_count = 1
     parent_page_types = ["home.HomePage"]
+    subpage_types = []
 
 
 class AboutPage(NonCoursePage):
@@ -109,9 +121,9 @@ class SponsorsPage(NonCoursePage):
     template = "home/sponsors.html"
 
 
-class ContactPage(NonCoursePage):
-    template = "home/contact.html"
+class AccessibilityPage(NonCoursePage):
+    template = "home/accessibility.html"
 
 
-class NewsPage(NonCoursePage):
-    template = "home/news.html"
+class BrandPage(NonCoursePage):
+    template = "home/brand.html"
