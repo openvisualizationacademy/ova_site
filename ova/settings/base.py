@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "ova.middleware.AzureProxyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -253,6 +254,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 # 💡 enables the one-time code login flow
+ACCOUNT_LOGIN_BY_CODE_ENABLED = True
 ACCOUNT_LOGIN_BY_CODE_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"  # no need to confirm before code login
 ACCOUNT_PRESERVE_USERNAME_CASING = False
