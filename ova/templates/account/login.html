@@ -44,11 +44,6 @@
                     {% trans "Sign in with a passkey" %}
                 {% endelement %}
             {% endif %}
-            {% if LOGIN_BY_CODE_ENABLED %}
-                {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
-                    {% trans "Send me a sign-in code" %}
-                {% endelement %}
-            {% endif %}
         {% endelement %}
     {% endif %}
     {% if SOCIALACCOUNT_ENABLED %}
