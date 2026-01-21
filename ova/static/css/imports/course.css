@@ -95,7 +95,8 @@ section.course-page {
 }
 
 [data-page="course"] .course h1 {
-  padding: .8rem 0 1.6rem;
+  padding-block: .8rem 1.6rem;
+  padding-inline: 0;
   text-wrap: balance;
 }
 
@@ -125,7 +126,8 @@ section.course-page {
   display: flex;
   gap: 1.6rem;
   height: min-content;
-  padding: 1.6rem;
+  padding-block: 1.6rem;
+  padding-inline: 1.6rem;;
   width: fit-content;
 }
 
@@ -210,7 +212,8 @@ section.course-page {
   gap: 1.6rem;
   justify-content: flex-start;
   margin-block-end: 2.4rem;
-  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
   width: 100%;
 }
 
@@ -253,7 +256,8 @@ section.course-page {
 .chapters ol {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
 }
 
 .chapters nav > ol {
@@ -470,14 +474,16 @@ section.course-page svg[data-icon="check-circle"] circle {
     inset-inline-start: -2px;
     max-width: calc(80vi);
     overflow: visible;
-    padding: .4rem .8rem;
+    padding-block: .4rem;
+    padding-inline: .8rem;
     translate: 0 -100%;
     white-space: initial;
     width: max-content;
   }
 
   .chapters ol li.compact ol a:hover span.tooltip:has(.quiz-badge) {
-    padding: .4rem .8rem .4rem .4rem;
+    padding-block: .4rem;
+    padding-inline: .4rem .8rem;
   }
 }
 
@@ -532,7 +538,8 @@ section.course-page svg[data-icon="check-circle"] circle {
   justify-self: end;
   margin: 0;
   order: 0;
-  padding: 1.6rem;
+  padding-block: 1.6rem;
+  padding-inline: 1.6rem;
   position: relative;
   text-wrap: pretty;
   transition: background-color .2s, color .2s;
@@ -702,8 +709,12 @@ section.overview {
     padding-inline: 1.6rem;
   }
 
+  [data-page="course"] .course h1 {
+    padding-block: .4rem 1.2rem;
+  }
+
   [data-page="course"] .course .secondary {
-    padding-block-end: 1.6rem;
+    padding-block: 1.2rem 0;
     padding-inline: 1.6rem;
   }
 
