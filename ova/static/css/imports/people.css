@@ -36,8 +36,8 @@
 }
 
 .person .tagline {
-  text-wrap: balance;
   color: light-dark(var(--neutral-700), var(--neutral-300));
+  text-wrap: balance;
 }
 
 .person .media {
@@ -71,27 +71,7 @@
   margin-inline: 0.5em;
   padding-block-start: 0.125em;
   padding-inline: 0.5em;
-
-  /* border: 1px solid currentColor; */
-  /* opacity: 0.5; */
 }
-
-/* .person[data-role="contributor"] strong {
-  align-items: center;
-  display: flex;
-}
-
-.person[data-role="contributor"] [data-icon] {
-  opacity: 0;
-  position: absolute;
-  right: 1.6rem;
-  top: 1.6rem;
-  transition: opacity 0.2s;
-}
-
-a.person[data-role="contributor"]:focus-visible [data-icon] {
-  opacity: 1;
-} */
 
 .people dialog[open] {
   border: 1px solid currentColor;
@@ -168,14 +148,14 @@ body:has(.people dialog[open]) {
 }
 
 .people dialog .person .bio {
-  padding-block-start: .8rem;
   color: light-dark(var(--neutral-700), var(--neutral-300));
-
-  /* margin-block-end: 0; */
+  padding-block-start: .8rem;
 }
 
 .people dialog .courses {
-  /* font-size: 1.6rem; */
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
   list-style-type: square;
   margin: 0;
   padding: 0;
@@ -183,10 +163,14 @@ body:has(.people dialog[open]) {
   text-wrap: balance;
 }
 
+.people dialog .courses a {
+  text-decoration: none;
+  text-underline-position: under;
+}
+
 .people dialog .links {
   display: flex;
   flex-direction: column;
-  /* font-size: 1.6rem; */
   gap: .8rem;
   grid-column: 1/-1;
   justify-self: start;
@@ -221,12 +205,10 @@ body:has(.people dialog[open]) {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
   
-  .people dialog .links li a:hover {
+  .people dialog .links li a:hover,
+  .people dialog .courses li a:hover {
     text-decoration: underline;
   }
-  /* .person[data-role="contributor"]:is(a,button,[role=button]):hover [data-icon] {
-    opacity: 1;
-  } */
 }
 
 @media (min-width: 640px) {
@@ -264,7 +246,6 @@ body:has(.people dialog[open]) {
   }
 
   .people dialog .links {
-    /* font-size: unset; */
     gap: 1.6rem;
     grid-column: auto;
     justify-self: end;
@@ -276,7 +257,6 @@ body:has(.people dialog[open]) {
   }
 
   .people dialog .person .bio {
-    /* font-size: unset; */
     padding-block-start: 1.6rem;
   }
 
