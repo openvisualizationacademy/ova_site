@@ -51,17 +51,20 @@
           <span class="tagline">{{ person.tagline }}</span>  
           <p class="bio">{{ person.bio }}</p>          
 
-          {% comment %} TODO: Handle “Coming soon” courses {% endcomment %}
           {% with courses=person.instructor_course.all %}
             {% if courses %}
               <h3 class="kicker">Course{{ courses|pluralize }}</h3>
               <ul class="courses small">
                 {% for instructor_course in person.instructor_course.all %}
                   <li>
-                    {% comment %} TODO: Don’t add link if course is coming soon {% endcomment %}
-                    <a href="{{ instructor_course.page.url }}">
-                      {{ instructor_course.page.title }}
-                    </a>
+                    {% comment %} Don’t add link if course is coming soon {% endcomment %}
+                    {% if instructor_course.page.coming_soon %}
+                      {{ instructor_course.page.title }} (Coming {{ instructor_course.page.coming_soon }})</span>
+                    {% else %}
+                      <a href="{{ instructor_course.page.url }}">
+                        {{ instructor_course.page.title }}
+                      </a>
+                    {% endif %}
                   </li>
                 {% endfor %}
               </ul>
