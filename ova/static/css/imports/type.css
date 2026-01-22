@@ -82,3 +82,17 @@ sup {
 
   /* Consider removing padding from this stylesheet */
 }
+
+/* Simple helper classes */
+
+.center {
+  text-align: center;
+}
+
+.balance {
+  text-wrap: balance;
+}
+
+.pretty {
+  text-wrap: pretty;
+}
