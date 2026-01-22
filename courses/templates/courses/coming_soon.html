@@ -2,7 +2,80 @@
 {% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
+  <section class="grid">
+    <hgroup>
+      <h1 id="main">Course not available</h1>
+      <p><svg width="24" height="24" data-icon="warning-sign" aria-hidden="true"></svg></p>
+      {% comment %} <p>🚧 🚧 🚧 <!--<abbr title="Work in Progress" style="text-decoration: none">WIP</abbr>--></p> {% endcomment %}
+    </hgroup>
 
+    <div class="course">
+      {% with course_tags=course.sorted_tags course_instructors=course.course_instructors.all %}
+        <div class="card">
+          <span class="coming-soon-badge kicker">Coming {{ course.coming_soon }}</span>
+          <div class="primary">
+            <div class="media gradient{% for tag in course_tags %} tag-{{ tag|slugify }}{% endfor %}">
+              {% if course.image %}
+                {% image course.image original as img %}
+                <img src="{{ img.url }}" alt="" loading="lazy">
+              {% else %}
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=">
+              {% endif %}
+            </div>
+            {% comment %} TODO: Consider changing to h2 so we don’t skip a heading level {% endcomment %}
+            <h3>{{ course.title }}</h3>
+            <p class="authors small">
+              <span class="screen-reader">Author{{ course_instructors|pluralize }}:</span>
+
+              {% for iteration in course_instructors %}
+                <span class="author">
+                  {% if iteration.instructor.image %}
+                    {% image iteration.instructor.image fill-48x48 as img %}
+                    <img src="{{ img.url }}" alt="" loading="lazy">
+                  {% endif %}
+                  {{ iteration.instructor.name }}
+                </span>
+              {% endfor %}
+            </p>
+          </div>
+          <div class="secondary small">
+            <p class="tags">
+              {% if user.is_authenticated and course.completed %}
+                <span class="completed-badge kicker">Completed</span>
+              {% endif %}
+
+              {% for tag in course_tags %}
+                <span class="tag" data-tag="{{ tag }}">{{ tag }}</span>
+              {% endfor %}
+            </p>
+            {% with duration=course.formatted_duration %}
+              {% if duration %}
+                <p class="duration">
+                  <span class="screen-reader">Duration: </span>
+                  {{ course.formatted_duration }}
+                </p>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      {% endwith %}
+    </div>
+
+    <div class="description">
+      <p>This course is currently being developed and is not yet available to the public.</p>
+
+      {% if not user.is_authenticated %}
+        <p>If you have been granted early access, please <a href="{% url 'account_login' %}" class="button tertiary">Sign in</a> to view this course.</p>
+      {% elif user.is_staff or user.is_superuser %}
+        <p class="staff-notice">As a staff member, you have access to this course. However, it appears you're seeing this message, which may indicate an issue with the course setup.</p>
+      {% else %}
+        <p>If you believe you should have access to this course, please contact the course administrators.</p>
+      {% endif %}
+
+      <p><small>Otherwise, <a href="/#courses">browse all courses</a>.</small></p>
+    </div>
+  </section>
+{% comment %} 
 <section class="coming-soon">
   <div class="container">
     <div class="content-wrapper">
@@ -146,5 +219,6 @@
   background-color: #0056b3;
 }
 </style>
+{% endcomment %}
 
 {% endblock %}
