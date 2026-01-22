@@ -7,32 +7,6 @@
     light-dark(var(--neutral-300), var(--neutral-800)) 0 0 0 .1rem inset,
     light-dark(var(--neutral-200), var(--neutral-850)) -1.2rem 1.2rem 2.4rem;
 }
-
-.grid article::before {
-  background: light-dark(var(--neutral-100), var(--neutral-900));
-  clip-path: polygon(0 0%, 100% 100%, 100% 0%);
-  content: "";
-  display: block;
-  height: 3.2rem;
-  inset-block-start: 0;
-  inset-inline-end: 0;
-  position: absolute;
-  width: 3.2rem;
-}
-
-.grid article::after {
-  background: light-dark(var(--neutral-200), var(--neutral-850));
-  box-shadow: inset 0 0 0 .1rem light-dark(var(--neutral-300), var(--neutral-800));
-  clip-path: polygon(0 0%, 100% 100%, 0 100%);
-  content: "";
-  display: block;
-  height: 3.2rem;
-  inset-block-start: 0;
-  inset-inline-end: 0;
-  position: absolute;
-  width: 3.2rem;
-}
-
 hr {
   border: none;
   border-block-start: .1rem solid currentColor;
@@ -54,15 +28,6 @@ hr {
     box-shadow: 
       var(--neutral-300) 0 0 0 .1rem inset,
       var(--neutral-200) -1.2rem 1.2rem 2.4rem;
-  }
-
-  .grid article::before {
-    background: var(--neutral-100);
-  }
-
-  .grid article::after {
-    background: var(--neutral-200);
-    box-shadow: inset 0 0 0 .1rem var(--neutral-300);
   }
 
   hr {
