@@ -67,8 +67,18 @@ class HomePage(Page):
 
             context["courses"] = courses
 
-            # TODO: Consider sorting in order of importance
-            context["all_tags"] = sorted(tags)
+            # Sort tags by importance
+            def custom_sorted(input_list):
+                # Define ideal sorting of tags (in order of importance)
+                ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
+
+                # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
+                rank_map = {word: i for i, word in enumerate(ideal_order)}
+
+                # Compare based on rank instead of alphabetically, unknown words go to the end
+                return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
+
+            context["all_tags"] = custom_sorted(tags)
 
         # Process social links for instructors or contributors for displaying in UI
         def clean_social_links(people):

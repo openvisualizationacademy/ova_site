@@ -153,7 +153,17 @@ class CoursesIndexPage(Page):
 
         context['courses'] = courses
 
-        # TODO: Consider sorting in order of importance
+        # Sort tags by importance
+        def custom_sorted(input_list):
+            # Define ideal sorting of tags (in order of importance)
+            ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
+
+            # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
+            rank_map = {word: i for i, word in enumerate(ideal_order)}
+
+            # Compare based on rank instead of alphabetically, unknown words go to the end
+            return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
+
         context['all_tags'] = sorted(tags)
         return context
 
@@ -277,6 +287,27 @@ class CoursePage(Page):
 
     parent_page_types = ["CoursesIndexPage"]
     subpage_types = ["ChapterPage"]
+
+    @property
+    def sorted_tags(self):
+
+        # Get all tags - data already loaded
+        tags = set()
+        for tag in self.tags.all():
+            tags.add(str(tag))
+
+        # Sort tags by importance
+        def custom_sorted(input_list):
+            # Define ideal sorting of tags (in order of importance)
+            ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
+
+            # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
+            rank_map = {word: i for i, word in enumerate(ideal_order)}
+
+            # Compare based on rank instead of alphabetically, unknown words go to the end
+            return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
+
+        return custom_sorted(tags)
 
     @property
     def formatted_duration(self):

@@ -5,7 +5,7 @@
   <!-- Screen reader announcements -->
   <div id="completed" hidden>Completed</div>
 
-  {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
+  {% with course_tags=course.sorted_tags course_instructors=course.course_instructors.all %}
     <div class="media gradient{% for tag in course_tags %} tag-{{ tag|slugify }}{% endfor %}">
       {% if course.image %}
         {% image course.image original as img %}

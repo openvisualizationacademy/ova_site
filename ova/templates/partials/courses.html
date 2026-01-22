@@ -22,7 +22,7 @@
 
     <ul class="cards">
       {% for course in courses %}
-        {% with course_tags=course.tags.all course_instructors=course.course_instructors.all %}
+        {% with course_tags=course.sorted_tags course_instructors=course.course_instructors.all %}
           <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
             {% if course.coming_soon %}
               <div class="card">
