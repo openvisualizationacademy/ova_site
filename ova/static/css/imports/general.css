@@ -5,13 +5,13 @@ body {
 }
 
 /* Prevent horizontal scroll on browsers that don’t support clip (like Safari 15) */
-@supports not (overflow-x: clip) {
-  /* Apply only to home, because it has the the animated wave, which is partially off screen */
+@supports not (overflow-x: clip) {  
   html:has(body[data-page="home"]),
   body[data-page="home"] {
     overflow-x: hidden;
   }
-}
+     /* Apply only to home, because it has the the animated wave, which is partially off screen */
+   }
 
 html {
   scroll-behavior: smooth;
@@ -60,7 +60,6 @@ section:not(.cover) {
 
 section h2 {
   grid-column: span 12;
-  margin-block-end: 3.2rem;
 }
 
 .grid {

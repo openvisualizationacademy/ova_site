@@ -18,6 +18,15 @@ h6 {
   margin: 0;
 }
 
+section h2 {
+  margin-block-end: 3.2rem;
+}
+
+article *:is(h1, h2, h3, h4, h5, h6) {
+  margin-block-end: .5em;
+  margin-block-start: 1em;
+}
+
 h1 {
   font-size: var(--font-size-h1);
 } 

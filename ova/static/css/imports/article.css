@@ -1,0 +1,71 @@
+.grid article {
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  margin-block-end: 4.8rem;
+  padding: 2.4rem;
+  position: relative;
+  box-shadow: 
+    light-dark(var(--neutral-300), var(--neutral-800)) 0 0 0 .1rem inset,
+    light-dark(var(--neutral-200), var(--neutral-850)) -1.2rem 1.2rem 2.4rem;
+}
+
+.grid article::before {
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  clip-path: polygon(0 0%, 100% 100%, 100% 0%);
+  content: "";
+  display: block;
+  height: 3.2rem;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  position: absolute;
+  width: 3.2rem;
+}
+
+.grid article::after {
+  background: light-dark(var(--neutral-200), var(--neutral-850));
+  box-shadow: inset 0 0 0 .1rem light-dark(var(--neutral-300), var(--neutral-800));
+  clip-path: polygon(0 0%, 100% 100%, 0 100%);
+  content: "";
+  display: block;
+  height: 3.2rem;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  position: absolute;
+  width: 3.2rem;
+}
+
+hr {
+  border: none;
+  border-block-start: .1rem solid currentColor;
+  color: light-dark(var(--neutral-300), var(--neutral-800));
+  margin-block: 2em;
+}
+
+@media (min-width: 960px) {
+  .grid article {
+    grid-column: 3 / 11;
+    padding: 4.8rem;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  .grid article {
+    background: var(--neutral-100);
+    box-shadow: 
+      var(--neutral-300) 0 0 0 .1rem inset,
+      var(--neutral-200) -1.2rem 1.2rem 2.4rem;
+  }
+
+  .grid article::before {
+    background: var(--neutral-100);
+  }
+
+  .grid article::after {
+    background: var(--neutral-200);
+    box-shadow: inset 0 0 0 .1rem var(--neutral-300);
+  }
+
+  hr {
+    color: var(--neutral-300);
+  }
+}
