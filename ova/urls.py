@@ -16,6 +16,8 @@ urlpatterns = [
     path("ova-admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    # Custom auth views MUST come before allauth.urls to override login code views
+    path('accounts/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
     path(".well-known/appspecific/com.chrome.devtools.json", chrome_devtools_dummy),
 

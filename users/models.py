@@ -9,8 +9,10 @@ class UserManager(BaseUserManager):
             raise ValueError("Email address is required")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        # optional: user.set_unusable_password() if you never want passwords
-        user.set_password(password)  # keep if you might add staff users later
+        if password is None:
+            user.set_unusable_password()
+        else:
+            user.set_password(password)
         user.save(using=self._db)
         return user
 
