@@ -265,6 +265,13 @@ ACCOUNT_ALLOW_SIGNUPS = True  # will autocreate users
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_BY_CODE_EXPIRATION = 600  # 10 min
 
+# Custom forms for auto-creating users on first login and preserving "remember me"
+ACCOUNT_FORMS = {
+    'login': 'users.forms.RememberMeLoginForm',
+    'request_login_code': 'users.forms.AutoCreateRequestLoginCodeForm',
+    'confirm_login_code': 'users.forms.AutoCreateConfirmLoginCodeForm',
+}
+
 # Azure Communications Service Email
 EMAIL_BACKEND = "django_azure_communication_email.EmailBackend"
 AZURE_COMMUNICATION_CONNECTION_STRING = os.getenv("AZURE_COMM_EMAIL_STRING")

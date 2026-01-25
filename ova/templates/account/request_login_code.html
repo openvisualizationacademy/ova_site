@@ -9,7 +9,7 @@
         {% translate "Send me a sign-in code" %}
     {% endelement %}
     {% element p %}
-        {% blocktranslate %}You will receive a special code for a password-free sign-in.{% endblocktranslate %}
+        {% blocktranslate %}Enter your email to sign in. New users will be registered automatically.{% endblocktranslate %}
     {% endelement %}
     {% url 'account_request_login_code' as login_url %}
     {% element form form=form method="post" action=login_url tags="entrance,login" %}
