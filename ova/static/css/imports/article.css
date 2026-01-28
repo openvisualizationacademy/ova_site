@@ -7,6 +7,7 @@
     light-dark(var(--neutral-300), var(--neutral-800)) 0 0 0 .1rem inset,
     light-dark(var(--neutral-200), var(--neutral-850)) -1.2rem 1.2rem 2.4rem;
 }
+
 hr {
   border: none;
   border-block-start: .1rem solid currentColor;
