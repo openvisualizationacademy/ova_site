@@ -1,19 +1,12 @@
 {% load static wagtailcore_tags %}
 
 <title>
+  {% comment %} Write course titles as single line, to work better in WhatsApp preview {% endcomment %}
   {% if chapter_number and segment_number %}
-    {{ chapter_number }}.{{ segment_number }}
+    {{ chapter_number }}.{{ segment_number }} {{ page.seo_title|default:page.title }}{% if course.title %} - {{ course.title }}{% endif %}
+  {% else %} 
+    {{ page.seo_title|default:page.title }}
   {% endif %} 
-
-  {% if page.seo_title %}
-    {{ page.seo_title }}
-  {% else %}
-    {{ page.title }}
-  {% endif %}
-
-  {% if course and course.title %}
-    - {{ course.title }}
-  {% endif %}
 
   {% comment %} FIX: Hard-coded titles for sign-in pages {% endcomment %}
   {% if request.path == "/accounts/login/" %}
