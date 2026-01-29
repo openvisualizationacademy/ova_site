@@ -20,36 +20,80 @@
   {% else %}
     <small>Complete to earn PDF certificate</small>
   {% endif %}
-</div>
 
+  <dialog id="cert-dialog" closedby="any">
+    <button class="button secondary" onclick="this.parentElement.close()">
+      <span class="screen-reader">Close</span>
+      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
+    </button>
 
-<dialog id="cert-dialog">
-  <form method="post" action="{% url 'generate_certificate' course.id %}">
-    {% csrf_token %}
+    <form method="post" action="{% url 'generate_certificate' course.id %}">
+      {% csrf_token %}
 
-    <h2>Certificate Name</h2>
+      <h2>Can we get a name?</h2>
 
-    <p>
-      Enter the name you want displayed on your certificate.
-      This name is not verified and will appear exactly as entered.
-    </p>
+      <p>
+        Plese enter the name you want displayed on your PDF certificate.
+        <br>
+        <small>It will appear exactly as entered. We don’t store this information.</small>
+      </p>
 
-    <label>
-      Display name
+      <label for="display-name">
+        Name:
+      </label>
       <input
+        id="display-name"
         type="text"
         name="display_name"
         required
-        minlength="3"
+        minlength="1"
         maxlength="80"
-        pattern="[A-Za-z][A-Za-z '\-]+"
         placeholder="Your name"
+        pattern=".*\S.*"
+        autofocus
       />
-    </label>
 
-    <menu>
-      <button type="submit">Generate Certificate</button>
-      <button type="button" onclick="this.closest('dialog').close()">Cancel</button>
-    </menu>
-  </form>
-</dialog>
+      {% comment %} <menu> {% endcomment %}
+      
+
+      <div class="submit-container">
+        <button type="submit" class="button tertiary" onclick="document.getElementById('cert-dialog').showModal()">
+          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          <span>
+            <span class="screen-reader">Download</span>
+            Certificate PDF
+          </span>
+        </button>
+        {% comment %} TODO: Text to be inserted on submit for screen readers via JS {% endcomment %}
+        <p aria-live="polite" class="small"></p>
+      </div>
+    </form>
+
+  </dialog>
+
+</div>
+
+<script>
+  (function() {
+    // Get certificate form
+    const form = document.querySelector(".certificate form");
+
+    // When it is submitted
+    form.addEventListener("submit", () => {
+      // Get element for screen reader announcement
+      const polite = form.querySelector('[aria-live="polite"]');
+
+      // Ensure it exists
+      if (!polite) return;
+
+      // Clear before announcing again or for 1st time
+      polite.textContent = "";
+
+      // Wait a bit, then…
+      setTimeout(() => {
+        // Announce “Generating…” to screen readers
+        polite.textContent = "Generating PDF… Download will start automatically";
+      }, 100);
+    });
+  })();
+</script>
