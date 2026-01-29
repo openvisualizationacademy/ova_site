@@ -11,8 +11,6 @@
   {% comment %} FIX: Hard-coded titles for sign-in pages {% endcomment %}
   {% if request.path == "/accounts/login/" %}
     Sign in
-  {% elif request.path == "/accounts/signup/" %}
-    Sign up
   {% elif request.path == "/accounts/login/code/confirm/" %}
     Confirm code
   {% endif %}
