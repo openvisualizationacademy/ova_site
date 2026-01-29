@@ -311,6 +311,12 @@ section.course-page {
   width: 3.6rem;
 }
 
+/* Make connector fade away (when line wraps), except for last and second-to-last dots */
+.chapters ol li.compact ol li:not(:last-child):not(:nth-last-child(2)) a::before {
+  background: linear-gradient(to right, light-dark(var(--neutral-200), var(--neutral-800)) 75%, transparent);
+  width: calc(3.6rem + 1.2rem);
+}
+
 .chapters ol li a svg[data-icon] {
   border-radius: 50%;
   inset-block-start: .4rem;
@@ -836,6 +842,10 @@ section.overview {
 
   .chapters ol ol li:not(:last-child) a::before {
     background: var(--neutral-200);
+  }
+
+  .chapters ol li.compact ol li:not(:last-child):not(:nth-last-child(2)) a::before {
+    background: linear-gradient(to right, var(--neutral-200) 75%, transparent);
   }
 
   section.course-page svg[data-icon="check-circle"] path {
