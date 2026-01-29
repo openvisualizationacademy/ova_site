@@ -261,12 +261,12 @@ body:has(.people dialog[open]) {
   }
 
   .people dialog > .button {
-    left: 1.6rem;
+    left: 0;
     margin: 0;
     position: absolute;
-    top: 0;
-    translate: 0 -50%;
-  }
+    top: -1.6rem;
+    translate: 0 -100%;
+  }  
 }
 
 /* Force light theme if browser does not support light-dark rules */
