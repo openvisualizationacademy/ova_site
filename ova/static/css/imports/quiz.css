@@ -18,6 +18,10 @@
   width: 100%;
 }
 
+.quiz fieldset:has(input:user-invalid) {
+  border-color: var(--failure-500);
+}
+
 .quiz fieldset.disabled .choice:has(input:not([aria-describedby])),
 .quiz fieldset.disabled legend {
   color: var(--neutral-500);
