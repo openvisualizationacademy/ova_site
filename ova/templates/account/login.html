@@ -12,7 +12,11 @@
     </h1>
     {% if not SOCIALACCOUNT_ONLY %}
         {% element p %}
-            {% blocktranslate %}Enter your email to sign in. New users will be registered automatically.{% endblocktranslate %}
+            {% blocktranslate %}Enter your email to sign in.{% endblocktranslate %}
+            <br>
+            <small>
+              {% translate "New users will be registered automatically." %}
+            </small>
         {% endelement %}
         {% url 'account_login' as login_url %}
         {% element form form=form method="post" action=login_url tags="entrance,login" %}

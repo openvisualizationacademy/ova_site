@@ -26,7 +26,11 @@
         {{ title_ }}
     </h1>
     {% element p %}
-        {% blocktranslate %}We've sent a code to {{ recipient }}. The code expires shortly, so please enter it soon.{% endblocktranslate %}
+        {% blocktranslate %}We've sent a code to {{ recipient }}.{% endblocktranslate %}
+        <br>
+        <small>
+          {% translate "The code expires shortly, so please enter it soon." %}
+        </small>
     {% endelement %}
     {% element form form=verify_form method="post" action=action_url tags=form_tags %}
         {% slot body %}
