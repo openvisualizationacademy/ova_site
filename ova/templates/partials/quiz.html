@@ -46,6 +46,7 @@
                     name="{{ question.id }}"
                     value="{{ choice.id }}"
                     class="screen-reader"
+                    required
 
                     {% if submitted_choice == choice.id %}
                       {% if is_correct %}
@@ -76,7 +77,7 @@
                     name="{{ question.id }}"
                     value="{{ choice.id }}"
                     class="screen-reader"
-                    {% if forloop.first %}required{% endif %}
+                    required
                   >
                   <span>{{ choice }}</span>
                 </label>
