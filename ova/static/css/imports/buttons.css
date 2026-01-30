@@ -13,12 +13,13 @@ button.reset {
   font-weight: 500;
   gap: 0rem;
   letter-spacing: 0.01em;
+  max-width: 100%;
   outline-offset: 0.4rem;
+  overflow: hidden;
   position: relative;
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .button.primary {
