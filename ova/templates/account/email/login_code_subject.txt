@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Sign-In Code{% endblocktrans %}
+{% blocktrans %}Sign-In Code {{ code }}{% endblocktrans %}
 {% endautoescape %}
