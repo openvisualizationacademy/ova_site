@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools %}
+{{ block.super }}
+<li>
+  <a href="{% url 'admin:user-course-progress' original.id %}">
+    View course progress
+  </a>
+</li>
+{% endblock %}

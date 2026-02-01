@@ -1,0 +1,58 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Course progress for {{ user.email }}</h1>
+
+<form method="get" style="margin-bottom: 1rem;">
+  <label>Select course:</label>
+  <select name="course" onchange="this.form.submit()">
+    <option value="">---</option>
+    {% for c in courses %}
+      <option value="{{ c.id }}" {% if c == selected_course %}selected{% endif %}>
+        {{ c.title }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+  {% if selected_course %}
+  <h2>
+    Course completion:
+    {{ course_percent_complete }}%
+    {% if course_progress and course_progress.completed %}
+      ✅
+    {% endif %}
+  </h2>
+{% endif %}
+
+  <h3>
+  {{ item.chapter.title }}
+  {% if item.chapter_progress and item.chapter_progress.completed %}
+    ✅
+  {% endif %}
+</h3>
+
+
+{% if progress %}
+  {% for item in progress %}
+    <h2>
+      {{ item.chapter.title }}
+      {% if item.chapter_progress and item.chapter_progress.completed %}
+        ✅
+      {% endif %}
+    </h2>
+
+    <ul>
+      {% for seg in item.segments %}
+        <li>
+          {{ seg.segment.title }} —
+          {% if seg.progress %}
+            {{ seg.progress.percent_watched }}%
+          {% else %}
+            0%
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+{% endif %}
+{% endblock %}
