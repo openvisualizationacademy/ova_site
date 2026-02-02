@@ -1,9 +1,9 @@
 import logging
 
 from allauth.account import app_settings as account_settings
-from allauth.account.views import LoginView, RequestLoginCodeView, ConfirmLoginCodeView
+from allauth.account.views import LoginView, ConfirmLoginCodeView
 
-from .forms import AutoCreateRequestLoginCodeForm, AutoCreateConfirmLoginCodeForm, RememberMeLoginForm
+from .forms import AutoCreateConfirmLoginCodeForm, RememberMeLoginForm
 from .models import User
 
 logger = logging.getLogger(__name__)
@@ -61,24 +61,6 @@ class AutoCreateLoginView(LoginView):
             logger.warning(f"DEBUG: Created user {user.pk} (is_active={user.is_active})")
         except Exception as e:
             logger.warning(f"DEBUG: Error creating user: {e}")
-
-
-class AutoCreateRequestLoginCodeView(RequestLoginCodeView):
-    """Custom view that uses our auto-create form."""
-    form_class = AutoCreateRequestLoginCodeForm
-
-    def get(self, request, *args, **kwargs):
-        logger.warning("DEBUG: AutoCreateRequestLoginCodeView.get() called")
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        logger.warning("DEBUG: AutoCreateRequestLoginCodeView.post() called")
-        return super().post(request, *args, **kwargs)
-
-    def get_form_class(self):
-        form_class = super().get_form_class()
-        logger.warning(f"DEBUG: get_form_class() returning {form_class}")
-        return form_class
 
 
 class AutoCreateConfirmLoginCodeView(ConfirmLoginCodeView):
