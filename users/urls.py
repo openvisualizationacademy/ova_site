@@ -1,6 +1,7 @@
 from django.urls import path
+from django.views.generic import RedirectView
 
-from .views import AutoCreateLoginView, AutoCreateRequestLoginCodeView, AutoCreateConfirmLoginCodeView
+from .views import AutoCreateLoginView, AutoCreateConfirmLoginCodeView
 
 
 urlpatterns = [
@@ -10,9 +11,10 @@ urlpatterns = [
         AutoCreateLoginView.as_view(),
         name="account_login",
     ),
+    # Redirect /login/code/ to main login page to avoid bypassing auto-create logic
     path(
         "login/code/",
-        AutoCreateRequestLoginCodeView.as_view(),
+        RedirectView.as_view(pattern_name="account_login", permanent=True),
         name="account_request_login_code",
     ),
     path(
