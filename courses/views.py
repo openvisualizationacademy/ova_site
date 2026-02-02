@@ -103,26 +103,30 @@ def update_progress(request):
         # Update ChapterProgress
         if isinstance(chapter, ChapterPage):
             chapter_completed = _is_chapter_complete(user, chapter)
+
             cp, _ = ChapterProgress.objects.get_or_create(
                 user=user,
                 chapter=chapter,
             )
-            cp.completed = chapter_completed
-            if chapter_completed and cp.completed_at is None:
+
+            if chapter_completed and not cp.completed:
+                cp.completed = True
                 cp.completed_at = timezone.now()
-            cp.save()
+                cp.save()
 
         # Update CourseProgress
         if isinstance(course, CoursePage):
             course_completed = _is_course_complete(user, course)
+
             cprog, _ = CourseProgress.objects.get_or_create(
                 user=user,
                 course=course,
             )
-            cprog.completed = course_completed
-            if course_completed and cprog.completed_at is None:
+
+            if course_completed and not cprog.completed:
+                cprog.completed = True
                 cprog.completed_at = timezone.now()
-            cprog.save()
+                cprog.save()
 
     # Anonymous users don’t get persisted state or completion inference
     return JsonResponse(

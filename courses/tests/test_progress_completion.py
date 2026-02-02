@@ -68,7 +68,7 @@ def post_progress(client, segment, percent):
     )
 
 
-def test_chapter_and_course_completion_flow(auth_client, course_structure):
+def test_progress_completion_contract_single_chapter(auth_client, course_structure):
     client, user = auth_client
     course, chapter, seg1, seg2 = course_structure
 
@@ -110,3 +110,75 @@ def test_chapter_and_course_completion_flow(auth_client, course_structure):
 
     assert cp.completed_at == completed_at_chapter
     assert coursep.completed_at == completed_at_course
+
+
+def test_progress_completion_contract_multi_chapter(auth_client):
+    client, user = auth_client
+
+    root = Page.get_first_root_node()
+
+    # Course
+    course = CoursePage(title="Multi Chapter Course")
+    root.add_child(instance=course)
+    course.save_revision().publish()
+
+    # Chapter 1
+    ch1 = ChapterPage(title="Chapter 1")
+    course.add_child(instance=ch1)
+    ch1.save_revision().publish()
+
+    ch1_s1 = SegmentPage(title="Ch1 Seg1")
+    ch1.add_child(instance=ch1_s1)
+    ch1_s1.save_revision().publish()
+
+    # Chapter 2
+    ch2 = ChapterPage(title="Chapter 2")
+    course.add_child(instance=ch2)
+    ch2.save_revision().publish()
+
+    ch2_s1 = SegmentPage(title="Ch2 Seg1")
+    ch2.add_child(instance=ch2_s1)
+    ch2_s1.save_revision().publish()
+
+    # ---- Complete chapter 1 ----
+    post_progress(client, ch1_s1, 100)
+
+    course_prog = CourseProgress.objects.get(user=user, course=course.specific)
+    assert course_prog.completed is False
+
+    # ---- Complete chapter 2 ----
+    post_progress(client, ch2_s1, 100)
+
+    course_prog.refresh_from_db()
+    assert course_prog.completed is True
+    assert course_prog.completed_at is not None
+
+
+def test_progress_completion_is_monotonic(auth_client, course_structure):
+    client, user = auth_client
+    course, chapter, seg1, seg2 = course_structure
+
+    # ---- Fully complete course ----
+    post_progress(client, seg1, 100)
+    post_progress(client, seg2, 100)
+
+    cp = ChapterProgress.objects.get(user=user, chapter=chapter)
+    coursep = CourseProgress.objects.get(user=user, course=course)
+
+    chapter_completed_at = cp.completed_at
+    course_completed_at = coursep.completed_at
+
+    assert cp.completed is True
+    assert coursep.completed is True
+
+    # ---- Regress one segment ----
+    post_progress(client, seg1, 50)
+
+    cp.refresh_from_db()
+    coursep.refresh_from_db()
+
+    # Completion must NOT revert
+    assert cp.completed is True
+    assert coursep.completed is True
+    assert cp.completed_at == chapter_completed_at
+    assert coursep.completed_at == course_completed_at
