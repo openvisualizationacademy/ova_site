@@ -264,6 +264,7 @@ ACCOUNT_SIGNUP_FIELDS = ["email*"]
 ACCOUNT_ALLOW_SIGNUPS = True  # will autocreate users
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_BY_CODE_EXPIRATION = 600  # 10 min
+ACCOUNT_EMAIL_UNKNOWN_ACCOUNTS = False  # Don't send emails for unknown accounts (we auto-create)
 
 # Custom forms for auto-creating users on first login and preserving "remember me"
 ACCOUNT_FORMS = {

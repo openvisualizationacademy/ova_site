@@ -32,35 +32,50 @@ class AutoCreateLoginView(LoginView):
         return super().post(request, *args, **kwargs)
 
     def _ensure_user_exists(self, email):
-        """Create an active user if they don't exist.
+        """Create an active user if they don't exist, or activate if inactive.
 
-        We create users as active because:
+        We create/activate users as active because:
         1. allauth's filter_users_by_email only finds active users
         2. The OTP code verification serves as the email verification
         3. If someone requests a code but never uses it, the cleanup task will remove them
+
+        Email is normalized to lowercase to ensure allauth can find the user.
         """
         from allauth.account.utils import filter_users_by_email
+
+        # Normalize email to lowercase for consistent lookups
+        email = email.lower()
 
         # Check if user exists (active)
         users = filter_users_by_email(email, is_active=True, prefer_verified=True)
         if users:
-            logger.warning(f"DEBUG: Found existing user {users[0].pk}")
+            logger.debug(f"Found existing active user {users[0].pk}")
             return
 
-        # Also check by email directly in case of edge cases
+        # Check for existing user (case-insensitive) and normalize/activate them
         existing = User.objects.filter(email__iexact=email).first()
         if existing:
-            logger.warning(f"DEBUG: Found existing user by email lookup {existing.pk}")
+            update_fields = []
+            if not existing.is_active:
+                existing.is_active = True
+                update_fields.append('is_active')
+                logger.debug(f"Activating inactive user {existing.pk}")
+            # Normalize email to lowercase if needed
+            if existing.email != email:
+                existing.email = email
+                update_fields.append('email')
+                logger.debug(f"Normalizing email case for user {existing.pk}")
+            if update_fields:
+                existing.save(update_fields=update_fields)
             return
 
-        # Create new active user (OTP verification serves as email verification)
-        logger.warning(f"DEBUG: Creating new user for {email}")
+        # Create new active user with lowercase email
+        logger.debug(f"Creating new user for {email}")
         try:
             user = User.objects.create_user(email=email, password=None)
-            # User is created as active (default) - OTP code verifies email ownership
-            logger.warning(f"DEBUG: Created user {user.pk} (is_active={user.is_active})")
+            logger.debug(f"Created user {user.pk} (is_active={user.is_active})")
         except Exception as e:
-            logger.warning(f"DEBUG: Error creating user: {e}")
+            logger.warning(f"Error creating user: {e}")
 
 
 class AutoCreateConfirmLoginCodeView(ConfirmLoginCodeView):

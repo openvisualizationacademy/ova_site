@@ -7,7 +7,8 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("Email address is required")
-        email = self.normalize_email(email)
+        # Lowercase entire email for consistent lookups (allauth expects lowercase)
+        email = self.normalize_email(email).lower()
         user = self.model(email=email, **extra_fields)
         if password is None:
             user.set_unusable_password()
