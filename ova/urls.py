@@ -10,6 +10,9 @@ from wagtail.documents import urls as wagtaildocs_urls
 from search import views as search_views
 from .views import chrome_devtools_dummy
 
+# Import admin module to register analytics dashboard URLs
+from . import admin as ova_admin  # noqa: F401
+
 urlpatterns = [
     path("api/", include("courses.urls")),
     path("django-ova-admin/", admin.site.urls),

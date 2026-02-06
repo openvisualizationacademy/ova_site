@@ -1,0 +1,11 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="analytics-link" style="margin-bottom: 20px;">
+    <a href="{% url 'admin:analytics-dashboard' %}" class="button" style="display: inline-block; padding: 10px 20px; background: var(--primary); color: var(--primary-fg); text-decoration: none; border-radius: 4px; font-weight: bold;">
+        View Analytics Dashboard
+    </a>
+</div>
+{{ block.super }}
+{% endblock %}
