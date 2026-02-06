@@ -145,14 +145,14 @@ def generate_certificate(request, course_id):
     # ---- 1. Get course and verify completion ----
     course = get_object_or_404(CoursePage, id=course_id)
 
-    course_completed = CourseProgress.objects.filter(
+    if not _is_course_complete(request.user, course):
+        raise Http404("Course not completed")
+
+    # Get completion date from CourseProgress if it exists, otherwise use today
+    course_progress = CourseProgress.objects.filter(
         user=request.user,
         course=course,
-        # completed=True,
     ).first()
-
-    if not course_completed:
-        raise Http404("Course not completed")
 
     # ---- 2. Resolve certificate fields ----
     # Display name: you can swap this for a form value later
@@ -181,7 +181,10 @@ def generate_certificate(request, course_id):
     ]
     course_instructor = ", ".join(instructors)
 
-    issue_date = course_completed.completed_at.date()
+    if course_progress and course_progress.completed_at:
+        issue_date = course_progress.completed_at.date()
+    else:
+        issue_date = timezone.now().date()
 
     # ---- 3. Render certificate HTML ----
     html = render_to_string(
