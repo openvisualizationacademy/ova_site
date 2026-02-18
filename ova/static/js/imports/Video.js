@@ -22,7 +22,7 @@ export default class Video {
     // Keeps track of last stored watched percent value, to throttle API call
     this.lastPercentWatched = 0;
 
-    // Consider something as watched if the below amount of secodns had passed since lastSeconds
+    // Consider something as watched if the below amount of seconds had passed since lastSeconds (switches to 1 if video is too short)
     this.delay = 3;
 
     // This will be updated with actual video duration
@@ -292,6 +292,9 @@ export default class Video {
 
       // Get video duration in seconds and cache it
       this.duration = data.duration;
+
+      // Adjust throttle delay based on video duration, if needed
+      this.updateDelay();
     }
 
     // Get current position of video (in seconds)
@@ -386,7 +389,7 @@ export default class Video {
     // Add it to the DOM (direcly after the template tag)
     templateTitle.after(cloneTitle);
 
-    // TODO: Only update newly added icon (istead of checking all page icosn)
+    // TODO: Only update newly added icon (instead of checking all page icons)
 
     // Update icons (to replace <svg> placeholder with actual icon)
     this.course.app.icons.update();
@@ -420,5 +423,16 @@ export default class Video {
 
     // Update icons (to replace <svg> placeholder with actual icon)
     this.course.app.icons.update();
+  }
+
+  updateDelay() {
+
+    // Stop executing if video duration is still unknown
+    if (!this.duration) return;
+
+    // For short videos (less than 1 minute), only wait 1s before assuming a part was watched
+    if (this.duration < 60) {
+      this.delay = 1;
+    }
   }
 }
