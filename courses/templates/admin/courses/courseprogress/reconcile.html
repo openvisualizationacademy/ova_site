@@ -1,0 +1,44 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Progress Reconciliation Report</h1>
+
+<p>Found <strong>{{ issue_count }}</strong> issues that need fixing.</p>
+
+{% if issues %}
+<form method="post" action="{% url 'admin:courses_courseprogress_reconcile_apply' %}">
+    {% csrf_token %}
+    <input type="submit" value="Apply All Fixes" class="default" style="margin-bottom: 20px;">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Type</th>
+            <th>Course</th>
+            <th>Item</th>
+            <th>Issue</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for issue in issues %}
+        <tr>
+            <td>{{ issue.user }}</td>
+            <td>{{ issue.type }}</td>
+            <td>{{ issue.course }}</td>
+            <td>{{ issue.item }}</td>
+            <td>{{ issue.issue }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p style="color: green;">All progress records are in sync.</p>
+{% endif %}
+
+<p style="margin-top: 20px;">
+    <a href="{% url 'admin:courses_courseprogress_changelist' %}">&laquo; Back to Course Progress</a>
+</p>
+{% endblock %}
