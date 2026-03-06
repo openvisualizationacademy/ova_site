@@ -886,9 +886,13 @@ class Quiz(ClusterableModel):
 class Question(ClusterableModel):
     quiz = ParentalKey(Quiz, related_name="questions", on_delete=models.CASCADE)
     text = models.TextField()
+    code_snippet = models.TextField(blank=True)
+    code_language = models.CharField(max_length=50, blank=True)
 
     panels = [
         FieldPanel("text"),
+        FieldPanel("code_snippet"),
+        FieldPanel("code_language"),
         InlinePanel("choices", label="Choices"),
     ]
 
@@ -898,7 +902,7 @@ class Question(ClusterableModel):
 
 class Choice(models.Model):
     question = ParentalKey("Question", related_name="choices", on_delete=models.CASCADE)
-    text = models.CharField(max_length=255)
+    text = models.TextField()
     is_correct = models.BooleanField(default=False)
 
     panels = [
