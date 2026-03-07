@@ -30,6 +30,14 @@
                 {% if s.completed %}
                   {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
                 {% else %}
+
+                  {% if request.path == s.segment.url %}
+                    {% comment %} Checkmark to be injected with JS as soon as current video is fully watched {% endcomment %}
+                    <template class="complete-checkmark-list">
+                      {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
+                    </template>
+                  {% endif %}
+
                   {% include 'icons/circle.svg' with name='circle' attributes='aria-hidden="true"' %}
                 {% endif %}
               </a>
