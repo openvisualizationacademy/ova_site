@@ -389,11 +389,6 @@ export default class Video {
     // Add it to the DOM (direcly after the template tag)
     templateTitle.after(cloneTitle);
 
-    // TODO: Only update newly added icon (instead of checking all page icons)
-
-    // Update icons (to replace <svg> placeholder with actual icon)
-    this.course.app.icons.update();
-
     // Add completed class (for consistency, doesn’t do anything for non-quiz segments)
     templateTitle.closest(".content").classList.add("completed");
 

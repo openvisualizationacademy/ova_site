@@ -7,7 +7,7 @@
     {% for material in segment_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-segment">
-          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
           <span>Section {{ material.title }}</span>
         </a>
         <small class="file-size">{{ material.file.size|filesizeformat }}</small>
@@ -20,7 +20,7 @@
     {% for material in chapter_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-chapter">
-          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
           <span>Chapter {{ material.title }}</span>
         </a>
         <small class="file-size">{{ material.file.size|filesizeformat }}</small>
@@ -33,7 +33,7 @@
     {% for material in course_materials %}
       <li>
         <a href="{{ material.file.url }}" download="{{ material.title }}" target="_blank" class="button tertiary material-course">
-          <svg width="24" height="24" data-icon="download" aria-hidden="true"></svg>
+          {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
           <span>{{ material.title }}</span>
         </a>
         <small class="file-size">{{ material.file.size|filesizeformat }}</small>

@@ -63,7 +63,7 @@
         <track kind="captions" src="{% static 'media/videos/intro-en.vtt' %}" srclang="en" label="English" default />
       </video>
       <button class="button tertiary" data-control="playWithAudio">
-        <svg width="24" height="24" data-icon="play-solid" fill="currentColor" aria-hidden="true"></svg>
+        {% include 'icons/play-solid.svg' with name='play-solid' attributes='fill="currentColor" aria-hidden="true"' %}
         <span>Play video</span>
       </button>
     </div>

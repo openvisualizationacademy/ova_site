@@ -1,0 +1,5 @@
+{% include 'icons/check.svg' with name='check' attributes='aria-hidden="true"' %}
+
+<svg data-icon="{{ name }}" {{ attributes | default('aria-hidden="true"') | safe }}>
+  <use xlink:href="#icon-{{ name }}"></use>
+</svg>

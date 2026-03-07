@@ -28,9 +28,9 @@
                 </span>
 
                 {% if s.completed %}
-                  <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+                  {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
                 {% else %}
-                  <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+                  {% include 'icons/circle.svg' with name='circle' attributes='aria-hidden="true"' %}
                 {% endif %}
               </a>
             </li>
