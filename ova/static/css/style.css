@@ -15,6 +15,7 @@
 @import url(./imports/courses.css);
 @import url(./imports/course.css);
 @import url(./imports/video.css);
+@import url(./imports/announcements.css);
 @import url(./imports/quiz.css);
 @import url(./imports/people.css);
 @import url(./imports/sponsors.css);
@@ -23,5 +24,7 @@
 @import url(./imports/code.css);
 @import url(./imports/sign-in.css);
 @import url(./imports/article.css);
+
 @import url(./imports/about.css);
+
 @import url(./imports/certificate.css);

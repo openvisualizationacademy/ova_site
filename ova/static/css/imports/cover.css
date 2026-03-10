@@ -4,6 +4,10 @@
   position: relative;
 }
 
+.cover:has(.announcements) {
+  padding-block-end: 4.8rem;
+}
+
 .cover .heading {
   grid-column: span 12;
   order: 1;
@@ -27,6 +31,12 @@
   gap: 1.2rem .4rem;
   grid-column: span 12;
   justify-content: center;
+  margin-block-start: 4.8rem;
+  order: 4;
+}
+
+.cover .announcements {
+  grid-column: span 12;
   margin-block-start: 4.8rem;
   order: 4;
 }
@@ -120,7 +130,8 @@
   }
 
   .cover .preview,
-  .cover .cta {
+  .cover .cta,
+  .cover .announcements {
     grid-column: span 4 / -1;
   }
 
@@ -130,6 +141,10 @@
 
   .cover .cta {
     justify-content: end;
+    margin: 0;
+  }
+
+  .cover .announcements {
     margin: 0;
   }
 }
