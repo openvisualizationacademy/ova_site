@@ -143,13 +143,15 @@ def test_progress_completion_contract_multi_chapter(auth_client):
     # ---- Complete chapter 1 ----
     post_progress(client, ch1_s1, 100)
 
-    course_prog = CourseProgress.objects.get(user=user, course=course.specific)
-    assert course_prog.completed is False
+    # Course should NOT be complete yet (only 1 of 2 chapters done)
+    assert not CourseProgress.objects.filter(
+        user=user, course=course.specific, completed=True
+    ).exists()
 
     # ---- Complete chapter 2 ----
     post_progress(client, ch2_s1, 100)
 
-    course_prog.refresh_from_db()
+    course_prog = CourseProgress.objects.get(user=user, course=course.specific)
     assert course_prog.completed is True
     assert course_prog.completed_at is not None
 
@@ -182,3 +184,24 @@ def test_progress_completion_is_monotonic(auth_client, course_structure):
     assert coursep.completed is True
     assert cp.completed_at == chapter_completed_at
     assert coursep.completed_at == course_completed_at
+
+
+def test_percent_watched_locked_at_100(auth_client, course_structure):
+    """Once a segment reaches 100%, its percent_watched cannot decrease."""
+    client, user = auth_client
+    _course, _chapter, seg1, _seg2 = course_structure
+
+    # Watch to 100%
+    post_progress(client, seg1, 100)
+    sp = SegmentProgress.objects.get(user=user, segment=seg1)
+    assert sp.percent_watched == 100
+
+    # Attempt to overwrite with lower value
+    post_progress(client, seg1, 25)
+    sp.refresh_from_db()
+    assert sp.percent_watched == 100
+
+    # Attempt to overwrite with 0
+    post_progress(client, seg1, 0)
+    sp.refresh_from_db()
+    assert sp.percent_watched == 100
