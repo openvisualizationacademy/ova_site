@@ -31,7 +31,7 @@ jobs:
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
-          pip install pytest pytest-django wagtail-factories
+          pip install pytest pytest-django wagtail-factories pysqlite3-binary
 
       - name: Run tests
         run: |
