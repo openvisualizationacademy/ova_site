@@ -16,6 +16,9 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
+# Filter out empty strings from CSRF_TRUSTED_ORIGINS (base.py splits "", producing [""])
+CSRF_TRUSTED_ORIGINS = [o for o in CSRF_TRUSTED_ORIGINS if o]
+
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 if DEBUG:
