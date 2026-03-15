@@ -42,14 +42,16 @@ def _is_chapter_complete(user, chapter):
 
 def _is_course_complete(user, course):
     """
-    A course is complete when ALL of its chapters are complete for this user.
+    A course is complete when ALL of its non-intro chapters are complete for this user.
     """
     chapters_qs = course.get_children().type(ChapterPage).live().specific()
 
-    if not chapters_qs.exists():
+    non_intro = [ch for ch in chapters_qs if not ch.is_intro]
+
+    if not non_intro:
         return False
 
-    for ch in chapters_qs:
+    for ch in non_intro:
         if not _is_chapter_complete(user, ch):
             return False
 
