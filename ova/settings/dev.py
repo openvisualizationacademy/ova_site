@@ -1,15 +1,5 @@
-# In CI, swap in pysqlite3 which bundles a modern SQLite (Django 5.2 generates
-# JSON_VALID() constraints that the system SQLite on ubuntu-latest can't handle).
-import os
-if os.environ.get("CI"):
-    try:
-        import pysqlite3
-        import sys
-        sys.modules["sqlite3"] = pysqlite3
-    except ImportError:
-        pass
-
 from .base import *
+import os
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
