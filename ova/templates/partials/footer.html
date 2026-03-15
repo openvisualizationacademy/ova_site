@@ -16,7 +16,7 @@
           <span class="username">&#104;&#101;&#108;&#108;&#111;</span><span class="at">&#64;</span><span class="domain">&#111;&#112;&#101;&#110;&#118;&#105;&#115;&#117;&#97;&#108;&#105;&#122;&#97;&#116;&#105;&#111;&#110;&#97;&#99;&#97;&#100;&#101;&#109;&#121;&#46;&#111;&#114;&#103;</span>
         </span>
         <button class="button quaternary" onclick="copy(this,this.previousElementSibling.textContent.trim())">
-          <svg width="24" height="24" data-icon="copy" aria-hidden="true"></svg>
+          {% include 'icons/copy.svg' with name='copy' attributes='aria-hidden="true"' %}
           <span>Copy</span> 
         </button>
         <span aria-live="polite"></span>

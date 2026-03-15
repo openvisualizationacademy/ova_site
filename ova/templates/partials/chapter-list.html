@@ -28,9 +28,17 @@
                 </span>
 
                 {% if s.completed %}
-                  <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+                  {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
                 {% else %}
-                  <svg width="24" height="24" data-icon="circle" aria-hidden="true"></svg>
+
+                  {% if request.path == s.segment.url %}
+                    {% comment %} Checkmark to be injected with JS as soon as current video is fully watched {% endcomment %}
+                    <template class="complete-checkmark-list">
+                      {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
+                    </template>
+                  {% endif %}
+
+                  {% include 'icons/circle.svg' with name='circle' attributes='aria-hidden="true"' %}
                 {% endif %}
               </a>
             </li>

@@ -13,17 +13,14 @@ export default class Progress {
       segment_id: segmentId,
       percent_watched: percent
     };
-    console.log("Payload:", payload);
 
     const response = await fetch(this.api, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    console.log("Sending data…");
 
     const data = await response.json();
-    console.log(data);
 
     return data;
   }

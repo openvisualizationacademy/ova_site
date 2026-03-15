@@ -75,7 +75,8 @@
             <div class="donut" style="--percent: {{ percent }}%">
               <progress value="{{ percent }}" min="0" max="100" class="screen-reader">{{ percent }}%</progress>
               {% if percent == 100 %}
-                <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
+                {% include 'icons/check.svg' with name='check' attributes='aria-hidden="true"' %}
+
               {% endif %}
             </div>
           </label>
@@ -121,11 +122,11 @@
         {% comment %}
           <div class="arrows">
             <a href="#" class="button tertiary">
-              <svg width="24" height="24" data-icon="chevron-left" aria-hidden="true"></svg>
+              {% include 'icons/chevron-left.svg' with name='chevron-left' attributes='aria-hidden="true"' %}
               <span class="screen-reader">Previous</span>
             </a>
             <a href="#" class="button tertiary">
-              <svg width="24" height="24" data-icon="chevron-right" aria-hidden="true"></svg>
+              {% include 'icons/chevron-right.svg' with name='chevron-right' attributes='aria-hidden="true"' %}
               <span class="screen-reader">Next</span>
             </a>
           </div>
@@ -153,11 +154,11 @@
           {% endif %}
 
           {% if segment_progress == 100 %}
-            <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+            {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
           {% else %}
             {% comment %} Checkmark to be injected with JS as soon as video is fully watched {% endcomment %}
             <template class="complete-checkmark-title">
-              <svg width="24" height="24" data-icon="check-circle" aria-label="Completed"></svg>
+              {% include 'icons/check-circle.svg' with name='check-circle' attributes='aria-label="Completed"' %}
             </template>
           {% endif %}
         </span>

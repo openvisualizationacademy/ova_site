@@ -32,7 +32,7 @@
         </a>
         <a href="https://openvisualizationacademy.beehiiv.com/" target="_blank">
           Newsletter
-          <svg width="24" height="24" data-icon="arrow-up-right" aria-hidden="true"></svg>
+          {% include 'icons/arrow-up-right.svg' with name='arrow-up-right' attributes='aria-hidden="true"' %}
         </a>
         <div id="current" hidden>You are here</div>
       {% endif %}
@@ -42,12 +42,12 @@
         <label>
           <span class="screen-reader">Light theme</span>
           <input type="radio" name="theme" value="light">
-          <svg width="24" height="24" data-icon="sun-light" aria-hidden="true"></svg>
+          {% include 'icons/sun-light.svg' with name='sun-light' attributes='aria-hidden="true"' %}
         </label>
         <label>
           <span class="screen-reader">Dark theme</span>
           <input type="radio" name="theme" value="dark">
-          <svg width="24" height="24" data-icon="half-moon" aria-hidden="true"></svg>
+          {% include 'icons/half-moon.svg' with name='half-moon' attributes='aria-hidden="true"' %}
         </label>
       </div>
       {% if user.is_authenticated %}

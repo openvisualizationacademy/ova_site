@@ -374,7 +374,11 @@ export default class Video {
   }
 
   updateCheckmark() {
+    this.updateTitleCheckmark();
+    this.updateListCheckmark();
+  }
 
+  updateTitleCheckmark() {
     // Update segment title checkmark
 
     // Get template element from page (holding the checkmark and a “Complete” for screen readers)
@@ -389,16 +393,17 @@ export default class Video {
     // Add it to the DOM (direcly after the template tag)
     templateTitle.after(cloneTitle);
 
-    // TODO: Only update newly added icon (instead of checking all page icons)
-
-    // Update icons (to replace <svg> placeholder with actual icon)
-    this.course.app.icons.update();
-
     // Add completed class (for consistency, doesn’t do anything for non-quiz segments)
-    templateTitle.closest(".content").classList.add("completed");
+    templateTitle.closest(".content").querySelector("h2#main").classList.add("completed");
 
+    // Remove template to ensure icon is added only once
+    templateTitle.remove();
+  }
+
+  updateListCheckmark() {
     // TODO: Update checkmark and class in chapter list
-    const templateList = document.querySelector("template.complete-checkmark-list");
+
+    const templateList = document.querySelector("a.active template.complete-checkmark-list");
 
     // Ensure it exists
     if (!templateList) return;
@@ -407,7 +412,7 @@ export default class Video {
     const cloneList = document.importNode(templateList.content, true);
 
     // Get current chapter in list
-    const li = document.querySelector(".chapters li:has(> a.active)");
+    const li = templateList.closest("li");
 
     // Ensure <li> was found
     if (!li) return;
@@ -421,8 +426,8 @@ export default class Video {
     // Add it to the DOM (replacing circle icon by checkmark one)
     svg.replaceWith(cloneList);
 
-    // Update icons (to replace <svg> placeholder with actual icon)
-    this.course.app.icons.update();
+    // Remove template to ensure icon is added only once
+    templateList.remove();
   }
 
   updateDelay() {

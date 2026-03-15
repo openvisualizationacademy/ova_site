@@ -65,9 +65,9 @@
 
                   {% if submitted_choice == choice.id %}
                     {% if is_correct %}
-                      <svg width="24" height="24" data-icon="check" aria-hidden="true"></svg>
+                      {% include 'icons/check.svg' with name='check' attributes='aria-hidden="true"' %}
                     {% else %}
-                      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
+                      {% include 'icons/x-mark.svg' with name='x-mark' attributes='aria-hidden="true"' %}
                     {% endif %}
                   {% endif %}
                 </label>

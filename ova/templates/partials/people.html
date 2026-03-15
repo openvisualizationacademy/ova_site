@@ -5,7 +5,7 @@
   <dialog closedby="any">
     <button class="button secondary" onclick="this.parentElement.close()" autofocus>
       <span class="screen-reader">Close</span>
-      <svg width="24" height="24" data-icon="x-mark" aria-hidden="true"></svg>
+      {% include 'icons/x-mark.svg' with name='x-mark' attributes='aria-hidden="true"' %}
     </button>
     <div class="details"><!-- Filled in JS --></div>
   </dialog>
@@ -76,7 +76,10 @@
           {% for social_link in person.processed_social_links %}
             <li>
               <a href="{{ social_link.url }}" target="_blank">
+                {% comment %} Not using icons include as JS checks need to replace default globe icon by platform one (instagram, linkedin, etc) {% endcomment %}
+                {% comment %} {% include 'icons/internet.svg' with name='internet' attributes='aria-hidden="true"' %} {% endcomment %}
                 <svg width="24" height="24" data-icon="internet" aria-hidden="true"></svg>
+
                 <span>{{ social_link.clean }}</span>
               </a>
             </li>
