@@ -10,7 +10,7 @@ if not DEBUG:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",""
+    "DJANGO_SECRET_KEY", "django-insecure-dev-key-do-not-use-in-production"
 )
 
 # SECURITY WARNING: define the correct hosts in production!
@@ -30,6 +30,13 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Default to sqlite3 for local dev / CI when DATABASE_URL is not set
+if not DATABASES["default"].get("ENGINE"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
 
 try:
     from .local import *
