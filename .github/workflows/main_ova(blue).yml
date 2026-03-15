@@ -33,6 +33,20 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-django wagtail-factories
 
+      - name: Django system check
+        env:
+          DJANGO_SETTINGS_MODULE: ova.settings.dev
+        run: |
+          source antenv/bin/activate
+          python manage.py check
+
+      - name: Check for missing migrations
+        env:
+          DJANGO_SETTINGS_MODULE: ova.settings.dev
+        run: |
+          source antenv/bin/activate
+          python manage.py makemigrations --check --dry-run
+
       - name: Run tests
         run: |
           source antenv/bin/activate
