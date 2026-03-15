@@ -432,6 +432,10 @@ class CoursePage(Page):
 
 
 class ChapterPage(Page):
+    is_intro = models.BooleanField(
+        default=False,
+        help_text="Intro chapters are not numbered in the chapter list.",
+    )
     content = StreamField(
         [
             ("rich_text", RichTextBlock()),
@@ -443,6 +447,7 @@ class ChapterPage(Page):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("is_intro"),
         FieldPanel("content"),
         MultiFieldPanel(
             [
@@ -822,6 +827,7 @@ class SegmentPage(QuizMixin, Page):
                 context["chapter_data"].append(
                     {
                         "chapter": chapter,
+                        "is_intro": chapter.is_intro,
                         "segments": segment_rows,
                         "completed": chapter_complete,
                         "percent_complete": (
@@ -858,7 +864,7 @@ class SegmentPage(QuizMixin, Page):
                     )
 
                 context["chapter_data"].append(
-                    {"chapter": chapter, "segments": segment_rows}
+                    {"chapter": chapter, "is_intro": chapter.is_intro, "segments": segment_rows}
                 )
 
         return context
