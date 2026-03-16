@@ -6,8 +6,6 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
-from django.utils import timezone
-from django.shortcuts import get_object_or_404
 import json
 import requests
 
@@ -87,46 +85,30 @@ def update_progress(request):
     course_completed = False
 
     if authenticated:
-        # Save or update SegmentProgress
+        # Save or update SegmentProgress.
+        # The post_save signal (courses/signals.py) automatically reconciles
+        # ChapterProgress and CourseProgress after this save.
         sp, _ = SegmentProgress.objects.get_or_create(
             user=user,
             segment=segment,
         )
-        # either overwrite or keep the max; here we overwrite
-        sp.percent_watched = percent
-        sp.save()
+        if sp.percent_watched < 100:
+            sp.percent_watched = percent
+            sp.save()
 
-        # Resolve chapter and course
+        # Read back completion state (set by the signal) for the API response
         chapter = segment.get_parent().specific
         course = chapter.get_parent().specific if chapter else None
 
-        # Update ChapterProgress
         if isinstance(chapter, ChapterPage):
-            chapter_completed = _is_chapter_complete(user, chapter)
+            chapter_completed = ChapterProgress.objects.filter(
+                user=user, chapter=chapter, completed=True
+            ).exists()
 
-            cp, _ = ChapterProgress.objects.get_or_create(
-                user=user,
-                chapter=chapter,
-            )
-
-            if chapter_completed and not cp.completed:
-                cp.completed = True
-                cp.completed_at = timezone.now()
-                cp.save()
-
-        # Update CourseProgress
         if isinstance(course, CoursePage):
-            course_completed = _is_course_complete(user, course)
-
-            cprog, _ = CourseProgress.objects.get_or_create(
-                user=user,
-                course=course,
-            )
-
-            if course_completed and not cprog.completed:
-                cprog.completed = True
-                cprog.completed_at = timezone.now()
-                cprog.save()
+            course_completed = CourseProgress.objects.filter(
+                user=user, course=course, completed=True
+            ).exists()
 
     # Anonymous users don’t get persisted state or completion inference
     return JsonResponse(

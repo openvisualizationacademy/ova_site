@@ -100,7 +100,7 @@ TEMPLATES = [
 CSRF_TRUSTED_ORIGINS = os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # Database
-pg_conf = urlparse(os.getenv("DATABASE_URL"))
+pg_conf = urlparse(os.getenv("DATABASE_URL", ""))
 
 DATABASES = {
     "default": {

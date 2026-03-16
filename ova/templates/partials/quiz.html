@@ -1,4 +1,4 @@
-{% load get_item %}
+{% load get_item code_rendering %}
 
 {% if submitted %}
   <div class="quiz-score">
@@ -36,6 +36,9 @@
                 </span>
               </span>
               {{ question }}
+              {% if question.code_snippet %}
+                {{ question.code_snippet|highlight_code:question.code_language }}
+              {% endif %}
             </legend>
 
             {% if submitted and answers %}
@@ -58,7 +61,7 @@
                       {% endif %}
                     {% endif %}
                   >
-                  <span>{{ choice }}</span>
+                  <span>{{ choice.text|inline_code }}</span>
 
                   {% if submitted_choice == choice.id %}
                     {% if is_correct %}
@@ -79,7 +82,7 @@
                     class="screen-reader"
                     required
                   >
-                  <span>{{ choice }}</span>
+                  <span>{{ choice.text|inline_code }}</span>
                 </label>
               {% endfor %}
             {% endif %}

@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="newspage",
-            name="noncoursepage_ptr",
-        ),
         migrations.DeleteModel(
             name="ContactPage",
         ),

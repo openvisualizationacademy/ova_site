@@ -56,8 +56,8 @@
         </small>
         <a href="{% url 'account_logout' %}" class="button secondary">Sign out</a>
       {% else %}
-        <a 
-          href="{% url 'account_login' %}"
+        <a
+          href="{% url 'account_login' %}?next={{ request.path }}"
           class="button secondary"
           {% if course or '/courses/' in request.path %}
             aria-describedby="sign-in-description"

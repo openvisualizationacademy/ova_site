@@ -10,11 +10,14 @@ if not DEBUG:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",""
+    "DJANGO_SECRET_KEY", "django-insecure-dev-key-do-not-use-in-production"
 )
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", ["*"]).split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+
+# Filter out empty strings from CSRF_TRUSTED_ORIGINS (base.py splits "", producing [""])
+CSRF_TRUSTED_ORIGINS = [o for o in CSRF_TRUSTED_ORIGINS if o]
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -30,6 +33,13 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Default to sqlite3 for local dev / CI when DATABASE_URL is not set
+if not DATABASES["default"].get("ENGINE"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
 
 try:
     from .local import *
