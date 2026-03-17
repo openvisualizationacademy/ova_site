@@ -120,7 +120,8 @@
   .cover .heading,
   .cover .info,
   .cover .preview,
-  .cover .cta {
+  .cover .cta,
+  .cover .announcements {
     order: unset;
   }
 

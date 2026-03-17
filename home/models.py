@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import Prefetch
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.images import get_image_model
+from wagtail.snippets.models import register_snippet
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
@@ -8,6 +10,52 @@ from wagtail.fields import RichTextField, StreamField
 from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instructor
 
 import re
+
+
+@register_snippet
+class Announcement(models.Model):
+    text = models.TextField()
+    button_text = models.CharField(max_length=255)
+    button_url = models.URLField()
+    image = models.ForeignKey(
+        get_image_model(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    active = models.BooleanField(default=False)
+    sort_order = models.IntegerField(default=1)
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("text"),
+                FieldPanel("button_text"),
+                FieldPanel("button_url"),
+            ],
+            heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("image"),
+            ],
+            heading="Image",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("active"),
+                FieldPanel("sort_order"),
+            ],
+            heading="Settings",
+        ),
+    ]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+    def __str__(self):
+        return self.text[:50]
 
 
 class HomePage(Page):
@@ -113,6 +161,8 @@ class HomePage(Page):
             .prefetch_related("image")  # Prefetch contributor images
         )
         context["contributors"] = clean_social_links(contributors)
+
+        context["announcements"] = Announcement.objects.filter(active=True).order_by("sort_order")
 
         return context
 

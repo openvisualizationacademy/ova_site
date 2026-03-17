@@ -1,16 +1,22 @@
-{% comment %}
+{% load wagtailimages_tags %}
+{% if announcements %}
 <div class="announcements">
-  <h2 class="small title">What’s happening</h2>
+  <h2 class="small title">What's happening</h2>
+  {% for announcement in announcements %}
   <div class="announcement">
-    <div class="notification-badge kicker">1</div>
+    <div class="notification-badge kicker">{{ forloop.counter }}</div>
     <div class="text">
-      <p>Lorem ipsum dolor sit amet consectetur</p>
-      <a href="#" class="button tertiary" target="_blank">
-        Read more
+      <p>{{ announcement.text }}</p>
+      <a href="{{ announcement.button_url }}" class="button tertiary" target="_blank">
+        {{ announcement.button_text }}
         {% include 'icons/arrow-up-right.svg' with name='arrow-up-right' attributes='aria-hidden="true"' %}
       </a>
     </div>
-    <img src="https://placecats.com/256/256" alt="">
+    {% if announcement.image %}
+      {% image announcement.image fill-256x256 as announcement_img %}
+      <img src="{{ announcement_img.url }}" alt="">
+    {% endif %}
   </div>
+  {% endfor %}
 </div>
-{% endcomment %}
+{% endif %}
