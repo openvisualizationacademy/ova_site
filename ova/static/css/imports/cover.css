@@ -132,7 +132,7 @@
   .cover .preview,
   .cover .cta,
   .cover .announcements {
-    grid-column: span 4 / -1;
+    grid-column: span 5 / -1;
   }
 
   .cover .preview video {
@@ -146,6 +146,14 @@
 
   .cover .announcements {
     margin: 0;
+  }
+}
+
+@media (min-width: 1152px) {
+  .cover .preview,
+  .cover .cta,
+  .cover .announcements {
+    grid-column: span 4 / -1;
   }
 }
 
