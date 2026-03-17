@@ -894,12 +894,10 @@ class Question(ClusterableModel):
     quiz = ParentalKey(Quiz, related_name="questions", on_delete=models.CASCADE)
     text = models.TextField()
     code_snippet = models.TextField(blank=True)
-    code_language = models.CharField(max_length=50, blank=True)
 
     panels = [
         FieldPanel("text"),
         FieldPanel("code_snippet"),
-        FieldPanel("code_language"),
         InlinePanel("choices", label="Choices"),
     ]
 

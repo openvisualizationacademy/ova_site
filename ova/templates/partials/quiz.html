@@ -1,4 +1,4 @@
-{% load get_item code_rendering %}
+{% load get_item wagtailmarkdown %}
 
 {% if submitted %}
   <div class="quiz-score">
@@ -35,11 +35,11 @@
                   Question {{ forloop.counter }}
                 </span>
               </span>
-              {{ question }}
-              {% if question.code_snippet %}
-                {{ question.code_snippet|highlight_code:question.code_language }}
-              {% endif %}
+              {{ question.text }}
             </legend>
+            {% if question.code_snippet %}
+              {{ question.code_snippet|markdown }}
+            {% endif %}
 
             {% if submitted and answers %}
               {% for choice in question.choices.all %}
@@ -61,7 +61,7 @@
                       {% endif %}
                     {% endif %}
                   >
-                  <span>{{ choice.text|inline_code }}</span>
+                  <span>{{ choice.text|markdown|cut:"<p>"|cut:"</p>" }}</span>
 
                   {% if submitted_choice == choice.id %}
                     {% if is_correct %}
@@ -82,7 +82,7 @@
                     class="screen-reader"
                     required
                   >
-                  <span>{{ choice.text|inline_code }}</span>
+                  <span>{{ choice.text|markdown|cut:"<p>"|cut:"</p>" }}</span>
                 </label>
               {% endfor %}
             {% endif %}
