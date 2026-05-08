@@ -44,10 +44,6 @@
   padding-block: 1.6rem;
 }
 
-[data-page="about"] :is(h2, h3, h4, h5) {
-  margin-block-start: 2em;
-}
-
 [data-page="about"] p {
   color: light-dark(var(--neutral-700), var(--neutral-300));
 }
