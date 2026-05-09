@@ -9,11 +9,11 @@
       </small>
     </p>
 
-    <p>
+    <p id="contact">
       <small>
         Contact us via the email
         <span class="contact">
-          <span class="username">&#104;&#101;&#108;&#108;&#111;</span><span class="at">&#64;</span><span class="domain">&#111;&#112;&#101;&#110;&#118;&#105;&#115;&#117;&#97;&#108;&#105;&#122;&#97;&#116;&#105;&#111;&#110;&#97;&#99;&#97;&#100;&#101;&#109;&#121;&#46;&#111;&#114;&#103;</span>
+          {% include 'partials/email-address.html' %}
         </span>
         <button class="button quaternary" onclick="copy(this,this.previousElementSibling.textContent.trim())">
           {% include 'icons/copy.svg' with name='copy' attributes='aria-hidden="true"' %}
