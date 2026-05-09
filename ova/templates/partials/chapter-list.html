@@ -5,7 +5,11 @@
       <li class="compact">
 
         <p class="chapter kicker">
-          Chapter {{ forloop.counter }}<span {% if row.segments|length == 1 %}class="single-segment"{% endif %}>: {{ row.chapter.title }}</span>
+          {% if row.is_intro %}
+            <span {% if row.segments|length == 1 %}class="single-segment"{% endif %}>{{ row.chapter.title }}</span>
+          {% else %}
+            Chapter {{ row.chapter_number }}<span {% if row.segments|length == 1 %}class="single-segment"{% endif %}>: {{ row.chapter.title }}</span>
+          {% endif %}
 
           {% if row.completed %}
             <span class="screen-reader">Completed</span>
