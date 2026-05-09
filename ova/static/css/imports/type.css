@@ -55,6 +55,10 @@ p {
   font-size: var(--font-size-p);
 }
 
+hgroup p {
+  max-width: 72ch;
+}
+
 small, .small {
   font-size: var(--font-size-small);
   letter-spacing: .01em;
@@ -87,6 +91,7 @@ sup {
 
 .center {
   text-align: center;
+  place-self: center;
 }
 
 .balance {
