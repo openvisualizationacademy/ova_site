@@ -20,7 +20,7 @@ The reconciliation is idempotent -- running it multiple times on already-
 completed progress is a no-op.
 """
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
@@ -87,3 +87,21 @@ def reconcile_progress(sender, instance, **kwargs):
             cprog.completed = True
             cprog.completed_at = timezone.now()
             cprog.save()
+
+
+@receiver(post_delete, sender="courses.SegmentPage")
+def update_course_duration_on_segment_delete(sender, instance, **kwargs):
+    from .models import CoursePage, SegmentPage
+
+    # Each Wagtail path step is 4 chars: segment is 2 levels below course
+    course_path = instance.path[: (instance.depth - 2) * 4]
+    if not course_path:
+        return
+
+    segments = SegmentPage.objects.filter(path__startswith=course_path).live()
+
+    total_seconds = sum(
+        int(seg.duration.total_seconds()) for seg in segments if seg.duration
+    )
+
+    CoursePage.objects.filter(path=course_path).update(duration_seconds=total_seconds)

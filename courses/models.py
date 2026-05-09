@@ -17,6 +17,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
 import re
+import requests
 
 from .mixins import QuizMixin
 
@@ -526,6 +527,7 @@ class SegmentPage(QuizMixin, Page):
                 FieldPanel("width"),
                 FieldPanel("height"),
                 FieldPanel("aspect_ratio", read_only=True),
+                FieldPanel("duration", read_only=True),
             ]
         ),
         MultiFieldPanel(
@@ -598,7 +600,89 @@ class SegmentPage(QuizMixin, Page):
         else:
             self.aspect_ratio = 0
 
-        return super().save(*args, **kwargs)
+        # Detect if video_url changed before saving
+        if self.pk:
+            old_url = (
+                SegmentPage.objects.filter(pk=self.pk)
+                .values_list("video_url", flat=True)
+                .first()
+            )
+            video_url_changed = old_url != self.video_url
+        else:
+            video_url_changed = bool(self.video_url)
+
+        if video_url_changed and not self.video_url:
+            self.duration = None
+            self.width = None
+            self.height = None
+            self.aspect_ratio = 0
+
+        result = super().save(*args, **kwargs)
+
+        if video_url_changed and self.video_url:
+            self._refresh_vimeo_duration()
+        elif video_url_changed and not self.video_url:
+            self._update_course_duration_seconds()
+
+        return result
+
+    def _refresh_vimeo_duration(self):
+        from datetime import timedelta
+
+        try:
+            response = requests.get(
+                f"https://vimeo.com/api/oembed.json?url={self.video_url}&maxwidth=3840",
+                timeout=10,
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            updates = {}
+
+            seconds = data.get("duration")
+            if seconds is not None:
+                self.duration = timedelta(seconds=seconds)
+                updates["duration"] = self.duration
+
+            width = data.get("width")
+            height = data.get("height")
+            if width:
+                self.width = width
+                updates["width"] = width
+            if height:
+                self.height = height
+                updates["height"] = height
+            if width and height:
+                self.aspect_ratio = (height / width) * 100
+                updates["aspect_ratio"] = self.aspect_ratio
+
+            if updates:
+                SegmentPage.objects.filter(pk=self.pk).update(**updates)
+
+            if "duration" in updates:
+                self._update_course_duration_seconds()
+        except Exception:
+            pass
+
+    def _update_course_duration_seconds(self):
+        chapter = self.get_parent()
+        if not chapter:
+            return
+        course = chapter.get_parent()
+        if not course:
+            return
+
+        segments = SegmentPage.objects.filter(
+            path__startswith=course.path,
+        ).live()
+
+        total_seconds = sum(
+            int(seg.duration.total_seconds())
+            for seg in segments
+            if seg.duration
+        )
+
+        CoursePage.objects.filter(pk=course.pk).update(duration_seconds=total_seconds)
 
     def serve(self, request):
         # Check parent course's coming soon restrictions
