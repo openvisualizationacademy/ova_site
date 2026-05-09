@@ -189,3 +189,26 @@ class TestIntroFlagInContext:
         assert len(intro_rows) == 1
         assert len(regular_rows) == 2
         assert intro_rows[0]["chapter"].title == "Introduction"
+
+
+class TestIntroChapterNumbering:
+    """Intro chapters get chapter_number=None; regular chapters are numbered sequentially."""
+
+    def test_intro_chapter_number_is_none_in_chapter_data(self, user, course_with_intro):
+        ctx = _get_context(user, course_with_intro["ch1_seg"])
+        chapter_data = ctx["chapter_data"]
+        intro_row = next(r for r in chapter_data if r["is_intro"])
+        assert intro_row["chapter_number"] is None
+
+    def test_regular_chapters_numbered_sequentially(self, user, course_with_intro):
+        ctx = _get_context(user, course_with_intro["ch1_seg"])
+        chapter_data = ctx["chapter_data"]
+        regular_rows = [r for r in chapter_data if not r["is_intro"]]
+        assert [r["chapter_number"] for r in regular_rows] == [1, 2]
+
+    def test_segment_heading_chapter_number_none_for_intro(self, user, course_with_intro):
+        intro_ctx = _get_context(user, course_with_intro["intro_seg"])
+        assert intro_ctx["chapter_number"] is None
+
+        regular_ctx = _get_context(user, course_with_intro["ch1_seg"])
+        assert regular_ctx["chapter_number"] == 1

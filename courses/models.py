@@ -722,15 +722,19 @@ class SegmentPage(QuizMixin, Page):
                 break
         context["segment_number"] = segment_number
 
-        # Chapter number within course
+        # Chapter number within course (skip intro chapters)
         if chapter:
-            chapters_sorted = sorted(chapters, key=lambda c: c.path)
-            chapter_number = 1
-            for idx, ch in enumerate(chapters_sorted, 1):
-                if ch.id == chapter.id:
-                    chapter_number = idx
-                    break
-            context["chapter_number"] = chapter_number
+            if chapter.is_intro:
+                context["chapter_number"] = None
+            else:
+                chapters_sorted = sorted(chapters, key=lambda c: c.path)
+                chapter_number = 0
+                for ch in chapters_sorted:
+                    if not ch.is_intro:
+                        chapter_number += 1
+                    if ch.id == chapter.id:
+                        break
+                context["chapter_number"] = chapter_number
         else:
             context["chapter_number"] = None
 
@@ -791,6 +795,7 @@ class SegmentPage(QuizMixin, Page):
             }
 
             completed_chapters = 0
+            display_chapter_number = 0
 
             for chapter in chapters:
                 segments = segments_by_chapter.get(chapter.id, [])
@@ -824,10 +829,14 @@ class SegmentPage(QuizMixin, Page):
                 if chapter_complete and not chapter.is_intro:
                     completed_chapters += 1
 
+                if not chapter.is_intro:
+                    display_chapter_number += 1
+
                 context["chapter_data"].append(
                     {
                         "chapter": chapter,
                         "is_intro": chapter.is_intro,
+                        "chapter_number": None if chapter.is_intro else display_chapter_number,
                         "segments": segment_rows,
                         "completed": chapter_complete,
                         "percent_complete": (
@@ -849,6 +858,7 @@ class SegmentPage(QuizMixin, Page):
             # For anonymous users, provide simpler list of chapters and segments
 
             context["chapter_data"] = []
+            display_chapter_number = 0
 
             for chapter in chapters:
                 segments = segments_by_chapter.get(chapter.id, [])
@@ -864,8 +874,16 @@ class SegmentPage(QuizMixin, Page):
                         }
                     )
 
+                if not chapter.is_intro:
+                    display_chapter_number += 1
+
                 context["chapter_data"].append(
-                    {"chapter": chapter, "is_intro": chapter.is_intro, "segments": segment_rows}
+                    {
+                        "chapter": chapter,
+                        "is_intro": chapter.is_intro,
+                        "chapter_number": None if chapter.is_intro else display_chapter_number,
+                        "segments": segment_rows,
+                    }
                 )
 
         return context
