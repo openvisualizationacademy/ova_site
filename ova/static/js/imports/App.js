@@ -10,6 +10,7 @@ import Instructors from "./Instructors.js";
 import Contributors from "./Contributors.js";
 import Certificate from "./Certificate.js";
 import Background from "./Background.js";
+import Links from "./Links.js";
 
 export default class App {
   constructor(selector) {
@@ -44,16 +45,7 @@ export default class App {
     this.themePicker = new ThemePicker(this, ".theme-picker");
     this.certificate = new Certificate(this, ".certificate");
     this.background = new Background(this, ".background");
-
-    // Allow anchor navigation, but don’t change url
-    document.querySelectorAll('a[href^="#"]').forEach((a) => {
-      const id = a.hash.replace("#", "");
-      a.addEventListener("click", (event) => {
-        event.preventDefault();
-        const element = id ? document.getElementById(id) : document.body;
-        element.scrollIntoView();
-      });
-    });
+    this.links = new Links(this, ".content-written");
   }
 
   update() {}
