@@ -212,3 +212,61 @@ class TestIntroChapterNumbering:
 
         regular_ctx = _get_context(user, course_with_intro["ch1_seg"])
         assert regular_ctx["chapter_number"] == 1
+
+
+class TestCoursePercentBySegment:
+    """
+    course_percent_complete is based on individual segment completion, not chapters.
+
+    A chapter with 2 segments where only 1 is watched should contribute 50% of
+    that chapter's weight — not 0% (which the old chapter-completion logic returned).
+
+    Page tree:
+        Course
+        └── Chapter  (2 segments)
+    """
+
+    @pytest.fixture
+    def multi_seg_course(self):
+        root = Page.get_first_root_node()
+
+        course = CoursePage(title="Multi Seg Course")
+        root.add_child(instance=course)
+        course.save_revision().publish()
+
+        chapter = ChapterPage(title="Chapter 1")
+        course.add_child(instance=chapter)
+        chapter.save_revision().publish()
+
+        seg1 = SegmentPage(title="Segment 1")
+        chapter.add_child(instance=seg1)
+        seg1.save_revision().publish()
+
+        seg2 = SegmentPage(title="Segment 2")
+        chapter.add_child(instance=seg2)
+        seg2.save_revision().publish()
+
+        return {
+            "course": course.specific,
+            "chapter": chapter.specific,
+            "seg1": seg1.specific,
+            "seg2": seg2.specific,
+        }
+
+    def test_zero_segments_watched_gives_zero_percent(self, user, multi_seg_course):
+        ctx = _get_context(user, multi_seg_course["seg1"])
+        assert ctx["course_percent_complete"] == 0
+
+    def test_partial_chapter_contributes_to_percent(self, user, multi_seg_course):
+        """1 of 2 segments watched = 50%, not 0% (old chapter-based logic returned 0%)."""
+        _complete_segment(user, multi_seg_course["seg1"])
+
+        ctx = _get_context(user, multi_seg_course["seg1"])
+        assert ctx["course_percent_complete"] == 50
+
+    def test_all_segments_watched_gives_100_percent(self, user, multi_seg_course):
+        _complete_segment(user, multi_seg_course["seg1"])
+        _complete_segment(user, multi_seg_course["seg2"])
+
+        ctx = _get_context(user, multi_seg_course["seg1"])
+        assert ctx["course_percent_complete"] == 100
