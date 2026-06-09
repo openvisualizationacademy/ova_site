@@ -32,8 +32,8 @@ dependencies = [
     "python-dotenv>=1.2,<2.0",
     "requests>=2.32,<3.0",
     "ujson>=5.11,<6.0",
-    "wagtail>=7.0,<7.1",
-    "wagtail-markdown>=0.13,<0.14",
+    "wagtail>=7.4.1,<8.0",
+    "wagtail-markdown>=0.14,<0.15",
     "whitenoise>=6.11,<7.0",
 ]
 
