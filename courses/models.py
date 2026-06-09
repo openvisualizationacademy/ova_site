@@ -878,8 +878,9 @@ class SegmentPage(QuizMixin, Page):
                 )
             }
 
-            completed_chapters = 0
             display_chapter_number = 0
+            non_intro_segments_total = 0
+            non_intro_segments_done = 0
 
             for chapter in chapters:
                 segments = segments_by_chapter.get(chapter.id, [])
@@ -910,11 +911,10 @@ class SegmentPage(QuizMixin, Page):
                     completed_segments == len(segments) and len(segments) > 0
                 )
 
-                if chapter_complete and not chapter.is_intro:
-                    completed_chapters += 1
-
                 if not chapter.is_intro:
                     display_chapter_number += 1
+                    non_intro_segments_total += len(segments)
+                    non_intro_segments_done += completed_segments
 
                 context["chapter_data"].append(
                     {
@@ -931,11 +931,10 @@ class SegmentPage(QuizMixin, Page):
                     }
                 )
 
-            # Course percent (exclude intro chapters)
-            non_intro_count = sum(1 for ch in chapters if not ch.is_intro)
-            if non_intro_count:
+            # Course percent based on individual segment completion (exclude intro chapters)
+            if non_intro_segments_total:
                 context["course_percent_complete"] = int(
-                    (completed_chapters / non_intro_count) * 100
+                    (non_intro_segments_done / non_intro_segments_total) * 100
                 )
         else:
 
