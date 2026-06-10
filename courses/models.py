@@ -719,7 +719,13 @@ class SegmentPage(QuizMixin, Page):
             context["vimeo_id"] = match.group(1) if match else None
 
         # Parent chapter
+        # .specific is required: get_parent() returns a generic Page, which lacks
+        # ChapterPage fields like is_intro. During normal routing Wagtail caches the
+        # specific parent as an optimisation so the bug is invisible, but preview
+        # bypasses routing and exposes it.
         chapter = self.get_parent()
+        if chapter:
+            chapter = chapter.specific
         context["chapter"] = chapter
 
         # Parent course
