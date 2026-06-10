@@ -17,32 +17,32 @@ from courses.models import (
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
-def course_structure():
-    root = Page.get_first_root_node()
+@pytest.fixture(scope="module")
+def course_structure(django_db_blocker):
+    with django_db_blocker.unblock():
+        root = Page.get_first_root_node()
 
-    course = CoursePage(title="Test Course")
-    root.add_child(instance=course)
-    course.save_revision().publish()
+        course = CoursePage(title="Test Course", live=True)
+        root.add_child(instance=course)
 
-    chapter = ChapterPage(title="Test Chapter")
-    course.add_child(instance=chapter)
-    chapter.save_revision().publish()
+        chapter = ChapterPage(title="Test Chapter", live=True)
+        course.add_child(instance=chapter)
 
-    seg1 = SegmentPage(title="Segment 1")
-    chapter.add_child(instance=seg1)
-    seg1.save_revision().publish()
+        seg1 = SegmentPage(title="Segment 1", live=True)
+        chapter.add_child(instance=seg1)
 
-    seg2 = SegmentPage(title="Segment 2")
-    chapter.add_child(instance=seg2)
-    seg2.save_revision().publish()
+        seg2 = SegmentPage(title="Segment 2", live=True)
+        chapter.add_child(instance=seg2)
 
-    return (
+    yield (
         course.specific,
         chapter.specific,
         seg1.specific,
         seg2.specific,
     )
+
+    with django_db_blocker.unblock():
+        course.delete()
 
 
 @pytest.fixture
@@ -118,27 +118,22 @@ def test_progress_completion_contract_multi_chapter(auth_client):
     root = Page.get_first_root_node()
 
     # Course
-    course = CoursePage(title="Multi Chapter Course")
+    course = CoursePage(title="Multi Chapter Course", live=True)
     root.add_child(instance=course)
-    course.save_revision().publish()
 
     # Chapter 1
-    ch1 = ChapterPage(title="Chapter 1")
+    ch1 = ChapterPage(title="Chapter 1", live=True)
     course.add_child(instance=ch1)
-    ch1.save_revision().publish()
 
-    ch1_s1 = SegmentPage(title="Ch1 Seg1")
+    ch1_s1 = SegmentPage(title="Ch1 Seg1", live=True)
     ch1.add_child(instance=ch1_s1)
-    ch1_s1.save_revision().publish()
 
     # Chapter 2
-    ch2 = ChapterPage(title="Chapter 2")
+    ch2 = ChapterPage(title="Chapter 2", live=True)
     course.add_child(instance=ch2)
-    ch2.save_revision().publish()
 
-    ch2_s1 = SegmentPage(title="Ch2 Seg1")
+    ch2_s1 = SegmentPage(title="Ch2 Seg1", live=True)
     ch2.add_child(instance=ch2_s1)
-    ch2_s1.save_revision().publish()
 
     # ---- Complete chapter 1 ----
     post_progress(client, ch1_s1, 100)

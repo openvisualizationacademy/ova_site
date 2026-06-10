@@ -49,33 +49,26 @@ def course_with_intro():
     """Course with 1 intro chapter + 2 regular chapters, each with 1 segment."""
     root = Page.get_first_root_node()
 
-    course = CoursePage(title="Intro Test Course")
+    course = CoursePage(title="Intro Test Course", live=True)
     root.add_child(instance=course)
-    course.save_revision().publish()
 
-    intro_ch = ChapterPage(title="Introduction", is_intro=True)
+    intro_ch = ChapterPage(title="Introduction", is_intro=True, live=True)
     course.add_child(instance=intro_ch)
-    intro_ch.save_revision().publish()
 
-    intro_seg = SegmentPage(title="Welcome")
+    intro_seg = SegmentPage(title="Welcome", live=True)
     intro_ch.add_child(instance=intro_seg)
-    intro_seg.save_revision().publish()
 
-    ch1 = ChapterPage(title="Chapter 1")
+    ch1 = ChapterPage(title="Chapter 1", live=True)
     course.add_child(instance=ch1)
-    ch1.save_revision().publish()
 
-    ch1_seg = SegmentPage(title="Segment 1")
+    ch1_seg = SegmentPage(title="Segment 1", live=True)
     ch1.add_child(instance=ch1_seg)
-    ch1_seg.save_revision().publish()
 
-    ch2 = ChapterPage(title="Chapter 2")
+    ch2 = ChapterPage(title="Chapter 2", live=True)
     course.add_child(instance=ch2)
-    ch2.save_revision().publish()
 
-    ch2_seg = SegmentPage(title="Segment 2")
+    ch2_seg = SegmentPage(title="Segment 2", live=True)
     ch2.add_child(instance=ch2_seg)
-    ch2_seg.save_revision().publish()
 
     return {
         "course": course.specific,
@@ -214,6 +207,34 @@ class TestIntroChapterNumbering:
         assert regular_ctx["chapter_number"] == 1
 
 
+@pytest.fixture(scope="module")
+def multi_seg_course(django_db_blocker):
+    with django_db_blocker.unblock():
+        root = Page.get_first_root_node()
+
+        course = CoursePage(title="Multi Seg Course", live=True)
+        root.add_child(instance=course)
+
+        chapter = ChapterPage(title="Chapter 1", live=True)
+        course.add_child(instance=chapter)
+
+        seg1 = SegmentPage(title="Segment 1", live=True)
+        chapter.add_child(instance=seg1)
+
+        seg2 = SegmentPage(title="Segment 2", live=True)
+        chapter.add_child(instance=seg2)
+
+    yield {
+        "course": course.specific,
+        "chapter": chapter.specific,
+        "seg1": seg1.specific,
+        "seg2": seg2.specific,
+    }
+
+    with django_db_blocker.unblock():
+        course.delete()
+
+
 class TestCoursePercentBySegment:
     """
     course_percent_complete is based on individual segment completion, not chapters.
@@ -225,33 +246,6 @@ class TestCoursePercentBySegment:
         Course
         └── Chapter  (2 segments)
     """
-
-    @pytest.fixture
-    def multi_seg_course(self):
-        root = Page.get_first_root_node()
-
-        course = CoursePage(title="Multi Seg Course")
-        root.add_child(instance=course)
-        course.save_revision().publish()
-
-        chapter = ChapterPage(title="Chapter 1")
-        course.add_child(instance=chapter)
-        chapter.save_revision().publish()
-
-        seg1 = SegmentPage(title="Segment 1")
-        chapter.add_child(instance=seg1)
-        seg1.save_revision().publish()
-
-        seg2 = SegmentPage(title="Segment 2")
-        chapter.add_child(instance=seg2)
-        seg2.save_revision().publish()
-
-        return {
-            "course": course.specific,
-            "chapter": chapter.specific,
-            "seg1": seg1.specific,
-            "seg2": seg2.specific,
-        }
 
     def test_zero_segments_watched_gives_zero_percent(self, user, multi_seg_course):
         ctx = _get_context(user, multi_seg_course["seg1"])

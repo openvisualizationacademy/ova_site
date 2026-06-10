@@ -53,21 +53,17 @@ def tree():
     """Course → Chapter → Segment A + Segment B, all without video URLs."""
     root = Page.get_first_root_node()
 
-    course = CoursePage(title="Duration Test Course")
+    course = CoursePage(title="Duration Test Course", live=True)
     root.add_child(instance=course)
-    course.save_revision().publish()
 
-    chapter = ChapterPage(title="Chapter 1")
+    chapter = ChapterPage(title="Chapter 1", live=True)
     course.add_child(instance=chapter)
-    chapter.save_revision().publish()
 
-    seg_a = SegmentPage(title="Segment A")
+    seg_a = SegmentPage(title="Segment A", live=True)
     chapter.add_child(instance=seg_a)
-    seg_a.save_revision().publish()
 
-    seg_b = SegmentPage(title="Segment B")
+    seg_b = SegmentPage(title="Segment B", live=True)
     chapter.add_child(instance=seg_b)
-    seg_b.save_revision().publish()
 
     return {
         "course": course.specific,

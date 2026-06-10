@@ -6,6 +6,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 db.sqlite3
+test_db.sqlite3
 /media/
 *.env
 ova/settings/*.env

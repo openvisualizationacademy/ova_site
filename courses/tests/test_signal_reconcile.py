@@ -45,44 +45,43 @@ def user():
     return User.objects.create_user(email="signal@example.com", password=None)
 
 
-@pytest.fixture
-def course_tree():
+@pytest.fixture(scope="module")
+def course_tree(django_db_blocker):
     """Build a course with 2 chapters × 3 segments each."""
-    root = Page.get_first_root_node()
+    with django_db_blocker.unblock():
+        root = Page.get_first_root_node()
 
-    course = CoursePage(title="Signal Test Course")
-    root.add_child(instance=course)
-    course.save_revision().publish()
+        course = CoursePage(title="Signal Test Course", live=True)
+        root.add_child(instance=course)
 
-    ch1 = ChapterPage(title="Chapter 1")
-    course.add_child(instance=ch1)
-    ch1.save_revision().publish()
+        ch1 = ChapterPage(title="Chapter 1", live=True)
+        course.add_child(instance=ch1)
 
-    ch1_segs = []
-    for i in range(1, 4):
-        seg = SegmentPage(title=f"Segment 1-{i}")
-        ch1.add_child(instance=seg)
-        seg.save_revision().publish()
-        ch1_segs.append(seg)
+        ch1_segs = []
+        for i in range(1, 4):
+            seg = SegmentPage(title=f"Segment 1-{i}", live=True)
+            ch1.add_child(instance=seg)
+            ch1_segs.append(seg)
 
-    ch2 = ChapterPage(title="Chapter 2")
-    course.add_child(instance=ch2)
-    ch2.save_revision().publish()
+        ch2 = ChapterPage(title="Chapter 2", live=True)
+        course.add_child(instance=ch2)
 
-    ch2_segs = []
-    for i in range(1, 4):
-        seg = SegmentPage(title=f"Segment 2-{i}")
-        ch2.add_child(instance=seg)
-        seg.save_revision().publish()
-        ch2_segs.append(seg)
+        ch2_segs = []
+        for i in range(1, 4):
+            seg = SegmentPage(title=f"Segment 2-{i}", live=True)
+            ch2.add_child(instance=seg)
+            ch2_segs.append(seg)
 
-    return {
+    yield {
         "course": course.specific,
         "ch1": ch1.specific,
         "ch2": ch2.specific,
         "ch1_segs": [s.specific for s in ch1_segs],
         "ch2_segs": [s.specific for s in ch2_segs],
     }
+
+    with django_db_blocker.unblock():
+        course.delete()
 
 
 # ---------------------------------------------------------------------------
