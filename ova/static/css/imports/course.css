@@ -664,6 +664,17 @@ section.overview {
   word-break: break-word;
 }
 
+.content-written table {
+  border-collapse: collapse;
+  margin-block: 1em;
+}
+
+.content-written table th,
+.content-written table td {
+  padding: .8rem 1.6rem;
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+}
+
 .content .content-materials ul {
   display: flex;
   flex-direction: column;
