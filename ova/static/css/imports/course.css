@@ -675,6 +675,14 @@ section.overview {
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
 }
 
+.content-written .richtext-image {
+  border-radius: .8rem;
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
+  height: auto;
+  max-width: 100%;
+  margin-block: 1em;
+}
+
 .content .content-materials ul {
   display: flex;
   flex-direction: column;
