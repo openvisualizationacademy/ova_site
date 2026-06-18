@@ -1,6 +1,11 @@
 import json
+from io import StringIO
 
 from django.contrib import admin
+from django.core.management import call_command
+from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
+from django.http import HttpResponseForbidden
 from django.urls import path
 from django.shortcuts import render
 from django.db.models import Avg
@@ -303,6 +308,28 @@ def analytics_dashboard(request):
     return render(request, "admin/analytics_dashboard.html", context)
 
 
+def run_migrations(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    context = {**admin.site.each_context(request), 'title': 'Run Migrations'}
+
+    if request.method == 'POST':
+        buf = StringIO()
+        call_command('migrate', stdout=buf, stderr=buf, no_color=True)
+        context['output'] = buf.getvalue()
+    else:
+        executor = MigrationExecutor(connection)
+        plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
+        context['pending'] = [
+            f"{migration.app_label}.{migration.name}"
+            for migration, backwards in plan
+            if not backwards
+        ]
+
+    return render(request, 'admin/run_migrations.html', context)
+
+
 # Store original get_urls
 _original_get_urls = admin.site.get_urls
 
@@ -315,6 +342,11 @@ def get_urls_with_analytics():
             "analytics/",
             admin.site.admin_view(analytics_dashboard),
             name="analytics-dashboard",
+        ),
+        path(
+            "run-migrations/",
+            admin.site.admin_view(run_migrations),
+            name="run-migrations",
         ),
     ]
     return custom_urls + urls
