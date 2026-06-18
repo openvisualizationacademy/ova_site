@@ -19,9 +19,17 @@ if [ -z "$DATABASE_URL" ]; then
     exit 1
 fi
 
-if ! command -v pg_dump &>/dev/null; then
-    echo "Installing postgresql-client..."
-    apt-get update -qq && apt-get install -y -qq postgresql-client
+PG_VERSION=17
+if ! command -v pg_dump &>/dev/null || [ "$(pg_dump --version | grep -oP '\d+' | head -1)" -lt "$PG_VERSION" ]; then
+    echo "Installing postgresql-client-${PG_VERSION}..."
+    apt-get install -y -qq curl gnupg lsb-release
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+        | gpg --dearmor -o /usr/share/keyrings/postgresql-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] \
+        https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+        > /etc/apt/sources.list.d/pgdg.list
+    apt-get update -qq
+    apt-get install -y -qq "postgresql-client-${PG_VERSION}"
 fi
 
 echo "Dumping production database..."
