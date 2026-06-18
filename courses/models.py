@@ -997,7 +997,7 @@ class Quiz(ClusterableModel):
         return f"Quiz for {self.segment}"
 
 
-class Question(ClusterableModel):
+class Question(Orderable, ClusterableModel):
     quiz = ParentalKey(Quiz, related_name="questions", on_delete=models.CASCADE)
     text = models.TextField()
     code_snippet = models.TextField(blank=True)
@@ -1008,11 +1008,14 @@ class Question(ClusterableModel):
         InlinePanel("choices", label="Choices"),
     ]
 
+    class Meta:
+        ordering = ["sort_order"]
+
     def __str__(self):
         return self.text
 
 
-class Choice(models.Model):
+class Choice(Orderable):
     question = ParentalKey("Question", related_name="choices", on_delete=models.CASCADE)
     text = models.TextField()
     is_correct = models.BooleanField(default=False)
@@ -1021,6 +1024,9 @@ class Choice(models.Model):
         FieldPanel("text"),
         FieldPanel("is_correct"),
     ]
+
+    class Meta:
+        ordering = ["sort_order"]
 
     def __str__(self):
         return self.text
