@@ -4,19 +4,23 @@
 {% block title %}Run Migrations{% endblock %}
 
 {% block content %}
-<h1>Run Migrations</h1>
 
 {% if output %}
 
 <pre style="background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:4px;overflow-x:auto;font-size:13px;line-height:1.6;white-space:pre-wrap;">{{ output }}</pre>
-<p style="margin-top:12px;"><a href="." class="button">Refresh</a></p>
+<p style="margin-top:12px;"><a href="." class="button">Check again</a></p>
 
-{% elif pending %}
+{% else %}
 
+{% if pending %}
 <p>{{ pending|length }} pending migration{{ pending|length|pluralize }}:</p>
 <ul style="font-family:monospace;font-size:14px;line-height:1.9;margin-bottom:20px;">
   {% for m in pending %}<li>{{ m }}</li>{% endfor %}
 </ul>
+{% else %}
+<p style="margin-bottom:20px;">No pending migrations detected.</p>
+{% endif %}
+
 <form method="post">
   {% csrf_token %}
   <button type="submit" class="button default"
@@ -24,10 +28,6 @@
     Run migrations
   </button>
 </form>
-
-{% else %}
-
-<p style="color:var(--primary);">No pending migrations.</p>
 
 {% endif %}
 {% endblock %}
