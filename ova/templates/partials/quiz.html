@@ -1,11 +1,18 @@
 {% load get_item wagtailmarkdown %}
 
 {% if submitted %}
-  <div class="quiz-score">
-    <p>
-      <strong>You scored {{ score }}%</strong><br>
-      <small>In last submission</small>
-    </p>
+  <div class="quiz-score-container">
+    <div class="quiz-score">
+      <p>
+        <strong>You scored {{ score }}%</strong><br>
+        <small>In last submission</small>
+      </p>
+    </div>
+    {% if score is not 100 %}
+      <p class="fix-incorrect">
+        Fix <strong>incorrect</strong> questions and submit again
+      </p>
+    {% endif %}
   </div>
 {% endif %}
 

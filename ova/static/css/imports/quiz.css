@@ -139,20 +139,40 @@
   text-shadow: 0 0 1em light-dark(var(--info-900), var(--info-900));
 }
 
-.quiz-score {
-  background: light-dark(var(--neutral-150), var(--neutral-850));
-  border-radius: 1.6rem;
-  margin-block: 3.2rem;
-  padding: 1.6rem;
-  width: fit-content;
+.quiz-score-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-block: 3.2rem;
 }
 
-.quiz-score p {
+.quiz-score-container p {
   margin: 0;
 }
 
 .quiz-score small {
   color: light-dark(var(--neutral-700), var(--neutral-300));
+}
+
+.quiz-score {
+  background: light-dark(var(--neutral-150), var(--neutral-850));
+  border-radius: 1.6rem;
+  padding: 1.6rem;
+  text-align: center;
+  width: fit-content;
+}
+
+.fix-incorrect {
+  padding: 1.6rem;
+  text-align: center;
+}
+
+.fix-incorrect strong {
+  background: linear-gradient( to right, light-dark(var(--failure-200), color-mix(in srgb, var(--failure-900) 50%, var(--neutral-900))), light-dark(var(--failure-300), var(--failure-900)));
+  border-radius: .4rem;
+  padding-block: .4rem;
+  padding-inline: .6rem;
+  font-weight: inherit;
 }
 
 @media (hover: hover) {
