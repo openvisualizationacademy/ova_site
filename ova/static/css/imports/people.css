@@ -107,6 +107,7 @@ body:has(.people dialog[open]) {
   margin-inline: auto;
   padding: .6rem;
   position: fixed;
+  width: fit-content;
   z-index: 1;
 }
 
