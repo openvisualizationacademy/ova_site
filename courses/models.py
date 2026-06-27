@@ -288,6 +288,7 @@ class CoursePage(Page):
 
     parent_page_types = ["CoursesIndexPage"]
     subpage_types = ["ChapterPage"]
+    admin_default_ordering = "ord"
 
     @property
     def sorted_tags(self):
@@ -460,6 +461,7 @@ class ChapterPage(Page):
 
     parent_page_types = ["CoursePage"]
     subpage_types = ["SegmentPage"]
+    admin_default_ordering = "ord"
 
     def save(self, *args, **kwargs):
         # update slug to match title whenever it is changed
