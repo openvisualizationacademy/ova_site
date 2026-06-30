@@ -548,6 +548,14 @@ class SegmentPage(QuizMixin, Page):
     parent_page_types = ["ChapterPage"]
     subpage_types = []
 
+    @property
+    def formatted_duration(self):
+        if not self.duration:
+            return None
+        total = int(self.duration.total_seconds())
+        minutes, seconds = divmod(total, 60)
+        return f"{minutes}:{seconds:02d}"
+
     def _get_adjacent_segment(self, direction):
         """
         Internal helper to get the next or previous segment.
