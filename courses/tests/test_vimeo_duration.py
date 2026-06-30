@@ -114,8 +114,8 @@ class TestVimeoFieldPopulation:
             seg.video_url = VIMEO_URL_A
             seg.save()
 
-        call_url = mock_get.call_args[0][0]
-        assert "maxwidth=3840" in call_url
+        _, kwargs = mock_get.call_args
+        assert kwargs.get("params", {}).get("maxwidth") == 3840
 
     def test_changing_video_url_re_fetches(self, tree):
         seg = tree["seg_a"]

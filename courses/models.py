@@ -16,10 +16,13 @@ from wagtail.images import get_image_model
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
+import logging
 import re
 import requests
 
 from .mixins import QuizMixin
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -633,7 +636,8 @@ class SegmentPage(QuizMixin, Page):
 
         try:
             response = requests.get(
-                f"https://vimeo.com/api/oembed.json?url={self.video_url}&maxwidth=3840",
+                "https://vimeo.com/api/oembed.json",
+                params={"url": self.video_url, "maxwidth": 3840},
                 timeout=10,
             )
             response.raise_for_status()
@@ -663,8 +667,13 @@ class SegmentPage(QuizMixin, Page):
 
             if "duration" in updates:
                 self._update_course_duration_seconds()
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(
+                "Failed to fetch Vimeo duration for segment %r (url=%s): %s",
+                self.title,
+                self.video_url,
+                e,
+            )
 
     def _update_course_duration_seconds(self):
         chapter = self.get_parent()

@@ -188,6 +188,40 @@ class CourseProgressAdmin(admin.ModelAdmin):
         return redirect("admin:courses_courseprogress_changelist")
 
 
+@admin.action(description="Refresh video durations from Vimeo")
+def refresh_video_durations(modeladmin, request, queryset):
+    from .models import SegmentPage
+
+    segment_count = 0
+    for course in queryset:
+        segments = SegmentPage.objects.filter(
+            path__startswith=course.path, live=True
+        ).exclude(video_url="")
+        for segment in segments:
+            segment._refresh_vimeo_duration()
+            segment_count += 1
+    messages.success(
+        request,
+        f"Refreshed durations for {segment_count} segment(s) across {queryset.count()} course(s).",
+    )
+
+
+@admin.register(CoursePage)
+class CourseDurationAdmin(admin.ModelAdmin):
+    list_display = ("title", "duration_seconds", "live")
+    list_filter = ("live",)
+    actions = [refresh_video_durations]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(ChapterProgress)
 class ChapterProgressAdmin(admin.ModelAdmin):
     list_display = ("user", "chapter", "completed", "completed_at")
