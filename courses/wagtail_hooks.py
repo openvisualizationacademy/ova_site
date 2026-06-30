@@ -24,6 +24,7 @@ class SegmentPageViewSet(PageViewSet):
         PageStatusColumn("status", label="Status", sort_key="live", width="12%"),
         Column("video_url", label="Video URL", width="25%"),
         Column("formatted_duration", label="Duration", width="8%"),
+        Column("formatted_aspect_ratio", label="Aspect Ratio", width="8%"),
     ]
 
 

@@ -556,6 +556,14 @@ class SegmentPage(QuizMixin, Page):
         minutes, seconds = divmod(total, 60)
         return f"{minutes}:{seconds:02d}"
 
+    @property
+    def formatted_aspect_ratio(self):
+        if not self.width or not self.height:
+            return None
+        from math import gcd
+        g = gcd(self.width, self.height)
+        return f"{self.width // g}:{self.height // g}"
+
     def _get_adjacent_segment(self, direction):
         """
         Internal helper to get the next or previous segment.

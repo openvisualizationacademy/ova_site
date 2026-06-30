@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils import timezone
@@ -188,21 +189,44 @@ class CourseProgressAdmin(admin.ModelAdmin):
         return redirect("admin:courses_courseprogress_changelist")
 
 
-@admin.action(description="Refresh video durations from Vimeo")
-def refresh_video_durations(modeladmin, request, queryset):
+@admin.action(description="Update missing metadata (duration/aspect ratio) from Vimeo")
+def update_missing_metadata(modeladmin, request, queryset):
     from .models import SegmentPage
 
     segment_count = 0
     for course in queryset:
-        segments = SegmentPage.objects.filter(
-            path__startswith=course.path, live=True
-        ).exclude(video_url="")
+        segments = (
+            SegmentPage.objects.filter(path__startswith=course.path, live=True)
+            .exclude(video_url="")
+            .filter(quizzes__isnull=True)
+            .filter(Q(duration__isnull=True) | Q(aspect_ratio=0))
+        )
         for segment in segments:
             segment._refresh_vimeo_duration()
             segment_count += 1
     messages.success(
         request,
-        f"Refreshed durations for {segment_count} segment(s) across {queryset.count()} course(s).",
+        f"Updated metadata for {segment_count} segment(s) across {queryset.count()} course(s).",
+    )
+
+
+@admin.action(description="Update all metadata (duration/aspect ratio) from Vimeo")
+def update_all_metadata(modeladmin, request, queryset):
+    from .models import SegmentPage
+
+    segment_count = 0
+    for course in queryset:
+        segments = (
+            SegmentPage.objects.filter(path__startswith=course.path, live=True)
+            .exclude(video_url="")
+            .filter(quizzes__isnull=True)
+        )
+        for segment in segments:
+            segment._refresh_vimeo_duration()
+            segment_count += 1
+    messages.success(
+        request,
+        f"Updated metadata for {segment_count} segment(s) across {queryset.count()} course(s).",
     )
 
 
@@ -210,7 +234,7 @@ def refresh_video_durations(modeladmin, request, queryset):
 class CourseDurationAdmin(admin.ModelAdmin):
     list_display = ("title", "duration_seconds", "live")
     list_filter = ("live",)
-    actions = [refresh_video_durations]
+    actions = [update_missing_metadata, update_all_metadata]
 
     def has_add_permission(self, request):
         return False
