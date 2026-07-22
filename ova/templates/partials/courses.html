@@ -7,17 +7,47 @@
   <div class="widget">
 
     <form class="filters" onsubmit="return false">
-      <label class="small" data-tag="all">
-        <input type="radio" name="tag" value="all" checked/>
-        <span class="tag">Show all<span class="screen-reader">&nbsp;courses</span></span>
-      </label>
 
-      {% for tag in all_tags %}
-        <label class="small" data-tag="{{ tag }}">
-          <input type="radio" name="tag" value="{{ tag }}">
-          <span class="tag">{{ tag }}{% if tag == "Lecture" or tag == "Tutorial" %}s{% endif %}</span>
-        </label>
-      {% endfor %}
+      <fieldset>
+        <legend class="kicker">
+          Type of Course
+        </legend>
+        <div class="chips">
+          <label class="small" data-tag="all">
+            <input type="radio" name="tag" value="all" checked/>
+            <span class="tag">All</span>
+          </label>
+          {% for tag in all_tags %}
+            <label class="small" data-tag="{{ tag }}">
+              <input type="radio" name="tag" value="{{ tag }}">
+              <span class="tag">{{ tag }}{% if tag == "Lecture" or tag == "Tutorial" %}s{% endif %}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <!--
+      <label class="button tertiary switch">
+        <input type="checkbox" name="for-beginners" class="screen-reader" role="switch" checked="">
+        <span>For Beginners</span>
+      </label>
+      -->
+
+      <label hidden>
+        <span class="legend kicker">Topic of Interest</span>
+        <div class="select-container">
+          <select>
+            <option selected>All</option>
+            <option>Design</option>
+            <option>Statistics</option>
+            <option>Divertisy, Equity, Inclusion</option>
+            <option>Data Storytelling</option>
+            <option>Data Journalism</option>
+          </select>
+          {% include 'icons/nav-arrow-down-solid.svg' with name='nav-arrow-down-solid' attributes='aria-hidden="true"' %}
+        </div>
+      </label>
+      
     </form>
 
     <ul class="cards">

@@ -4,12 +4,66 @@
 
 .courses .filters {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-block-end: 2.4rem;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  gap: 2.4rem;
+  margin-block-end: 4.8rem;
 }
 
-.courses .filters label {
+.courses .filters {
+  legend,
+  .legend {
+    padding: 1.2rem .6rem;
+    display: flex;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.courses .filters .select-container {
+  position: relative;
+  width: fit-content;
+}
+
+.courses .filters .select-container svg {
+  position: absolute;
+  inset-inline-end: calc(.8rem + .2rem);
+  inset-block-start: 50%;
+  width: 2rem;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+.courses .filters select {
+  appearance: none;
+  background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: 999px;
+  display: block;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: var(--font-size-small);
+  margin-block: 0;
+  max-width: 100%;
+  outline-offset: .4rem;
+  padding: .8rem 2rem;
+  width: fit-content;
+  padding-inline-end: calc(3.2rem + 2rem);
+}
+
+.courses .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.courses .filters .chips label {
   align-items: center;
   background: light-dark(var(--neutral-100), var(--neutral-900));
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
@@ -22,28 +76,27 @@
   user-select: none;
 }
 
-.courses .filters label[data-count]::after {
+.courses .filters .chips label[data-count]::after {
   content: "(" attr(data-count) ")";
   font-weight: 400;
 }
 
-.courses .filters label:has(input:focus-visible) {
+.courses .filters .chips label:has(input:focus-visible) {
   outline: 5px auto Highlight;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: 0.4rem;
 }
 
-.courses .filters input:not(:checked) + span,
-.courses .filters label:has(input:not(:checked)) {
+.courses .filters .chips input:not(:checked) + span,
+.courses .filters .chips label:has(input:not(:checked)) {
   color: light-dark(var(--neutral-700), var(--neutral-300)) !important;
 }
 
-.courses .filters input:not([value="all"]) + span::before {
-
+.courses .filters .chips input:not([value="all"]) + span::before {
   /* content: "" / "Tag: "; */
 }
 
-.courses .filters label::before {
+.courses .filters .chips label::before {
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: 999px;
   content: "";
@@ -52,16 +105,16 @@
   width: 0.666em;
 }
 
-.courses .filters label:has(input:checked) {
+.courses .filters .chips label:has(input:checked) {
   border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
 }
 
-.courses .filters label:has(input:checked)::before {
+.courses .filters .chips label:has(input:checked)::before {
   background: currentColor;
   border: 1px solid currentColor;
 }
 
-.courses .filters input {
+.courses .filters .chips input {
   appearance: none;
   position: absolute;
   width: 0;
@@ -258,8 +311,15 @@
   padding: 0 1.2rem;
 }
 
+@media (min-width: 960px) {
+  .courses .filters {
+    flex-direction: row;
+    align-items: end;
+  }
+}
+
 @media (hover: hover) {
-  .courses .filters label:hover {
+  .courses .filters .chips label:hover {
     border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
   }
 
@@ -270,21 +330,21 @@
 
 /* Force light theme if browser does not support light-dark rules */
 @supports not (color: light-dark(black, white)) {
-  .courses .filters label {
+  .courses .filters .chips label {
     background: var(--neutral-100);
     border: 1px solid var(--neutral-300);
   }
 
   .courses .filters input:not(:checked) + span,
-  .courses .filters label:has(input:not(:checked)) {
+  .courses .filters .chips label:has(input:not(:checked)) {
     color: var(--neutral-700) !important;
   }
 
-  .courses .filters label::before {
+  .courses .filters .chips label::before {
     border: 1px solid var(--neutral-300);
   }
 
-  .courses .filters label:has(input:checked) {
+  .courses .filters .chips label:has(input:checked) {
     border: 1px solid var(--neutral-900);
   }
 
@@ -316,12 +376,16 @@
   }
 
   @media (hover: hover) {
-    .courses .filters label:hover {
+    .courses .filters .chips label:hover {
       border: 1px solid var(--neutral-900);
     }
 
     .course a:hover {
       border: 1px solid var(--neutral-900);
+    }
+
+    .courses .filters select:hover {
+      border: 1px solid currentColor;
     }
   }
 }
