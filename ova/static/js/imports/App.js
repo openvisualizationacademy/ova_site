@@ -11,6 +11,7 @@ import Contributors from "./Contributors.js";
 import Certificate from "./Certificate.js";
 import Background from "./Background.js";
 import Links from "./Links.js";
+import ShowAll from "./ShowAll.js";
 
 export default class App {
   constructor(selector) {
@@ -46,6 +47,7 @@ export default class App {
     this.certificate = new Certificate(this, ".certificate");
     this.background = new Background(this, ".background");
     this.links = new Links(this, ".content-written");
+    this.showAll = new ShowAll(this, ".show-all");
   }
 
   update() {}
