@@ -105,15 +105,11 @@ export default class ShowAll {
 
   handleFocus(child, element) {
 
-    console.log("Child:", child)
-
     // If element was already expanded, do nothing
     if (element.dataset.wasExpanded === "true") return;
 
     // Get actual max height from element
     const maxHeight = parseFloat(element.style.maxHeight);
-
-    console.log("Element max height", maxHeight)
 
     // If not currently clamped ("initial"), do nothing
     if (isNaN(maxHeight)) return;
@@ -125,11 +121,8 @@ export default class ShowAll {
     // Distance from top of the element to the bottom of the focused child (uses scroll top to account for automatic vertical scroll when tabbing)
     const distanceToBottom = childRect.bottom - elementRect.top + element.scrollTop
 
-    console.log("distanceToBottom", distanceToBottom);
-
     // If the focused child sits below the visible clamp, expand
     if (distanceToBottom > maxHeight) {
-      console.log("should trigger expansion of", element)
       this.reset(element);
       element.dataset.wasExpanded = "true";
     }
@@ -147,8 +140,6 @@ export default class ShowAll {
 
       // Define what should happen when button is clicked
       button.addEventListener("click", () => {
-
-        console.log("Clicked button for", element);
 
         // Switch flag
         element.dataset.wasExpanded = "true"
