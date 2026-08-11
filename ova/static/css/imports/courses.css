@@ -120,6 +120,10 @@
   width: 0;
 }
 
+.courses .course-count {
+  padding-inline: .6rem;
+}
+
 .courses .cards {
   display: grid;
   gap: var(--gutter);
@@ -127,6 +131,25 @@
   list-style: none;
   margin-block: 0;
   padding-inline: 0;
+}
+
+/* Add spacer to end of ul so it looks nicer when it has only 2 visible items */
+.courses .cards::after {
+  content: "";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make it look like an empty card when there are no visible items */
+.courses .cards.empty::after {
+  content: "¯\\_(ツ)_/¯" / "";
+  aspect-ratio: 3/2;
+  font-size: 3.2rem;
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+  border: 1px dashed light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: 1.6rem;
+  max-width: 49.6rem;
 }
 
 .course {

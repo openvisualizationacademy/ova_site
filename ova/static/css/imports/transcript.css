@@ -1,0 +1,39 @@
+details.transcript {
+  margin-block-start: calc(-5.6rem - 1px);
+  margin-block-end: 4.8rem;
+  width: 100%;
+  max-width: 64rem;
+}
+
+details.transcript summary {
+  padding-inline: 1.6rem;
+}
+
+details.transcript summary {
+  /* border-radius: 1.6rem; */
+  cursor: pointer;
+  /* padding-block: .8rem; */
+  border-radius: .8rem;
+  padding: 1.2rem;
+  padding-inline: 0;
+  user-select: none;
+  width: fit-content;
+  place-self: start;
+  display: flex;
+  z-index: 2;
+}
+
+details.transcript[open] summary {
+  border-block-end-color: transparent;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+details.transcript summary span {
+  /* padding-inline: .5em; */
+}
+
+details.transcript article {
+    margin-block-start: -1px;
+    z-index: 1;
+}

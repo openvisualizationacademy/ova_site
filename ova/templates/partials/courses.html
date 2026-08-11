@@ -26,34 +26,30 @@
         </div>
       </fieldset>
 
-      <!--
-      <label class="button tertiary switch">
-        <input type="checkbox" name="for-beginners" class="screen-reader" role="switch" checked="">
-        <span>For Beginners</span>
-      </label>
-      -->
-
       <label hidden>
         <span class="legend kicker">Topic of Interest</span>
         <div class="select-container">
-          <select>
-            <option selected>All</option>
-            <option>Design</option>
-            <option>Statistics</option>
-            <option>Divertisy, Equity, Inclusion</option>
-            <option>Data Storytelling</option>
-            <option>Data Journalism</option>
+          <select name="topic">
+            <option value="all" selected>All</option>
+            <option value="Design">Design</option>
+            <option value="Statistics">Statistics</option>
+            <option value="Divertisy, Equity, Inclusion">Divertisy, Equity, Inclusion</option>
+            <option value="Data Journalism">Data Journalism</option>
+            <option value="Programming">Programming</option>
+            <option value="Cartography">Cartography</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
           </select>
           {% include 'icons/nav-arrow-down-solid.svg' with name='nav-arrow-down-solid' attributes='aria-hidden="true"' %}
         </div>
       </label>
-      
     </form>
+
+    <p><small class="course-count">&nbsp;</small></p>
 
     <ul class="cards">
       {% for course in courses %}
         {% with course_tags=course.sorted_tags course_instructors=course.course_instructors.all %}
-          <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %},{% endif %}{% endfor %}">
+          <li class="course" data-tags="{% for tag in course_tags %}{{ tag }}{% if not forloop.last %};{% endif %}{% endfor %}">
             {% if course.coming_soon %}
               <div class="card">
                 <span class="coming-soon-badge kicker">Coming {{ course.coming_soon }}</span>
