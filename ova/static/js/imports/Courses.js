@@ -59,8 +59,8 @@ export default class Courses {
     }
 
     this.courses.forEach((course) => {
-      const courseTags = course.dataset.tags.split(";");
-      const courseTopics = course.dataset.topics.split(";");
+      const courseTags = course.dataset.tags ? course.dataset.tags.split(";") : [];
+      const courseTopics = course.dataset.topics ? course.dataset.topics.split(";") : [];
 
       const hasTag = allTags || courseTags.includes(tag);
       const hasTopic = allTopics || courseTopics.includes(topic);

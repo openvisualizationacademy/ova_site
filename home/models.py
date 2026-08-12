@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Prefetch
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.images import get_image_model
 from wagtail.snippets.models import register_snippet
@@ -7,7 +6,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 
-from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instructor, Topic
+from courses.models import CoursesIndexPage, Instructor, build_courses_listing_context
 
 import re
 
@@ -73,64 +72,7 @@ class HomePage(Page):
         # Get the CoursesIndexPage instance
         courses_index = CoursesIndexPage.objects.live().first()
         if courses_index:
-            # Build the complete queryset with all prefetches
-            courses_query = (
-                courses_index.get_children()
-                .live()
-                .specific()
-                .prefetch_related(
-                    "tags",
-                    "topics",
-                    "course_instructors__instructor",
-                    "course_instructors__instructor__image",
-                    "image",  # Prefetch course images
-                )
-            )
-
-            # Add progress prefetch for authenticated users
-            if user.is_authenticated:
-                progress_queryset = CourseProgress.objects.filter(user=user)
-                courses_query = courses_query.prefetch_related(
-                    Prefetch(
-                        "courseprogress_set",
-                        queryset=progress_queryset,
-                        to_attr="progress",
-                    )
-                )
-
-            # Evaluate queryset ONCE into a list
-            courses = list(courses_query)
-
-            # Get all tags - data already loaded
-            tags = set()
-            for course in courses:
-                for tag in course.tags.all():
-                    tags.add(str(tag))
-
-            # Set completed flag for authenticated users
-            if user.is_authenticated:
-                for course in courses:
-                    # Access and assign first item in the list created by to_attr
-                    progress = course.progress[0] if course.progress else None
-                    course.completed = progress.completed if progress else False
-
-            context["courses"] = courses
-
-            # Sort tags by importance
-            def custom_sorted(input_list):
-                # Define ideal sorting of tags (in order of importance)
-                ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
-
-                # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
-                rank_map = {word: i for i, word in enumerate(ideal_order)}
-
-                # Compare based on rank instead of alphabetically, unknown words go to the end
-                return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
-
-            context["all_tags"] = custom_sorted(tags)
-
-            # Controlled topic vocabulary for the "Topic of Interest" filter
-            context["all_topics"] = Topic.objects.all()
+            context.update(build_courses_listing_context(courses_index, user))
 
         # Process social links for instructors or contributors for displaying in UI
         def clean_social_links(people):

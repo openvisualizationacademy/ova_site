@@ -27,6 +27,16 @@ logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
+# Curated display order for the "Type of Course" category tags; anything not
+# listed sorts alphabetically after these.
+CATEGORY_TAG_ORDER = ["Fundamentals", "Lecture", "Tutorial"]
+
+
+def sort_tags_by_importance(tags):
+    """Sort category tag names by curated importance, unknown tags last."""
+    rank_map = {word: i for i, word in enumerate(CATEGORY_TAG_ORDER)}
+    return sorted(tags, key=lambda name: (rank_map.get(name, len(rank_map)), name))
+
 
 @register_snippet
 class TagSnippet(Tag):
@@ -143,72 +153,64 @@ class Topic(models.Model):
         return self.name
 
 
+def build_courses_listing_context(courses_index, user):
+    """Shared context for the course-grid partial (``partials/courses.html``),
+    used by both the courses index page and the home page.
+
+    Returns ``courses`` (each annotated with a ``completed`` flag for
+    authenticated users), ``all_tags`` (curated order) and ``all_topics``.
+    """
+    courses_query = (
+        courses_index.get_children()
+        .live()
+        .specific()
+        .prefetch_related(
+            "tags",
+            "topics",
+            "course_instructors__instructor",
+            "course_instructors__instructor__image",
+            "image",  # Prefetch course images
+        )
+    )
+
+    # Add progress prefetch for authenticated users
+    if user.is_authenticated:
+        progress_queryset = CourseProgress.objects.filter(user=user)
+        courses_query = courses_query.prefetch_related(
+            Prefetch(
+                "courseprogress_set",
+                queryset=progress_queryset,
+                to_attr="progress",
+            )
+        )
+
+    # Evaluate queryset ONCE into a list
+    courses = list(courses_query)
+
+    # Collect tags and set completed flag - data already loaded
+    tags = set()
+    for course in courses:
+        for tag in course.tags.all():
+            tags.add(str(tag))
+        if user.is_authenticated:
+            progress = course.progress[0] if course.progress else None
+            course.completed = progress.completed if progress else False
+
+    return {
+        "courses": courses,
+        "all_tags": sort_tags_by_importance(tags),
+        # Controlled topic vocabulary for the "Topic of Interest" filter
+        "all_topics": Topic.objects.all(),
+    }
+
+
 class CoursesIndexPage(Page):
     subpage_types = ["CoursePage"]
     max_count = 1  # optional
 
-    # def get_context(self, request, *args, **kwargs):
-    #     context = super().get_context(request, *args, **kwargs)
-    #     context["courses"] = self.get_children().live().specific()
-    #     return context
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-        user = request.user
-
-        # Build the complete queryset with all prefetches
-        courses_query = self.get_children().live().specific().prefetch_related(
-            'tags',
-            'topics',
-            'course_instructors__instructor',
-            'course_instructors__instructor__image',
-            'image',  # Prefetch course images
-        )
-
-        # Add progress prefetch for authenticated users
-        if user.is_authenticated:
-            progress_queryset = CourseProgress.objects.filter(user=user)
-            courses_query = courses_query.prefetch_related(
-                Prefetch(
-                    'courseprogress_set',
-                    queryset=progress_queryset,
-                    to_attr='progress'
-                )
-            )
-
-        # Evaluate queryset ONCE into a list
-        courses = list(courses_query)
-
-        # Get all tags - data already loaded
-        tags = set()
-        for course in courses:
-            for tag in course.tags.all():
-                tags.add(str(tag))
-
-        # Set completed flag for authenticated users
-        if user.is_authenticated:
-            for course in courses:
-                # Access and assign first item in the list created by to_attr
-                progress = course.progress[0] if course.progress else None
-                course.completed = progress.completed if progress else False
-
-        context['courses'] = courses
-
-        # Sort tags by importance
-        def custom_sorted(input_list):
-            # Define ideal sorting of tags (in order of importance)
-            ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
-
-            # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
-            rank_map = {word: i for i, word in enumerate(ideal_order)}
-
-            # Compare based on rank instead of alphabetically, unknown words go to the end
-            return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
-
-        context['all_tags'] = sorted(tags)
-
-        # Controlled topic vocabulary for the "Topic of Interest" filter
-        context['all_topics'] = Topic.objects.all()
+        context.update(build_courses_listing_context(self, request.user))
         return context
 
 
@@ -339,24 +341,8 @@ class CoursePage(Page):
 
     @property
     def sorted_tags(self):
-
-        # Get all tags - data already loaded
-        tags = set()
-        for tag in self.tags.all():
-            tags.add(str(tag))
-
-        # Sort tags by importance
-        def custom_sorted(input_list):
-            # Define ideal sorting of tags (in order of importance)
-            ideal_order = ["Fundamentals", "Lecture", "Tutorial"]
-
-            # Result: {"Fundamentals": 0, "Lecture": 1, "Tutorial": 2}
-            rank_map = {word: i for i, word in enumerate(ideal_order)}
-
-            # Compare based on rank instead of alphabetically, unknown words go to the end
-            return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
-
-        return custom_sorted(tags)
+        # Relies on the prefetched 'tags' so no extra query per card.
+        return sort_tags_by_importance({str(tag) for tag in self.tags.all()})
 
     @property
     def sorted_topics(self):
