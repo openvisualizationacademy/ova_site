@@ -7,7 +7,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 
-from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instructor
+from courses.models import CoursesIndexPage, CoursePage, CourseProgress, Instructor, Topic
 
 import re
 
@@ -80,6 +80,7 @@ class HomePage(Page):
                 .specific()
                 .prefetch_related(
                     "tags",
+                    "topics",
                     "course_instructors__instructor",
                     "course_instructors__instructor__image",
                     "image",  # Prefetch course images
@@ -127,6 +128,9 @@ class HomePage(Page):
                 return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
 
             context["all_tags"] = custom_sorted(tags)
+
+            # Controlled topic vocabulary for the "Topic of Interest" filter
+            context["all_topics"] = Topic.objects.all()
 
         # Process social links for instructors or contributors for displaying in UI
         def clean_social_links(people):

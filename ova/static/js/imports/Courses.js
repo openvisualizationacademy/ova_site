@@ -24,9 +24,11 @@ export default class Courses {
     return this.tag === "all";
   }
 
-  // Get selected topic option (rely on HTMLFormElement)
+  // Get selected topic option (rely on HTMLFormElement).
+  // The topic select is only rendered when topics exist; fall back to "all".
   get topic() {
-    return this.filters.elements.topic.value;
+    const select = this.filters.elements.topic;
+    return select ? select.value : "all";
   }
 
   // Check if default filter is selected
@@ -59,8 +61,6 @@ export default class Courses {
     this.courses.forEach((course) => {
       const courseTags = course.dataset.tags.split(";");
       const courseTopics = course.dataset.topics.split(";");
-
-      console.log(course, courseTags, courseTopics)
 
       const hasTag = allTags || courseTags.includes(tag);
       const hasTopic = allTopics || courseTopics.includes(topic);
@@ -115,30 +115,8 @@ export default class Courses {
     // } 
   }
 
-  populateTopicAttribute() {
-    const possibleTopics = [...this.filters.elements.topic.options].map(option => option.value).filter(option => option !== "all");
-
-    function getRandomItems(possibleOptions) {
-      const count = Math.floor(Math.random() * 3) + 1; // 1 to 3
-      const shuffled = [...possibleOptions].sort(() => Math.random() - 0.5);
-      return shuffled.slice(0, count);
-    }
-
-    this.courses.forEach(course => {
-      // If it doens’t have a data-topics attribute, create one an populate with random topic
-      if (course.dataset.topics === undefined) {
-        // Pick 1-3 at random and separate them using semicolons
-        course.dataset.topics = getRandomItems(possibleTopics).join(";");
-      }
-    })
-  }
-
   setup() {
-    // TEMP: Apply mock topics if needed
-    this.populateTopicAttribute();
-
     this.setupFilters();
-    // this.countFilters();
   }
 
   update() {}

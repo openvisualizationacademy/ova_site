@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.db.models import Prefetch
 from django.contrib.auth import get_user_model
@@ -13,7 +14,7 @@ from wagtail.blocks import RichTextBlock
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
 from wagtail.images import get_image_model
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
 from wagtailmarkdown.blocks import MarkdownBlock
 import logging
@@ -107,6 +108,41 @@ class CourseCategoryTag(TaggedItemBase):
     )
 
 
+@register_snippet
+class Topic(models.Model):
+    """Controlled, admin-managed vocabulary of course topics (e.g. Programming,
+    Cartography, DEI). Distinct from the free-form category tags used for
+    'Type of Course' (Fundamentals/Lecture/Tutorial)."""
+
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(
+        max_length=100,
+        unique=True,
+        blank=True,
+        help_text="Stable identifier used for filtering. Auto-filled from the name if left blank.",
+    )
+    sort_order = models.PositiveIntegerField(
+        default=0, help_text="Lower numbers appear first in the topic filter."
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("slug"),
+        FieldPanel("sort_order"),
+    ]
+
+    class Meta:
+        ordering = ["sort_order", "name"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 class CoursesIndexPage(Page):
     subpage_types = ["CoursePage"]
     max_count = 1  # optional
@@ -123,6 +159,7 @@ class CoursesIndexPage(Page):
         # Build the complete queryset with all prefetches
         courses_query = self.get_children().live().specific().prefetch_related(
             'tags',
+            'topics',
             'course_instructors__instructor',
             'course_instructors__instructor__image',
             'image',  # Prefetch course images
@@ -169,6 +206,9 @@ class CoursesIndexPage(Page):
             return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
 
         context['all_tags'] = sorted(tags)
+
+        # Controlled topic vocabulary for the "Topic of Interest" filter
+        context['all_topics'] = Topic.objects.all()
         return context
 
 
@@ -255,6 +295,9 @@ class CoursePage(Page):
         on_delete=models.SET_NULL,
     )
     tags = ClusterTaggableManager(through=CourseCategoryTag, blank=True)
+    topics = ParentalManyToManyField(
+        "courses.Topic", blank=True, related_name="courses"
+    )
 
     content_panels = Page.content_panels + [
         FieldRowPanel(
@@ -287,6 +330,7 @@ class CoursePage(Page):
             heading="Instructors",
         ),
         FieldPanel("tags"),
+        FieldPanel("topics", widget=forms.CheckboxSelectMultiple),
     ]
 
     parent_page_types = ["CoursesIndexPage"]
@@ -313,6 +357,12 @@ class CoursePage(Page):
             return sorted(input_list, key=lambda x: rank_map.get(x, float('inf')))
 
         return custom_sorted(tags)
+
+    @property
+    def sorted_topics(self):
+        # Topic Meta already orders by (sort_order, name); relies on the
+        # prefetched 'topics' so no extra query per card.
+        return list(self.topics.all())
 
     @property
     def formatted_duration(self):
