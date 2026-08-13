@@ -1,0 +1,128 @@
+[data-page="brand"] .grid section {
+  width: 100%;
+}
+
+[data-page="brand"] figure img {
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: .8rem;
+}
+
+[data-page="brand"] .dark-background {
+  background-color: var(--neutral-900);
+  background-image: repeating-conic-gradient(var(--neutral-800) 0 25%, transparent 0 50%);
+  background-position: center;
+  background-size: 1.6rem 1.6rem;
+}
+
+[data-page="brand"] .light-background {
+  background-color: var(--neutral-100);
+  background-image: repeating-conic-gradient(var(--neutral-200) 0 25%, transparent 0 50%);
+  background-position: center;
+  background-size: 1.6rem 1.6rem;
+}
+
+[data-page="brand"] table {
+  border-collapse: collapse;
+  margin-block-start: var(--gutter);
+  margin-block-end: calc(var(--gutter) * 4);
+  width: 100%;
+}
+
+[data-page="brand"] th,
+[data-page="brand"] td {
+  padding: 0;
+  vertical-align: top;
+}
+
+[data-page="brand"] tbody td {
+  width: 25%;
+}
+
+[data-page="brand"] th {
+  border-block-end: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  padding-block: 1.6rem;
+  text-align: start;
+}
+
+[data-page="brand"] tr:first-child td {
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+  padding-block: 1.6rem;
+}
+
+[data-page="brand"] figure {
+  margin: 0;
+  padding: 0;
+}
+
+[data-page="brand"] .palette {
+  display: flex;
+}
+
+[data-page="brand"] .color {
+  height: 2em;
+  width: 2em;
+}
+
+[data-page="brand"] .tags {
+  display: flex;
+  gap: 0.8rem;
+}
+
+[data-page="brand"] .tag {
+  align-items: center;
+  display: inline-flex;
+  font-weight: 500;
+}
+
+[data-page="brand"] .tag[data-tag="all"] {
+  color: var(--tag-all);
+}
+
+[data-page="brand"] .tag[data-tag="Fundamentals"] {
+  color: var(--tag-fundamentals);
+}
+
+[data-page="brand"] .tag[data-tag="Lecture"] {
+  color: var(--tag-lecture);
+}
+
+[data-page="brand"] .tag[data-tag="Tutorial"] {
+  color: var(--tag-tutorial);
+}
+
+[data-page="brand"] table [data-icon] {
+  display: none;
+}
+
+[data-page="brand"] tbody tr:first-child {
+  display: none;
+}
+
+/* [data-page="about"] p {
+  color: light-dark(var(--neutral-700), var(--neutral-300));
+} */
+
+@media (min-width: 480px) {
+  [data-page="brand"] table [data-icon] {
+    display: block;
+  }
+  [data-page="brand"] tbody tr:first-child {
+    display: table-row;
+  }
+}
+
+/* Force light theme if browser does not support light-dark rules */
+@supports not (color: light-dark(black, white)) {
+  [data-page="brand"] figure img {
+    border: 1px solid var(--neutral-300);
+  }
+  [data-page="brand"] th {
+    border-block-end: 1px solid var(--neutral-300);
+  }
+  [data-page="brand"] tr:first-child td {
+    color: var(--neutral-700);
+  }
+  /* [data-page="brand"] p {
+    color: var(--neutral-700);
+  } */
+}
