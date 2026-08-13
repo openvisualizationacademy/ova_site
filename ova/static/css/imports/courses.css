@@ -123,6 +123,7 @@
 
 .courses .course-count {
   padding-inline: .6rem;
+  font-variant: tabular-nums;
 }
 
 .courses .cards {
