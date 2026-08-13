@@ -55,6 +55,7 @@
   padding: .8rem 2rem;
   width: fit-content;
   padding-inline-end: calc(3.2rem + 2rem);
+  color: inherit;
 }
 
 .courses .chips {
