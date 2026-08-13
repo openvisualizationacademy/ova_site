@@ -37,7 +37,10 @@ export default class Courses {
   }
 
   setupFilters() {
-
+  
+    // When page loads
+    this.countCourses();
+    
     // When form fields change
     this.filters.addEventListener("change", (event) => {
       this.filterCards(this.tag, this.topic);
@@ -86,7 +89,7 @@ export default class Courses {
     this.count.textContent = `
       ${count === 0 ? 'No' : count}
       ${count === 1 ? 'course' : 'courses' }
-      found`;
+      ${ this.allTags && this.allTopics ? 'offered' : 'found' }`;
 
     // Add empty class if count is 0, remove it otherwise
     this.cards.classList.toggle("empty", count === 0);
