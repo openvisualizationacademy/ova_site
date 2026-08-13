@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+[data-page="brand"] h3 {
+  padding-block-start:var(--gutter);
+}
+
 [data-page="brand"] figure img {
   border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
   border-radius: .8rem;
