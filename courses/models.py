@@ -300,6 +300,10 @@ class CoursePage(Page):
     topics = ParentalManyToManyField(
         "courses.Topic", blank=True, related_name="courses"
     )
+    zero_indexed_video_segments = models.BooleanField(
+        default=False,
+        help_text="Enable if this course's instructor numbers segments in their recorded video starting at 0 (e.g. video shows 5.0, 5.1, 5.2...). When enabled, the site's segment numbers are shifted to match.",
+    )
 
     content_panels = Page.content_panels + [
         FieldRowPanel(
@@ -317,6 +321,7 @@ class CoursePage(Page):
             ],
             heading="Coming Soon Settings",
         ),
+        FieldPanel("zero_indexed_video_segments"),
         MultiFieldPanel(
             [
                 InlinePanel("materials", label="Materials"),
@@ -868,8 +873,9 @@ class SegmentPage(QuizMixin, Page):
         # Segment number within chapter
         segments_in_chapter = [s for s in all_segments if s.path.startswith(chapter.path) and s.path != chapter.path]
         segments_in_chapter_sorted = sorted(segments_in_chapter, key=lambda s: s.path)
-        segment_number = 1
-        for idx, seg in enumerate(segments_in_chapter_sorted, 1):
+        start = 0 if (course and course.zero_indexed_video_segments) else 1
+        segment_number = start
+        for idx, seg in enumerate(segments_in_chapter_sorted, start):
             if seg.id == self.id:
                 segment_number = idx
                 break

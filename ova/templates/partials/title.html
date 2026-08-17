@@ -2,7 +2,7 @@
 
 <title>
   {% comment %} Write course titles as single line, to work better in WhatsApp preview {% endcomment %}
-  {% if chapter_number and segment_number %}
+  {% if chapter_number and segment_number is not None %}
     {{ chapter_number }}.{{ segment_number }} {{ page.seo_title|default:page.title }}{% if course.title %} - {{ course.title }}{% endif %}
   {% elif page %}
     {{ page.seo_title|default:page.title }}
