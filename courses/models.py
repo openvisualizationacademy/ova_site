@@ -695,6 +695,12 @@ class SegmentPage(QuizMixin, Page):
         g = gcd(self.width, self.height)
         return f"{self.width // g}:{self.height // g}"
 
+    @property
+    def course_title(self):
+        chapter = self.get_parent()
+        course = chapter.get_parent() if chapter else None
+        return course.specific.title if course else ""
+
     def _get_adjacent_segment(self, direction):
         """
         Internal helper to get the next or previous segment.

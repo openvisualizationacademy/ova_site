@@ -286,13 +286,33 @@ def redownload_transcript(modeladmin, request, queryset):
     )
 
 
+class CourseListFilter(admin.SimpleListFilter):
+    title = "course"
+    parameter_name = "course"
+
+    def lookups(self, request, model_admin):
+        return [(c.pk, c.title) for c in CoursePage.objects.order_by("title")]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            course = CoursePage.objects.filter(pk=self.value()).first()
+            if course:
+                return queryset.filter(path__startswith=course.path)
+        return queryset
+
+
 @admin.register(SegmentPage)
 class SegmentPageAdmin(admin.ModelAdmin):
-    list_display = ("title", "video_url", "has_transcript")
+    list_display = ("title", "course", "video_url", "has_transcript")
+    list_filter = (CourseListFilter,)
     actions = [redownload_transcript]
 
     class Media:
         js = ("courses/admin/transcript_progress.js",)
+
+    @admin.display(description="Course")
+    def course(self, obj):
+        return obj.course_title or "—"
 
     @admin.display(boolean=True, description="Has transcript")
     def has_transcript(self, obj):
