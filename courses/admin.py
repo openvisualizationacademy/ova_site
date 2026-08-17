@@ -12,6 +12,7 @@ from .models import (
     Question,
     CoursePage,
     ChapterPage,
+    SegmentPage,
     SegmentProgress,
     ChapterProgress,
     CourseProgress,
@@ -230,11 +231,72 @@ def update_all_metadata(modeladmin, request, queryset):
     )
 
 
+@admin.action(description="Fetch missing transcripts from Vimeo")
+def fetch_missing_transcripts(modeladmin, request, queryset):
+    segment_count = 0
+    fetched_count = 0
+    for course in queryset:
+        segments = (
+            SegmentPage.objects.filter(path__startswith=course.path, live=True)
+            .exclude(video_url="")
+            .filter(quizzes__isnull=True)
+            .filter(transcript=[])
+        )
+        for segment in segments:
+            segment_count += 1
+            if segment._refresh_vimeo_transcript():
+                fetched_count += 1
+    messages.success(
+        request,
+        f"Fetched {fetched_count} of {segment_count} missing transcript(s) across "
+        f"{queryset.count()} course(s). Segments without a ready transcript on Vimeo "
+        "yet were skipped -- retry later.",
+    )
+
+
 @admin.register(CoursePage)
 class CourseDurationAdmin(admin.ModelAdmin):
     list_display = ("title", "duration_seconds", "live")
     list_filter = ("live",)
-    actions = [update_missing_metadata, update_all_metadata]
+    actions = [update_missing_metadata, update_all_metadata, fetch_missing_transcripts]
+
+    class Media:
+        js = ("courses/admin/transcript_progress.js",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.action(description="Redownload transcript from Vimeo (overwrites existing)")
+def redownload_transcript(modeladmin, request, queryset):
+    fetched_count = 0
+    for segment in queryset:
+        if segment._refresh_vimeo_transcript():
+            fetched_count += 1
+    messages.success(
+        request,
+        f"Redownloaded transcript for {fetched_count} of {queryset.count()} segment(s). "
+        "Segments without a ready transcript on Vimeo yet were skipped -- retry later.",
+    )
+
+
+@admin.register(SegmentPage)
+class SegmentPageAdmin(admin.ModelAdmin):
+    list_display = ("title", "video_url", "has_transcript")
+    actions = [redownload_transcript]
+
+    class Media:
+        js = ("courses/admin/transcript_progress.js",)
+
+    @admin.display(boolean=True, description="Has transcript")
+    def has_transcript(self, obj):
+        return bool(obj.transcript)
 
     def has_add_permission(self, request):
         return False

@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.db.models import Prefetch
 from django.contrib.auth import get_user_model
@@ -548,6 +549,89 @@ class ChapterPage(Page):
         return context
 
 
+def _vtt_timestamp_to_mmss(ts):
+    """Convert a WebVTT timestamp ("HH:MM:SS.mmm" or "MM:SS.mmm") to "MM:SS"."""
+    parts = ts.strip().split(":")
+    if len(parts) == 3:
+        hours, minutes, seconds = parts
+    else:
+        hours, minutes, seconds = "0", parts[0], parts[1]
+    total_seconds = int(hours) * 3600 + int(minutes) * 60 + int(float(seconds))
+    minutes, seconds = divmod(total_seconds, 60)
+    return f"{minutes:02d}:{seconds:02d}"
+
+
+def _vtt_to_cues(vtt_content):
+    """Parse WebVTT text into a flat list of {"timestamp": "MM:SS", "text": "..."} cues."""
+    cues = []
+    timestamp = None
+    text_lines = []
+    skipping_block = False
+
+    def _flush():
+        if timestamp is not None and text_lines:
+            text = " ".join(text_lines).strip()
+            if text:
+                cues.append({"timestamp": timestamp, "text": text})
+
+    for raw_line in vtt_content.splitlines():
+        line = raw_line.strip()
+
+        if not line:
+            _flush()
+            timestamp = None
+            text_lines = []
+            skipping_block = False
+            continue
+
+        if skipping_block:
+            continue
+
+        if line.upper().startswith("WEBVTT"):
+            continue
+
+        if line.upper().startswith(("NOTE", "STYLE", "REGION")):
+            skipping_block = True
+            continue
+
+        if "-->" in line:
+            start = line.split("-->")[0].strip()
+            timestamp = _vtt_timestamp_to_mmss(start)
+            text_lines = []
+            continue
+
+        if timestamp is None:
+            # cue-index line, or stray content before the first timing line
+            continue
+
+        text_lines.append(re.sub(r"<[^>]+>", "", line))
+
+    _flush()
+    return cues
+
+
+def _starts_with_uppercase(text):
+    for ch in text:
+        if ch.isalpha():
+            return ch.isupper()
+    return False
+
+
+def _group_cues_into_paragraphs(cues):
+    """Group a flat cue list into paragraphs, starting a new one whenever a cue's
+    text begins with an uppercase letter (matches the transcript fixture's pattern)."""
+    paragraphs = []
+    current = []
+    for cue in cues:
+        if current and _starts_with_uppercase(cue.get("text", "")):
+            paragraphs.append(current)
+            current = []
+        current.append(cue)
+    if current:
+        paragraphs.append(current)
+    return paragraphs
+
+
 class SegmentPage(QuizMixin, Page):
     video_url = models.URLField(blank=True)
     duration = models.DurationField(blank=True, null=True)
@@ -555,6 +639,11 @@ class SegmentPage(QuizMixin, Page):
     width = models.PositiveIntegerField(blank=True, null=True)
     height = models.PositiveIntegerField(blank=True, null=True)
     aspect_ratio = models.FloatField(editable=False, default=0)
+
+    # List of paragraphs, each a list of {"timestamp": "MM:SS", "text": "..."} cues,
+    # parsed from the Vimeo transcript .vtt and pre-grouped so the page can render it
+    # server-side (for SEO) with no per-request computation.
+    transcript = models.JSONField(blank=True, default=list)
 
     content = StreamField(
         [
@@ -576,6 +665,7 @@ class SegmentPage(QuizMixin, Page):
                 FieldPanel("duration", read_only=True),
             ]
         ),
+        FieldPanel("transcript", read_only=True),
         MultiFieldPanel(
             [
                 InlinePanel("materials", label="Materials"),
@@ -752,6 +842,68 @@ class SegmentPage(QuizMixin, Page):
 
         CoursePage.objects.filter(pk=course.pk).update(duration_seconds=total_seconds)
 
+    def _refresh_vimeo_transcript(self):
+        """
+        Fetch and store this segment's transcript from Vimeo. Unlike
+        _refresh_vimeo_duration, this is never called from save() -- transcripts
+        aren't ready the instant a video is uploaded, so it's only triggered
+        on demand via the Django admin actions in courses/admin.py.
+        Returns True on success, False otherwise (never raises).
+        """
+        if not settings.VIMEO_ACCESS_TOKEN:
+            logger.warning(
+                "Cannot fetch Vimeo transcript for segment %r: VIMEO_ACCESS_TOKEN is not set",
+                self.title,
+            )
+            return False
+
+        match = re.search(r"vimeo\.com/(\d+)", self.video_url or "")
+        if not match:
+            logger.warning(
+                "Cannot fetch Vimeo transcript for segment %r: no video ID found in url=%s",
+                self.title,
+                self.video_url,
+            )
+            return False
+        video_id = match.group(1)
+
+        try:
+            response = requests.get(
+                f"https://api.vimeo.com/videos/{video_id}/texttracks",
+                headers={
+                    "Authorization": f"Bearer {settings.VIMEO_ACCESS_TOKEN}",
+                    "Accept": "application/vnd.vimeo.*+json;version=3.4",
+                },
+                timeout=15,
+            )
+            response.raise_for_status()
+            tracks = response.json().get("data", [])
+
+            if not tracks:
+                logger.warning(
+                    "No transcript track available yet for segment %r (video_id=%s)",
+                    self.title,
+                    video_id,
+                )
+                return False
+
+            vtt_response = requests.get(tracks[0]["link"], timeout=15)
+            vtt_response.raise_for_status()
+
+            paragraphs = _group_cues_into_paragraphs(_vtt_to_cues(vtt_response.text))
+
+            self.transcript = paragraphs
+            SegmentPage.objects.filter(pk=self.pk).update(transcript=paragraphs)
+            return True
+        except Exception as e:
+            logger.warning(
+                "Failed to fetch Vimeo transcript for segment %r (url=%s): %s",
+                self.title,
+                self.video_url,
+                e,
+            )
+            return False
+
     def serve(self, request):
         # Check parent course's coming soon restrictions
         chapter = self.get_parent()
@@ -785,6 +937,7 @@ class SegmentPage(QuizMixin, Page):
         if self.video_url:
             match = re.search(r"vimeo\.com/(\d+)", self.video_url)
             context["vimeo_id"] = match.group(1) if match else None
+        context["transcript"] = self.transcript
 
         # Parent chapter
         # .specific is required: get_parent() returns a generic Page, which lacks

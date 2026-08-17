@@ -281,3 +281,5 @@ DEFAULT_FROM_EMAIL = "no-reply@openvisualizationacademy.org"  # not for auth ema
 ACCOUNT_ADAPTER = "users.adapter.ACSAccountAdapter"
 
 CERT_FUNCTION_URL = os.getenv("CERT_FUNCTION_URL")
+
+VIMEO_ACCESS_TOKEN = os.getenv("VIMEO_ACCESS_TOKEN")
