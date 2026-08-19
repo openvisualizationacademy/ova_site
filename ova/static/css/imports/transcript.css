@@ -1,8 +1,12 @@
 details.transcript {
-  margin-block-start: calc(-5.6rem - 1px);
+  margin-block-start: 3.2rem;
   margin-block-end: 4.8rem;
   width: 100%;
   max-width: 64rem;
+}
+
+.content:has(.video-progress) details.transcript {
+  margin-block-start: calc(-5.6rem - 1px);
 }
 
 details.transcript summary {
