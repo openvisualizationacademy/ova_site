@@ -1,0 +1,119 @@
+.graphics {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-block: 4.8rem;
+}
+
+.graphics form {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    gap: 2.4rem;
+}
+
+/* .graphics form > div:first-child {
+    display: flex;
+    gap: 2.4rem;
+} */
+
+.graphics {
+  legend,
+  .legend {
+    padding: 1.2rem .6rem;
+    display: flex;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    width: fit-content;
+  }
+}
+
+.graphics .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.graphics fieldset.group .chips {
+    gap: 0;
+}
+
+.graphics .chips label {
+  align-items: center;
+  background: light-dark(var(--neutral-100), var(--neutral-900));
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  font-weight: 500;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+}
+
+.graphics fieldset.group .chips label {
+    border-radius: 0;
+}
+
+.graphics fieldset.group .chips label:first-child {
+    border-start-start-radius: 999px;
+    border-end-start-radius: 999px;
+}
+
+.graphics fieldset.group .chips label:last-child {
+    border-start-end-radius: 999px;
+    border-end-end-radius: 999px;
+}
+
+.graphics .chips label:has(input:focus-visible) {
+  outline: 5px auto Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: 0.4rem;
+}
+
+.graphics .chips input:not(:checked) + span,
+.graphics .chips label:has(input:not(:checked)) {
+  color: light-dark(var(--neutral-700), var(--neutral-300)) !important;
+}
+
+.graphics .chips label::before {
+  border: 1px solid light-dark(var(--neutral-300), var(--neutral-800));
+  border-radius: 999px;
+  content: "";
+  display: block;
+  height: 0.666em;
+  width: 0.666em;
+}
+
+.graphics fieldset.group .chips label::before {
+    display: none;
+}
+
+.graphics .chips label:has(input:checked) {
+  border: 1px solid light-dark(var(--neutral-900), var(--neutral-100));
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-900), var(--neutral-100));
+  z-index: 2;
+}
+
+.graphics .chips label:has(input:checked)::before {
+  background: currentColor;
+  border: 1px solid currentColor;
+}
+
+.graphics .chips input {
+  appearance: none;
+  position: absolute;
+  width: 0;
+}
+
+.graphics figure {
+  min-height: 9.6rem;
+  box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
+}

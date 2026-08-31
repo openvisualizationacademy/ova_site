@@ -12,6 +12,7 @@ import Certificate from "./Certificate.js";
 import Background from "./Background.js";
 import Links from "./Links.js";
 import ShowAll from "./ShowAll.js";
+import Graphics from "./Graphics.js";
 
 export default class App {
   constructor(selector) {
@@ -48,6 +49,7 @@ export default class App {
     this.background = new Background(this, ".background");
     this.links = new Links(this, ".content-written");
     this.showAll = new ShowAll(this, ".show-all");
+    this.graphics = new Graphics(this, ".graphics");
   }
 
   update() {}

@@ -1,0 +1,65 @@
+<div class="graphics">
+    <form onsubmit="return false">
+        <!-- <div> -->
+            <fieldset class="group">
+                <legend class="kicker">
+                    Background
+                </legend>
+                <div class="chips">
+                    <label class="small">
+                        <input type="radio" name="background" value="white" checked>
+                        <span>White</span>
+                    </label>
+                    <label class="small">
+                        <input type="radio" name="background" value="black">
+                        <span>Black</span>
+                    </label>
+                    <label class="small">
+                        <input type="radio" name="background" value="transparent">
+                        <span>Transparent</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="group">
+                <legend class="kicker">
+                    Aspect Ratio
+                </legend>
+                <div class="chips">
+                    <label class="small">
+                        <input type="radio" name="ratio" value="16:9" checked>
+                        <span>16:9</span>
+                    </label>
+                    <label class="small">
+                        <input type="radio" name="ratio" value="4:3">
+                        <span>4:3</span>
+                    </label>
+                    <label class="small">
+                        <input type="radio" name="ratio" value="3:2">
+                        <span>3:2</span>
+                    </label>
+                    <label class="small">
+                        <input type="radio" name="ratio" value="1:1">
+                        <span>1:1</span>
+                    </label>
+                </div>
+            </fieldset>
+        <!-- </div> -->
+
+        <!-- <button type="reset" classs="button tertiary" disabled>Reset</button> -->
+        <button type="button" class="button secondary" value="random">Random Shape</button>
+    </form>
+    <figure >
+         <canvas></canvas>
+    </figure>
+    <nav>
+        <a href="#" class="button tertiary" download>
+            {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
+            <span>SVG</span>
+        </a>
+        <a href="#" class="button tertiary" download>
+            {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
+            <span>PNG</span>
+        </a>
+    </nav>
+    
+</div>
