@@ -17,7 +17,7 @@
 
 [data-page="brand"] .dark-background {
   background-color: var(--neutral-900);
-  background-image: repeating-conic-gradient(var(--neutral-800) 0 25%, transparent 0 50%);
+  background-image: repeating-conic-gradient(var(--neutral-850) 0 25%, transparent 0 50%);
   background-position: center;
   background-size: 1.6rem 1.6rem;
 }

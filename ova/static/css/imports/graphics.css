@@ -113,7 +113,11 @@
   width: 0;
 }
 
-.graphics figure {
-  min-height: 9.6rem;
+.graphics canvas {
+  background-color: light-dark(var(--neutral-100), var(--neutral-900));
+  background-image: repeating-conic-gradient(light-dark(var(--neutral-200), var(--neutral-850)) 0 25%, transparent 0 50%);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
+  background-position: center;
+  background-size: 3.2rem 3.2rem;
 }
+
