@@ -51,7 +51,6 @@ export default class Graphics {
     this.getFormData();
 
     // TEMP
-    this.canvas.style.aspectRatio = this.ratio;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 

@@ -10,6 +10,7 @@
     justify-content: start;
     align-items: end;
     gap: 2.4rem;
+    flex-wrap: wrap;
 }
 
 /* .graphics form > div:first-child {
@@ -41,6 +42,7 @@
 
 .graphics fieldset.group .chips {
     gap: 0;
+    flex-wrap: nowrap;
 }
 
 .graphics .chips label {
@@ -119,5 +121,7 @@
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
   background-position: center;
   background-size: 3.2rem 3.2rem;
+  max-width: 100%;
+  display: block;
 }
 
