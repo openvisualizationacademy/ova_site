@@ -47,13 +47,16 @@ export default class RendererSVG {
   update() {
     this.instance.render(this.world.scene.instance, this.world.camera.instance);
 
+
+
     // Apply background
-    if (this.world.app.graphics.background === "transparent") {
+    const color = this.world.app.graphics.background;
+    if (color === "transparent") {
       this.world.scene.instance.background = null;
       // Force SVG element to be transparent (SVGRenderer is not accepting alpha in clearColor)
-      this.instance.domElement.style.background = "transparent";
+      this.instance.domElement.style.background = color;
     } else {
-      this.instance.background = new THREE.Color(this.background);
+      this.world.scene.instance.background = new THREE.Color(color);
     }
   }
 }
