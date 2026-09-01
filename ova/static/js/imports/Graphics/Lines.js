@@ -124,10 +124,9 @@ export default class Lines {
 
       scene.remove(child);
     }
-}
+  }
 
   renderLines() {
-
     this.clearScene();
 
     this.lines.forEach((line, index) => {
@@ -135,13 +134,18 @@ export default class Lines {
       // Get value between 0-1
       const t = index / (this.lines.length - 1);
 
-      const material = new THREE.LineBasicMaterial( { color: this.palette(t) } );
+      const material = new THREE.LineBasicMaterial({
+        color: this.palette(t),
+        linewidth: 3, // Works with SVGRenderer
+        linecap: "butt" // Works with SVGRenderer
+      });
+
       const points = [];
       points.push( new THREE.Vector3( ...line.a ) );
       points.push( new THREE.Vector3( ...line.b) );
       const geometry = new THREE.BufferGeometry().setFromPoints( points );
-      const mesh = new THREE.Line( geometry, material );
 
+      const mesh = new THREE.Line( geometry, material );
       this.world.scene.instance.add( mesh );
     });
   }

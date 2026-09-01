@@ -1,10 +1,11 @@
 import * as THREE from "three";
 
 import DeltaTime from "./DeltaTime.js";
+// import Renderer from "./Renderer.js";
+import Renderer from "./RendererSVG.js";
 import Scene from "./Scene.js";
 import Camera from "./Camera.js";
 import Controls from "./Controls.js";
-import Renderer from "./Renderer.js";
 import Pointer from "./Pointer.js";
 import Renderer2D from "./Renderer2D.js";
 import Animation from "./Animation.js";
@@ -16,6 +17,7 @@ export default class World {
   constructor(app, canvas, canvas2D) {
     this.app = app;
     this.element = document.querySelector(".world");
+    
     this.canvas = this.element.querySelector(canvas);
     this.canvas2D = this.element.querySelector(canvas2D);
 
@@ -36,10 +38,10 @@ export default class World {
     this.deltaTime = new DeltaTime();
 
     // Basic
+    this.renderer = new Renderer(this);
     this.scene = new Scene(this);
     this.camera = new Camera(this);
     this.controls = new Controls(this);
-    this.renderer = new Renderer(this);
     this.pointer = new Pointer(this);
     this.renderer2D = new Renderer2D(this);
     this.animation = new Animation(this);

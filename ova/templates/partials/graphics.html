@@ -67,17 +67,18 @@
         <button type="button" class="button secondary" onclick="app.world.lines.randomize()">Random Shape</button>
     </form>
     <figure class="world" id="world">
-        <canvas class="canvas"></canvas>
+        <!-- SVG will be injected by THREE -->
+        <!-- <canvas class="canvas"></canvas> -->
         <div class="canvas2D"></div>
     </figure>
     <nav>
         <a href="#" class="button tertiary" download>
             {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
-            <span>SVG</span>
+            <span>Download SVG</span>
         </a>
-        <a href="#" class="button tertiary" download>
+        <!--<a href="#" class="button tertiary" download>
             {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
             <span>PNG</span>
-        </a>
+        </a>-->
     </nav>
 </div>

@@ -10,9 +10,9 @@ export default class Camera {
     this.zoom = 1;
     this.x = 0;
     this.y = 0;
-    this.z = 12;
+    this.z = 16;
     
-    this.frustum = 24;
+    this.frustum = 16;
 
     this.setup();
   }

@@ -13,10 +13,7 @@ export default class Renderer {
   }
 
   get pixelRatio() {
-    // return Math.min(window.devicePixelRatio, 2);
-    
-    // Draw in @4x always
-    return 4;
+    return Math.min(window.devicePixelRatio, 2);
   }
 
   resize() {
@@ -34,7 +31,7 @@ export default class Renderer {
     this.instance.setClearColor(this.clearColor, this.clearAlpha);
 
     this.resize();
-    this.update();
+    // this.update();
   }
 
   update() {

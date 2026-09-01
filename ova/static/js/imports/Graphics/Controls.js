@@ -11,7 +11,7 @@ export default class Controls {
     // Orbit for smooth rotating
     this.orbitInstance = new OrbitControls(
       this.world.camera.instance,
-      this.world.canvas
+      this.world.renderer.instance.domElement
     );
     this.orbitInstance.autoRotate = true;
     this.orbitInstance.enableRotate = true;
@@ -23,7 +23,7 @@ export default class Controls {
     // Trackball for smooth zooming
     this.trackballInstance = new TrackballControls(
       this.world.camera.instance,
-      this.world.canvas
+      this.world.renderer.instance.domElement
     );
     this.trackballInstance.noRotate = true;
     this.trackballInstance.noPan = true;
