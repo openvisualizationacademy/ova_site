@@ -138,6 +138,10 @@
   display: block;
 }
 
+.graphics .world .canvas[style] {
+  height: auto !important;
+}
+
 .graphics .world .canvas2D {
   pointer-events: none;
   position: absolute;
