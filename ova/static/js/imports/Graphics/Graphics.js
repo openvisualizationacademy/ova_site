@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import World from "./World.js";
 
 export default class Graphics {
@@ -66,18 +67,9 @@ export default class Graphics {
     // Extract settings from form
     this.getFormData();
 
-    // TEMP
-    console.log('Should set canvas dimensions', this.width, this.height);
+    // Apply dimensions
     this.app.world.resize();
-
-    // this.canvas.width = this.width;
-    // this.canvas.height = this.height;
-
-    // TEMP
-    console.log('Should paint canvas background', this.background);
-    // this.ctx.fillStyle = this.background;
-    // this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // console.log(this.background, this.ratio);
+    // Background is applied in renderer update call
   }
 }

@@ -1,5 +1,3 @@
-import * as THREE from "three";
-
 import DeltaTime from "./DeltaTime.js";
 // import Renderer from "./Renderer.js";
 import Renderer from "./RendererSVG.js";

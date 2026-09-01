@@ -136,7 +136,7 @@ export default class Lines {
 
       const material = new THREE.LineBasicMaterial({
         color: this.palette(t),
-        linewidth: 3, // Works with SVGRenderer
+        linewidth: 2, // Works with SVGRenderer
         linecap: "butt" // Works with SVGRenderer
       });
 

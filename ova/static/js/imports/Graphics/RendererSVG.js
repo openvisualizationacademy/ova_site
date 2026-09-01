@@ -26,7 +26,7 @@ export default class RendererSVG {
   }
 
   setup() {
-    this.instance = new SVGRenderer();
+    this.instance = new SVGRenderer({ alpha: true });
 
     // Add class to SVG element to match style of canvas element
     this.instance.domElement.classList.add("canvas");
@@ -38,8 +38,7 @@ export default class RendererSVG {
     //   preserveDrawingBuffer: this.preserveDrawingBuffer,
     //   antialias: this.antialias,
     // });
-    // this.instance.setClear;
-    // this.instance.setClearColor(this.clearColor, this.clearAlpha);
+    this.instance.setClearColor(this.clearColor, this.clearAlpha);
 
     this.resize();
     // this.update();
@@ -47,5 +46,14 @@ export default class RendererSVG {
 
   update() {
     this.instance.render(this.world.scene.instance, this.world.camera.instance);
+
+    // Apply background
+    if (this.world.app.graphics.background === "transparent") {
+      this.world.scene.instance.background = null;
+      // Force SVG element to be transparent (SVGRenderer is not accepting alpha in clearColor)
+      this.instance.domElement.style.background = "transparent";
+    } else {
+      this.instance.background = new THREE.Color(this.background);
+    }
   }
 }
