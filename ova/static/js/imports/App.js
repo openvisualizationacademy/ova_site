@@ -1,3 +1,4 @@
+import Data from "./Data.js";
 import Utils from "./Utils.js";
 import Accessibility from "./Accessibility.js";
 import Logo from "./Logo.js";
@@ -12,7 +13,6 @@ import Certificate from "./Certificate.js";
 import Background from "./Background.js";
 import Links from "./Links.js";
 import ShowAll from "./ShowAll.js";
-import Graphics from "./Graphics.js";
 
 export default class App {
   constructor(selector) {
@@ -21,6 +21,8 @@ export default class App {
   }
 
   setup() {
+    this.data = new Data();
+    
     this.utils = new Utils(this);
     this.icons = new Icons(this);
     this.accessibility = new Accessibility(this);
@@ -49,7 +51,6 @@ export default class App {
     this.background = new Background(this, ".background");
     this.links = new Links(this, ".content-written");
     this.showAll = new ShowAll(this, ".show-all");
-    this.graphics = new Graphics(this, ".graphics");
   }
 
   update() {}

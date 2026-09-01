@@ -115,7 +115,20 @@
   width: 0;
 }
 
-.graphics canvas {
+.graphics .world {
+  outline: none;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  width: fit-content;
+}
+
+.graphics .world .canvas {
+  position: relative;
+  touch-action: none;
   background-color: light-dark(var(--neutral-100), var(--neutral-900));
   background-image: repeating-conic-gradient(light-dark(var(--neutral-200), var(--neutral-850)) 0 25%, transparent 0 50%);
   box-shadow: 0 0 0 1px light-dark(var(--neutral-300), var(--neutral-800));
@@ -125,3 +138,8 @@
   display: block;
 }
 
+.graphics .world .canvas2D {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}

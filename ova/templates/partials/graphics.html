@@ -1,3 +1,21 @@
+{% load static %}
+
+<script type="module">
+    // Import three.js and Graphics class only when this include is used, for performance
+    import Graphics from "{% static 'js/imports/Graphics/Graphics.js' %}";
+
+    const sources = [
+      {
+        name: "lines",
+        path: "{% static 'data/lines.json' %}",
+        type: "json",
+      },
+    ];
+
+    // Initialize class
+    window.app.graphics = new Graphics(window.app, ".graphics", sources);
+</script>
+
 <div class="graphics">
     <form onsubmit="return false">
         <!-- <div> -->
@@ -46,10 +64,11 @@
         <!-- </div> -->
 
         <!-- <button type="reset" classs="button tertiary" disabled>Reset</button> -->
-        <button type="button" class="button secondary" value="random">Random Shape</button>
+        <button type="button" class="button secondary" onclick="app.world.lines.randomize()">Random Shape</button>
     </form>
-    <figure >
-         <canvas></canvas>
+    <figure class="world" id="world">
+        <canvas class="canvas"></canvas>
+        <div class="canvas2D"></div>
     </figure>
     <nav>
         <a href="#" class="button tertiary" download>
@@ -61,5 +80,4 @@
             <span>PNG</span>
         </a>
     </nav>
-    
 </div>
