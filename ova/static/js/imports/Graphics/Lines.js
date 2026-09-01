@@ -5,9 +5,6 @@ export default class Lines {
   constructor(world) {
     this.world = world;
 
-    // Define how many lines will be drawn (including first, excluding last);
-    this.steps = 64 - 1;
-
     // Will store references to drawn lines
     // this.list = [];
 
@@ -15,9 +12,18 @@ export default class Lines {
     this.list = [];
 
     // Define whether to use logo shape or random coordinates
-    this.mode = "logo"; // logo|random
+    // this.mode = "logo"; // logo|random
 
     this.setup();
+  }
+
+  get steps() {
+    // Define how many lines will be drawn (including first, excluding last);
+    return this.world.app.graphics.steps || 4;
+  }
+
+  get lines() {
+    return this.blend(this.steps, this.extremes);
   }
 
   randomizeCoordinates() {
@@ -33,20 +39,6 @@ export default class Lines {
     }));
 
     return randomized;
-  }
-
-  get lines() {
-
-    // Assume mode is "logo" 
-    let extremes = this.world.app.data.lines;
-    
-    // If mode is "random"
-    if (this.mode === "random") {
-      // Randomize first and last line coordinates
-      extremes = this.randomizeCoordinates();
-    }
-
-    return this.blend(this.steps, extremes);
   }
 
   blend(steps, extremes) {
@@ -126,8 +118,10 @@ export default class Lines {
     }
   }
 
-  renderLines() {
+  renderLines() {  
     this.clearScene();
+
+    const thickness = this.world.app.graphics.thickness;
 
     this.lines.forEach((line, index) => {
 
@@ -136,7 +130,7 @@ export default class Lines {
 
       const material = new THREE.LineBasicMaterial({
         color: this.palette(t),
-        linewidth: 2, // Works with SVGRenderer
+        linewidth: thickness, // Works with SVGRenderer
         linecap: "butt" // Works with SVGRenderer
       });
 
@@ -150,18 +144,23 @@ export default class Lines {
     });
   }
 
-  randomize() {
-    console.log(this);
-    this.mode = "random";
-    this.renderLines();
+  reset() {
+    // Revert to logo coordinates
+    this.extremes = this.world.app.data.lines;
+  }
+
+  randomize() {  
+    // Randomize first and last line coordinates
+    this.extremes = this.randomizeCoordinates();
+    this.update();
   }
 
   setup() {
-    this.renderLines()
+    this.reset();
+    this.renderLines();
   }
 
   update() {
-    
-
+    this.renderLines();
   }
 }

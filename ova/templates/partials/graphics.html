@@ -61,10 +61,22 @@
                     </label>
                 </div>
             </fieldset>
+            <label>
+                <span class="kicker">Lines</span>
+                <div>
+                    <input type="range" name="lines" min="16" step="16" max="256" value="64">
+                </div>
+            </label>
+            <label>
+                <span class="kicker">Thickness</span>
+                <div>
+                    <input type="range" name="thickness" min="1" step="1" max="8" value="2">
+                </div>
+            </label>
         <!-- </div> -->
 
         <!-- <button type="reset" classs="button tertiary" disabled>Reset</button> -->
-        <button type="button" class="button secondary" onclick="app.world.lines.randomize()">Random Shape</button>
+        
     </form>
     <figure class="world" id="world">
         <!-- SVG will be injected by THREE -->
@@ -72,6 +84,9 @@
         <div class="canvas2D"></div>
     </figure>
     <div class="actions">
+        <button type="button" class="button secondary" onclick="app.world.lines.randomize()">
+            <span>Random Shape</span>
+        </button>
         <button class="button tertiary" onclick="app.graphics.downloadSVG()">
             {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
             <span>Download SVG</span>

@@ -75,7 +75,7 @@ export default class World {
     this.raycaster.update();
 
     // Custom
-    this.lines.update();
+    // this.lines.update();
 
     requestAnimationFrame((ms) => this.update(ms));
   }

@@ -30,6 +30,15 @@ export default class Graphics {
     return this.data.get("background");
   }
 
+  get steps() {
+    // Decrease by 1 to get the exact amount of lines
+    return Number(this.data.get("lines")) - 1;
+  }
+
+  get thickness() {
+    return Number(this.data.get("thickness"));
+  }
+
   get ratio() {
     const [w, h] = this.data.get("ratio").split(':').map(Number);
     return h === undefined ? w : w / h;
@@ -58,6 +67,12 @@ export default class Graphics {
     // Increase SVG support by adding name space
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 
+    // Remove style (since it only renders the background color in-browser)
+    svg.removeAttribute("style");
+
+    // Remove any class (since it has no use outside of this page)
+    svg.removeAttribute("class");
+
     // Create link and trigger it
     const source = new XMLSerializer().serializeToString(svg);
     const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8", });
@@ -82,8 +97,8 @@ export default class Graphics {
     // Set the world to the correct dimensions on page load
     this.update();
 
-    // Update 3D world when form is changed
-    this.form.addEventListener("change", () => {
+    // Update 3D world as form values change
+    this.form.addEventListener("input", () => {
       this.update();
     });
   }
@@ -95,6 +110,9 @@ export default class Graphics {
     // Apply dimensions
     this.app.world.resize();
     
+    // Apply steps
+    this.app.world.lines.update();
+
     // Background is applied in renderer update call
   }
 }
