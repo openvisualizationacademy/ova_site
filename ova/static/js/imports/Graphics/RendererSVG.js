@@ -47,8 +47,6 @@ export default class RendererSVG {
   update() {
     this.instance.render(this.world.scene.instance, this.world.camera.instance);
 
-
-
     // Apply background
     const color = this.world.app.graphics.background;
     if (color === "transparent") {

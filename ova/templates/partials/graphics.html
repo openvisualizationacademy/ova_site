@@ -71,14 +71,11 @@
         <!-- <canvas class="canvas"></canvas> -->
         <div class="canvas2D"></div>
     </figure>
-    <nav>
-        <a href="#" class="button tertiary" download>
+    <div class="actions">
+        <button class="button tertiary" onclick="app.graphics.downloadSVG()">
             {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
             <span>Download SVG</span>
-        </a>
-        <!--<a href="#" class="button tertiary" download>
-            {% include 'icons/download.svg' with name='download' attributes='aria-hidden="true"' %}
-            <span>PNG</span>
-        </a>-->
-    </nav>
+        </button>
+    </div>
+        
 </div>

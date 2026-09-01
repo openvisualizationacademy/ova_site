@@ -47,6 +47,31 @@ export default class Graphics {
     this.data = new FormData(this.form);
   }
 
+  downloadSVG() {
+
+    // Grab current element
+    const element = this.app.world.renderer.instance.domElement;
+
+    // Clone it (for modifying it)
+    const svg = element.cloneNode(true);
+    
+    // Increase SVG support by adding name space
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+    // Create link and trigger it
+    const source = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8", });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "ova-graphics.svg";
+    link.click();
+
+    // Clear leftovers
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
   setup() {
     // Extract settings from form
     this.getFormData();
