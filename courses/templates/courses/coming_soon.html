@@ -65,7 +65,7 @@
       <p>This course is currently being developed and is not yet available to the public.</p>
 
       {% if not user.is_authenticated %}
-        <p>If you have been granted early access, please <a href="{% url 'account_login' %}" class="button tertiary">Sign in</a> to view this course.</p>
+        <p>If you have been granted early access, please <a href="{% url 'account_login' %}?next={{ request.path }}" class="button tertiary">Sign in</a> to view this course.</p>
       {% elif user.is_staff or user.is_superuser %}
         <p class="staff-notice">As a staff member, you have access to this course. However, it appears you're seeing this message, which may indicate an issue with the course setup.</p>
       {% else %}
