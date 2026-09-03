@@ -189,6 +189,11 @@
   }
 }
 
+.course a.card:has(.coming-soon-badge) {
+  cursor: pointer;
+  pointer-events: all;
+}
+
 .course p {
   margin: 0;
 }
