@@ -15,14 +15,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - uses: azure/login@v2
+    - uses: actions/checkout@v7
+
+    - uses: azure/login@v3
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Set up Python 3.x
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v7
       with:
         python-version: 3.x
     - name: Install dependencies

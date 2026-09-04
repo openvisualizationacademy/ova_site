@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v7
         with:
           python-version: '3.13'
 
@@ -31,7 +31,7 @@ jobs:
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-app
           path: |
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: python-app
 
@@ -58,7 +58,7 @@ jobs:
 
       
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -75,11 +75,11 @@ jobs:
 #       id-token: write
 #       contents: read
 #     steps:
-#       - uses: actions/checkout@v4
+#       - uses: actions/checkout@v7
 
 #       # Azure login
 #       - name: Login to Azure
-#         uses: azure/login@v2
+#         uses: azure/login@v3
 #         with:
 #           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
