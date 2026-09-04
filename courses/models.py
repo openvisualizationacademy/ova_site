@@ -610,26 +610,77 @@ def _vtt_to_cues(vtt_content):
     return cues
 
 
-def _starts_with_uppercase(text):
-    for ch in text:
-        if ch.isalpha():
-            return ch.isupper()
-    return False
+# Words that end in a period but don't end a sentence -- we don't want to break
+# a paragraph in the middle of "Dr. Snow" or "e.g. this one".
+_ABBREVIATIONS = {
+    "dr.", "mr.", "mrs.", "ms.", "prof.", "sr.", "jr.", "st.",
+    "vs.", "etc.", "e.g.", "i.e.", "no.", "fig.", "al.", "approx.",
+}
+_SENTENCE_END = (".", "?", "!", "…")
+
+# How many sentences to bundle into each transcript paragraph. Four keeps the
+# paragraphs short enough to skim but long enough to feel like prose; bump it if
+# transcripts start looking choppy.
+_SENTENCES_PER_PARAGRAPH = 4
+
+
+def _is_abbreviation(token):
+    """Is this period-ending word a false alarm rather than a real sentence end?
+
+    Catches the common abbreviations above and single-letter initials like "J."
+    so names such as "J. Snow" stay in one piece.
+    """
+    low = token.lower()
+    if low in _ABBREVIATIONS:
+        return True
+    return len(low) == 2 and low[0].isalpha() and low[1] == "."
+
+
+def _cues_to_sentences(cues):
+    """Rebuild whole sentences out of the caption cues.
+
+    Vimeo's auto-captions are chopped into ~5-second lines with no regard for
+    where sentences start or end, so we can't trust the cue boundaries. Instead
+    we glue all the words back together and re-split on ".", "?", "!" or "...".
+    Each sentence remembers the timestamp of the cue its first word came from,
+    so it still works as a "jump to this point in the video" anchor.
+
+    If the captions have no punctuation at all, you just get one long span back.
+    """
+    sentences = []
+    words = []
+    start_ts = None
+
+    def _flush():
+        if words:
+            sentences.append({"timestamp": start_ts, "text": " ".join(words)})
+
+    for cue in cues:
+        ts = cue.get("timestamp")
+        for word in cue.get("text", "").split():
+            if not words:
+                start_ts = ts
+            words.append(word)
+            trimmed = word.rstrip("\"')]")
+            if trimmed.endswith(_SENTENCE_END) and not _is_abbreviation(trimmed):
+                _flush()
+                words = []
+    _flush()
+    return sentences
 
 
 def _group_cues_into_paragraphs(cues):
-    """Group a flat cue list into paragraphs, starting a new one whenever a cue's
-    text begins with an uppercase letter (matches the transcript fixture's pattern)."""
-    paragraphs = []
-    current = []
-    for cue in cues:
-        if current and _starts_with_uppercase(cue.get("text", "")):
-            paragraphs.append(current)
-            current = []
-        current.append(cue)
-    if current:
-        paragraphs.append(current)
-    return paragraphs
+    """Turn raw caption cues into readable paragraphs for the transcript panel.
+
+    We rebuild the sentences (see _cues_to_sentences) and then group them a few
+    at a time so the transcript reads like prose instead of a wall of one-liners.
+    Returns a list of paragraphs, each a list of {"timestamp", "text"} sentences.
+    """
+    sentences = _cues_to_sentences(cues)
+    return [
+        sentences[i : i + _SENTENCES_PER_PARAGRAPH]
+        for i in range(0, len(sentences), _SENTENCES_PER_PARAGRAPH)
+    ]
 
 
 class SegmentPage(QuizMixin, Page):

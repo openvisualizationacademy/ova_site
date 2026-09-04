@@ -3,7 +3,8 @@ Tests for the Vimeo transcript fetch feature (courses/models.py + admin.py).
 
 Covers:
 - _vtt_to_cues parses WebVTT into a flat list of {timestamp, text} cues
-- _group_cues_into_paragraphs groups cues into paragraphs on capitalized starts
+- _cues_to_sentences re-segments the cue stream into sentence spans
+- _group_cues_into_paragraphs chunks those sentences into fixed-size paragraphs
 - SegmentPage._refresh_vimeo_transcript fetches, parses, groups, and persists
 - The transcript fetch is never triggered from save() -- it's admin-action only
 - get_context exposes the stored transcript under the "transcript" key
@@ -18,8 +19,10 @@ Page tree used by the `tree` fixture:
             └── Segment B
 """
 
-import pytest
+from pathlib import Path
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from django.contrib.auth.models import AnonymousUser
 from wagtail.models import Page
@@ -29,6 +32,7 @@ from courses.models import (
     CoursePage,
     ChapterPage,
     SegmentPage,
+    _cues_to_sentences,
     _group_cues_into_paragraphs,
     _vtt_to_cues,
 )
@@ -42,19 +46,27 @@ SAMPLE_VTT = """WEBVTT
 
 1
 00:00:01.000 --> 00:00:04.000
-There were at the time though, some researchers
+There were, at the time, some researchers
 
 2
 00:00:04.000 --> 00:00:07.000
-and doctors ha, who had begun doubting the,
+and doctors who had begun doubting the theory. One
 
 3
 00:00:14.000 --> 00:00:18.000
-Dr. John Snow, uh, who's also quite famous, not only
+of them was Dr. John Snow, who is also quite
 
 4
-00:00:18.000 --> 00:00:19.000
-because of this map and case
+00:00:18.000 --> 00:00:22.000
+famous because of this map. He plotted the
+
+5
+00:00:22.000 --> 00:00:26.000
+cholera deaths street by street. What did that
+
+6
+00:00:26.000 --> 00:00:30.000
+reveal? A single contaminated water pump.
 """
 
 
@@ -113,14 +125,14 @@ def tree():
 class TestVttToCues:
     def test_parses_cue_count_and_order(self):
         cues = _vtt_to_cues(SAMPLE_VTT)
-        assert len(cues) == 4
+        assert len(cues) == 6
         assert cues[0] == {
             "timestamp": "00:01",
-            "text": "There were at the time though, some researchers",
+            "text": "There were, at the time, some researchers",
         }
         assert cues[2] == {
             "timestamp": "00:14",
-            "text": "Dr. John Snow, uh, who's also quite famous, not only",
+            "text": "of them was Dr. John Snow, who is also quite",
         }
 
     def test_excludes_header_index_and_timing_lines(self):
@@ -156,36 +168,130 @@ class TestVttToCues:
 
 
 # ---------------------------------------------------------------------------
+# Tests: _cues_to_sentences
+# ---------------------------------------------------------------------------
+
+
+class TestCuesToSentences:
+    def test_joins_cues_and_splits_on_sentence_punctuation(self):
+        sentences = _cues_to_sentences(_vtt_to_cues(SAMPLE_VTT))
+        assert [s["text"] for s in sentences] == [
+            "There were, at the time, some researchers and doctors "
+            "who had begun doubting the theory.",
+            "One of them was Dr. John Snow, who is also quite "
+            "famous because of this map.",
+            "He plotted the cholera deaths street by street.",
+            "What did that reveal?",
+            "A single contaminated water pump.",
+        ]
+
+    def test_sentence_keeps_timestamp_of_the_cue_it_starts_in(self):
+        sentences = _cues_to_sentences(_vtt_to_cues(SAMPLE_VTT))
+        assert sentences[0]["timestamp"] == "00:01"
+        # "One of them..." begins in cue 2 (00:04)
+        assert sentences[1]["timestamp"] == "00:04"
+        # "He plotted..." begins in cue 4 (00:18)
+        assert sentences[2]["timestamp"] == "00:18"
+
+    def test_abbreviation_does_not_end_a_sentence(self):
+        sentences = _cues_to_sentences(
+            [
+                {"timestamp": "00:01", "text": "We spoke to Dr."},
+                {"timestamp": "00:04", "text": "John Snow about the outbreak."},
+            ]
+        )
+        assert sentences == [
+            {
+                "timestamp": "00:01",
+                "text": "We spoke to Dr. John Snow about the outbreak.",
+            }
+        ]
+
+    def test_single_letter_initial_does_not_end_a_sentence(self):
+        sentences = _cues_to_sentences(
+            [{"timestamp": "00:01", "text": "It was named for J. Snow himself."}]
+        )
+        assert sentences == [
+            {"timestamp": "00:01", "text": "It was named for J. Snow himself."}
+        ]
+
+    def test_unpunctuated_stream_stays_one_sentence(self):
+        sentences = _cues_to_sentences(
+            [
+                {"timestamp": "00:01", "text": "no punctuation here at all"},
+                {"timestamp": "00:04", "text": "just an endless run of words"},
+            ]
+        )
+        assert sentences == [
+            {
+                "timestamp": "00:01",
+                "text": "no punctuation here at all just an endless run of words",
+            }
+        ]
+
+    def test_empty_list_returns_empty(self):
+        assert _cues_to_sentences([]) == []
+
+
+# ---------------------------------------------------------------------------
 # Tests: _group_cues_into_paragraphs
 # ---------------------------------------------------------------------------
 
 
 class TestGroupCuesIntoParagraphs:
-    def test_groups_on_lowercase_continuation(self):
+    def test_chunks_sentences_four_per_paragraph(self):
         cues = [
-            {"timestamp": "00:01", "text": "There were at the time,"},
-            {"timestamp": "00:04", "text": "and doctors, who had begun doubting."},
-            {"timestamp": "00:14", "text": "Dr. John Snow, uh, who's also famous"},
-            {"timestamp": "00:18", "text": "because of this map and case"},
+            {"timestamp": f"00:0{i}", "text": f"Sentence number {i}."}
+            for i in range(1, 7)
         ]
         paragraphs = _group_cues_into_paragraphs(cues)
-        assert paragraphs == [cues[0:2], cues[2:4]]
+        assert [len(p) for p in paragraphs] == [4, 2]
+        assert paragraphs[0][0]["text"] == "Sentence number 1."
+        assert paragraphs[1][0]["text"] == "Sentence number 5."
 
-    def test_first_cue_starts_first_paragraph_even_if_lowercase(self):
-        cues = [
-            {"timestamp": "00:01", "text": "lowercase start"},
-            {"timestamp": "00:04", "text": "still lowercase"},
-        ]
-        paragraphs = _group_cues_into_paragraphs(cues)
-        assert paragraphs == [cues]
+    def test_sample_vtt_groups_into_sentence_spans(self):
+        paragraphs = _group_cues_into_paragraphs(_vtt_to_cues(SAMPLE_VTT))
+        # 5 sentences, 4 per paragraph -> 2 paragraphs
+        assert [len(p) for p in paragraphs] == [4, 1]
+        assert paragraphs[0][0]["text"].startswith("There were, at the time")
+        assert paragraphs[1][0] == {
+            "timestamp": "00:26",
+            "text": "A single contaminated water pump.",
+        }
 
     def test_empty_list_returns_empty(self):
         assert _group_cues_into_paragraphs([]) == []
 
 
 # ---------------------------------------------------------------------------
-# Tests: SegmentPage._refresh_vimeo_transcript
+# Tests: real caption track
 # ---------------------------------------------------------------------------
+
+
+class TestRealTranscriptShape:
+    """Guard against regressions using a real Vimeo-style auto-caption track."""
+
+    VTT_PATH = (
+        Path(__file__).resolve().parents[2]
+        / "ova"
+        / "static"
+        / "media"
+        / "videos"
+        / "intro-en.vtt"
+    )
+
+    def test_intro_vtt_groups_into_readable_paragraphs(self):
+        cues = _vtt_to_cues(self.VTT_PATH.read_text(encoding="utf-8"))
+        paragraphs = _group_cues_into_paragraphs(cues)
+
+        assert len(paragraphs) > 1
+        assert all(1 <= len(p) <= 4 for p in paragraphs)
+
+        spans = [s for p in paragraphs for s in p]
+        # every sentence but the last ends on terminal punctuation
+        assert all(s["text"].rstrip("\"')]")[-1] in ".?!…" for s in spans[:-1])
+        # no span is a bare fragment
+        assert all(len(s["text"].split()) >= 3 for s in spans)
 
 
 class TestRefreshVimeoTranscript:
