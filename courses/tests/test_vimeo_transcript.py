@@ -239,24 +239,24 @@ class TestCuesToSentences:
 
 
 class TestGroupCuesIntoParagraphs:
-    def test_chunks_sentences_four_per_paragraph(self):
+    def test_chunks_sentences_three_per_paragraph(self):
         cues = [
             {"timestamp": f"00:0{i}", "text": f"Sentence number {i}."}
             for i in range(1, 7)
         ]
         paragraphs = _group_cues_into_paragraphs(cues)
-        assert [len(p) for p in paragraphs] == [4, 2]
+        assert [len(p) for p in paragraphs] == [3, 3]
         assert paragraphs[0][0]["text"] == "Sentence number 1."
-        assert paragraphs[1][0]["text"] == "Sentence number 5."
+        assert paragraphs[1][0]["text"] == "Sentence number 4."
 
     def test_sample_vtt_groups_into_sentence_spans(self):
         paragraphs = _group_cues_into_paragraphs(_vtt_to_cues(SAMPLE_VTT))
-        # 5 sentences, 4 per paragraph -> 2 paragraphs
-        assert [len(p) for p in paragraphs] == [4, 1]
+        # 5 sentences, 3 per paragraph -> 2 paragraphs
+        assert [len(p) for p in paragraphs] == [3, 2]
         assert paragraphs[0][0]["text"].startswith("There were, at the time")
         assert paragraphs[1][0] == {
-            "timestamp": "00:26",
-            "text": "A single contaminated water pump.",
+            "timestamp": "00:22",
+            "text": "What did that reveal?",
         }
 
     def test_empty_list_returns_empty(self):
