@@ -618,10 +618,10 @@ _ABBREVIATIONS = {
 }
 _SENTENCE_END = (".", "?", "!", "…")
 
-# How many sentences to bundle into each transcript paragraph. Four keeps the
-# paragraphs short enough to skim but long enough to feel like prose; bump it if
-# transcripts start looking choppy.
-_SENTENCES_PER_PARAGRAPH = 4
+# How many sentences to bundle into each transcript paragraph. Three seems to be
+# the sweet spot between having good cadence for timestamps to click on and
+# shorter cues you'd expect to see in a video transcript.
+_SENTENCES_PER_PARAGRAPH = 3
 
 
 def _is_abbreviation(token):
