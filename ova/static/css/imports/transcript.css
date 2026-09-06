@@ -38,6 +38,26 @@ details.transcript summary span {
 }
 
 details.transcript article {
-    margin-block-start: -1px;
-    z-index: 1;
+  margin-block-start: -1px;
+  z-index: 1;
+}
+
+.transcript p .button {
+  display: flex;
+  margin-block-end: 1.2rem;
+  margin-inline-start: -.1rem;
+}
+
+@media (min-width: 720px) {
+  details.transcript article p {
+    padding-inline-end: 6.4rem;
+    position: relative;
+  }
+
+  .transcript p .button {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    align-self: start;
+  }
 }

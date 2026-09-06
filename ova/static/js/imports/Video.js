@@ -1,3 +1,5 @@
+// import Transcript from "./Transcript.js";
+
 export default class Video {
   constructor(course, selector) {
     this.course = course;
@@ -13,8 +15,8 @@ export default class Video {
     // Get element for displaying course progress
     this.videoProgressElement = this.course.element.querySelector(".video-progress");
 
-    // Abort if progress element does not exist
-    if (!this.videoProgressElement) return;
+    // Get first <span> element inside each transcript paragraph
+    this.timestampElements = this.course.element.querySelectorAll(".transcript p > [data-timestamp]:first-child");
 
     // Keeps track of last timeupdate call for throttle feature
     this.lastSeconds = 0;
@@ -186,10 +188,30 @@ export default class Video {
     this.seekToSeconds(seconds);
   }
 
+  seekToTimestamp(timestamp = "00:00") {
+
+    // Parse string to seconds
+    const toSeconds = (t) => {
+      const [m, s] = t.split(':');
+      return Number(m) * 60 + Number(s);
+    }
+    const seconds = toSeconds(timestamp);
+
+    // Seek video
+    this.seekToSeconds(seconds);
+
+    // Scroll to video and make keyboard interactions with it easier
+    this.iframe.focus();
+    document.getElementById("main").scrollIntoView({ behavior: "smooth" });
+  }
+
   async seekToSeconds(seconds) {
 
-    // Add “loading” class to parent (as to add a spinner in CSS)
-    this.videoProgressElement.classList.add("processing");
+    // If user is authenticated and video progress exists on HTML
+    if (this.videoProgressElement) {
+      // Add “loading” class to parent (as to add a spinner in CSS)
+      this.videoProgressElement.classList.add("processing");
+    }
 
     // Pause video
     await this.player.pause();
@@ -213,8 +235,11 @@ export default class Video {
       // Ask Vimeo to play the video
       await this.player.play();
 
-      // Remove visual feedback after video actually starts playing
-      this.videoProgressElement.classList.remove("processing");
+      // If user is authenticated and video progress exists on HTML
+      if (this.videoProgressElement) {
+        // Remove visual feedback after video actually starts playing
+        this.videoProgressElement.classList.remove("processing");
+      }
 
     } catch (error) {
       
@@ -273,14 +298,48 @@ export default class Video {
       this.lastSeconds = data.seconds;
     }); 
 
+    // Stop executing if user is not authenticated and no video progress exists on HTML
+    if (!this.videoProgressElement) return;
+
     // When video is progressing or user is scrubbing
     this.player.on("timeupdate", (data) => this.handleTimeUpdate(data));
 
+    // Otherwise, set up the progress
     this.setupProgress();
   }
+
+  setupTranscript() {
+
+    // Abort if element does not exist
+    if (!this.timestampElements) return;
+
+    // For each timestamp that is inside a paragraph
+    this.timestampElements.forEach(span => {
+
+      // Extract timestamp
+      const timestamp = span.dataset.timestamp;
+
+      // Create HTML element with all timestamps
+      const button = this.course.app.utils.html(`
+        <button class="button quaternary">
+          ${timestamp}
+        </button>`
+      );
+
+      // Call seek event on click
+      button.addEventListener("click", () => {
+        this.seekToTimestamp(timestamp);
+      });
+
+      // Add elements to user interface, inside parent <p>
+      span.parentElement.prepend(button);
+
+    });
+  }
   
-  setup() {    
+  setup() {
     this.setupPlayer();
+    this.setupTranscript();
   }
 
   async handleTimeUpdate(data) {
@@ -369,6 +428,9 @@ export default class Video {
   }
 
   updatePlayhead(seconds) {
+    // Abort if user is not authenticated and no video progress exists on HTML
+    if (!this.videoProgressElement) return;
+
     const percent = `${ seconds / this.duration * 100 }%`;
     this.videoProgressPlayheadElement.style.insetInlineStart = percent;
   }
