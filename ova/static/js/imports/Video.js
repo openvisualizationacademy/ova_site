@@ -9,6 +9,9 @@ export default class Video {
     // Keep track of whether video is playing or paused
     this.isPlaying = false;
 
+    // Keep track of whether video has been played once after page load
+    this.hasPlayed = false;
+
     // Define how many fractions of the video should be tracked (watched or not)
     this.partsCount = 10;
 
@@ -162,7 +165,18 @@ export default class Video {
 
     // Allow clicking in a part to skip the video to that moment
     this.videoProgressPartElements.forEach( part => {
-      part.addEventListener("click", () => {
+      part.addEventListener("click", async () => {
+
+        // Consumes the user gesture to unlock play() commands
+        try {
+          if (!this.hasPlayed) {
+            await this.player.play(); 
+            await this.player.pause(); // Pauses soon after
+          }
+        } catch (error) {
+          console.error(error);
+        }
+
         this.seekToPart(part);
       });
     });
@@ -225,26 +239,23 @@ export default class Video {
       this.lastSeconds = seekedSeconds;
 
     } catch (error) {
-
       // TODO: Handle errors
-      console.error(error.name, error);
+      console.error(error);
     }
     
     try {
-      
       // Ask Vimeo to play the video
       await this.player.play();
 
-      // If user is authenticated and video progress exists on HTML
-      if (this.videoProgressElement) {
-        // Remove visual feedback after video actually starts playing
-        this.videoProgressElement.classList.remove("processing");
-      }
-
     } catch (error) {
-      
       // TODO: Handle errors
-      console.error(error.name, error);
+      console.error(error);
+    }
+
+    // If user is authenticated and video progress exists on HTML
+    if (this.videoProgressElement) {
+      // Remove visual feedback after video starts playing or error occurs
+      this.videoProgressElement.classList.remove("processing");
     }
   }
 
@@ -285,6 +296,7 @@ export default class Video {
     // When video starts playing
     this.player.on("play", () => {
       this.isPlaying = true;
+      this.hasPlayed = true;
     });
 
     // When video gets paused
@@ -327,7 +339,18 @@ export default class Video {
       );
 
       // Call seek event on click
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
+
+        // Consumes the user gesture to unlock play() commands
+        try {
+          if (!this.hasPlayed) {
+            await this.player.play(); 
+            await this.player.pause(); // Pauses soon after
+          }
+        } catch (error) {
+          console.error(error);
+        }
+
         this.seekToTimestamp(timestamp);
       });
 
